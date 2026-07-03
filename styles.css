@@ -191,6 +191,15 @@ nav.site-nav {
     0 0 0 1px rgba(255,255,255,0.08) inset;
 }
 
+.hero-wordmark {
+  /* The app's SnellRoundhand wordmark, pre-rendered (the font is not
+     web-licensed). White glyphs — the export for dark backgrounds. */
+  width: min(360px, 80vw);
+  height: auto;
+  display: block;
+  margin: 0 auto 1.4rem;
+}
+
 .hero h1 {
   margin-bottom: 1.2rem;
 }
