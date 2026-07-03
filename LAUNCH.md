@@ -32,8 +32,8 @@ current plan — that is the only thing between here and live.
    | AAAA  | `@`  | `2606:50c0:8000::153` (and `8001`/`8002`/`8003`) — optional IPv6 |
    | CNAME | `www`| `jaredbrewer.github.io`                        |
 
-3. **Activate `support@fianchettochess.app`** — the site's contact and
-   CTA links point at it.
+3. ~~**Activate `support@fianchettochess.app`**~~ — DONE 2026-07-03;
+   the mailbox is live and all site links point at it.
 
 4. **Decide Inkwell attribution** (see the footer sentence on all three
    pages): if it is original first-party art, say so on the site and in
