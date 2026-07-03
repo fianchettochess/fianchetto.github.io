@@ -35,10 +35,10 @@ current plan — that is the only thing between here and live.
 3. ~~**Activate `support@fianchettochess.app`**~~ — DONE 2026-07-03;
    the mailbox is live and all site links point at it.
 
-4. **Decide Inkwell attribution** (see the footer sentence on all three
-   pages): if it is original first-party art, say so on the site and in
-   the app's LICENSING.md/README; if third-party, add the real
-   author/license in both places.
+4. ~~**Decide Inkwell attribution**~~ — DONE 2026-07-03: original
+   commissioned artwork, all rights held; distributed CC-BY-NC-4.0.
+   Recorded on all three site footers and in the app repo
+   (LICENSING.md, README, both platforms' AboutView).
 
 ## Launch day (in order)
 
