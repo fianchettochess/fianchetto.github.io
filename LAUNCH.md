@@ -10,10 +10,16 @@ current plan — that is the only thing between here and live.
 1. **Verify the domain on the GitHub account** (protects
    `fianchettochess.app` from Pages domain-takeover while the site is
    not yet serving — do this BEFORE creating the DNS records below):
-   - github.com/settings/pages_verified_domains → *Add a domain* →
-     `fianchettochess.app`
-   - Add the TXT record GitHub shows (name
-     `_github-pages-challenge-jaredbrewer`) at the registrar → *Verify*.
+   - github.com/settings/pages (profile Settings → sidebar → *Pages*,
+     under "Code, planning, and automation") → *Add a domain* →
+     `fianchettochess.app` → *Add domain*.
+   - Add the TXT record GitHub shows at the registrar — host
+     `_github-pages-challenge-jaredbrewer` (full name
+     `_github-pages-challenge-jaredbrewer.fianchettochess.app`), value
+     as displayed. Check propagation with:
+     `dig _github-pages-challenge-jaredbrewer.fianchettochess.app TXT`
+   - Back on the Pages settings page: menu next to the domain →
+     *Continue verifying* → *Verify*.
 
 2. **DNS at the registrar** (safe once the domain is verified):
 
