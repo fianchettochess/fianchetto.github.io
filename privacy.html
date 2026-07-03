@@ -98,7 +98,7 @@
   <p>Used only for voice move entry, and only while you are using it.</p>
   <ul>
     <li><strong>Apple platforms:</strong> the app requests on-device speech recognition whenever your device and language support it, in which case audio never leaves the device. On devices or locales without on-device support, Apple's speech recognition service processes the audio on Apple's servers. The app supplies only the legal move names for the current position as recognition hints.</li>
-    <li><strong>Android:</strong> voice entry uses the device's system speech recognizer (typically Google's), which may process audio on the provider's servers depending on your device and settings.</li>
+    <li><strong>Android:</strong> voice entry uses the device's system speech recognizer (typically Google's). The app asks the recognizer to prefer on-device processing; if an offline model is not available on your device, the recognizer may process the audio on the provider's servers. When a spoken move fails to parse, the app keeps the transcribed text (never the audio) with the board position in a small on-device log, capped at 200 entries, to help improve recognition — it never leaves your device.</li>
   </ul>
 
   <h3>Android permissions the app requests</h3>
