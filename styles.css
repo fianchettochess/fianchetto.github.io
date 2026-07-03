@@ -1,0 +1,346 @@
+/* Fianchetto — fianchettochess.app
+   Hand-rolled stylesheet, no frameworks, no external requests.
+   Palette from the app's own design tokens:
+   brand green ≈ #338566, board browns #F0D9B5 / #B58763. */
+
+:root {
+  --accent: #338566;
+  --accent-deep: #2f583c;
+  --board-light: #f0d9b5;
+  --board-dark: #b58763;
+  --bg: #faf7f1;
+  --bg-raised: #ffffff;
+  --text: #26221c;
+  --text-muted: #6b6255;
+  --rule: #e3dccd;
+  --warn: #e69940;
+  --max-width: 62rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent: #4fae8a;
+    --accent-deep: #7cc9ab;
+    --bg: #161b18;
+    --bg-raised: #1f2622;
+    --text: #e9e5db;
+    --text-muted: #a39a8a;
+    --rule: #343d37;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+}
+
+/* ---------- header / nav ---------- */
+
+.site-header {
+  border-bottom: 1px solid var(--rule);
+  background: var(--bg-raised);
+}
+
+.site-header .inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.site-header .mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: block;
+}
+
+.site-header .brand {
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: var(--text);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+
+.site-header nav {
+  margin-left: auto;
+}
+
+.site-header nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 8px;
+}
+
+.site-header nav a:hover,
+.site-header nav a[aria-current="page"] {
+  color: var(--accent);
+}
+
+/* ---------- generic layout ---------- */
+
+main {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.25rem 3rem;
+}
+
+a { color: var(--accent); }
+a:hover { color: var(--accent-deep); }
+
+h1, h2, h3 {
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: 1.6rem;
+  margin: 2.75rem 0 0.75rem;
+}
+
+h3 {
+  font-size: 1.15rem;
+  margin: 1.75rem 0 0.5rem;
+}
+
+p { margin: 0.65rem 0; }
+
+ul { padding-left: 1.35rem; }
+li { margin: 0.3rem 0; }
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 0.08em 0.35em;
+}
+
+/* ---------- hero ---------- */
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: center;
+  padding: 3rem 0 2rem;
+}
+
+@media (min-width: 46rem) {
+  .hero { grid-template-columns: 3fr 2fr; }
+}
+
+.hero h1 {
+  font-size: clamp(2.4rem, 6vw, 3.4rem);
+  margin: 0.5rem 0 0.25rem;
+  font-weight: 800;
+}
+
+.hero .tagline {
+  font-size: 1.3rem;
+  color: var(--text-muted);
+  margin: 0.5rem 0 1rem;
+}
+
+.hero .app-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  display: block;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.badges li {
+  margin: 0;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  background: var(--bg-raised);
+}
+
+.badges li.accent {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.dev-note {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-top: 1rem;
+}
+
+/* ---------- CSS chessboard motif ---------- */
+
+.board-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.board {
+  position: relative;
+  width: min(320px, 80vw);
+  aspect-ratio: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+  /* 8x8 board in the app's Classic Brown theme */
+  background: conic-gradient(
+    var(--board-light) 0deg 90deg,
+    var(--board-dark) 90deg 180deg,
+    var(--board-light) 180deg 270deg,
+    var(--board-dark) 270deg 360deg
+  );
+  background-size: 25% 25%;
+}
+
+.board .piece {
+  position: absolute;
+  width: 12.5%;
+  height: 12.5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1.4rem, 7vw, 2rem);
+  line-height: 1;
+  color: #241a10;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+  user-select: none;
+}
+
+.board .piece.white {
+  color: #fdfaf4;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+/* ---------- feature grid ---------- */
+
+.features {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  padding: 0;
+  margin: 1.25rem 0 0;
+  list-style: none;
+}
+
+@media (min-width: 40rem) {
+  .features { grid-template-columns: 1fr 1fr; }
+}
+
+.features > li {
+  margin: 0;
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  padding: 1.25rem 1.4rem;
+}
+
+.features h3 {
+  margin: 0 0 0.4rem;
+  color: var(--accent-deep);
+}
+
+@media (prefers-color-scheme: dark) {
+  .features h3 { color: var(--accent); }
+}
+
+.features p { margin: 0.35rem 0; }
+.features ul { margin: 0.4rem 0 0; }
+
+.kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0 0 0.2rem;
+}
+
+/* ---------- privacy page ---------- */
+
+.policy {
+  max-width: 46rem;
+}
+
+.policy .meta {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.summary-card {
+  background: var(--bg-raised);
+  border: 1px solid var(--accent);
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.summary-card h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+.summary-card ul { margin-bottom: 0; }
+
+/* ---------- footer ---------- */
+
+.site-footer {
+  border-top: 1px solid var(--rule);
+  background: var(--bg-raised);
+  margin-top: 3rem;
+}
+
+.site-footer .inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem 1.25rem 2.5rem;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.site-footer p { margin: 0.5rem 0; }
+
+.site-footer a { color: var(--accent); }
+
+.site-footer .fineprint {
+  font-size: 0.8rem;
+  margin-top: 1.25rem;
+}
+
+/* ---------- 404 ---------- */
+
+.notfound {
+  text-align: center;
+  padding: 5rem 1rem;
+}
+
+.notfound h1 { font-size: 3rem; margin-bottom: 0.5rem; }

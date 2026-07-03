@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy Policy — Fianchetto</title>
+  <meta name="description" content="Fianchetto's privacy policy: local-first, no accounts, no ads, no analytics. What the app stores, what it sends, and when.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="assets/icon-512.png">
+  <link rel="apple-touch-icon" href="assets/icon-512.png">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="inner">
+    <img class="mark" src="assets/icon-512.png" alt="" width="32" height="32">
+    <a class="brand" href="/">Fianchetto</a>
+    <nav aria-label="Site">
+      <a href="/">Home</a>
+      <a href="/privacy.html" aria-current="page">Privacy</a>
+    </nav>
+  </div>
+</header>
+
+<main class="policy">
+
+  <h1>Privacy Policy</h1>
+  <p class="meta">Effective date: July 3, 2026 · Applies to the Fianchetto app for macOS, iOS, iPadOS, and Android, and to this website.</p>
+
+  <div class="summary-card">
+    <h2>The short version</h2>
+    <ul>
+      <li><strong>Local-first.</strong> Your games, repertoires, and training progress live on your device. All engine analysis (Stockfish, Maia, Reckless) runs entirely on-device.</li>
+      <li><strong>No accounts.</strong> Fianchetto has no sign-up, no login, and no servers of its own. We never receive your data.</li>
+      <li><strong>No ads, no analytics.</strong> The app contains no advertising, analytics, telemetry, crash-reporting, or tracking code of any kind.</li>
+      <li><strong>Nothing is sold or shared.</strong> We don't collect your data, so there is nothing to sell or share.</li>
+      <li><strong>Network requests happen only for features you use</strong> — such as importing your games from Chess.com or Lichess — and they are read-only requests sent directly to those services.</li>
+    </ul>
+  </div>
+
+  <h2>Data stored on your device</h2>
+  <p>Fianchetto stores your chess library locally: game collections and games with annotations, opening repertoires, personal traps, tactics and training progress (ratings, spaced-repetition state, drill history), cached analysis results, and your app preferences.</p>
+  <p>On Apple platforms this lives in the app's private database and settings. On Android it lives in app-private files and preferences. No other app can read this data through Fianchetto.</p>
+
+  <h2>iCloud sync (Apple platforms)</h2>
+  <p>On iOS, iPadOS, and macOS, Fianchetto uses Apple's iCloud to keep your data in sync across your own devices, always within your own Apple&nbsp;ID:</p>
+  <ul>
+    <li><strong>Library sync (CloudKit).</strong> Your library and training progress sync through the <em>private</em> iCloud database of the app's container. This happens only when you are signed in to iCloud; without an iCloud account, the app runs fully locally. Fianchetto never uses shared or public iCloud databases.</li>
+    <li><strong>Automatic iCloud Drive backups.</strong> By default, the app writes a daily backup of your library (games, repertoires, training progress, and selected settings) to a visible "Fianchetto" folder in your iCloud Drive when the app goes to the background. It keeps the last 7 backups by default; you can change the count (1–30) or turn automatic backups off in Settings. Backups never include your Lichess API token.</li>
+    <li><strong>iCloud Keychain.</strong> If you save an optional Lichess API token, it is stored in the system Keychain and syncs across your devices via iCloud Keychain (see below).</li>
+  </ul>
+  <p>All iCloud data stays inside your Apple&nbsp;ID and is handled by Apple under <a href="https://www.apple.com/legal/privacy/" rel="external">Apple's privacy terms</a>. Fianchetto has no access to it outside your devices. The app also uses silent iCloud push notifications solely to trigger sync; there is no user-facing push messaging.</p>
+
+  <h2>Online imports &amp; chess services</h2>
+  <p>Fianchetto operates no servers. When you use an online feature, the app talks directly to the relevant chess service over HTTPS. Every request to these chess services is a plain HTTPS GET that carries only the minimal query described below — a username you typed, a board position (FEN), or a game ID. The app never uploads your library, game files, or exports to these services. (Your library does travel to Apple's iCloud and Game Center as described in the sections above and below.) Specifically:</p>
+
+  <h3>Chess.com game import</h3>
+  <p>When you import games or press "Update Games" for a Chess.com collection, the app sends the <strong>username you typed</strong> to <code>api.chess.com</code> to fetch that player's public game archives. No token or authentication is ever sent to Chess.com. These requests happen only when you initiate an import or update — there is no background syncing of online accounts.</p>
+
+  <h3>Lichess game import</h3>
+  <p>When you import games from Lichess, the app sends the <strong>username you typed</strong> plus your chosen filters (opening, date, rated, time control, color) to <code>lichess.org</code>. If you have saved an optional Lichess API token, it is included so Lichess can apply your access level; otherwise the request is anonymous. Again, this happens only when you initiate it.</p>
+
+  <h3>Lichess opening explorer</h3>
+  <p>The opening explorer is off until you turn it on (by loading explorer data or enabling its follow-along mode). Once on, the app sends the <strong>position on your board (as a FEN string)</strong> to <code>explorer.lichess.org</code> to fetch statistics — one request per position you view. If you have saved a Lichess API token it is included so Lichess can apply your access level; otherwise the request is anonymous. Results are cached in memory only.</p>
+
+  <h3>Lichess endgame tablebase</h3>
+  <p>For positions with 7 or fewer pieces, the app can query the Lichess tablebase at <code>tablebase.lichess.ovh</code>, sending <strong>only the position (FEN)</strong> — never a username or token. In the Analysis view this is <em>off by default</em> and probes only after you turn it on. In the Endgame trainer, tablebase lookups happen automatically when you start a drill, to verify the position; if the network is unavailable, the app falls back to on-device Stockfish.</p>
+
+  <h3>Sharing a Lichess link into the app (iOS)</h3>
+  <p>If you share a lichess.org game link into Fianchetto, the share extension fetches that game's PGN from <code>lichess.org</code> using <strong>only the game ID from the link</strong>, always anonymously (the extension never has access to your token). Chess.com links are not supported and are rejected with an error.</p>
+
+  <h3>Game Center (Apple platforms)</h3>
+  <p>Online turn-based play uses Apple's Game Center. If you play online, your moves and game outcomes travel through Apple's Game Center servers, and opponents see your Game Center display name. The app also reports achievements and two leaderboards (tactics rating and total tactics solved) to Game Center. Note that the app asks Game Center to authenticate automatically at launch — a network contact with Apple that Apple mediates under its own terms; if you decline Game Center sign-in, the app's features do not re-prompt you.</p>
+
+  <p>Each of these services processes the data it receives (your typed username, a position, a game ID, or Game Center moves) under its own privacy policy: <a href="https://lichess.org/privacy" rel="external">Lichess</a>, <a href="https://www.chess.com/legal/privacy" rel="external">Chess.com</a>, and <a href="https://www.apple.com/legal/privacy/" rel="external">Apple</a>.</p>
+
+  <h2>Optional Lichess API token</h2>
+  <p>You can optionally paste a Lichess personal API token into Settings to raise Lichess rate limits for game imports and the opening explorer. This is the only credential in the entire app.</p>
+  <ul>
+    <li><strong>Where it goes:</strong> it is sent only to <code>lichess.org</code> and <code>explorer.lichess.org</code>, over HTTPS, as an authorization header. It is never sent to Chess.com, the tablebase service, or anywhere else, and the share extension cannot access it.</li>
+    <li><strong>Where it's stored (Apple platforms):</strong> in the system Keychain, accessible only when your device is unlocked, and synced across your devices via iCloud Keychain. It is deliberately excluded from library backup files.</li>
+    <li><strong>Where it's stored (Android):</strong> in the app's private preferences. This storage is private to the app but is not hardware-encrypted the way the Apple Keychain is, and — like the rest of the app's data — it may be included in your device's Android OS backup to your Google account (an operating-system feature, not something the app does). If that concerns you, you can skip saving a token on Android or disable Android device backup.</li>
+  </ul>
+  <p>You can remove the token at any time in Settings.</p>
+
+  <h2>Device permissions</h2>
+
+  <h3>Bluetooth</h3>
+  <p>Used only to connect a Square&nbsp;Off Pro electronic chessboard. Moves travel directly between your device and the board over Bluetooth; nothing about your board play is sent over the internet. On Android, the app uses the modern Bluetooth-scan permission with the "never for location" flag and deliberately does not request any location permission.</p>
+
+  <h3>Microphone &amp; speech recognition</h3>
+  <p>Used only for voice move entry, and only while you are using it.</p>
+  <ul>
+    <li><strong>Apple platforms:</strong> the app requests on-device speech recognition whenever your device and language support it, in which case audio never leaves the device. On devices or locales without on-device support, Apple's speech recognition service processes the audio on Apple's servers. The app supplies only the legal move names for the current position as recognition hints.</li>
+    <li><strong>Android:</strong> voice entry uses the device's system speech recognizer (typically Google's), which may process audio on the provider's servers depending on your device and settings.</li>
+  </ul>
+
+  <h3>Android permissions the app requests</h3>
+  <ul>
+    <li><code>INTERNET</code> — the user-initiated online features described above</li>
+    <li><code>RECORD_AUDIO</code> — voice move entry</li>
+    <li><code>BLUETOOTH</code> / <code>BLUETOOTH_ADMIN</code> (older Android), <code>BLUETOOTH_SCAN</code> (flagged never-for-location), <code>BLUETOOTH_CONNECT</code> — Square&nbsp;Off board</li>
+    <li><code>VIBRATE</code> — move haptics</li>
+  </ul>
+  <p>In addition, standard Android support libraries bundled with the app declare housekeeping permissions of their own: <code>WAKE_LOCK</code>, <code>ACCESS_NETWORK_STATE</code>, <code>RECEIVE_BOOT_COMPLETED</code>, and <code>FOREGROUND_SERVICE</code>, plus an app-private signature permission that keeps the app's internal broadcasts private. These are used by the libraries for background-task scheduling, not by Fianchetto to collect anything.</p>
+  <p>No location permission is requested on any platform.</p>
+
+  <h2>What we never collect</h2>
+  <ul>
+    <li>No accounts, sign-ups, or passwords for Fianchetto itself.</li>
+    <li>No analytics, telemetry, crash reporting, advertising, or tracking SDKs — the app contains none.</li>
+    <li>No access to contacts, photos, location, health data, or calendars — the app never requests them.</li>
+    <li>No fingerprinting, no ads, no selling or sharing of data — we never receive your data in the first place.</li>
+    <li>No hidden network activity: requests to the chess services above happen only when you use those features, and they only download. The only uploads are to your own iCloud (sync and the daily backups, which you can turn off) and to Game Center when you play online — both described above.</li>
+  </ul>
+
+  <h2>This website</h2>
+  <p>This site (fianchettochess.app) is a static site hosted on GitHub Pages. It sets no cookies, runs no analytics, and makes no requests to third parties. GitHub, as the host, may log standard web-server request data under <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="external">GitHub's privacy statement</a>.</p>
+
+  <h2>Changes to this policy</h2>
+  <p>If the app's behavior changes in a way that affects your privacy, this policy will be updated before that version ships, with a new effective date at the top of this page.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about this policy or the app: <a href="mailto:wjbrewer16@gmail.com">wjbrewer16@gmail.com</a>.</p>
+
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <p><a href="/">Home</a> · <a href="/privacy.html">Privacy Policy</a> · <a href="mailto:wjbrewer16@gmail.com">wjbrewer16@gmail.com</a></p>
+    <p>Fianchetto is free software licensed under the GPL-3.0; the source code will be published when the app ships. © 2026 Jared Brewer.</p>
+    <p class="fineprint">
+      Fianchetto includes <a href="https://stockfishchess.org" rel="external">Stockfish</a>, the UCI chess engine by the Stockfish developers, derived from Glaurung 2.1 (GPL-3.0);
+      <a href="https://github.com/CSSLab/maia3" rel="external">Maia&nbsp;3</a>, the human-like neural network chess engine by CSSLab, University of Toronto (AGPL-3.0, used with permission of the authors);
+      and Reckless, the UCI chess engine by Arseniy Surkov (AGPL-3.0).
+      Cburnett and Merida piece graphics (GPL-2.0+) and the opening book (CC0) come via <a href="https://lichess.org" rel="external">Lichess</a>, whose free APIs also power opening explorer, tablebase, and game import features.
+    </p>
+    <p class="fineprint">
+      Square&nbsp;Off board support was developed by observing the board's publicly broadcast Bluetooth services with standard BLE tooling; no source code or assets from Square&nbsp;Off or InfiVention Technologies were used or derived. Square&nbsp;Off and Square&nbsp;Off Pro are trademarks of InfiVention Technologies Pvt.&nbsp;Ltd.; Fianchetto is not affiliated with, endorsed by, or sponsored by InfiVention Technologies.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

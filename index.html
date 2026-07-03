@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fianchetto — A native chess workbench</title>
+  <meta name="description" content="Fianchetto is a native chess workbench for studying, training, and improving — on-device analysis with Stockfish and Maia, game review, tactics from your own games, and repertoire training. For macOS, iOS, iPadOS, and Android.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="assets/icon-512.png">
+  <link rel="apple-touch-icon" href="assets/icon-512.png">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="inner">
+    <img class="mark" src="assets/icon-512.png" alt="" width="32" height="32">
+    <a class="brand" href="/">Fianchetto</a>
+    <nav aria-label="Site">
+      <a href="/" aria-current="page">Home</a>
+      <a href="/privacy.html">Privacy</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div>
+      <img class="app-icon" src="assets/icon-512.png" alt="Fianchetto app icon" width="72" height="72">
+      <h1>Fianchetto</h1>
+      <p class="tagline">A native chess workbench for studying, training, and improving.</p>
+      <p>Analyze your games with world-class engines, drill tactics mined from your own mistakes, and build an opening repertoire that actually sticks — all on-device, no account required.</p>
+      <ul class="badges">
+        <li class="accent">macOS</li>
+        <li class="accent">iOS &amp; iPadOS</li>
+        <li>Android — in development</li>
+        <li>Works fully offline</li>
+      </ul>
+      <p class="dev-note">Fianchetto is in active development and not yet available in app stores. This site will be updated when it ships.</p>
+    </div>
+    <div class="board-wrap" aria-hidden="true">
+      <div class="board">
+        <!-- A fianchettoed bishop on g2, in the app's Classic Brown board theme -->
+        <span class="piece white" style="left: 75%; top: 75%;">&#9815;</span>
+        <span class="piece white" style="left: 87.5%; top: 87.5%;">&#9812;</span>
+        <span class="piece white" style="left: 62.5%; top: 87.5%;">&#9814;</span>
+        <span class="piece" style="left: 12.5%; top: 12.5%;">&#9821;</span>
+        <span class="piece" style="left: 12.5%; top: 25%;">&#9823;</span>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="features-heading">
+    <p class="kicker">What it does</p>
+    <h2 id="features-heading">One workbench for your whole chess life</h2>
+
+    <ul class="features">
+      <li>
+        <h3>Three engines, all on-device</h3>
+        <p><strong>Stockfish&nbsp;18</strong> for objective analysis with adjustable depth (1–40) and multiple lines. <strong>Maia&nbsp;3</strong>, a neural network trained on human games, for human-like play and analysis at any rating from 600 to 2600. <strong>Reckless</strong> (new in the latest beta) as a second-opinion engine that cross-checks Stockfish and highlights where they disagree.</p>
+        <p>Every engine runs entirely on your device — your analysis stays local unless you turn on the online opening explorer or tablebase lookups.</p>
+      </li>
+      <li>
+        <h3>Game review &amp; accuracy</h3>
+        <p>One-tap annotation classifies every move from brilliant to blunder, with per-side accuracy, auto-play replay, and critical-moment highlights. <strong>Quiz mode</strong> turns every flagged mistake into a multiple-choice drill, and <strong>Guess Elo</strong> estimates the strength of play. Track accuracy by color, phase, and time control across your whole library.</p>
+      </li>
+      <li>
+        <h3>Training built from your games</h3>
+        <p>Tactics puzzles generated from your own annotated games, curated practice studies (checkmate patterns, forks, pins, pawn endgames), trap drills, and an endgame trainer with classic archetypes — Lucena, Philidor, K+B+N, and more — verified against tablebases, with an offline Stockfish fallback.</p>
+      </li>
+      <li>
+        <h3>Repertoire that sticks</h3>
+        <p>Build and drill openings in one place: anchored sub-repertoires, gap detection, a Stockfish audit that flags unsound lines, and spaced repetition weighted toward the moves you find counterintuitive. A <strong>Punish</strong> mode drills refutations of your opponents' natural-but-unsound replies. Import and export as PGN.</p>
+      </li>
+      <li>
+        <h3>Library, import &amp; sync</h3>
+        <p>Import PGN files, share Lichess links straight into the app, or pull your games from Chess.com and Lichess by username — no login required. Full backup and restore to a documented open JSON format. On Apple platforms, your library syncs privately across devices via iCloud.</p>
+      </li>
+      <li>
+        <h3>Play, your way</h3>
+        <p>Play against Stockfish or Maia, pass-and-play over the board on one device, or use the standalone chess clock with bullet, blitz, rapid, and classical presets. Turn-based online play via Game Center and experimental support for the Square&nbsp;Off Pro electronic board over Bluetooth are in the works on Apple platforms.</p>
+      </li>
+      <li>
+        <h3>Made to feel native</h3>
+        <p>Three piece sets, six board themes, a FEN board editor, copy-position-as-image, keyboard shortcuts, VoiceOver support, voice move entry on iOS, and multi-board sessions on iPad and Mac. No web views pretending to be an app.</p>
+      </li>
+      <li>
+        <h3>Private by design</h3>
+        <p>No accounts, no ads, no analytics, no tracking. Analysis stays on your device; the only network requests are the ones you ask for, like importing your games. Read the full <a href="/privacy.html">privacy policy</a>.</p>
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="platforms-heading">
+    <p class="kicker">Platforms</p>
+    <h2 id="platforms-heading">macOS, iPadOS, iOS — and Android on the way</h2>
+    <p>Fianchetto is built as a native app for Apple platforms, with an Android version under active development and nearing feature parity. A few features are Apple-only today: Game Center online play, Square&nbsp;Off board support, voice move entry, and multi-board sessions.</p>
+    <p>The app is currently in pre-release development (version 0.9.x) and is not yet available on the App&nbsp;Store or Google&nbsp;Play.</p>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <p><a href="/">Home</a> · <a href="/privacy.html">Privacy Policy</a> · <a href="mailto:wjbrewer16@gmail.com">wjbrewer16@gmail.com</a></p>
+    <p>Fianchetto is free software licensed under the GPL-3.0; the source code will be published when the app ships. © 2026 Jared Brewer.</p>
+    <p class="fineprint">
+      Fianchetto includes <a href="https://stockfishchess.org" rel="external">Stockfish</a>, the UCI chess engine by the Stockfish developers, derived from Glaurung 2.1 (GPL-3.0);
+      <a href="https://github.com/CSSLab/maia3" rel="external">Maia&nbsp;3</a>, the human-like neural network chess engine by CSSLab, University of Toronto (AGPL-3.0, used with permission of the authors);
+      and Reckless, the UCI chess engine by Arseniy Surkov (AGPL-3.0).
+      Cburnett and Merida piece graphics (GPL-2.0+) and the opening book (CC0) come via <a href="https://lichess.org" rel="external">Lichess</a>, whose free APIs also power opening explorer, tablebase, and game import features.
+    </p>
+    <p class="fineprint">
+      Square&nbsp;Off board support was developed by observing the board's publicly broadcast Bluetooth services with standard BLE tooling; no source code or assets from Square&nbsp;Off or InfiVention Technologies were used or derived. Square&nbsp;Off and Square&nbsp;Off Pro are trademarks of InfiVention Technologies Pvt.&nbsp;Ltd.; Fianchetto is not affiliated with, endorsed by, or sponsored by InfiVention Technologies.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
