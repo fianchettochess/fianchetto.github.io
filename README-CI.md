@@ -1,43 +1,40 @@
-# Docs deploy (GitHub Actions)
+# Docs build & publish
 
-`fianchettochess.app` is deployed by `.github/workflows/deploy-docs.yml`. On each
-push (plus a daily schedule and a manual **Run workflow** button), it:
+`fianchettochess.app` is served by **GitHub Pages "Deploy from a branch"** (this
+repo is private, so Pages-from-Actions isn't available on the current plan). The
+site's own HTML/CSS is committed directly. The four package docs under `docs/`
+are built from each package's `docs-site/` (the source of truth) and committed
+here; branch-serving then publishes them.
 
-1. Checks out this repo **and** the four package repos (ChessCore, BoardKit,
-   SwiftStockfish, SwiftReckless).
-2. Installs `mkdocs-material` and runs `build-docs.sh`, which builds each
-   package's `docs-site/` into `docs/<package>/`.
-3. Deploys the assembled site (the hand-written HTML/CSS + the aggregated
-   `docs/`) to GitHub Pages.
+## Keeping the docs current
 
-Each package owns its own `docs-site/` (the source of truth). To publish a docs
-change, push it to that package repo — the daily run (or a manual **Run
-workflow**) picks it up. For an immediate rebuild, either click **Run workflow**
-here, or have the package repo POST a `repository_dispatch` of type
-`docs-updated` to this repo.
+- **Automated** — `.github/workflows/rebuild-docs.yml` checks out the four
+  package repos, runs `build-docs.sh`, and **commits the rebuilt `docs/` back**.
+  It runs daily, on a manual **Run workflow**, and on a `repository_dispatch` of
+  type `docs-updated`. (Not on push — a source-only push doesn't change the
+  package docs.) After changing a package's docs, click **Run workflow** here (or
+  wait for the daily run).
+- **Manual / local** —
+  ```sh
+  pip install mkdocs-material
+  MKDOCS="$(command -v mkdocs)" ./build-docs.sh    # → docs/<package>/
+  git add docs/ && git commit -m "docs: rebuild" && git push
+  ```
 
-## One-time setup
+## Setup
 
-1. **Token for the private package repos.** The workflow reads the four package
-   repos, which are private, so it needs a token:
-   - Create a **fine-grained personal access token** with **Contents: Read-only**
-     on `jaredbrewer/ChessCore`, `BoardKit`, `SwiftStockfish`, `SwiftReckless`.
-   - Add it as a repository secret named **`DOCS_PACKAGES_TOKEN`**
-     (Settings → Secrets and variables → Actions).
-   - *When those repos become public,* delete the `token:` lines from the four
-     checkout steps and remove the secret — the default checkout can read public
-     repos.
+1. **`DOCS_PACKAGES_TOKEN`** — the workflow reads the four *private* package
+   repos, so it needs a token: a fine-grained PAT with **Contents: Read-only** on
+   `jaredbrewer/{ChessCore,BoardKit,SwiftStockfish,SwiftReckless}`, added as a
+   repository secret (Settings → Secrets and variables → Actions). The workflow
+   pushes the commit-back with the default `GITHUB_TOKEN` (`contents: write`).
+2. **Pages source** — Settings → Pages → **Deploy from a branch** (the default).
+   If you switched it to "GitHub Actions" earlier, switch it back — that mode
+   can't deploy from a private repo on this plan.
 
-2. **Point Pages at Actions.** Settings → Pages → **Source: GitHub Actions**
-   (instead of "Deploy from a branch").
+## If you later make this repo public
 
-Once both are done, the next push deploys via CI. The built `docs/<package>/`
-directories currently committed to this repo become redundant (CI regenerates
-them each deploy) and can be removed + git-ignored.
-
-## Rebuilding locally
-
-```sh
-pip install mkdocs-material
-MKDOCS="$(command -v mkdocs)" ./build-docs.sh   # → docs/<package>/
-```
+Pages-from-Actions becomes available. At that point a build-and-deploy workflow
+(no commit-back) is cleaner: build the site + `docs/` into an artifact and
+`actions/deploy-pages` it, so no built output is committed. Ask and I'll switch
+to that model.
