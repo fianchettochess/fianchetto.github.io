@@ -1,6 +1,9 @@
 # CI / build scratch — not committed.
-/_packages/     # sibling package repos checked out during the Pages workflow
-/_site/         # assembled deploy artifact
+# (gitignore has no inline comments — keep patterns on their own lines)
+#   _packages/ : sibling package repos checked out during the Pages workflow
+#   _site/     : the assembled deploy artifact
+/_packages/
+/_site/
 
-# Local mkdocs build output (macOS .DS_Store etc.)
+# macOS
 .DS_Store
