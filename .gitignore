@@ -1,0 +1,6 @@
+# CI / build scratch — not committed.
+/_packages/     # sibling package repos checked out during the Pages workflow
+/_site/         # assembled deploy artifact
+
+# Local mkdocs build output (macOS .DS_Store etc.)
+.DS_Store
