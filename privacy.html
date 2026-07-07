@@ -108,7 +108,7 @@
     <li><code>BLUETOOTH</code> / <code>BLUETOOTH_ADMIN</code> (older Android), <code>BLUETOOTH_SCAN</code> (flagged never-for-location), <code>BLUETOOTH_CONNECT</code> — Square&nbsp;Off board</li>
     <li><code>VIBRATE</code> — move haptics</li>
   </ul>
-  <p>In addition, standard Android support libraries bundled with the app declare housekeeping permissions of their own: <code>WAKE_LOCK</code>, <code>ACCESS_NETWORK_STATE</code>, <code>RECEIVE_BOOT_COMPLETED</code>, and <code>FOREGROUND_SERVICE</code>, plus an app-private signature permission that keeps the app's internal broadcasts private. These are used by the libraries for background-task scheduling, not by Fianchetto to collect anything.</p>
+  <p>Bundled support libraries would otherwise add housekeeping permissions of their own — <code>WAKE_LOCK</code>, <code>ACCESS_NETWORK_STATE</code>, <code>RECEIVE_BOOT_COMPLETED</code>, and <code>FOREGROUND_SERVICE</code> — for background-task scheduling that Fianchetto does not use; the app's manifest strips all of them, so they are absent from the installed app. The only library-added entry that remains is an app-private signature permission that keeps the app's internal broadcasts private; it grants no access to your data.</p>
   <p>No location permission is requested on any platform.</p>
 
   <h2>What we never collect</h2>
