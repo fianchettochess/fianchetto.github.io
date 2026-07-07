@@ -18,13 +18,13 @@
         <link rel="prev" href="../san-uci/">
       
       
-        <link rel="next" href="../engine-protocol/">
+        <link rel="next" href="../game/">
       
       
         
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/icon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
@@ -47,13 +47,9 @@
     
     
       
-        
-        
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-      
     
+    
+      <link rel="stylesheet" href="../../stylesheets/brand.css">
     
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -71,7 +67,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -96,10 +92,9 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="ChessCore" class="md-header__button md-logo" aria-label="ChessCore" data-md-component="logo">
+    <a href="https://fianchettochess.app/" title="ChessCore" class="md-header__button md-logo" aria-label="ChessCore" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="../../assets/icon.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -129,7 +124,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
     
       <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
@@ -139,7 +134,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
@@ -222,16 +217,42 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="ChessCore" class="md-nav__button md-logo" aria-label="ChessCore" data-md-component="logo">
+    <a href="https://fianchettochess.app/" title="ChessCore" class="md-nav__button md-logo" aria-label="ChessCore" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="../../assets/icon.png" alt="logo">
 
     </a>
     ChessCore
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://fianchettochess.app/docs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ↩ All package docs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
     
       
       
@@ -337,6 +358,8 @@
       
         
       
+        
+      
     
     
     
@@ -350,10 +373,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
             
   
   
@@ -371,8 +394,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -633,6 +656,34 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pgn-text-live-game-pgn-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PGN text → live Game → PGN text
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PGN text → live Game → PGN text">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#export-a-live-game-to-pgn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Export a live Game to PGN
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#the-tag-codec" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -647,6 +698,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../game/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The game tree
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -813,6 +892,34 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pgn-text-live-game-pgn-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PGN text → live Game → PGN text
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PGN text → live Game → PGN text">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#export-a-live-game-to-pgn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Export a live Game to PGN
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#the-tag-codec" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -942,13 +1049,50 @@ and captures, and defaults an ambiguous promotion to a queen.</p>
 </code></pre></div>
 <p><code>tokenText(from:)</code> serializes the game's <code>moveTokens</code> (falling back to its flat
 <code>moves</code> list), including <code>{}</code> comments and <code>$n</code> NAGs.</p>
+<h2 id="pgn-text-live-game-pgn-text">PGN text → live Game → PGN text<a class="headerlink" href="#pgn-text-live-game-pgn-text" title="Permanent link">&para;</a></h2>
+<p>The snapshot path above produces an immutable <code>ParsedMainLine</code>. For a <strong>live,
+mutable game tree</strong> use <code>PGNParser.loadGame</code> and <code>PGNExporter.export</code> — the
+round-trip that bridges PGN text to a <code>Game</code> instance and back.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">// Parse PGN text directly into a live Game (first game in the string):</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">game</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">PGNParser</span><span class="p">.</span><span class="n">loadGame</span><span class="p">(</span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="n">pgnString</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="c1">// game is a fully-hydrated Game with a MoveNode tree,</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="c1">// ready for navigation, annotation, and analysis.</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="n">game</span><span class="p">.</span><span class="n">undoMove</span><span class="p">()</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="n">game</span><span class="p">.</span><span class="n">setAnnotation</span><span class="p">(.</span><span class="n">brilliant</span><span class="p">,</span><span class="w"> </span><span class="n">on</span><span class="p">:</span><span class="w"> </span><span class="n">game</span><span class="p">.</span><span class="n">currentNode</span><span class="p">!)</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="p">}</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="c1">// If you already have a PGNGame from PGNParser.parse(_:):</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">game</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">PGNParser</span><span class="p">.</span><span class="n">loadGame</span><span class="p">(</span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="n">pgnGame</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">    </span><span class="c1">// SetUp/FEN tags are honoured: non-standard start positions work.</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>loadGame(from:)</code> returns <code>nil</code> only when the PGN is syntactically invalid or a
+<code>SetUp</code>/<code>FEN</code> tag contains a malformed FEN string. A valid-but-empty game (no
+moves) returns an empty <code>Game</code>.</p>
+<h3 id="export-a-live-game-to-pgn">Export a live Game to PGN<a class="headerlink" href="#export-a-live-game-to-pgn" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">// Full PGN: seven-tag roster + move text (with variations and annotations):</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kd">let</span><span class="w"> </span><span class="nv">pgn</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">game</span><span class="p">.</span><span class="n">exportPGN</span><span class="p">()</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1">// Export with custom tags:</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="kd">var</span><span class="w"> </span><span class="nv">tags</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">PGNGame</span><span class="p">.</span><span class="n">OrderedTags</span><span class="p">()</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Event&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Club Championship&quot;</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="n">tags</span><span class="p">[</span><span class="s">&quot;White&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Alice&quot;</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="n">tags</span><span class="p">[</span><span class="s">&quot;Black&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Bob&quot;</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="kd">let</span><span class="w"> </span><span class="nv">pgn2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">PGNExporter</span><span class="p">.</span><span class="n">export</span><span class="p">(</span><span class="n">game</span><span class="p">:</span><span class="w"> </span><span class="n">game</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="p">:</span><span class="w"> </span><span class="n">tags</span><span class="p">)</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="c1">// Move text only (no headers) — useful for embedding in a larger document:</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="kd">let</span><span class="w"> </span><span class="nv">text</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">PGNExporter</span><span class="p">.</span><span class="n">moveText</span><span class="p">(</span><span class="k">for</span><span class="p">:</span><span class="w"> </span><span class="n">game</span><span class="p">.</span><span class="n">rootChildren</span><span class="p">)</span>
+</code></pre></div>
+<p><code>PGNExporter.export</code> writes variations with <code>( … )</code> brackets, annotation
+suffixes, and inline comments that include engine eval, best-move, clock time,
+and user comments — the same comment format that <code>loadGame</code> reads back.</p>
 <h2 id="the-tag-codec">The tag codec<a class="headerlink" href="#the-tag-codec" title="Permanent link">&para;</a></h2>
 <p><code>GameTagCodec</code> encodes a full PGN tag set as a single escape-safe
 <code>key=value;key=value</code> string, suitable for compact per-game storage:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kd">let</span><span class="w"> </span><span class="nv">encoded</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">GameTagCodec</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="n">game</span><span class="p">.</span><span class="n">tags</span><span class="p">)</span><span class="w">              </span><span class="c1">// &quot;Event=...;White=...;...&quot;</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kd">let</span><span class="w"> </span><span class="nv">tags</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="n">GameTagCodec</span><span class="p">.</span><span class="n">decodeOrdered</span><span class="p">(</span><span class="n">encoded</span><span class="p">)</span><span class="w">         </span><span class="c1">// back to OrderedTags</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kd">let</span><span class="w"> </span><span class="nv">dict</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="n">GameTagCodec</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoded</span><span class="p">)</span><span class="w">                </span><span class="c1">// unordered [String: String]</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="kd">let</span><span class="w"> </span><span class="nv">white</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="n">GameTagCodec</span><span class="p">.</span><span class="n">firstValue</span><span class="p">(</span><span class="n">forKey</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;White&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">in</span><span class="p">:</span><span class="w"> </span><span class="n">encoded</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kd">let</span><span class="w"> </span><span class="nv">encoded</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">GameTagCodec</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="n">game</span><span class="p">.</span><span class="n">tags</span><span class="p">)</span><span class="w">              </span><span class="c1">// &quot;Event=...;White=...;...&quot;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kd">let</span><span class="w"> </span><span class="nv">tags</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="n">GameTagCodec</span><span class="p">.</span><span class="n">decodeOrdered</span><span class="p">(</span><span class="n">encoded</span><span class="p">)</span><span class="w">         </span><span class="c1">// back to OrderedTags</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kd">let</span><span class="w"> </span><span class="nv">dict</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="n">GameTagCodec</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoded</span><span class="p">)</span><span class="w">                </span><span class="c1">// unordered [String: String]</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="kd">let</span><span class="w"> </span><span class="nv">white</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="n">GameTagCodec</span><span class="p">.</span><span class="n">firstValue</span><span class="p">(</span><span class="n">forKey</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;White&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">in</span><span class="p">:</span><span class="w"> </span><span class="n">encoded</span><span class="p">)</span>
 </code></pre></div>
 <p><code>decodeOrdered</code> preserves the original key order for faithful re-export, while
 <code>decode</code> returns an unordered dictionary for cases where order is not significant.</p>

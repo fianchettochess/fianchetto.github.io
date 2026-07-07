@@ -24,7 +24,7 @@
         
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/icon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
@@ -47,13 +47,9 @@
     
     
       
-        
-        
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-      
     
+    
+      <link rel="stylesheet" href="../../stylesheets/brand.css">
     
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -71,7 +67,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -96,10 +92,9 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="ChessCore" class="md-header__button md-logo" aria-label="ChessCore" data-md-component="logo">
+    <a href="https://fianchettochess.app/" title="ChessCore" class="md-header__button md-logo" aria-label="ChessCore" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="../../assets/icon.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -129,7 +124,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
     
       <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
@@ -139,7 +134,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
@@ -222,16 +217,42 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="ChessCore" class="md-nav__button md-logo" aria-label="ChessCore" data-md-component="logo">
+    <a href="https://fianchettochess.app/" title="ChessCore" class="md-nav__button md-logo" aria-label="ChessCore" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="../../assets/icon.png" alt="logo">
 
     </a>
     ChessCore
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://fianchettochess.app/docs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ↩ All package docs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
     
       
       
@@ -337,6 +358,8 @@
       
         
       
+        
+      
     
     
     
@@ -350,10 +373,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
             
   
   
@@ -371,8 +394,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -522,6 +545,23 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="MoveRecord">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spoken-labels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spoken labels
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -677,6 +717,34 @@
     
   
     PGN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../game/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The game tree
   
 
     
@@ -853,6 +921,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="MoveRecord">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spoken-labels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spoken labels
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1017,56 +1102,67 @@ consuming UI.</p>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">positionBefore</span><span class="p">:</span><span class="w"> </span><span class="n">Position</span>
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">}</span>
 </code></pre></div>
+<h3 id="spoken-labels">Spoken labels<a class="headerlink" href="#spoken-labels" title="Permanent link">&para;</a></h3>
+<p><code>PieceType</code> and <code>Piece</code> carry spoken-label helpers for VoiceOver / TalkBack
+accessibility labels and human-readable piece descriptions:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">PieceType</span><span class="p">.</span><span class="n">knight</span><span class="p">.</span><span class="n">displayName</span><span class="w">         </span><span class="c1">// &quot;knight&quot;</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">PieceType</span><span class="p">.</span><span class="n">queen</span><span class="p">.</span><span class="n">displayName</span><span class="w">          </span><span class="c1">// &quot;queen&quot;</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="kd">let</span><span class="w"> </span><span class="nv">piece</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Piece</span><span class="p">(</span><span class="n">type</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">bishop</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">white</span><span class="p">)</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="n">piece</span><span class="p">.</span><span class="n">descriptiveName</span><span class="w">                </span><span class="c1">// &quot;White bishop&quot;</span>
+</code></pre></div>
+<p><code>displayName</code> is the lowercase noun; <code>descriptiveName</code> is the <code>"Color noun"</code> form
+used by accessibility square labels and physical-board correction prose.</p>
 <h2 id="moveannotation">MoveAnnotation<a class="headerlink" href="#moveannotation" title="Permanent link">&para;</a></h2>
 <p>The PGN/NAG glyphs. The model covers chess logic only; display name, symbol,
 and tint are left to the UI:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">MoveAnnotation</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="nb">Equatable</span><span class="p">,</span><span class="w"> </span><span class="nb">Hashable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="p">,</span><span class="w"> </span><span class="n">CaseIterable</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">brilliant</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;!!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">great</span><span class="p">,</span><span class="w"> </span><span class="n">best</span><span class="p">,</span><span class="w"> </span><span class="n">excellent</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">good</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">interesting</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;!?&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">dubious</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;?!&quot;</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">miss</span><span class="p">,</span><span class="w"> </span><span class="n">mistake</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;?&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">blunder</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;??&quot;</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">MoveAnnotation</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="nb">Equatable</span><span class="p">,</span><span class="w"> </span><span class="nb">Hashable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="p">,</span><span class="w"> </span><span class="n">CaseIterable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">brilliant</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;!!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">great</span><span class="p">,</span><span class="w"> </span><span class="n">best</span><span class="p">,</span><span class="w"> </span><span class="n">excellent</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">good</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">interesting</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;!?&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">dubious</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;?!&quot;</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">miss</span><span class="p">,</span><span class="w"> </span><span class="n">mistake</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;?&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">blunder</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;??&quot;</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="p">}</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kd">let</span><span class="w"> </span><span class="p">(</span><span class="n">cleaned</span><span class="p">,</span><span class="w"> </span><span class="n">annotation</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">MoveAnnotation</span><span class="p">.</span><span class="n">extract</span><span class="p">(</span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Nf3!?&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">// (&quot;Nf3&quot;, .interesting)</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kd">let</span><span class="w"> </span><span class="nv">fromNag</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">MoveAnnotation</span><span class="p">.</span><span class="n">from</span><span class="p">(</span><span class="n">nag</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">                          </span><span class="c1">// .good</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kd">let</span><span class="w"> </span><span class="nv">suffix</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="n">MoveAnnotation</span><span class="p">.</span><span class="n">brilliant</span><span class="p">.</span><span class="n">pgnSuffix</span><span class="w">                   </span><span class="c1">// the PGN suffix</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kd">let</span><span class="w"> </span><span class="p">(</span><span class="n">cleaned</span><span class="p">,</span><span class="w"> </span><span class="n">annotation</span><span class="p">)</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">MoveAnnotation</span><span class="p">.</span><span class="n">extract</span><span class="p">(</span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Nf3!?&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">// (&quot;Nf3&quot;, .interesting)</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kd">let</span><span class="w"> </span><span class="nv">fromNag</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">MoveAnnotation</span><span class="p">.</span><span class="n">from</span><span class="p">(</span><span class="n">nag</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w">                          </span><span class="c1">// .good</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kd">let</span><span class="w"> </span><span class="nv">suffix</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="n">MoveAnnotation</span><span class="p">.</span><span class="n">brilliant</span><span class="p">.</span><span class="n">pgnSuffix</span><span class="w">                   </span><span class="c1">// the PGN suffix</span>
 </code></pre></div>
 <h2 id="movequality">MoveQuality<a class="headerlink" href="#movequality" title="Permanent link">&para;</a></h2>
 <p>Engine move-quality classification (display is left to the UI):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">MoveQuality</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">CaseIterable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">best</span><span class="p">,</span><span class="w"> </span><span class="n">excellent</span><span class="p">,</span><span class="w"> </span><span class="n">good</span><span class="p">,</span><span class="w"> </span><span class="n">inaccuracy</span><span class="p">,</span><span class="w"> </span><span class="n">mistake</span><span class="p">,</span><span class="w"> </span><span class="n">blunder</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">MoveQuality</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">CaseIterable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">best</span><span class="p">,</span><span class="w"> </span><span class="n">excellent</span><span class="p">,</span><span class="w"> </span><span class="n">good</span><span class="p">,</span><span class="w"> </span><span class="n">inaccuracy</span><span class="p">,</span><span class="w"> </span><span class="n">mistake</span><span class="p">,</span><span class="w"> </span><span class="n">blunder</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="p">}</span>
 </code></pre></div>
 <h2 id="gamestate">GameState<a class="headerlink" href="#gamestate" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">GameState</span><span class="p">:</span><span class="w"> </span><span class="nb">Equatable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">playing</span><span class="p">,</span><span class="w"> </span><span class="n">check</span><span class="p">,</span><span class="w"> </span><span class="n">checkmate</span><span class="p">,</span><span class="w"> </span><span class="n">stalemate</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">draw</span><span class="p">,</span><span class="w"> </span><span class="n">insufficientMaterial</span><span class="p">,</span><span class="w"> </span><span class="n">repetition</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">isGameOver</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">GameState</span><span class="p">:</span><span class="w"> </span><span class="nb">Equatable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">playing</span><span class="p">,</span><span class="w"> </span><span class="n">check</span><span class="p">,</span><span class="w"> </span><span class="n">checkmate</span><span class="p">,</span><span class="w"> </span><span class="n">stalemate</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">draw</span><span class="p">,</span><span class="w"> </span><span class="n">insufficientMaterial</span><span class="p">,</span><span class="w"> </span><span class="n">repetition</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">isGameOver</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="p">}</span>
 </code></pre></div>
 <h2 id="position">Position<a class="headerlink" href="#position" title="Permanent link">&para;</a></h2>
 <p>The complete board state, plus FEN parse/serialize and material/EP analysis.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="nc">Position</span><span class="p">:</span><span class="w"> </span><span class="nb">Equatable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">board</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Piece</span><span class="p">?]</span><span class="w">              </span><span class="c1">// 64 entries</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">activeColor</span><span class="p">:</span><span class="w"> </span><span class="n">PieceColor</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">castlingRights</span><span class="p">:</span><span class="w"> </span><span class="n">CastlingRights</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">enPassantTarget</span><span class="p">:</span><span class="w"> </span><span class="n">Square</span><span class="p">?</span>
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">halfmoveClock</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span>
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">fullmoveNumber</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">whiteKingSquare</span><span class="p">:</span><span class="w"> </span><span class="n">Square</span>
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">blackKingSquare</span><span class="p">:</span><span class="w"> </span><span class="n">Square</span>
-<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
-<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">init</span><span class="p">()</span><span class="w">                            </span><span class="c1">// empty board, White to move</span>
-<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">init</span><span class="p">?(</span><span class="n">fen</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span><span class="w">                </span><span class="c1">// standard FEN (failable)</span>
-<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">subscript</span><span class="p">(</span><span class="n">square</span><span class="p">:</span><span class="w"> </span><span class="n">Square</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="n">Piece</span><span class="p">?</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">get</span><span class="w"> </span><span class="kr">set</span><span class="w"> </span><span class="p">}</span><span class="w">  </span><span class="c1">// bounds-safe</span>
-<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>
-<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">initial</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="n">Position</span><span class="w"> </span><span class="c1">// standard start</span>
-<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>
-<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">fen</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">                   </span><span class="c1">// full FEN incl. counters</span>
-<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">positionKey</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">           </span><span class="c1">// FEN without counters (the cache/legality key)</span>
-<a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">stockfishSafeFEN</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">      </span><span class="c1">// sanitized for a strict UCI engine</span>
-<a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">capturableEnPassantTarget</span><span class="p">:</span><span class="w"> </span><span class="n">Square</span><span class="p">?</span><span class="w">  </span><span class="c1">// EP only when a capture exists</span>
-<a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">hasInsufficientMaterial</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span>
-<a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="nc">Position</span><span class="p">:</span><span class="w"> </span><span class="nb">Equatable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">board</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Piece</span><span class="p">?]</span><span class="w">              </span><span class="c1">// 64 entries</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">activeColor</span><span class="p">:</span><span class="w"> </span><span class="n">PieceColor</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">castlingRights</span><span class="p">:</span><span class="w"> </span><span class="n">CastlingRights</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">enPassantTarget</span><span class="p">:</span><span class="w"> </span><span class="n">Square</span><span class="p">?</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">halfmoveClock</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">fullmoveNumber</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">whiteKingSquare</span><span class="p">:</span><span class="w"> </span><span class="n">Square</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">blackKingSquare</span><span class="p">:</span><span class="w"> </span><span class="n">Square</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">init</span><span class="p">()</span><span class="w">                            </span><span class="c1">// empty board, White to move</span>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">init</span><span class="p">?(</span><span class="n">fen</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span><span class="w">                </span><span class="c1">// standard FEN (failable)</span>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">subscript</span><span class="p">(</span><span class="n">square</span><span class="p">:</span><span class="w"> </span><span class="n">Square</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="n">Piece</span><span class="p">?</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">get</span><span class="w"> </span><span class="kr">set</span><span class="w"> </span><span class="p">}</span><span class="w">  </span><span class="c1">// bounds-safe</span>
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">initial</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="n">Position</span><span class="w"> </span><span class="c1">// standard start</span>
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>
+<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">fen</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">                   </span><span class="c1">// full FEN incl. counters</span>
+<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">positionKey</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">           </span><span class="c1">// FEN without counters (the cache/legality key)</span>
+<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">stockfishSafeFEN</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">      </span><span class="c1">// sanitized for a strict UCI engine</span>
+<a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">capturableEnPassantTarget</span><span class="p">:</span><span class="w"> </span><span class="n">Square</span><span class="p">?</span><span class="w">  </span><span class="c1">// EP only when a capture exists</span>
+<a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">hasInsufficientMaterial</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span>
+<a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a><span class="p">}</span>
 </code></pre></div>
 <p>See <a href="../fen/">FEN</a> for the three FEN-shaped accessors and when to use each.</p>
 
