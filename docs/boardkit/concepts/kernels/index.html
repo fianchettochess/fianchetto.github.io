@@ -1,0 +1,1175 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A Swift package defining the adapter seam between physical chess boards and a chess engine — plus board-agnostic reconciliation kernels, a BLE emulator, and a deterministic replay/simulation harness.">
+      
+      
+        <meta name="author" content="Jared Brewer">
+      
+      
+        <link rel="canonical" href="https://fianchettochess.app/docs/boardkit/concepts/kernels/">
+      
+      
+        <link rel="prev" href="../adapter-and-transport/">
+      
+      
+        <link rel="next" href="../sync-and-reconnect/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Board-agnostic kernels - BoardKit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#board-agnostic-kernels" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="BoardKit" class="md-header__button md-logo" aria-label="BoardKit" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BoardKit
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Board-agnostic kernels
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="BoardKit" class="md-nav__button md-logo" aria-label="BoardKit" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    BoardKit
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../seam-vocabulary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Seam vocabulary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adapter-and-transport/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Adapter & transport protocols
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Board-agnostic kernels
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Board-agnostic kernels
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#occupancymoveinference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OccupancyMoveInference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OccupancyMoveInference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#feedback-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feedback cases
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#castling-oracle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Castling oracle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#boardexecutiongate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BoardExecutionGate
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#boarddiffresolver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BoardDiffResolver
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#boardcorrectionplanner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BoardCorrectionPlanner
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#boardtakebackdetector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BoardTakebackDetector
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chessboardgeometry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ChessBoardGeometry
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sync-and-reconnect/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sync gate & reconnect policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adapters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concrete adapters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test-support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Test support & emulator
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#occupancymoveinference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OccupancyMoveInference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OccupancyMoveInference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#feedback-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feedback cases
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#castling-oracle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Castling oracle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commit
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#boardexecutiongate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BoardExecutionGate
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#boarddiffresolver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BoardDiffResolver
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#boardcorrectionplanner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BoardCorrectionPlanner
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#boardtakebackdetector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BoardTakebackDetector
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chessboardgeometry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ChessBoardGeometry
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="board-agnostic-kernels">Board-agnostic kernels<a class="headerlink" href="#board-agnostic-kernels" title="Permanent link">&para;</a></h1>
+<p>The kernel layer is a set of pure-logic, actor-free types that sit between the
+transport's <code>BoardEvent</code> stream and the session's game state. All kernels
+import only <code>ChessCore</code> and <code>Foundation</code>; none import UI, Bluetooth, or
+networking. They are testable without live hardware.</p>
+<hr />
+<h2 id="occupancymoveinference">OccupancyMoveInference<a class="headerlink" href="#occupancymoveinference" title="Permanent link">&para;</a></h2>
+<p>Reconstructs chess moves from the physical lift-and-place sequence reported by
+an occupancy-sensing board.</p>
+<p>The board reports per-square presence transitions but no piece identity. Up to
+four slots are tracked so simple moves, captures, castling, and en-passant can
+be reconstructed. After every event, <code>handle(square:isLift:)</code> returns
+candidates for the session to validate against the current legal-move list.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">public</span><span class="w"> </span><span class="kr">final</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">OccupancyMoveInference</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">isCastlingStillLegal</span><span class="p">:</span><span class="w"> </span><span class="p">((</span><span class="kc">_</span><span class="w"> </span><span class="n">rookHomeSquare</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Bool</span><span class="p">)?</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">reset</span><span class="p">()</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="n">square</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">isLift</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="n">OccupancyInferenceFeedback</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">commit</span><span class="p">(</span><span class="kc">_</span><span class="w"> </span><span class="n">uci</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">}</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">OccupancyInferenceFeedback</span><span class="p">:</span><span class="w"> </span><span class="nb">Equatable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">pieceLifted</span><span class="p">(</span><span class="n">square</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">moveCandidates</span><span class="p">(</span><span class="kc">_</span><span class="w"> </span><span class="n">uciMoves</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">String</span><span class="p">])</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">noChange</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="feedback-cases">Feedback cases<a class="headerlink" href="#feedback-cases" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Case</th>
+<th>When emitted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.pieceLifted(square:)</code></td>
+<td>Only the first lift observed — highlight legal destinations</td>
+</tr>
+<tr>
+<td><code>.moveCandidates([String])</code></td>
+<td>One or more UCI candidates; session validates against legal moves</td>
+</tr>
+<tr>
+<td><code>.noChange</code></td>
+<td>No complete shape yet (castling deferral or mid-sequence)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="castling-oracle">Castling oracle<a class="headerlink" href="#castling-oracle" title="Permanent link">&para;</a></h3>
+<p>Wire <code>isCastlingStillLegal</code> before using the inference machine. Without it, a
+physical rook move from a corner square after castling rights are gone may be
+incorrectly deferred. Set it to a closure that queries the game's current
+castling rights for the given rook-home square.</p>
+<h3 id="commit">Commit<a class="headerlink" href="#commit" title="Permanent link">&para;</a></h3>
+<p>Call <code>commit(_:)</code> after the session accepts a move. This resets all four slots
+so subsequent events build a fresh move. Leftover slots from a castling
+king+rook sequence are also cleared.</p>
+<hr />
+<h2 id="boardexecutiongate">BoardExecutionGate<a class="headerlink" href="#boardexecutiongate" title="Permanent link">&para;</a></h2>
+<p>Tracks whether the human has physically executed an app-dictated move on the
+board. The session creates a gate for an engine reply or analysis navigation
+move, then routes field events through it instead of <code>OccupancyMoveInference</code>
+until the gate reaches <code>.executed</code> or <code>.deviated</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">public</span><span class="w"> </span><span class="kr">final</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">BoardExecutionGate</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">expectedUCI</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">humanDescription</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">   </span><span class="c1">// e.g. &quot;Play Nf3 on the board&quot;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">init</span><span class="p">(</span><span class="n">move</span><span class="p">:</span><span class="w"> </span><span class="n">Move</span><span class="p">,</span><span class="w"> </span><span class="n">positionBefore</span><span class="p">:</span><span class="w"> </span><span class="n">Position</span><span class="p">)</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">feed</span><span class="p">(</span><span class="n">square</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">isLift</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="n">State</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">}</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">BoardExecutionGate</span><span class="p">.</span><span class="n">State</span><span class="p">:</span><span class="w"> </span><span class="nb">Equatable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">inProgress</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">executed</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">deviated</span><span class="p">([</span><span class="nb">String</span><span class="p">])</span><span class="w">   </span><span class="c1">// payload = offending squares</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p">}</span>
+</code></pre></div>
+<p>The gate computes the <strong>required physical effect set</strong> from the move geometry:</p>
+<table>
+<thead>
+<tr>
+<th>Move type</th>
+<th>Required lifts</th>
+<th>Required places</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Simple move</td>
+<td><code>{from}</code></td>
+<td><code>{to}</code></td>
+</tr>
+<tr>
+<td>Capture</td>
+<td><code>{from, to}</code></td>
+<td><code>{to}</code></td>
+</tr>
+<tr>
+<td>En passant</td>
+<td><code>{from, capturedPawn}</code></td>
+<td><code>{to}</code></td>
+</tr>
+<tr>
+<td>Castling</td>
+<td><code>{kingFrom, rookFrom}</code></td>
+<td><code>{kingTo, rookTo}</code></td>
+</tr>
+<tr>
+<td>Promotion</td>
+<td><code>{from}</code></td>
+<td><code>{to}</code></td>
+</tr>
+</tbody>
+</table>
+<p>Terminal states (<code>.executed</code>, <code>.deviated</code>) are sticky — further calls return
+the same value without mutating tracking state.</p>
+<hr />
+<h2 id="boarddiffresolver">BoardDiffResolver<a class="headerlink" href="#boarddiffresolver" title="Permanent link">&para;</a></h2>
+<p>Reconciles the app's <code>Position</code> against a 64-bit occupancy array reported by
+the board, by searching the legal-move tree for sequences whose resulting
+occupancy matches the snapshot.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">BoardDiffResolver</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="nc">Resolution</span><span class="p">:</span><span class="w"> </span><span class="nb">Equatable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">moves</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">String</span><span class="p">]</span><span class="w">   </span><span class="c1">// UCI strings</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">depth</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="w">        </span><span class="c1">// moves.count</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">resolve</span><span class="p">(</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">        </span><span class="n">from</span><span class="w"> </span><span class="n">position</span><span class="p">:</span><span class="w"> </span><span class="n">Position</span><span class="p">,</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">        </span><span class="n">targetOccupancy</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">Bool</span><span class="p">],</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">        </span><span class="n">maxDepth</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">        </span><span class="n">limit</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">8</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">Resolution</span><span class="p">]</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">occupancyArray</span><span class="p">(</span><span class="k">for</span><span class="w"> </span><span class="n">position</span><span class="p">:</span><span class="w"> </span><span class="n">Position</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">[</span><span class="nb">Bool</span><span class="p">]</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>resolve</code> performs a BFS over the legal-move tree up to <code>maxDepth</code> plies and
+returns the shallowest set of explanations, sorted by a <strong>wander score</strong>. A
+resolution "wanders" when it touches squares that are neither part of the
+occupancy diff nor a capture target — a signature of a coincidental sequence.
+Zero-wander resolutions (the actual move) are surfaced first; the rest are
+truncated to the three least-wandering alternatives.</p>
+<p><code>occupancyArray(for:)</code> converts a <code>Position</code> into the same file-major <code>[Bool]</code>
+the board reports (a1=0, a2=1, …, h8=63). Useful for building the diff before
+calling <code>resolve</code>.</p>
+<hr />
+<h2 id="boardcorrectionplanner">BoardCorrectionPlanner<a class="headerlink" href="#boardcorrectionplanner" title="Permanent link">&para;</a></h2>
+<p>Computes the minimal, identity-aware set of physical corrections needed to
+bring the board back into agreement with the app's expected <code>Position</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">BoardCorrectionPlanner</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="nc">Correction</span><span class="p">:</span><span class="w"> </span><span class="nb">Equatable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="p">,</span><span class="w"> </span><span class="nb">Hashable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">Kind</span><span class="p">:</span><span class="w"> </span><span class="nb">Equatable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="p">,</span><span class="w"> </span><span class="nb">Hashable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="n">place</span><span class="p">(</span><span class="n">piece</span><span class="p">:</span><span class="w"> </span><span class="n">Piece</span><span class="p">,</span><span class="w"> </span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">?)</span><span class="w">  </span><span class="c1">// `from` = relocate source</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="n">remove</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">square</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">kind</span><span class="p">:</span><span class="w"> </span><span class="n">Kind</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">expectedPiece</span><span class="p">:</span><span class="w"> </span><span class="n">Piece</span><span class="p">?</span><span class="w">   </span><span class="c1">// non-nil for .place</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">fromSquare</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">?</span><span class="w">     </span><span class="c1">// non-nil for .place(..., from: nonNil)</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">corrections</span><span class="p">(</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">expected</span><span class="p">:</span><span class="w"> </span><span class="n">Position</span><span class="p">,</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">        </span><span class="n">boardOccupancy</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">Bool</span><span class="p">]</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">Correction</span><span class="p">]</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="p">}</span>
+</code></pre></div>
+<p>The planner is <strong>identity-aware</strong>: a missing piece on one square and a stray
+piece on another are paired as a single <strong>relocate</strong> action (<code>.place(piece:,
+from: straySquare)</code>) when possible, rather than a bare remove + place. Pairing
+uses Chebyshev distance so the most nearby stray is preferred.</p>
+<p>Returns an empty array when occupancy already matches. Corrections are emitted
+only for disagreeing squares; correct squares are silently skipped.</p>
+<hr />
+<h2 id="boardtakebackdetector">BoardTakebackDetector<a class="headerlink" href="#boardtakebackdetector" title="Permanent link">&para;</a></h2>
+<p>Detects a physical take-back: the player has picked pieces up and restored an
+earlier position on the current game line.</p>
+<p><code>BoardDiffResolver</code> only searches forward from the app's position. A take-back
+is never forward-reachable, so it reaches this detector only after the forward
+resolver has failed.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">BoardTakebackDetector</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">pliesToUndo</span><span class="p">(</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">        </span><span class="n">boardOccupancy</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">Bool</span><span class="p">],</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">        </span><span class="n">ancestorPositions</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Position</span><span class="p">]</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Int</span><span class="p">?</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>ancestorPositions</code> is <code>[Position]</code> indexed as 0 = one ply back, 1 = two plies
+back, etc. The caller bounds the list (e.g. the last 5–10 plies) to prevent a
+distant coincidental occupancy from triggering a huge rollback.</p>
+<p>Returns the shallowest matching depth (1-based), or <code>nil</code> if no ancestor
+matches.</p>
+<hr />
+<h2 id="chessboardgeometry">ChessBoardGeometry<a class="headerlink" href="#chessboardgeometry" title="Permanent link">&para;</a></h2>
+<p>Pure square-geometry helpers shared by all board integrations.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">ChessBoardGeometry</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="c1">// 180° board rotation: a1 ↔ h8, e4 ↔ d5, …</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="c1">// Returns nil for malformed input.</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">flippedSquare</span><span class="p">(</span><span class="kc">_</span><span class="w"> </span><span class="n">square</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">String</span><span class="p">?</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="c1">// File-major occupancy array index: a1=0, a2=1, …, h8=63.</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="c1">// Returns nil for malformed input.</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">boardOccupancyIndex</span><span class="p">(</span><span class="k">for</span><span class="w"> </span><span class="n">square</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Int</span><span class="p">?</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">    </span><span class="c1">// Squares where board and position disagree (both file-major comparison).</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">mismatchedSquares</span><span class="p">(</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">        </span><span class="n">position</span><span class="p">:</span><span class="w"> </span><span class="n">Position</span><span class="p">,</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">        </span><span class="n">boardOccupancy</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">Bool</span><span class="p">]</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">[</span><span class="nb">String</span><span class="p">]</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>flippedSquare</code> applies the 180° orientation flip used when a player is seated
+on the Black side. The session applies it to incoming <code>squareSensed.square</code>
+values when <code>orientationFlipped</code> is active; adapters are always stateless with
+respect to UI orientation preferences.</p>
+<p><code>boardOccupancyIndex</code> converts an algebraic square to its file-major index —
+the index scheme used by <code>[Bool]</code> occupancy arrays throughout BoardKit.</p>
+<p><code>mismatchedSquares</code> lists every square whose occupancy differs between the
+app's <code>Position</code> and the board's reported array, for desync display or
+correction planning.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      BoardKit — a Swift board-adapter seam layer for physical chess boards. MIT licensed.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
