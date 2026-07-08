@@ -1011,8 +1011,8 @@ orientation flip for one board family. All adapters import only <code>BoardKit</
 <td></td>
 </tr>
 <tr>
-<td><code>ChessUpAdapter</code> (gen-1)</td>
-<td>Protocol-pinned; hardware-unverified</td>
+<td><code>ChessUpAdapter</code> (gen-1 / CU2)</td>
+<td><strong>CU2 hardware-verified (2026-07-07)</strong></td>
 <td>✓</td>
 <td></td>
 <td></td>
@@ -1021,12 +1021,28 @@ orientation flip for one board family. All adapters import only <code>BoardKit</
 </tr>
 </tbody>
 </table>
-<div class="admonition warning">
-<p class="admonition-title">ChessUp 2</p>
-<p>ChessUp 2 support is <strong>explicitly unverified — do not ship</strong> to CU2 users.
-Only circumstantial evidence suggests CU2 keeps the NUS transport. All CU2
-frame semantics are unknown. The adapter will be updated once a capture log
-is contributed.</p>
+<div class="admonition success">
+<p class="admonition-title">ChessUp 2 — hardware-verified (2026-07-07)</p>
+<p>CU2 BLE transport is <strong>identical to gen-1</strong>: NUS service 6E400001-B5A3-F393-E0A9-E50E24DCCA9E,
+write char 6E400002, notify char 6E400003, Battery 0x180F. No adapter changes required at
+the transport layer.</p>
+<p><strong>Verified on physical CU2 hardware:</strong> 0x67 GET_STATE (73-byte board-state frame,
+home rank correct, 0x40 = empty); 0xB8/0xBB capacitive touch/release; 0xB1
+new-game/set-state; 0xA3 move frames (<code>[A3, sub, fromCol, fromRow, toCol, toRow]</code>).
+pieceCode in 0xB8 is type-only and color-agnostic (e.g., pawn = 0x00 for both sides).</p>
+<p><strong>Key protocol discovery — phoneOTB session required:</strong> 0xA3 move reporting is gated
+behind a 0xB9 game-settings frame with mode 5 (phoneOTB, both sides human, no remote
+— bytes <code>B9 05 00 01 00 00 01 00 00 00 00 00</code>). Standalone AI-mode games never stream
+moves to the host. <code>.startSession</code> now encodes this via <code>collectionSessionData()</code>.</p>
+<p><strong>Ack discipline (hardware-observed):</strong> the board retransmits each 0xA3 until the host
+writes a 0x21 ack; an unacked flood destabilised the BLE link in testing. 0x97
+board-side promotions require 0x23. The adapter queues both internally —
+<code>takePendingResponses()</code> drains them; the transport need not inspect raw frames.</p>
+<p><strong>Still pending (honest):</strong> live castling/promotion/capture 0xA3 shapes; 0xA3 sub-byte
+semantics; in-app end-to-end runtime test; 0x99 move-indication LEDs on CU2; 0xFD
+occupancy stream (0x50 enable); 0x66 FEN-load; Android <code>ChessUpBleManager.kt</code>; gen-1
+physical hardware itself untested (but CU2 corroborates the gen-1-pinned transport and
+frame formats).</p>
 </div>
 <hr />
 <h2 id="squareoffadapter">SquareOffAdapter<a class="headerlink" href="#squareoffadapter" title="Permanent link">&para;</a></h2>
@@ -1176,9 +1192,25 @@ corner-LED-grid pattern as <code>MillenniumAdapter</code>.</p>
 </div>
 <hr />
 <h2 id="chessupadapter">ChessUpAdapter<a class="headerlink" href="#chessupadapter" title="Permanent link">&para;</a></h2>
-<p>ChessUp gen-1 (Bryght Labs). NUS GATT transport, occupancy sensing, and
+<p>ChessUp by Bryght Labs (gen-1 and CU2). NUS GATT transport, occupancy sensing, and
 move-indication LEDs (from/to squares only). Protocol-pinned against
-mono424/chessupdriver (MIT, commit 589d43ad).</p>
+mono424/chessupdriver (MIT, commit 589d43ad); CU2 transport and core frame semantics
+<strong>hardware-verified 2026-07-07</strong> against a physical ChessUp 2 / LightBlue BLE session.</p>
+<p><strong>Two things an integrator must do:</strong></p>
+<ol>
+<li>
+<p><strong>phoneOTB session before requesting state.</strong> <code>.startSession</code> encodes the 0xB9 mode-5
+   frame (<code>collectionSessionData()</code>). Without it the board runs in standalone AI or no-phone
+   mode and never streams 0xA3 move frames to the host. On reconnect, send <code>.requestState</code>
+   only — re-sending 0xB9 resets the board's internal game score.</p>
+</li>
+<li>
+<p><strong>Drain acks after every <code>feed()</code> call.</strong> Call <code>adapter.takePendingResponses()</code> and write
+   the returned bytes to the NUS write characteristic (<code>ChessUpGATT.nusRX</code>). The adapter
+   queues a 0x21 ack for every 0xA3 frame (including retransmits) and a 0x23 ack for every
+   0x97 promotion. Failing to drain causes the board to retransmit until it drops the link.</p>
+</li>
+</ol>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kd">import</span><span class="w"> </span><span class="nc">ChessUpAdapter</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kd">var</span><span class="w"> </span><span class="nv">adapter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ChessUpAdapter</span><span class="p">()</span>
@@ -1187,6 +1219,20 @@ mono424/chessupdriver (MIT, commit 589d43ad).</p>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1">// and injects a remote-move intent, not free-form per-square illumination.</span>
 <a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1">// This follows the same Millennium precedent: move-indication without</span>
 <a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1">// per-square contract.</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1">// REQUIRED: start a phoneOTB session BEFORE requesting state.</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="c1">// Without 0xB9 mode-5 the board never streams 0xA3 move frames.</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="kd">let</span><span class="w"> </span><span class="nv">handshake</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">adapter</span><span class="p">.</span><span class="n">handshakeCommands</span><span class="p">(</span><span class="n">isReconnect</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="c1">// First connect:  [(.startSession, 0.0s), (.requestState, 0.15s)]</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="c1">//   .startSession encodes collectionSessionData() — 0xB9 phoneOTB frame</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="c1">// Reconnect only: [(.requestState, 0.25s)] — 250 ms link-settle; never re-sends 0xB9 (would reset board score)</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="c1">// REQUIRED: drain acks after every inbound feed() call.</span>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="kd">let</span><span class="w"> </span><span class="nv">events</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">adapter</span><span class="p">.</span><span class="n">feed</span><span class="p">(</span><span class="n">bytes</span><span class="p">:</span><span class="w"> </span><span class="n">bleNotification</span><span class="p">)</span>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="kd">let</span><span class="w"> </span><span class="nv">acks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">adapter</span><span class="p">.</span><span class="n">takePendingResponses</span><span class="p">()</span>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="c1">// Write each element of `acks` to ChessUpGATT.nusRX.</span>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="c1">// 0x21 is queued per 0xA3 frame; 0x23 per 0x97 promotion.</span>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="c1">// Skipping this causes the board to retransmit and eventually drop the BLE link.</span>
 </code></pre></div>
 <hr />
 <h2 id="gatt-constants-for-transport-authors">GATT constants for transport authors<a class="headerlink" href="#gatt-constants-for-transport-authors" title="Permanent link">&para;</a></h2>
