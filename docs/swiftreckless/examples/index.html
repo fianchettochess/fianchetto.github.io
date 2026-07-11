@@ -1015,11 +1015,12 @@
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">engine</span><span class="p">.</span><span class="n">go</span><span class="p">(</span><span class="n">depth</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="tear-down">Tear down<a class="headerlink" href="#tear-down" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">engine</span><span class="p">.</span><span class="n">quit</span><span class="p">()</span><span class="w">   </span><span class="c1">// sends &quot;quit&quot;; Rust thread joins and all memory is freed</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1">// Releasing the reference also triggers deinit-based teardown if quit() was not called.</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">engine</span><span class="p">.</span><span class="n">shutdown</span><span class="p">()</span><span class="w"> </span><span class="c1">// joins the Rust thread, frees state, and finishes output</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1">// Releasing the reference also triggers deinit-based teardown if omitted.</span>
 </code></pre></div>
-<p>Only <strong>one engine per process</strong> is supported at a time. Fully tear down (release the
-reference after <code>quit()</code>) before creating another <code>RecklessEngine</code>.</p>
+<p>The currently pinned fork supports only <strong>one engine lifetime per process</strong>.
+After <code>shutdown()</code>, create a new process—not another <code>RecklessEngine</code>—until the
+fork's global lookup initialization is guarded for restart safety.</p>
 
 
 

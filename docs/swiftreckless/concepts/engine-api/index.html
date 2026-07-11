@@ -612,6 +612,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#shutdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        shutdown()
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1037,6 +1048,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#shutdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        shutdown()
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1163,14 +1185,15 @@ changes.</p>
 <h2 id="declaration">Declaration<a class="headerlink" href="#declaration" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">public</span><span class="w"> </span><span class="kr">final</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">RecklessEngine</span><span class="p">:</span><span class="w"> </span><span class="p">@</span><span class="n">unchecked</span><span class="w"> </span><span class="n">Sendable</span>
 </code></pre></div>
-<p><code>@unchecked Sendable</code> because the opaque <code>RKEngineRef</code> is treated as immutable after
-<code>init</code> and all mutations flow through the Rust mutex inside the FFI crate.</p>
+<p><code>@unchecked Sendable</code> is backed by a Swift teardown lock (which orders sends
+against destroy) plus the Rust mutex/channel implementation.</p>
 <h2 id="lifecycle-constraints">Lifecycle constraints<a class="headerlink" href="#lifecycle-constraints" title="Permanent link">&para;</a></h2>
 <div class="admonition danger">
 <p class="admonition-title">One live engine per process</p>
 <p>The Rust engine owns process-global state: lookup tables and the loaded NNUE
 weights. Running two <code>RecklessEngine</code> instances concurrently is undefined behaviour.
-Create, use, and destroy one engine fully before creating another.</p>
+The pinned fork currently permits one successful engine lifetime per
+process. A later initializer fails cleanly; see the lifecycle note below.</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">NNUE net must be present before init</p>
@@ -1197,7 +1220,7 @@ Create, use, and destroy one engine fully before creating another.</p>
 <p>An async stream of UCI output lines from the engine, delivered in order. Lines are
 stripped of their trailing newline. The stream is unbounded-buffered — iterate
 promptly if you care about back-pressure. The stream finishes when the engine is
-destroyed (<code>deinit</code> or <code>quit()</code> + release).</p>
+destroyed (<code>deinit</code> or explicit <code>shutdown()</code>).</p>
 <h2 id="raw-command-interface">Raw command interface<a class="headerlink" href="#raw-command-interface" title="Permanent link">&para;</a></h2>
 <h3 id="send_"><code>send(_:)</code><a class="headerlink" href="#send_" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">send</span><span class="p">(</span><span class="kc">_</span><span class="w"> </span><span class="n">command</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span>
@@ -1222,52 +1245,61 @@ previous <code>ucinewgame</code> or <code>position</code> processing) is complet
 <h3 id="quit"><code>quit()</code><a class="headerlink" href="#quit" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">quit</span><span class="p">()</span>
 </code></pre></div>
-<p>Send <code>quit</code>, asking the UCI loop to exit. The Rust background thread joins and all
-memory is freed. <code>deinit</code> also performs a full teardown if <code>quit()</code> was not called
-explicitly. After <code>quit()</code> the <code>output</code> stream finishes.</p>
+<p>Send <code>quit</code>, asking the UCI loop to exit. This method sends the UCI command only;
+the wrapper still owns the thread handle and engine state. Use <code>shutdown()</code> for
+synchronous, idempotent joining and destruction.</p>
+<h3 id="shutdown"><code>shutdown()</code><a class="headerlink" href="#shutdown" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">shutdown</span><span class="p">()</span>
+</code></pre></div>
+<p>Send the bridge teardown, join the Rust thread, free its state, and finish
+<code>output</code>. Calls after the first are no-ops; a concurrent <code>send(_:)</code> is ordered
+safely before or after teardown.</p>
 <h2 id="position-and-search-helpers">Position and search helpers<a class="headerlink" href="#position-and-search-helpers" title="Permanent link">&para;</a></h2>
 <h3 id="setpositionfenmoves"><code>setPosition(fen:moves:)</code><a class="headerlink" href="#setpositionfenmoves" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">setPosition</span><span class="p">(</span><span class="n">fen</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;startpos&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">moves</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">String</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[])</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">setPosition</span><span class="p">(</span><span class="n">fen</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;startpos&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">moves</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">String</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[])</span>
 </code></pre></div>
 <p>Compose and send a <code>position</code> command. Pass <code>"startpos"</code> (the default) for the
 starting position, or a full FEN string for any other position. <code>moves</code> is an
 optional list of long-algebraic moves (<code>"e2e4"</code>, <code>"e7e5"</code>, …) applied on top of
 the position.</p>
 <p>Examples:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">engine</span><span class="p">.</span><span class="n">setPosition</span><span class="p">()</span><span class="w">                               </span><span class="c1">// position startpos</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">engine</span><span class="p">.</span><span class="n">setPosition</span><span class="p">(</span><span class="n">fen</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;startpos&quot;</span><span class="p">,</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">                   </span><span class="n">moves</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;e2e4&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;e7e5&quot;</span><span class="p">])</span><span class="w">        </span><span class="c1">// position startpos moves e2e4 e7e5</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="n">engine</span><span class="p">.</span><span class="n">setPosition</span><span class="p">(</span><span class="n">fen</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">engine</span><span class="p">.</span><span class="n">setPosition</span><span class="p">()</span><span class="w">                               </span><span class="c1">// position startpos</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">engine</span><span class="p">.</span><span class="n">setPosition</span><span class="p">(</span><span class="n">fen</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;startpos&quot;</span><span class="p">,</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">                   </span><span class="n">moves</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;e2e4&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;e7e5&quot;</span><span class="p">])</span><span class="w">        </span><span class="c1">// position startpos moves e2e4 e7e5</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">engine</span><span class="p">.</span><span class="n">setPosition</span><span class="p">(</span><span class="n">fen</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2&quot;</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="goinfinite"><code>goInfinite()</code><a class="headerlink" href="#goinfinite" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">goInfinite</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">goInfinite</span><span class="p">()</span>
 </code></pre></div>
 <p>Start an infinite search (<code>go infinite</code>). Send <code>stop()</code> to halt it; the engine
 then emits a <code>bestmove</code> line.</p>
 <h3 id="godepth"><code>go(depth:)</code><a class="headerlink" href="#godepth" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">go</span><span class="p">(</span><span class="n">depth</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">go</span><span class="p">(</span><span class="n">depth</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">)</span>
 </code></pre></div>
 <p>Start a depth-limited search (<code>go depth &lt;n&gt;</code>). The engine emits <code>info</code> lines as it
 searches and a final <code>bestmove</code> line.</p>
 <h3 id="gowtimebtimewincbinc"><code>go(wtime:btime:winc:binc:)</code><a class="headerlink" href="#gowtimebtimewincbinc" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">go</span><span class="p">(</span><span class="n">wtime</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">,</span><span class="w"> </span><span class="n">btime</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">,</span><span class="w"> </span><span class="n">winc</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">binc</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">go</span><span class="p">(</span><span class="n">wtime</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">,</span><span class="w"> </span><span class="n">btime</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">,</span><span class="w"> </span><span class="n">winc</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">binc</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
 </code></pre></div>
 <p>Start a time-managed search. All times are in milliseconds.</p>
 <h3 id="stop"><code>stop()</code><a class="headerlink" href="#stop" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">stop</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">stop</span><span class="p">()</span>
 </code></pre></div>
 <p>Send <code>stop</code> to halt an in-progress infinite or depth search. The engine immediately
 emits a <code>bestmove</code> line.</p>
 <h2 id="teardown-sequence">Teardown sequence<a class="headerlink" href="#teardown-sequence" title="Permanent link">&para;</a></h2>
 <p>The Rust FFI crate guarantees:</p>
 <ol>
-<li><code>rk_destroy</code> (called by <code>deinit</code>) sends <code>"quit"</code>, drops the command channel,
+<li><code>rk_destroy</code> (called by <code>shutdown()</code> and <code>deinit</code>) sends <code>"quit"</code>, drops the command channel,
    and <code>join()</code>s the engine thread.</li>
 <li>After <code>rk_destroy</code> returns, no further output callbacks can fire.</li>
 <li>All memory allocated by the Rust engine (NNUE weights, hash tables) is freed.</li>
 </ol>
-<p>This means you can safely release a <code>RecklessEngine</code> reference and immediately
-allocate another object in the same memory; there is no use-after-free window.</p>
+<p>There is no use-after-free window. However, pinned fork revision <code>c864db1</code>
+cannot safely initialize its global cuckoo/NNUE lookup tables twice. The FFI
+therefore rejects any second engine creation in one process. Restart support
+requires <code>std::sync::Once</code> guards in the fork, a pin bump, and rebuilt binary
+artifacts.</p>
 <h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../nnue-loader/">NNUE Network Loader</a> — provisioning the net before <code>init</code>.</li>

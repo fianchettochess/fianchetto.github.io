@@ -815,7 +815,7 @@ for what that means for your application.</p>
 <p class="admonition-title">One engine per process</p>
 <p>The Rust engine owns process-global state (lookup tables, NNUE weights). Only one
 <code>RecklessEngine</code> may be alive in a process at a time. Create, use, and fully
-tear down one engine before making another.</p>
+the currently pinned fork allows one successful engine lifetime per process.</p>
 </div>
 <h2 id="quick-start">Quick start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">import</span><span class="w"> </span><span class="nc">SwiftReckless</span>
@@ -840,7 +840,7 @@ tear down one engine before making another.</p>
 <a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="s">&quot;readyok&quot;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">engine</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="s">&quot;go depth 20&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
 <a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">line</span><span class="p">.</span><span class="n">hasPrefix</span><span class="p">(</span><span class="s">&quot;bestmove &quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">            </span><span class="bp">print</span><span class="p">(</span><span class="s">&quot;best:&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="p">.</span><span class="bp">split</span><span class="p">(</span><span class="n">separator</span><span class="p">:</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">).</span><span class="bp">dropFirst</span><span class="p">().</span><span class="bp">first</span><span class="w"> </span><span class="p">??</span><span class="w"> </span><span class="s">&quot;?&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">            </span><span class="n">engine</span><span class="p">.</span><span class="n">quit</span><span class="p">()</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">            </span><span class="n">engine</span><span class="p">.</span><span class="n">shutdown</span><span class="p">()</span>
 <a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">            </span><span class="k">break</span>
 <a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">        </span><span class="p">}</span>
 <a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">    </span><span class="p">}</span>
