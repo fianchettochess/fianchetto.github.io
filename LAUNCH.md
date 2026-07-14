@@ -30,7 +30,7 @@ current plan — that is the only thing between here and live.
    | A     | `@`  | `185.199.110.153`                              |
    | A     | `@`  | `185.199.111.153`                              |
    | AAAA  | `@`  | `2606:50c0:8000::153` (and `8001`/`8002`/`8003`) — optional IPv6 |
-   | CNAME | `www`| `jaredbrewer.github.io`                        |
+   | CNAME | `www`| `fianchettochess.github.io`                    |
 
 3. ~~**Activate `support@fianchettochess.app`**~~ — DONE 2026-07-03;
    the mailbox is live and all site links point at it.
@@ -44,25 +44,25 @@ current plan — that is the only thing between here and live.
 
 ```sh
 # 1. Flip the repo public
-gh repo edit jaredbrewer/fianchetto.github.io --visibility public \
+gh repo edit fianchettochess/fianchetto.github.io --visibility public \
   --accept-visibility-change-consequences
 
 # 2. Enable Pages (deploy from branch main, root)
-gh api -X POST repos/jaredbrewer/fianchetto.github.io/pages \
+gh api -X POST repos/fianchettochess/fianchetto.github.io/pages \
   -f "source[branch]=main" -f "source[path]=/"
 
 # 3. The CNAME file sets the custom domain on first build; if the
 #    Pages settings do not show fianchettochess.app after a minute:
-gh api -X PUT repos/jaredbrewer/fianchetto.github.io/pages \
+gh api -X PUT repos/fianchettochess/fianchetto.github.io/pages \
   -f cname=fianchettochess.app
 
 # 4. Watch the first build
-gh api repos/jaredbrewer/fianchetto.github.io/pages/builds/latest \
+gh api repos/fianchettochess/fianchetto.github.io/pages/builds/latest \
   --jq '{status: .status, error: .error.message}'
 
 # 5. Once the Pages settings show the DNS check green and the
 #    certificate is issued (minutes to ~1 hour), enforce HTTPS:
-gh api -X PUT repos/jaredbrewer/fianchetto.github.io/pages \
+gh api -X PUT repos/fianchettochess/fianchetto.github.io/pages \
   -F https_enforced=true
 ```
 

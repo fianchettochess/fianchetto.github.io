@@ -35,25 +35,25 @@ jobs:
       - name: Checkout ChessCore
         uses: actions/checkout@v4
         with:
-          repository: jaredbrewer/ChessCore
+          repository: fianchettochess/ChessCore
           path: _packages/ChessCore
           token: ${{ secrets.DOCS_PACKAGES_TOKEN }}
       - name: Checkout BoardKit
         uses: actions/checkout@v4
         with:
-          repository: jaredbrewer/BoardKit
+          repository: fianchettochess/BoardKit
           path: _packages/BoardKit
           token: ${{ secrets.DOCS_PACKAGES_TOKEN }}
       - name: Checkout SwiftStockfish
         uses: actions/checkout@v4
         with:
-          repository: jaredbrewer/SwiftStockfish
+          repository: fianchettochess/SwiftStockfish
           path: _packages/SwiftStockfish
           token: ${{ secrets.DOCS_PACKAGES_TOKEN }}
       - name: Checkout SwiftReckless
         uses: actions/checkout@v4
         with:
-          repository: jaredbrewer/SwiftReckless
+          repository: fianchettochess/SwiftReckless
           path: _packages/SwiftReckless
           token: ${{ secrets.DOCS_PACKAGES_TOKEN }}
 

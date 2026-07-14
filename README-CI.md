@@ -25,7 +25,7 @@ here; branch-serving then publishes them.
 
 1. **`DOCS_PACKAGES_TOKEN`** — the workflow reads the four *private* package
    repos, so it needs a token: a fine-grained PAT with **Contents: Read-only** on
-   `jaredbrewer/{ChessCore,BoardKit,SwiftStockfish,SwiftReckless}`, added as a
+   `fianchettochess/{ChessCore,BoardKit,SwiftStockfish,SwiftReckless}`, added as a
    repository secret (Settings → Secrets and variables → Actions). The workflow
    pushes the commit-back with the default `GITHUB_TOKEN` (`contents: write`).
 2. **Pages source** — Settings → Pages → **Deploy from a branch** (the default).
