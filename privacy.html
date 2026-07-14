@@ -92,24 +92,25 @@
   <h2>Device permissions</h2>
 
   <h3>Bluetooth</h3>
-  <p>Used only to connect a Square&nbsp;Off Pro electronic chessboard. Moves travel directly between your device and the board over Bluetooth; nothing about your board play is sent over the internet. On Android, the app uses the modern Bluetooth-scan permission with the "never for location" flag and deliberately does not request any location permission.</p>
+  <p>Used only to connect a supported electronic chessboard — Square&nbsp;Off Pro, Chessnut, ChessUp&nbsp;2, or Millennium eONE. Moves travel directly between your device and the board over Bluetooth; nothing about your board play is sent over the internet. On Android 12 and later, the app uses the modern Bluetooth-scan permission with the "never for location" flag. On Android 6 through 11, the platform's own Bluetooth-scan API will not return nearby devices unless a location permission is held; the app requests it solely as that scan gate — declared with <code>maxSdkVersion="30"</code> so newer devices never see it — and never uses it to determine your location.</p>
 
   <h3>Microphone &amp; speech recognition</h3>
   <p>Used only for voice move entry, and only while you are using it.</p>
   <ul>
     <li><strong>Apple platforms:</strong> the app requests on-device speech recognition whenever your device and language support it, in which case audio never leaves the device. On devices or locales without on-device support, Apple's speech recognition service processes the audio on Apple's servers. The app supplies only the legal move names for the current position as recognition hints.</li>
-    <li><strong>Android:</strong> voice entry uses the device's system speech recognizer (typically Google's). The app asks the recognizer to prefer on-device processing; if an offline model is not available on your device, the recognizer may process the audio on the provider's servers. When a spoken move fails to parse, the app keeps the transcribed text (never the audio) with the board position in a small on-device log, capped at 200 entries, to help improve recognition — it never leaves your device.</li>
+    <li><strong>Android:</strong> voice entry uses the device's system speech recognizer (typically Google's). The app asks the recognizer to prefer on-device processing; if an offline model is not available on your device, the recognizer may process the audio on the provider's servers. When a spoken move cannot be matched to a legal move, or matches more than one, the app keeps the transcribed text (never the audio) with the board position in a small on-device log, capped at 200 entries, to help improve recognition — it never leaves your device.</li>
   </ul>
 
   <h3>Android permissions the app requests</h3>
   <ul>
     <li><code>INTERNET</code> — the user-initiated online features described above</li>
     <li><code>RECORD_AUDIO</code> — voice move entry</li>
-    <li><code>BLUETOOTH</code> / <code>BLUETOOTH_ADMIN</code> (older Android), <code>BLUETOOTH_SCAN</code> (flagged never-for-location), <code>BLUETOOTH_CONNECT</code> — Square&nbsp;Off board</li>
+    <li><code>BLUETOOTH</code> / <code>BLUETOOTH_ADMIN</code> (older Android), <code>BLUETOOTH_SCAN</code> (flagged never-for-location), <code>BLUETOOTH_CONNECT</code> — electronic board (Square&nbsp;Off Pro, Chessnut, ChessUp&nbsp;2, Millennium eONE)</li>
+    <li><code>ACCESS_FINE_LOCATION</code> (<code>maxSdkVersion="30"</code>, Android 6–11 only) — required by the platform's Bluetooth-scan API on those versions to discover a board; never used for location</li>
     <li><code>VIBRATE</code> — move haptics</li>
   </ul>
   <p>Bundled support libraries would otherwise add housekeeping permissions of their own — <code>WAKE_LOCK</code>, <code>ACCESS_NETWORK_STATE</code>, <code>RECEIVE_BOOT_COMPLETED</code>, and <code>FOREGROUND_SERVICE</code> — for background-task scheduling that Fianchetto does not use; the app's manifest strips all of them, so they are absent from the installed app. The only library-added entry that remains is an app-private signature permission that keeps the app's internal broadcasts private; it grants no access to your data.</p>
-  <p>No location permission is requested on any platform.</p>
+  <p>No location permission is requested on Apple platforms or on Android 12 and later. On Android 6 through 11, the location permission noted above is requested only as the platform-required Bluetooth-scan gate and is never used to determine your location.</p>
 
   <h2>What we never collect</h2>
   <ul>
@@ -150,10 +151,13 @@
       Fianchetto includes <a href="https://stockfishchess.org" rel="external">Stockfish</a>, the UCI chess engine by the Stockfish developers, derived from Glaurung 2.1 (GPL-3.0);
       <a href="https://github.com/CSSLab/maia3" rel="external">Maia&nbsp;3</a>, the human-like neural network chess engine by CSSLab, University of Toronto (AGPL-3.0, used with permission of the authors);
       and Reckless, the UCI chess engine by Arseniy Surkov (AGPL-3.0).
-      Cburnett piece graphics by Colin M.&nbsp;L. Burnett and Merida piece graphics by Armando Hernandez Marroquin (both GPL-2.0+), plus the opening book (CC0), come via <a href="https://lichess.org" rel="external">Lichess</a>, whose free APIs also power opening explorer, tablebase, and game import features. The board diagram on the home page uses Inkwell, an original piece set commissioned for Fianchetto — © 2026 Jared Brewer, licensed <a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="external license">CC BY-NC 4.0</a>.
+      Cburnett piece graphics by Colin M.&nbsp;L. Burnett and Merida piece graphics by Armando Hernandez Marroquin (both GPL-2.0+), plus the opening book (CC0), come via <a href="https://lichess.org" rel="external">Lichess</a>, whose free APIs also power opening explorer, tablebase, and game import features. Inkwell, Crownline, Scandi, and Minimal are original piece sets commissioned for Fianchetto — © 2026 Jared Brewer, licensed <a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="external license">CC BY-NC 4.0</a>.
     </p>
     <p>
       Square&nbsp;Off board support was developed by observing the board's publicly broadcast Bluetooth services with standard BLE tooling; no source code or assets from Square&nbsp;Off or InfiVention Technologies were used or derived. Square&nbsp;Off and Square&nbsp;Off Pro are trademarks of InfiVention Technologies Pvt.&nbsp;Ltd.; Fianchetto is not affiliated with, endorsed by, or sponsored by InfiVention Technologies.
+    </p>
+    <p>
+      Chessnut, ChessUp&nbsp;2, and Millennium eONE board support was developed the same way — by observing each board's publicly broadcast Bluetooth services with standard BLE tooling; no source code or assets from the respective manufacturers were used or derived. Chessnut is a trademark of Chessnut; ChessUp and ChessUp&nbsp;2 are trademarks of Bryght&nbsp;Labs,&nbsp;Inc.; Millennium and Millennium eONE are trademarks of Millennium&nbsp;2000&nbsp;GmbH. Fianchetto is not affiliated with, endorsed by, or sponsored by any of these manufacturers.
     </p>
   </div>
 </footer>
