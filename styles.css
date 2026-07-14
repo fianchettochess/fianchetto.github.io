@@ -78,6 +78,37 @@ nav.site-nav {
 }
 .nav-links a:hover { color: var(--text-primary); }
 
+/* CSS-only mobile menu (no JS on this site). Hidden on desktop; replaces the
+   hidden .nav-links row below 768px so Docs/Privacy stay reachable on phones. */
+.nav-menu { display: none; position: relative; }
+.nav-menu summary {
+  list-style: none; cursor: pointer;
+  display: flex; flex-direction: column; justify-content: center; gap: 4px;
+  width: 40px; height: 40px; padding: 0 10px;
+  border: 1px solid var(--border); border-radius: 10px;
+  background: var(--card-bg);
+}
+.nav-menu summary::-webkit-details-marker { display: none; }
+.nav-menu summary span {
+  display: block; height: 2px; border-radius: 1px;
+  background: var(--text-primary);
+}
+.nav-menu[open] summary { background: var(--card-hover); }
+.nav-menu-panel {
+  position: absolute; right: 0; top: 52px;
+  display: flex; flex-direction: column; gap: 0.25rem;
+  min-width: 180px; padding: 0.5rem;
+  background: rgba(15, 46, 29, 0.97);
+  border: 1px solid var(--border); border-radius: 14px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.45);
+}
+.nav-menu-panel a {
+  text-decoration: none; color: var(--text-secondary);
+  font-size: 0.95rem; font-weight: 500;
+  padding: 0.55rem 0.75rem; border-radius: 8px;
+}
+.nav-menu-panel a:hover { color: var(--text-primary); background: var(--card-hover); }
+
 .btn {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 0.55rem 1.25rem;
@@ -795,6 +826,7 @@ footer {
 /* ─── Responsive ────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .nav-links a:not(.btn) { display: none; }
+  .nav-menu { display: block; }
   .window-content { grid-template-columns: 1fr; }
   .analysis-sidebar { display: none; }
   .engines-split { grid-template-columns: 1fr; }
