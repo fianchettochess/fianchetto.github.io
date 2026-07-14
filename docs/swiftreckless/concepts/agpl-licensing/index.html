@@ -908,7 +908,7 @@ a consuming target links individually.</p>
 </tr>
 <tr>
 <td>Fork used</td>
-<td><code>github.com/jaredbrewer/Reckless.git</code>, pinned <code>rev = "bd10570"</code></td>
+<td><code>github.com/jaredbrewer/Reckless.git</code>, pinned <code>rev = "420b3d7"</code></td>
 </tr>
 <tr>
 <td>Fork branch</td>
@@ -916,9 +916,10 @@ a consuming target links individually.</p>
 </tr>
 </tbody>
 </table>
-<p>The fork makes two patches: adds a <code>[lib]</code> target (upstream Reckless is binary-only)
-and replaces the compile-time NNUE embed with runtime loading. Both patches are
-minimal and designed to be upstreamable.</p>
+<p>The fork makes four focused patches: it adds a <code>[lib]</code> target (upstream Reckless is
+binary-only), replaces the compile-time NNUE embed with runtime loading, makes UCI
+I/O instance-local, and guards terminal positions with no legal root move. These
+changes are required by the wrapper's library and multi-instance execution model.</p>
 <h2 id="swiftreckless-license-file">SwiftReckless license file<a class="headerlink" href="#swiftreckless-license-file" title="Permanent link">&para;</a></h2>
 <p>The <code>LICENSE</code> file at the root of the SwiftReckless repository contains the full
 AGPL-3.0 text and is the authoritative license for the package.</p>
