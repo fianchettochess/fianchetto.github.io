@@ -3,16 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Fianchetto is a free, open-source chess study tool for iPhone, iPad, and Mac, with an Android version in development. Analyze with Stockfish, Maia, and Reckless, build your opening repertoire, drill tactics from your own games — all on-device. Currently in development; not yet in app stores." />
+  <meta name="description" content="Fianchetto is a free, open-source chess study tool for iPhone, iPad, and Mac, with an Android version in development. Analyze with Stockfish, Maia, and Reckless, build your opening repertoire, drill tactics from your own games — all on-device." />
   <meta name="theme-color" content="#0F2E1D" />
-  <meta property="og:title" content="Fianchetto — Chess study tool for iPhone, iPad & Mac" />
-  <meta property="og:description" content="Stockfish, Maia, and Reckless, running locally. Annotate your games, drill your mistakes, train tactics, and build a repertoire. Free software, in development." />
+  <meta property="og:title" content="Fianchetto — Chess study tool for iPhone, iPad &amp; Mac" />
+  <meta property="og:description" content="Three engines. Six piece sets. All on device." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="assets/icon-512.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png" />
   <link rel="icon" type="image/png" sizes="64x64" href="assets/icon-64.png" />
   <link rel="apple-touch-icon" href="assets/icon-512.png" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="assets/fonts/fonts.css" />
+  <link rel="stylesheet" href="study.css" />
   <title>Fianchetto — Chess Study for iPhone, iPad &amp; Mac</title>
 </head>
 <body>
@@ -24,378 +26,478 @@
     <span>Fianchetto</span>
   </a>
   <div class="nav-links">
-    <a href="#features">Features</a>
     <a href="#engines">Engines</a>
+    <a href="#features">Features</a>
     <a href="#import">Import</a>
-    <a href="/docs/">Docs</a>
-    <a href="/privacy.html">Privacy</a>
+    <a href="#privacy">Privacy</a>
+    <a href="#platforms">Platforms</a>
     <a href="mailto:support@fianchettochess.app?subject=Fianchetto%20updates" class="btn btn-primary">Follow along</a>
   </div>
   <details class="nav-menu">
     <summary aria-label="Open navigation menu"><span></span><span></span><span></span></summary>
     <div class="nav-menu-panel">
-      <a href="#features">Features</a>
       <a href="#engines">Engines</a>
+      <a href="#features">Features</a>
       <a href="#import">Import</a>
-      <a href="/docs/">Docs</a>
-      <a href="/privacy.html">Privacy</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#platforms">Platforms</a>
       <a href="mailto:support@fianchettochess.app?subject=Fianchetto%20updates">Follow along</a>
     </div>
   </details>
 </nav>
 
-<!-- ─── Hero ─────────────────────────────────────────────────────── -->
-<section class="hero">
-  <div class="hero-content">
-    <div class="hero-badge">In development · Free software</div>
-    <img class="app-icon-large" src="assets/icon-512.png" alt="" width="120" height="120" />
-    <img class="hero-wordmark" src="assets/wordmark.png" alt="Fianchetto" width="2202" height="702" />
-    <h1>Chess study,<br><em>without compromise.</em></h1>
-    <p class="hero-sub">
-      Fianchetto combines the raw power of Stockfish with the human insight of Maia —
-      and the aggressive, attacking eye of Reckless — to help you understand every move, natively
-      on iPhone, iPad, and Mac. All analysis runs on-device.
-    </p>
-    <div class="hero-ctas">
-      <a href="mailto:support@fianchettochess.app?subject=Fianchetto%20updates" class="btn btn-primary btn-large">In development — follow along</a>
-      <a href="/privacy.html" class="btn btn-outline btn-large">Privacy policy</a>
+<!-- ─── TOC Bar ───────────────────────────────────────────────────── -->
+<nav class="study-toc" aria-label="Sections">
+  <div class="study-toc-inner">
+    <a class="study-toc-item" href="#engines"><span class="study-toc-num">§I</span>Engines</a>
+    <a class="study-toc-item" href="#features"><span class="study-toc-num">§II</span>Features</a>
+    <a class="study-toc-item" href="#import"><span class="study-toc-num">§III</span>Import</a>
+    <a class="study-toc-item" href="#privacy"><span class="study-toc-num">§IV</span>Privacy</a>
+    <a class="study-toc-item" href="#platforms"><span class="study-toc-num">§V</span>Platforms</a>
+    <a class="study-toc-item" href="#opensource"><span class="study-toc-num">§VI</span>Free Software</a>
+  </div>
+</nav>
+
+<!-- ─── Hero / Cover ─────────────────────────────────────────────── -->
+<section class="study-cover" aria-label="Introduction">
+  <div class="study-cover-inner">
+
+    <!-- Left: headline + copy -->
+    <div class="study-cover-left">
+      <div class="study-cover-eyebrow">
+        <span class="study-cover-badge">In development</span>
+        <span class="study-cover-badge-sep"></span>
+        <span class="study-cover-badge">Free software</span>
+        <span class="study-cover-badge-sep"></span>
+        <span class="study-cover-badge">v&thinsp;0.11</span>
+      </div>
+      <img class="study-cover-wordmark"
+           src="assets/wordmark.png"
+           alt="Fianchetto"
+           width="2202" height="702" />
+      <p class="study-cover-headline">
+        A serious chess companion<br>for <em>serious players.</em>
+      </p>
+      <p class="study-cover-byline">Three engines. Six piece sets. All on device.</p>
+      <p class="study-cover-intro">
+        Fianchetto combines the raw power of <strong>Stockfish</strong> with the human
+        insight of <strong>Maia</strong> — and the aggressive, attacking eye of
+        <strong>Reckless</strong> — to help you understand every move, natively on
+        iPhone, iPad, and Mac. All analysis runs on‑device.
+      </p>
+      <div class="study-cover-ctas">
+        <a class="btn-parchment" href="mailto:support@fianchettochess.app?subject=Fianchetto%20updates">Follow along</a>
+        <a class="btn-ghost" href="/privacy.html">Privacy policy</a>
+      </div>
     </div>
-    <div class="platform-tags">
-      <span class="platform-tag">🍎 macOS</span>
-      <span class="platform-tag">📱 iOS &amp; iPadOS</span>
-      <span class="platform-tag">🤖 Android — in development</span>
-      <span class="platform-tag">☁️ iCloud Sync</span>
-      <span class="platform-tag">🔒 On-Device Analysis</span>
+
+    <!-- Right: ornate Crownline board -->
+    <div class="study-cover-right">
+      <div class="ornate-board" aria-hidden="true">
+        <div class="chess-grid">
+          <!-- Rank 8: a8–h8 -->
+          <!-- a8=lt -->  <div class="csq csq-lt"><img src="assets/pieces/crownline_bR.svg" alt=""></div>
+          <!-- b8=dk -->  <div class="csq csq-dk"></div>
+          <!-- c8=lt -->  <div class="csq csq-lt"><img src="assets/pieces/crownline_bB.svg" alt=""></div>
+          <!-- d8=dk -->  <div class="csq csq-dk"><img src="assets/pieces/crownline_bQ.svg" alt=""></div>
+          <!-- e8=lt -->  <div class="csq csq-lt"><img src="assets/pieces/crownline_bK.svg" alt=""></div>
+          <!-- f8=dk -->  <div class="csq csq-dk"><img src="assets/pieces/crownline_bB.svg" alt=""></div>
+          <!-- g8=lt -->  <div class="csq csq-lt"></div>
+          <!-- h8=dk -->  <div class="csq csq-dk"><img src="assets/pieces/crownline_bR.svg" alt=""></div>
+          <!-- Rank 7: a7–h7 -->
+          <!-- a7=dk -->  <div class="csq csq-dk"></div>
+          <!-- b7=lt -->  <div class="csq csq-lt"><img src="assets/pieces/crownline_bP.svg" alt=""></div>
+          <!-- c7=dk -->  <div class="csq csq-dk"><img src="assets/pieces/crownline_bP.svg" alt=""></div>
+          <!-- d7=lt -->  <div class="csq csq-lt"><img src="assets/pieces/crownline_bP.svg" alt=""></div>
+          <!-- e7=dk -->  <div class="csq csq-dk"></div>
+          <!-- f7=lt -->  <div class="csq csq-lt"><img src="assets/pieces/crownline_bP.svg" alt=""></div>
+          <!-- g7=dk -->  <div class="csq csq-dk"><img src="assets/pieces/crownline_bP.svg" alt=""></div>
+          <!-- h7=lt -->  <div class="csq csq-lt"><img src="assets/pieces/crownline_bP.svg" alt=""></div>
+          <!-- Rank 6: a6–h6 -->
+          <!-- a6=lt -->  <div class="csq csq-lt"><img src="assets/pieces/crownline_bP.svg" alt=""></div>
+          <!-- b6=dk -->  <div class="csq csq-dk"></div>
+          <!-- c6=lt -->  <div class="csq csq-lt"><img src="assets/pieces/crownline_bN.svg" alt=""></div>
+          <!-- d6=dk -->  <div class="csq csq-dk"></div>
+          <!-- e6=lt -->  <div class="csq csq-lt"></div>
+          <!-- f6=dk -->  <div class="csq csq-dk"><img src="assets/pieces/crownline_bN.svg" alt=""></div>
+          <!-- g6=lt -->  <div class="csq csq-lt"></div>
+          <!-- h6=dk -->  <div class="csq csq-dk"></div>
+          <!-- Rank 5: a5–h5 -->
+          <!-- a5=dk -->  <div class="csq csq-dk"></div>
+          <!-- b5=lt -->  <div class="csq csq-lt"></div>
+          <!-- c5=dk -->  <div class="csq csq-dk"></div>
+          <!-- d5=lt -->  <div class="csq csq-lt"></div>
+          <!-- e5=dk -->  <div class="csq csq-dk"><img src="assets/pieces/crownline_bP.svg" alt=""></div>
+          <!-- f5=lt -->  <div class="csq csq-lt"></div>
+          <!-- g5=dk -->  <div class="csq csq-dk"></div>
+          <!-- h5=lt -->  <div class="csq csq-lt"></div>
+          <!-- Rank 4: a4–h4 -->
+          <!-- a4=lt -->  <div class="csq csq-lt"><img src="assets/pieces/crownline_wB.svg" alt=""></div>
+          <!-- b4=dk -->  <div class="csq csq-dk"></div>
+          <!-- c4=lt -->  <div class="csq csq-lt"></div>
+          <!-- d4=dk -->  <div class="csq csq-dk"></div>
+          <!-- e4=lt -->  <div class="csq csq-lt"><img src="assets/pieces/crownline_wP.svg" alt=""></div>
+          <!-- f4=dk -->  <div class="csq csq-dk"></div>
+          <!-- g4=lt -->  <div class="csq csq-lt"></div>
+          <!-- h4=dk -->  <div class="csq csq-dk"></div>
+          <!-- Rank 3: a3–h3 -->
+          <!-- a3=dk -->  <div class="csq csq-dk"></div>
+          <!-- b3=lt -->  <div class="csq csq-lt"></div>
+          <!-- c3=dk -->  <div class="csq csq-dk"></div>
+          <!-- d3=lt -->  <div class="csq csq-lt"></div>
+          <!-- e3=dk -->  <div class="csq csq-dk"></div>
+          <!-- f3=lt -->  <div class="csq csq-lt"><img src="assets/pieces/crownline_wN.svg" alt=""></div>
+          <!-- g3=dk -->  <div class="csq csq-dk"></div>
+          <!-- h3=lt -->  <div class="csq csq-lt"></div>
+          <!-- Rank 2: a2–h2 -->
+          <!-- a2=lt -->  <div class="csq csq-lt"><img src="assets/pieces/crownline_wP.svg" alt=""></div>
+          <!-- b2=dk -->  <div class="csq csq-dk"><img src="assets/pieces/crownline_wP.svg" alt=""></div>
+          <!-- c2=lt -->  <div class="csq csq-lt"><img src="assets/pieces/crownline_wP.svg" alt=""></div>
+          <!-- d2=dk -->  <div class="csq csq-dk"><img src="assets/pieces/crownline_wP.svg" alt=""></div>
+          <!-- e2=lt -->  <div class="csq csq-lt"></div>
+          <!-- f2=dk -->  <div class="csq csq-dk"><img src="assets/pieces/crownline_wP.svg" alt=""></div>
+          <!-- g2=lt -->  <div class="csq csq-lt"><img src="assets/pieces/crownline_wP.svg" alt=""></div>
+          <!-- h2=dk -->  <div class="csq csq-dk"><img src="assets/pieces/crownline_wP.svg" alt=""></div>
+          <!-- Rank 1: a1–h1 -->
+          <!-- a1=dk -->  <div class="csq csq-dk"><img src="assets/pieces/crownline_wR.svg" alt=""></div>
+          <!-- b1=lt -->  <div class="csq csq-lt"><img src="assets/pieces/crownline_wN.svg" alt=""></div>
+          <!-- c1=dk -->  <div class="csq csq-dk"></div>
+          <!-- d1=lt -->  <div class="csq csq-lt"><img src="assets/pieces/crownline_wQ.svg" alt=""></div>
+          <!-- e1=dk -->  <div class="csq csq-dk"><img src="assets/pieces/crownline_wK.svg" alt=""></div>
+          <!-- f1=lt -->  <div class="csq csq-lt"><img src="assets/pieces/crownline_wB.svg" alt=""></div>
+          <!-- g1=dk -->  <div class="csq csq-dk"></div>
+          <!-- h1=lt -->  <div class="csq csq-lt"><img src="assets/pieces/crownline_wR.svg" alt=""></div>
+        </div>
+        <div class="board-coord-files">
+          <span>a</span><span>b</span><span>c</span><span>d</span>
+          <span>e</span><span>f</span><span>g</span><span>h</span>
+        </div>
+      </div>
+      <p class="study-board-caption">Ruy Lopez · After 4…Nf6 · Crownline piece set</p>
     </div>
-    <p class="hero-note">Not yet available in app stores — this site will be updated when it ships.</p>
+
   </div>
 </section>
 
-<!-- ─── App Mockup ────────────────────────────────────────────────── -->
-<div class="mockup-section">
-  <div class="app-window">
-    <div class="window-chrome">
-      <div class="dot dot-red"></div>
-      <div class="dot dot-yellow"></div>
-      <div class="dot dot-green"></div>
-    </div>
-    <div class="window-content">
-      <div class="board-area">
-        <!-- Ruy Lopez after 4...Nf6, rendered statically with the app's Inkwell piece set.
-             Yellow tint = last move (g8→f6), green tint = engine suggestion squares. -->
-        <div class="chess-board" aria-hidden="true">
-        <!-- rank 8 -->
-        <div class="sq light"><img src="assets/pieces/bR.svg" alt="" loading="lazy"></div><div class="sq dark"></div><div class="sq light"><img src="assets/pieces/bB.svg" alt="" loading="lazy"></div><div class="sq dark"><img src="assets/pieces/bQ.svg" alt="" loading="lazy"></div>
-        <div class="sq light"><img src="assets/pieces/bK.svg" alt="" loading="lazy"></div><div class="sq dark"><img src="assets/pieces/bB.svg" alt="" loading="lazy"></div><div class="sq light highlight-move"></div><div class="sq dark"><img src="assets/pieces/bR.svg" alt="" loading="lazy"></div>
-        <!-- rank 7 -->
-        <div class="sq dark"></div><div class="sq light"><img src="assets/pieces/bP.svg" alt="" loading="lazy"></div><div class="sq dark"><img src="assets/pieces/bP.svg" alt="" loading="lazy"></div><div class="sq light"><img src="assets/pieces/bP.svg" alt="" loading="lazy"></div>
-        <div class="sq dark"></div><div class="sq light"><img src="assets/pieces/bP.svg" alt="" loading="lazy"></div><div class="sq dark"><img src="assets/pieces/bP.svg" alt="" loading="lazy"></div><div class="sq light"><img src="assets/pieces/bP.svg" alt="" loading="lazy"></div>
-        <!-- rank 6 -->
-        <div class="sq light"><img src="assets/pieces/bP.svg" alt="" loading="lazy"></div><div class="sq dark"></div><div class="sq light"><img src="assets/pieces/bN.svg" alt="" loading="lazy"></div><div class="sq dark"></div>
-        <div class="sq light"></div><div class="sq dark highlight-move"><img src="assets/pieces/bN.svg" alt="" loading="lazy"></div><div class="sq light"></div><div class="sq dark"></div>
-        <!-- rank 5 -->
-        <div class="sq dark"></div><div class="sq light"></div><div class="sq dark"></div><div class="sq light"></div>
-        <div class="sq dark highlight-best"><img src="assets/pieces/bP.svg" alt="" loading="lazy"></div><div class="sq light"></div><div class="sq dark"></div><div class="sq light"></div>
-        <!-- rank 4 -->
-        <div class="sq light highlight-best"><img src="assets/pieces/wB.svg" alt="" loading="lazy"></div><div class="sq dark"></div><div class="sq light"></div><div class="sq dark"></div>
-        <div class="sq light"><img src="assets/pieces/wP.svg" alt="" loading="lazy"></div><div class="sq dark"></div><div class="sq light"></div><div class="sq dark"></div>
-        <!-- rank 3 -->
-        <div class="sq dark"></div><div class="sq light"></div><div class="sq dark"></div><div class="sq light"></div>
-        <div class="sq dark"></div><div class="sq light"><img src="assets/pieces/wN.svg" alt="" loading="lazy"></div><div class="sq dark"></div><div class="sq light"></div>
-        <!-- rank 2 -->
-        <div class="sq light"><img src="assets/pieces/wP.svg" alt="" loading="lazy"></div><div class="sq dark"><img src="assets/pieces/wP.svg" alt="" loading="lazy"></div><div class="sq light"><img src="assets/pieces/wP.svg" alt="" loading="lazy"></div><div class="sq dark"><img src="assets/pieces/wP.svg" alt="" loading="lazy"></div>
-        <div class="sq light"></div><div class="sq dark"><img src="assets/pieces/wP.svg" alt="" loading="lazy"></div><div class="sq light"><img src="assets/pieces/wP.svg" alt="" loading="lazy"></div><div class="sq dark"><img src="assets/pieces/wP.svg" alt="" loading="lazy"></div>
-        <!-- rank 1 -->
-        <div class="sq dark"><img src="assets/pieces/wR.svg" alt="" loading="lazy"></div><div class="sq light"><img src="assets/pieces/wN.svg" alt="" loading="lazy"></div><div class="sq dark"><img src="assets/pieces/wB.svg" alt="" loading="lazy"></div><div class="sq light"><img src="assets/pieces/wQ.svg" alt="" loading="lazy"></div>
-        <div class="sq dark"><img src="assets/pieces/wK.svg" alt="" loading="lazy"></div><div class="sq light"></div><div class="sq dark"></div><div class="sq light"><img src="assets/pieces/wR.svg" alt="" loading="lazy"></div>
-        </div>
-      </div>
-      <div class="analysis-sidebar">
-        <div class="sidebar-label">Evaluation</div>
-        <div class="eval-score">+1.4</div>
-        <div class="eval-bar-wrap"><div class="eval-bar"></div></div>
-
-        <div style="margin-top: 0.5rem;">
-          <div class="sidebar-label" style="margin-bottom: 0.5rem;">Last Move</div>
-          <div class="annotation-legend">
-            <span class="annotation-badge badge-best">✦ Best</span>
-          </div>
-        </div>
-
-        <div>
-          <div class="sidebar-label" style="margin-bottom: 0.5rem;">Moves</div>
-          <div class="move-list">
-            <div class="move-row"><span class="move-num">1.</span><span class="move-w">e4</span><span class="move-b">e5</span></div>
-            <div class="move-row"><span class="move-num">2.</span><span class="move-w">Nf3</span><span class="move-b">Nc6</span></div>
-            <div class="move-row"><span class="move-num">3.</span><span class="move-w">Bb5</span><span class="move-b">a6</span></div>
-            <div class="move-row active"><span class="move-num">4.</span><span class="move-w current">Ba4</span><span class="move-b">Nf6</span></div>
-            <div class="move-row"><span class="move-num">5.</span><span class="move-w">O-O</span><span class="move-b">Be7</span></div>
-            <div class="move-row"><span class="move-num">6.</span><span class="move-w">Re1</span><span class="move-b">b5</span></div>
-            <div class="move-row"><span class="move-num">7.</span><span class="move-w">Bb3</span><span class="move-b">d6</span></div>
-          </div>
-        </div>
-
-        <div>
-          <div class="sidebar-label" style="margin-bottom: 0.5rem;">Annotations</div>
-          <div class="annotation-legend" style="flex-direction: column;">
-            <span class="annotation-badge badge-best">✦ Brilliant</span>
-            <span class="annotation-badge badge-inaccuracy">? Inaccuracy</span>
-            <span class="annotation-badge badge-blunder">?? Blunder</span>
-          </div>
-        </div>
-      </div>
-    </div>
+<!-- ─── Platform Strip ────────────────────────────────────────────── -->
+<div class="study-platform-strip">
+  <div class="study-platform-strip-inner">
+    <span class="study-platform-item">macOS <strong>Shipping</strong></span>
+    <span class="study-platform-item">iPadOS <strong>Shipping</strong></span>
+    <span class="study-platform-item">iOS <strong>Shipping</strong></span>
+    <span class="study-platform-item">Android <strong>In development</strong></span>
+    <span class="study-platform-item">iCloud Sync</span>
+    <span class="study-platform-item">All analysis on‑device</span>
+    <span class="study-platform-item">Version 0.11.x · Pre‑release</span>
   </div>
 </div>
 
-<!-- ─── Features ──────────────────────────────────────────────────── -->
-<section id="features">
-  <div class="section-header">
-    <div class="section-label">Everything you need</div>
-    <h2>A complete chess workbench</h2>
-    <p>From opening theory to endgame technique, Fianchetto covers every phase of your game with professional-grade tools.</p>
-  </div>
-  <div class="features-grid">
-    <div class="feature-card">
-      <div class="feature-icon">📊</div>
-      <h3>Interactive Evaluation Graph</h3>
-      <p>Visualize the flow of every game with per-move tooltips, an evaluation bar, and engine recommendations rendered as board arrows.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🎯</div>
-      <h3>Annotation-Driven Drills</h3>
-      <p>Automatically generate drills from your own mistakes. Practice finding the better move at every inaccuracy, mistake, and blunder you played.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">⚡</div>
-      <h3>Tactics from Your Games</h3>
-      <p>Personalized puzzles extracted from positions you've actually faced. Spaced repetition resurfaces weak spots and fades out the patterns you've mastered.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">📖</div>
-      <h3>Opening Repertoire</h3>
-      <p>Build separate repertoires for White and Black with automatic gap analysis. Drill your lines with spaced repetition and export the whole tree as PGN.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">♟️</div>
-      <h3>Opening Explorer</h3>
-      <p>ECO codes and named continuations built in, plus Lichess community and Masters databases. A personal opening book grows from your imported games with win/draw/loss stats.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">📁</div>
-      <h3>PGN &amp; Bulk Import</h3>
-      <p>Import 25,000+ games in the background without freezing the UI. Pulls directly from Chess.com and Lichess by username, with multi-encoding support for any PGN file.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">⏱️</div>
-      <h3>Play Any Way</h3>
-      <p>Challenge Stockfish, Maia, or Reckless with time controls, play over-the-board with a built-in clock, or use the standalone chess clock. Experimental Square&nbsp;Off Pro and Chessnut board support over Bluetooth works on both platforms; ChessUp&nbsp;2 support is arriving on iOS with Android to follow; turn-based online play via Game&nbsp;Center is Apple-only.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">☁️</div>
-      <h3>iCloud Sync</h3>
-      <p>Your game library syncs across your Apple devices via your private CloudKit container — start analysis on Mac, pick it up on iPad or iPhone.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🏗️</div>
-      <h3>Native Swift</h3>
-      <p>Built entirely in Swift and SwiftUI — no web views, no Electron. Adaptive layouts for iPhone, iPad, and Mac, with voice move input, keyboard shortcuts, and VoiceOver throughout. The Android port compiles the same native Swift core.</p>
-    </div>
-  </div>
-</section>
+<!-- ═══════════════════════════════════════════════════════════════
+     §I — THE ENGINES
+════════════════════════════════════════════════════════════════ -->
+<div class="study-wrapper">
 
-<!-- ─── Engines ────────────────────────────────────────────────────── -->
-<section>
-  <div id="engines">
-    <div class="section-header">
-      <div class="section-label">Triple Engine Analysis</div>
-      <h2>Three engines, one goal</h2>
-      <p>Fianchetto pairs the world's strongest chess engine with a neural network trained on human play — and a third engine to keep them honest. All three run on your device.</p>
-    </div>
-    <div class="engines-split">
-      <div class="engine-card stockfish">
-        <div class="engine-pill pill-stockfish">⚙ Stockfish</div>
-        <h3>Unmatched Tactical Depth</h3>
-        <p>The strongest open-source chess engine in the world, running locally. Find every tactic, refutation, and resource your opponents might find — before they do.</p>
-        <div class="engine-stat">
-          <span>Depth:</span>
-          <strong>1 – 40, configurable</strong>
-        </div><br>
-        <div class="engine-stat">
-          <span>Networks:</span>
-          <strong>Stockfish NNUE (~107 MB)</strong>
-        </div>
+  <section class="study-section" id="engines">
+    <div class="study-layout">
+      <div class="study-sidebar">
+        <span class="study-section-num">§I</span>
+        <div class="study-sidebar-title">The Engines</div>
+        <div class="study-sidebar-rule"></div>
+        <p class="study-sidebar-meta">All three run entirely on your device. No server. No subscription.</p>
       </div>
-      <div class="engine-card maia">
-        <div class="engine-pill pill-maia">🧠 Maia</div>
-        <h3>Human-Like Insight</h3>
-        <p>Trained on millions of human games, Maia predicts what <em>real players</em> would play at your Elo level — not just the computer-optimal move. Learn natural, human chess rather than engine lines nobody plays.</p>
-        <div class="engine-stat">
-          <span>Elo range:</span>
-          <strong>600 – 2600</strong>
-        </div><br>
-        <div class="engine-stat">
-          <span>Model:</span>
-          <strong>Maia 3 CoreML (~44 MB)</strong>
-        </div>
-      </div>
-      <div class="engine-card reckless">
-        <div class="engine-pill pill-reckless">🔥 Reckless</div><span class="engine-new">New in the latest beta</span>
-        <h3>The Aggressive Second Opinion</h3>
-        <p>An attacking engine tuned for sharp, sacrificial play. Reckless surfaces the bold, tactical lines Stockfish tends to play around — sacrifices and initiative where the opponent has only a handful of moves to survive — and cross-checks Stockfish so you see exactly where the two disagree: the moments most worth a closer look. Also available as a sparring partner.</p>
-        <div class="engine-stat">
-          <span>Role:</span>
-          <strong>Sharp lines, second opinion &amp; play</strong>
-        </div><br>
-        <div class="engine-stat">
-          <span>Network:</span>
-          <strong>Reckless NNUE (~60 MB)</strong>
+      <div>
+        <h2 class="study-section-title">Three engines, one goal.</h2>
+
+        <blockquote class="pull-quote">
+          Three independent analytical minds — each seeing the same position differently.
+          <cite>Stockfish, Maia, Reckless</cite>
+        </blockquote>
+
+        <div class="study-engines-grid">
+          <div class="study-engine-entry">
+            <span class="study-engine-badge badge-sf">Stockfish</span>
+            <h3 class="study-engine-title">Unmatched Tactical Depth</h3>
+            <p class="study-engine-body">The strongest open-source chess engine in the world, running locally. Find every tactic, refutation, and resource your opponents might find — before they do.</p>
+            <ul class="study-engine-specs">
+              <li><strong>Depth:</strong> 1 – 40, configurable</li>
+              <li><strong>Network:</strong> Stockfish NNUE (~107 MB)</li>
+              <li><strong>Role:</strong> Primary analysis engine</li>
+            </ul>
+          </div>
+          <div class="study-engine-entry">
+            <span class="study-engine-badge badge-maia">Maia</span>
+            <h3 class="study-engine-title">Human-Like Insight</h3>
+            <p class="study-engine-body">Trained on millions of human games, Maia predicts what <em>real players</em> would play at your Elo level — not just the computer-optimal move. Learn natural, human chess rather than engine lines nobody plays.</p>
+            <ul class="study-engine-specs">
+              <li><strong>Elo range:</strong> 600 – 2600</li>
+              <li><strong>Model:</strong> Maia 3 CoreML (~44 MB)</li>
+              <li><strong>Role:</strong> Human-style prediction &amp; play</li>
+            </ul>
+          </div>
+          <div class="study-engine-entry">
+            <span class="study-engine-badge badge-reck">Reckless</span><span class="study-engine-new">New in beta</span>
+            <h3 class="study-engine-title">The Aggressive Second Opinion</h3>
+            <p class="study-engine-body">An attacking engine tuned for sharp, sacrificial play. Reckless surfaces the bold, tactical lines Stockfish tends to play around — and cross-checks Stockfish so you see exactly where the two disagree: the moments most worth a closer look.</p>
+            <ul class="study-engine-specs">
+              <li><strong>Network:</strong> Reckless NNUE (~60 MB)</li>
+              <li><strong>Role:</strong> Sharp lines, second opinion &amp; play</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ─── Import ────────────────────────────────────────────────────── -->
-<section id="import">
-  <div class="section-header">
-    <div class="section-label">Import your games</div>
-    <h2>Bring your history with you</h2>
-    <p>Import your entire game library from any source. Fianchetto handles the heavy lifting.</p>
-  </div>
-  <div class="import-grid">
-    <div class="import-card">
-      <div class="import-logo">♟</div>
-      <h3>Chess.com</h3>
-      <p>Import all your games directly by username — no export required.</p>
-    </div>
-    <div class="import-card">
-      <div class="import-logo">🐴</div>
-      <h3>Lichess</h3>
-      <p>Pull your full game history by username, or share a Lichess game link straight into the app.</p>
-    </div>
-    <div class="import-card">
-      <div class="import-logo">📄</div>
-      <h3>PGN Files</h3>
-      <p>Drop in any PGN file. Supports UTF-8, Latin-1, and Windows-1252 encodings.</p>
-    </div>
-  </div>
-</section>
+  <!-- ═══════════════════════════════════════════════════════════════
+       §II — FEATURES
+  ════════════════════════════════════════════════════════════════ -->
+  <section class="study-section" id="features">
+    <div class="study-layout">
+      <div class="study-sidebar">
+        <span class="study-section-num">§II</span>
+        <div class="study-sidebar-title">Features</div>
+        <div class="study-sidebar-rule"></div>
+        <p class="study-sidebar-meta">From opening theory to endgame technique, Fianchetto covers every phase of your game.</p>
+      </div>
+      <div>
+        <h2 class="study-section-title">A complete chess workbench.</h2>
+        <p class="drop-cap">Fianchetto is built for the player who wants to understand the game — not just play it. Every feature is designed around the same premise: what does a serious student actually need?</p>
 
-<!-- ─── Privacy ───────────────────────────────────────────────────── -->
-<section id="privacy">
-  <div class="privacy-section">
-    <div class="privacy-layout">
-      <div class="privacy-text">
-        <div class="section-label">Privacy First</div>
-        <h2>Your games stay yours</h2>
-        <p>Fianchetto is built offline-first. Stockfish, Maia, and Reckless run entirely on your device — no server, no account, no subscription. Network requests happen only for the features you use, and they go directly to the services you choose.</p>
-        <div class="privacy-points">
-          <div class="privacy-point">
-            <div class="privacy-point-icon">🔒</div>
-            <span>All engine analysis runs on-device — the engines never phone home</span>
+        <div class="study-feature-entries">
+          <div class="study-feature-entry">
+            <span class="study-feature-num">01</span>
+            <h3 class="study-feature-title">Interactive Evaluation Graph</h3>
+            <p class="study-feature-body">Visualize the flow of every game with per-move tooltips, an evaluation bar, and engine recommendations rendered as board arrows.</p>
           </div>
-          <div class="privacy-point">
-            <div class="privacy-point-icon">🚫</div>
-            <span>No account required — no sign-up, no login, no servers of ours</span>
+          <div class="study-feature-entry">
+            <span class="study-feature-num">02</span>
+            <h3 class="study-feature-title">Annotation-Driven Drills</h3>
+            <p class="study-feature-body">Automatically generate drills from your own mistakes. Practice finding the better move at every inaccuracy, mistake, and blunder you played.</p>
           </div>
-          <div class="privacy-point">
-            <div class="privacy-point-icon">📵</div>
-            <span>No telemetry, no analytics, no tracking — nothing is collected</span>
+          <div class="study-feature-entry">
+            <span class="study-feature-num">03</span>
+            <h3 class="study-feature-title">Tactics from Your Games</h3>
+            <p class="study-feature-body">Personalized puzzles extracted from positions you've actually faced. Spaced repetition resurfaces weak spots and fades out patterns you've mastered.</p>
           </div>
-          <div class="privacy-point">
-            <div class="privacy-point-icon">☁️</div>
-            <span>Optional iCloud sync uses your own private CloudKit container</span>
+          <div class="study-feature-entry">
+            <span class="study-feature-num">04</span>
+            <h3 class="study-feature-title">Opening Repertoire</h3>
+            <p class="study-feature-body">Build separate repertoires for White and Black with automatic gap analysis. Drill your lines with spaced repetition and export the whole tree as PGN.</p>
           </div>
-          <div class="privacy-point">
-            <div class="privacy-point-icon">🌐</div>
-            <span>Chess.com, Lichess, and tablebase requests happen only when you use those features; on Apple platforms, Game Center signs in at launch unless you decline</span>
+          <div class="study-feature-entry">
+            <span class="study-feature-num">05</span>
+            <h3 class="study-feature-title">Opening Explorer</h3>
+            <p class="study-feature-body">ECO codes and named continuations built in, plus Lichess community and Masters databases. A personal opening book grows from your imported games with win/draw/loss stats.</p>
           </div>
-          <div class="privacy-point">
-            <div class="privacy-point-icon">📖</div>
-            <span>Free software under GPL-3.0 — the source code will be published when the app ships</span>
+          <div class="study-feature-entry">
+            <span class="study-feature-num">06</span>
+            <h3 class="study-feature-title">PGN &amp; Bulk Import</h3>
+            <p class="study-feature-body">Import 25,000+ games in the background without freezing the UI. Pulls directly from Chess.com and Lichess by username, with multi-encoding support for any PGN file.</p>
+          </div>
+          <div class="study-feature-entry">
+            <span class="study-feature-num">07</span>
+            <h3 class="study-feature-title">Play Any Way</h3>
+            <p class="study-feature-body">Challenge Stockfish, Maia, or Reckless with time controls, play over-the-board with a built-in clock, or use the standalone chess clock. Square Off Pro, Chessnut, ChessUp 2, and Millennium board support over Bluetooth.</p>
+          </div>
+          <div class="study-feature-entry">
+            <span class="study-feature-num">08</span>
+            <h3 class="study-feature-title">iCloud Sync</h3>
+            <p class="study-feature-body">Your game library syncs across your Apple devices via your private CloudKit container — start analysis on Mac, pick it up on iPad or iPhone.</p>
+          </div>
+          <div class="study-feature-entry">
+            <span class="study-feature-num">09</span>
+            <h3 class="study-feature-title">Native Swift</h3>
+            <p class="study-feature-body">Built entirely in Swift and SwiftUI — no web views, no Electron. Adaptive layouts for iPhone, iPad, and Mac, with voice move input, keyboard shortcuts, and VoiceOver throughout. The Android port compiles the same native Swift core.</p>
           </div>
         </div>
-        <div class="privacy-cta">
-          <a href="/privacy.html" class="btn btn-primary">Read the full privacy policy →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       §III — IMPORT
+  ════════════════════════════════════════════════════════════════ -->
+  <section class="study-section" id="import">
+    <div class="study-layout">
+      <div class="study-sidebar">
+        <span class="study-section-num">§III</span>
+        <div class="study-sidebar-title">Import</div>
+        <div class="study-sidebar-rule"></div>
+        <p class="study-sidebar-meta">Bring your entire game history with you. Fianchetto handles the heavy lifting.</p>
+      </div>
+      <div>
+        <h2 class="study-section-title">Bring your history with you.</h2>
+        <p>Import your entire game library from any source. 25,000+ games in the background, without freezing the UI. Multi-encoding support for any archive you carry.</p>
+
+        <div class="study-import-entries">
+          <div class="study-import-entry">
+            <span class="study-source-label">Source I</span>
+            <div class="study-source-name">Chess.com</div>
+            <p class="study-source-body">Import all your games directly by username — no export required. Your full history, without ceremony.</p>
+          </div>
+          <div class="study-import-entry">
+            <span class="study-source-label">Source II</span>
+            <div class="study-source-name">Lichess</div>
+            <p class="study-source-body">Pull your full game history by username, or share a Lichess game link straight into the app. Free APIs power opening explorer and tablebase too.</p>
+          </div>
+          <div class="study-import-entry">
+            <span class="study-source-label">Source III</span>
+            <div class="study-source-name">PGN Files</div>
+            <p class="study-source-body">Drop in any PGN file. Supports UTF-8, Latin-1, and Windows-1252 encodings — whatever archive you carry.</p>
+          </div>
         </div>
       </div>
-      <div class="privacy-visual">
-        <div class="privacy-icon-big">🔐</div>
-        <h3 style="margin-bottom: 0.6rem;">All analysis is local</h3>
-        <p>Stockfish, Maia, and Reckless run entirely on your device. Your games, your analysis, your hardware.</p>
+    </div>
+  </section>
+
+</div><!-- /study-wrapper -->
+
+<!-- ═══════════════════════════════════════════════════════════════
+     §IV — PRIVACY (dark section, outside wrapper)
+════════════════════════════════════════════════════════════════ -->
+<section class="study-privacy" id="privacy">
+  <div class="study-privacy-inner">
+    <div class="study-sidebar">
+      <span class="study-section-num">§IV</span>
+      <div class="study-sidebar-title">Privacy</div>
+    </div>
+    <div class="study-privacy-body">
+      <p class="study-privacy-manifesto">Fianchetto is built offline-first. Stockfish, Maia, and Reckless run entirely on your device — no server, no account, no subscription.</p>
+      <ul class="study-privacy-points">
+        <li><span class="pp-dash">—</span> All engine analysis runs on-device; the engines never phone home</li>
+        <li><span class="pp-dash">—</span> No account required — no sign-up, no login, no servers of ours</li>
+        <li><span class="pp-dash">—</span> No telemetry, no analytics, no tracking — nothing is collected</li>
+        <li><span class="pp-dash">—</span> Optional iCloud sync uses your own private CloudKit container</li>
+        <li><span class="pp-dash">—</span> Chess.com, Lichess, and tablebase requests happen only when you use those features</li>
+        <li><span class="pp-dash">—</span> Free software under GPL-3.0 — source code published when the app ships</li>
+      </ul>
+    </div>
+    <div class="study-privacy-aside">
+      <div class="study-privacy-aside-title">All analysis is local.</div>
+      <p class="study-privacy-aside-body">Stockfish, Maia, and Reckless run entirely on your device. Your games, your analysis, your hardware. No cloud dependency — not even optionally for the engines.</p>
+      <a class="study-privacy-cta" href="/privacy.html">Read the full privacy policy &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<div class="study-wrapper">
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       §V — PLATFORMS
+  ════════════════════════════════════════════════════════════════ -->
+  <section class="study-section" id="platforms">
+    <div class="study-layout">
+      <div class="study-sidebar">
+        <span class="study-section-num">§V</span>
+        <div class="study-sidebar-title">Platforms</div>
+        <div class="study-sidebar-rule"></div>
+        <p class="study-sidebar-meta">Native on Apple platforms, Android in active development at broad feature parity.</p>
+      </div>
+      <div class="study-platforms-body">
+        <h2 class="study-section-title">macOS, iPadOS, iOS —<br>and Android on the way.</h2>
+
+        <div class="study-platform-cards">
+          <div class="study-platform-card">
+            <div class="study-platform-card-name">macOS</div>
+            <div class="study-platform-card-status">Shipping</div>
+          </div>
+          <div class="study-platform-card">
+            <div class="study-platform-card-name">iPadOS</div>
+            <div class="study-platform-card-status">Shipping</div>
+          </div>
+          <div class="study-platform-card">
+            <div class="study-platform-card-name">iOS</div>
+            <div class="study-platform-card-status">Shipping</div>
+          </div>
+          <div class="study-platform-card">
+            <div class="study-platform-card-name">Android</div>
+            <div class="study-platform-card-status pending">In development</div>
+          </div>
+        </div>
+
+        <p style="margin-top:2rem;">Fianchetto is built as a native app for Apple platforms, with an Android version under active development at broad feature parity — the three engines, consensus annotation, repertoire, tactics, endgame, opening explorer, stats, voice move input, and the Square Off Pro, Chessnut, ChessUp 2, and Millennium boards all work on Android too.</p>
+        <p>A few things stay Apple-only today: iCloud sync (Android uses file backups instead), Game Center online play, repertoire PDF export, and the macOS auxiliary windows / iPad multitasking layouts.</p>
+        <p>The app is currently in pre-release development (version 0.11.x) and is not yet available on the App Store or Google Play.</p>
+
+        <div class="study-oss-band" id="opensource">
+          <div>
+            <div class="study-oss-title">Free software under GPL-3.0.</div>
+            <p class="study-oss-body">Fianchetto is free software, licensed under the GNU General Public License v3.0. The source code will be published when the app ships — read it, fork it, contribute to it. No black boxes.</p>
+          </div>
+          <div>
+            <span class="study-gpl-chip">GNU GPL v3.0</span>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ─── Stats ─────────────────────────────────────────────────────── -->
-<section id="specs">
-  <div class="section-header">
-    <div class="section-label">By the numbers</div>
-    <h2>Built for serious players</h2>
-  </div>
-  <div class="specs-grid">
-    <div class="spec-card">
-      <div class="spec-num">25<em>k+</em></div>
-      <div class="spec-label">Games importable in one batch</div>
+  <!-- Stats / By the numbers -->
+  <section class="study-section">
+    <div class="study-layout">
+      <div class="study-sidebar">
+        <span class="study-section-num">§VI</span>
+        <div class="study-sidebar-title">By the numbers</div>
+        <div class="study-sidebar-rule"></div>
+        <p class="study-sidebar-meta">Built for serious players.</p>
+      </div>
+      <div>
+        <h2 class="study-section-title">Built for serious players.</h2>
+        <div class="study-stats-grid">
+          <div class="study-stat-entry">
+            <div class="study-stat-num">25<sup>k+</sup></div>
+            <div class="study-stat-label">Games importable in one batch</div>
+          </div>
+          <div class="study-stat-entry">
+            <div class="study-stat-num">3</div>
+            <div class="study-stat-label">Engines, all running locally</div>
+          </div>
+          <div class="study-stat-entry">
+            <div class="study-stat-num">600<sup>–</sup>2600</div>
+            <div class="study-stat-label">Maia Elo range</div>
+          </div>
+          <div class="study-stat-entry">
+            <div class="study-stat-num">6 · 6</div>
+            <div class="study-stat-label">Piece sets &amp; board themes</div>
+          </div>
+          <div class="study-stat-entry">
+            <div class="study-stat-num">3<sup>+1</sup></div>
+            <div class="study-stat-label">Apple platforms, plus Android in development</div>
+          </div>
+          <div class="study-stat-entry">
+            <div class="study-stat-num">0</div>
+            <div class="study-stat-label">Required accounts or subscriptions</div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="spec-card">
-      <div class="spec-num">3</div>
-      <div class="spec-label">Engines, all running locally</div>
-    </div>
-    <div class="spec-card">
-      <div class="spec-num">600<em>–</em>2600</div>
-      <div class="spec-label">Maia Elo range</div>
-    </div>
-    <div class="spec-card">
-      <div class="spec-num">6 <em>·</em> 6</div>
-      <div class="spec-label">Piece sets &amp; board themes</div>
-    </div>
-    <div class="spec-card">
-      <div class="spec-num">3<em>+1</em></div>
-      <div class="spec-label">Apple platforms, plus Android in development</div>
-    </div>
-    <div class="spec-card">
-      <div class="spec-num">0</div>
-      <div class="spec-label">Required accounts or subscriptions</div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- ─── Platforms ─────────────────────────────────────────────────── -->
-<section>
-  <div class="centered-section">
-    <div class="section-label">Platforms</div>
-    <h2>macOS, iPadOS, iOS — and Android on the way</h2>
-    <p>Fianchetto is built as a native app for Apple platforms, with an Android version under active development and at broad feature parity — the three engines, consensus annotation, repertoire, tactics, endgame, opening explorer, stats, voice move input, and both Square&nbsp;Off Pro and Chessnut boards all work on Android too; ChessUp&nbsp;2 support is iOS-first with Android landing next. A few things stay Apple-only today: iCloud sync (Android moves data via file backups instead), Game&nbsp;Center online play, repertoire PDF export, and the macOS auxiliary windows / iPad multitasking layouts.</p>
-    <p>The app is currently in pre-release development (version 0.11.x) and is not yet available on the App&nbsp;Store or Google&nbsp;Play.</p>
-  </div>
-</section>
-
-<!-- ─── Open Source ───────────────────────────────────────────────── -->
-<section id="opensource" style="background: rgba(0,0,0,0.15);">
-  <div class="centered-section">
-    <div class="section-label">Free Software</div>
-    <h2>Built in the open</h2>
-    <p>Fianchetto is free software, licensed under the GNU General Public License v3.0. The source code will be published when the app ships — read it, fork it, contribute to it. No black boxes.</p>
-    <div style="display:flex; gap:1rem; align-items:center; justify-content:center; flex-wrap:wrap;">
-      <span class="gpl-badge">⚖️ GNU GPL v3.0</span>
-    </div>
-  </div>
-</section>
+</div><!-- /study-wrapper -->
 
 <!-- ─── Closing CTA ───────────────────────────────────────────────── -->
-<section id="contact" class="closing-section">
-  <div style="position:relative;z-index:1;">
-    <img class="app-icon-large" src="assets/icon-512.png" alt="" width="120" height="120" style="margin-bottom:1.5rem;" />
-    <h2>Ready to improve your game?</h2>
-    <p>Fianchetto is in active development and not yet available in app stores. This site will be updated when it ships — in the meantime, questions and interest are welcome.</p>
-    <div class="closing-ctas">
-      <a href="mailto:support@fianchettochess.app?subject=Fianchetto%20updates" class="btn btn-primary btn-large">In development — follow along</a>
-      <a href="/privacy.html" class="btn btn-outline btn-large">Privacy policy</a>
+<section class="study-colophon" id="contact">
+  <div class="study-colophon-inner">
+    <div>
+      <img class="study-colophon-icon" src="assets/icon-512.png" alt="" width="52" height="52" />
+      <h2 class="study-colophon-headline">Ready to improve<br>your game?</h2>
+      <p class="study-colophon-body">Fianchetto is in active development and not yet available in app stores. This site will be updated when it ships — in the meantime, questions and interest are welcome.</p>
+      <div class="study-colophon-ctas">
+        <a class="btn-parchment" href="mailto:support@fianchettochess.app?subject=Fianchetto%20updates">Follow along</a>
+        <a class="btn-ghost" href="/privacy.html">Privacy policy</a>
+      </div>
+      <p class="study-colophon-fine">Free · Free software (GPL-3.0) · No account required</p>
     </div>
-    <p class="closing-fine">Free · Free software (GPL-3.0) · No account required</p>
+    <div class="study-colophon-aside">
+      <div class="study-colophon-aside-title">Questions? Write to us.</div>
+      <ul class="study-colophon-aside-list">
+        <li>support@fianchettochess.app</li>
+        <li>Pre-release — not yet in app stores</li>
+        <li>Free software under GPL-3.0</li>
+        <li>No account required</li>
+        <li>Version 0.11.x</li>
+      </ul>
+    </div>
   </div>
 </section>
 
@@ -419,10 +521,13 @@
       Fianchetto includes <a href="https://stockfishchess.org" rel="external">Stockfish</a>, the UCI chess engine by the Stockfish developers, derived from Glaurung 2.1 (GPL-3.0);
       <a href="https://github.com/CSSLab/maia3" rel="external">Maia&nbsp;3</a>, the human-like neural network chess engine by CSSLab, University of Toronto (AGPL-3.0, used with permission of the authors);
       and Reckless, the UCI chess engine by Arseniy Surkov (AGPL-3.0).
-      Cburnett piece graphics by Colin M.&nbsp;L. Burnett and Merida piece graphics by Armando Hernandez Marroquin (both GPL-2.0+), plus the opening book (CC0), come via <a href="https://lichess.org" rel="external">Lichess</a>, whose free APIs also power opening explorer, tablebase, and game import features. The board diagram on this page uses Inkwell, an original piece set commissioned for Fianchetto — © 2026 Jared Brewer, licensed <a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="external license">CC BY-NC 4.0</a>.
+      Cburnett piece graphics by Colin M.&nbsp;L. Burnett and Merida piece graphics by Armando Hernandez Marroquin (both GPL-2.0+), plus the opening book (CC0), come via <a href="https://lichess.org" rel="external">Lichess</a>, whose free APIs also power opening explorer, tablebase, and game import features. Inkwell, Crownline, Scandi, and Minimal are original piece sets commissioned for Fianchetto — © 2026 Jared Brewer, licensed <a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="external license">CC BY-NC 4.0</a>; the board diagram on this page uses Crownline.
     </p>
     <p>
       Square&nbsp;Off board support was developed by observing the board's publicly broadcast Bluetooth services with standard BLE tooling; no source code or assets from Square&nbsp;Off or InfiVention Technologies were used or derived. Square&nbsp;Off and Square&nbsp;Off Pro are trademarks of InfiVention Technologies Pvt.&nbsp;Ltd.; Fianchetto is not affiliated with, endorsed by, or sponsored by InfiVention Technologies.
+    </p>
+    <p>
+      Chessnut, ChessUp&nbsp;2, and Millennium eONE board support was developed the same way — by observing each board's publicly broadcast Bluetooth services with standard BLE tooling; no source code or assets from the respective manufacturers were used or derived. Chessnut and its board-model names are trademarks of Chessnut Technology Limited (Hong Kong); ChessUp and ChessUp&nbsp;2 are trademarks of Bryght&nbsp;Labs,&nbsp;Inc. (a Delaware corporation); Millennium and Millennium eONE are trademarks of MILLENNIUM&nbsp;2000&nbsp;GmbH. Fianchetto is not affiliated with, endorsed by, or sponsored by any of these manufacturers.
     </p>
   </div>
 </footer>
