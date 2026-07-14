@@ -25,9 +25,12 @@ here; branch-serving then publishes them.
 
 1. **`DOCS_PACKAGES_TOKEN`** — the workflow reads the four *private* package
    repos, so it needs a token: a fine-grained PAT with **Contents: Read-only** on
-   `fianchettochess/{ChessCore,BoardKit,SwiftStockfish,SwiftReckless}`, added as a
-   repository secret (Settings → Secrets and variables → Actions). The workflow
-   pushes the commit-back with the default `GITHUB_TOKEN` (`contents: write`).
+   `fianchettochess/{ChessCore,BoardKit,SwiftStockfish,SwiftReckless}`. Set it as
+   an **org-level** secret at github.com/organizations/fianchettochess/settings/
+   secrets/actions (not a repo secret here) so it is shared with the Fianchetto
+   app CI without duplication — both the app's sibling checkout and this docs
+   rebuild use the same `DOCS_PACKAGES_TOKEN`. The workflow pushes the commit-back
+   with the default `GITHUB_TOKEN` (`contents: write`).
 2. **Pages source** — Settings → Pages → **Deploy from a branch** (the default).
    If you switched it to "GitHub Actions" earlier, switch it back — that mode
    can't deploy from a private repo on this plan.
