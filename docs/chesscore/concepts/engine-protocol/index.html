@@ -1051,7 +1051,7 @@ process-global stdio while live. Only one <code>UCIEngine</code> instance should
 live at a time.</p>
 </div>
 <h2 id="wiring-a-real-engine">Wiring a real engine<a class="headerlink" href="#wiring-a-real-engine" title="Permanent link">&para;</a></h2>
-<p>A typical <code>ChessEngine</code> adapter drives <a href="https://github.com/jaredbrewer/SwiftStockfish">SwiftStockfish</a>,
+<p>A typical <code>ChessEngine</code> adapter drives <a href="https://github.com/fianchettochess/SwiftStockfish">SwiftStockfish</a>,
 sends <code>position.stockfishSafeFEN</code>, collects <code>info</code> lines via
 <code>UCIOutputParser.parseInfo</code>, and constructs <code>ScoredMove</code> values with
 <code>UCIParser.uciToMove</code> and <code>MoveGenerator.algebraicNotation</code>. See the

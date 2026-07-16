@@ -776,7 +776,7 @@
 chess engine — a competitive UCI engine written in Rust (~3000 Elo, Super-GM level).</p>
 <p>The engine runs <strong>in-process</strong> via a Rust-to-C FFI bridge; each UCI output line is
 delivered to the Swift layer as an element of an <code>AsyncStream&lt;String&gt;</code>. The Swift API
-mirrors <code>StockfishEngine</code> in <a href="https://github.com/jaredbrewer/SwiftStockfish">SwiftStockfish</a>
+mirrors <code>StockfishEngine</code> in <a href="https://github.com/fianchettochess/SwiftStockfish">SwiftStockfish</a>
 so the existing <code>UCIInfoParser</code> / <code>EngineProbe</code> layer in Fianchetto can be adapted to
 either engine with minimal changes.</p>
 <div class="admonition danger">
