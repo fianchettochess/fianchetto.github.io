@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/icon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1081,9 +1081,10 @@ CI builds that need to produce fresh xcframeworks.</p>
 <code>Package.swift</code> forces the binary arm regardless of <code>SWIFTRECKLESS_FORCE_SOURCE_BUILD</code>.
 This prevents Xcode from attempting to link an Android ELF into a macOS build.</p>
 <h2 id="building-the-apple-xcframework">Building the Apple xcframework<a class="headerlink" href="#building-the-apple-xcframework" title="Permanent link">&para;</a></h2>
-<p>The xcframework is <strong>gitignored</strong> (<code>Frameworks/</code> in <code>.gitignore</code>). A fresh clone
-needs to build it once. The release CI publishes it as a GitHub release asset; a
-tagged SPM dependency fetches it automatically via the <code>url:</code> + <code>checksum:</code> binary target.</p>
+<p>The xcframework is <strong>committed</strong> to <code>main</code> (a path-based binary target), so a fresh
+clone builds on Apple without rebuilding it; rebuild only when the Rust changes. The
+release CI publishes it as a GitHub release asset, and a tagged SPM dependency fetches
+it automatically via the <code>url:</code> + <code>checksum:</code> binary target.</p>
 <h3 id="macos-only-development">macOS only (development)<a class="headerlink" href="#macos-only-development" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>rustup<span class="w"> </span>target<span class="w"> </span>add<span class="w"> </span>aarch64-apple-darwin<span class="w"> </span>x86_64-apple-darwin
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>bash<span class="w"> </span>Tools/build-macos.sh
@@ -1185,7 +1186,7 @@ no-op implementations of those symbols so the Skip/Gradle host-introspection pas
 links cleanly without an Android NDK.</p>
 <h2 id="the-reckless-fork">The Reckless fork<a class="headerlink" href="#the-reckless-fork" title="Permanent link">&para;</a></h2>
 <p>The Rust dependency is <code>github.com/fianchettochess/Reckless.git</code>, pinned to
-<code>rev = "420b3d7"</code> (<code>default-features = false</code>). The fork makes four patches to the
+tag <code>swiftreckless-v0.9.0</code> (commit <code>420b3d7</code>) (<code>default-features = false</code>). The fork makes four patches to the
 upstream <code>codedeliveryservice/Reckless</code> at tag <code>v0.9.0</code>:</p>
 <ol>
 <li>Adds a <code>[lib]</code> target (upstream Reckless is binary-only; it has no library target
@@ -1267,7 +1268,7 @@ upstream <code>codedeliveryservice/Reckless</code> at tag <code>v0.9.0</code>:</
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
