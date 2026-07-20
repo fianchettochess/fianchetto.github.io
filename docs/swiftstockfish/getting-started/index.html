@@ -751,7 +751,8 @@ No network access on the user's device.</p>
 <em>before</em> the engine is created.</p>
 <h2 id="2-start-the-engine">2. Start the engine<a class="headerlink" href="#2-start-the-engine" title="Permanent link">&para;</a></h2>
 <p><code>StockfishEngine.init(networkDirectory:)</code> is failable — it returns <code>nil</code> if the
-bridge couldn't start (e.g. it failed to create its pipes).</p>
+required NNUE nets are missing or invalid in <code>networkDirectory</code> (run the loader
+first) or if the bridge could not start its engine thread (resource exhaustion).</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">guard</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">engine</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">StockfishEngine</span><span class="p">(</span><span class="n">networkDirectory</span><span class="p">:</span><span class="w"> </span><span class="n">dir</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="bp">fatalError</span><span class="p">(</span><span class="s">&quot;engine failed to start&quot;</span><span class="p">)</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="p">}</span>

@@ -742,7 +742,7 @@
 sequence and parse its replies from the <code>output</code> stream.</p>
 <h2 id="the-transport">The transport<a class="headerlink" href="#the-transport" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">public</span><span class="w"> </span><span class="kr">final</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">StockfishEngine</span><span class="p">:</span><span class="w"> </span><span class="p">@</span><span class="n">unchecked</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">init</span><span class="p">?(</span><span class="n">networkDirectory</span><span class="p">:</span><span class="w"> </span><span class="n">URL</span><span class="p">)</span><span class="w">        </span><span class="c1">// failable; nil on bridge/pipe failure</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">init</span><span class="p">?(</span><span class="n">networkDirectory</span><span class="p">:</span><span class="w"> </span><span class="n">URL</span><span class="p">)</span><span class="w">        </span><span class="c1">// failable; nil on missing/invalid nets or engine-thread failure</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">output</span><span class="p">:</span><span class="w"> </span><span class="n">AsyncStream</span><span class="p">&lt;</span><span class="nb">String</span><span class="p">&gt;</span><span class="w">     </span><span class="c1">// UCI lines, newline-stripped, in order</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">send</span><span class="p">(</span><span class="kc">_</span><span class="w"> </span><span class="n">command</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span><span class="w">        </span><span class="c1">// any raw UCI command</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">shutdown</span><span class="p">()</span><span class="w">                     </span><span class="c1">// explicit teardown — joins threads, releases the gate</span>
@@ -836,10 +836,11 @@ teardown keeps the gate held and causes the next <code>StockfishEngine(...)</cod
 block indefinitely.</p>
 <p>Two constraints govern the engine lifecycle:</p>
 <ul>
-<li><strong>Valid nets before creation</strong> — if the required NNUE network is missing or invalid
-  when the engine is created, Stockfish calls <code>exit(EXIT_FAILURE)</code>, which terminates
-  the <strong>entire host process</strong> (not a catchable error). Always run the network loader
-  first.</li>
+<li><strong>Valid nets before creation</strong> — <code>StockfishEngine.init?</code> pre-flights the required
+  NNUE nets and returns <code>nil</code> if any is missing or invalid, so run the network
+  loader first. Driving the raw <code>CStockfish</code> bridge yourself has no such guard:
+  Stockfish calls <code>exit(EXIT_FAILURE)</code> in <code>verify_networks()</code> on the first
+  <code>go</code>/<code>ucinewgame</code>, terminating the entire host process.</li>
 <li><strong>One engine per process</strong> — the bridge enforces this with a lifecycle gate.
   Creating a second engine <strong>blocks the calling thread</strong> until the first is fully
   destroyed. This is a deadlock risk if done on the main thread/actor. Create and

@@ -553,6 +553,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#takependingresponses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        takePendingResponses()
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -834,6 +845,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#takependingresponses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        takePendingResponses()
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -916,7 +938,10 @@ type</strong> (struct) so the test harness can copy it cheaply without heap allo
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="kd">func</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="kc">_</span><span class="w"> </span><span class="n">command</span><span class="p">:</span><span class="w"> </span><span class="n">BoardCommand</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="n">Data</span><span class="p">?</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="kd">func</span><span class="w"> </span><span class="nf">handshakeCommands</span><span class="p">(</span><span class="n">isReconnect</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span><span class="p">)</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">        </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">[(</span><span class="n">command</span><span class="p">:</span><span class="w"> </span><span class="n">BoardCommand</span><span class="p">,</span><span class="w"> </span><span class="n">delayBefore</span><span class="p">:</span><span class="w"> </span><span class="n">TimeInterval</span><span class="p">)]</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">}</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="c1">// Default: empty. Ack-based protocols like ChessUp override it —</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="c1">// the transport must drain it after every feed(bytes:).</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="kr">mutating</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">takePendingResponses</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">Data</span><span class="p">]</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="capabilities"><code>capabilities</code><a class="headerlink" href="#capabilities" title="Permanent link">&para;</a></h3>
 <p>Queried once at connect time. The session reads this immediately after
@@ -936,6 +961,16 @@ is established. Returning the sequence (rather than executing it) keeps the
 adapter pure and testable without a live transport or timer.</p>
 <p><code>isReconnect: true</code> for a restored link (BLE drop-and-reconnect),
 <code>false</code> for the initial fresh connection.</p>
+<h3 id="takependingresponses"><code>takePendingResponses()</code><a class="headerlink" href="#takependingresponses" title="Permanent link">&para;</a></h3>
+<p>Mandatory wire-level responses the adapter queued while parsing the most
+recent <code>feed(bytes:)</code> input. The default implementation returns <code>[]</code>;
+ack-based protocols override it. The ChessUp board retransmits every <code>0xA3</code>
+move frame until the host writes a <code>0x21</code> ack (and board-side promotions
+until a <code>0x23</code> ack) — leaving them unacked floods the notify pipe until the
+BLE link drops. The transport MUST call this immediately after every
+<code>feed(bytes:)</code> and write each returned payload to the board's write
+characteristic. Draining is destructive: each queued response is returned
+exactly once.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// Chessnut Air — first connect:</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1">// [(command: .startSession, delayBefore: 0)]</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
@@ -966,7 +1001,9 @@ target; BoardKit defines only the protocol.</p>
 <p>The transport's responsibility is:</p>
 <ol>
 <li>On raw BLE data arrival: call <code>adapter.feed(bytes:)</code> → yield each
-   <code>BoardEvent</code> into <code>events</code>.</li>
+   <code>BoardEvent</code> into <code>events</code>.
+   After each feed, call <code>adapter.takePendingResponses()</code> and write every
+   returned payload to the board's write characteristic.</li>
 <li>On link established: yield <code>.connected</code>, execute
    <code>adapter.handshakeCommands(isReconnect:)</code> with inter-command delays, then
    let <code>adapter.feed()</code> emit <code>.ready</code> when the board ACKs.</li>

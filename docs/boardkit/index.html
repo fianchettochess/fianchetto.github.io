@@ -807,12 +807,18 @@ between physical chess boards (BLE and USB-HID) and a chess engine or kernel
 stack — together with a suite of board-agnostic reconciliation kernels, a
 macOS BLE emulator, and a deterministic replay/simulation test harness.</p>
 <h2 id="what-boardkit-is">What BoardKit is<a class="headerlink" href="#what-boardkit-is" title="Permanent link">&para;</a></h2>
-<p>BoardKit is the <strong>seam layer</strong>. It defines the shared vocabulary
+<p>BoardKit is the <strong>seam and kernel layer</strong>. It defines the shared vocabulary
 (<code>BoardEvent</code>, <code>BoardCommand</code>, <code>BoardCapabilities</code>, <code>BoardAdapter</code>,
-<code>BoardTransport</code>) that lets the kernel stack be written once and work with any
-physical board brand. BLE and USB-HID transport code lives in the app target
-(where <code>CoreBluetooth</code> or <code>SkipFuse</code> is available); BoardKit itself imports
-only ChessCore and Foundation and carries no platform-specific dependencies.</p>
+<code>BoardTransport</code>) and ships the board-agnostic kernels built on it (move
+inference, execution gate, diff resolver, correction planner, takeback
+detector, sync gate, reconnect policy), so downstream session shells are
+written once and work with any physical board brand. BLE and USB-HID
+transport code lives in the consuming app targets (where <code>CoreBluetooth</code> or
+<code>SkipFuse</code> is available); BoardKit's library targets import only ChessCore
+and Foundation and carry no platform-specific dependencies. The one exception
+is the <code>boardkit-emulator</code> executable, whose CoreBluetooth peripheral code is
+guarded by <code>#if os(macOS) &amp;&amp; canImport(CoreBluetooth)</code> and never enters the
+library graph.</p>
 <h2 id="products">Products<a class="headerlink" href="#products" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -832,7 +838,7 @@ only ChessCore and Foundation and carries no platform-specific dependencies.</p>
 </tr>
 <tr>
 <td><code>ChessnutAdapter</code></td>
-<td>Chessnut Air-family BLE adapter</td>
+<td>Chessnut Air-family + Chessnut Move BLE adapters (incl. stored-game import decoder)</td>
 </tr>
 <tr>
 <td><code>PegasusAdapter</code></td>

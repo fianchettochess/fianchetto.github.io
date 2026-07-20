@@ -943,11 +943,15 @@ build step.</p>
 <h2 id="verifying-the-install">Verifying the install<a class="headerlink" href="#verifying-the-install" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>swift<span class="w"> </span>build
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>swift<span class="w"> </span>run<span class="w"> </span>reckless-smoke<span class="w">    </span><span class="c1"># drives uci → uciok → go depth 1 → bestmove</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>swift<span class="w"> </span><span class="nb">test</span><span class="w">                  </span><span class="c1"># offline loader suite (net-guarded live engine smoke)</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>swift<span class="w"> </span><span class="nb">test</span><span class="w">                  </span><span class="c1"># 4 suites: loader offline + output-cancellation + hermetic download/cancellation, plus the net-guarded live engine smoke</span>
 </code></pre></div>
 <p>The default <code>swift test</code> run never touches the network. The live engine smoke test
-is gated on the net being staged on disk at <code>rust/networks/</code>; present → it runs,
-absent → it skips and passes.</p>
+is gated on the net being staged on disk at <code>rust/networks/</code>: present → it runs,
+absent → a RECORDED skip (visible in the test log, never a silent pass). It also
+skips on the forced-source macOS arm (<code>SWIFTRECKLESS_FORCE_SOURCE_BUILD=1</code>), which
+links no-op host stubs rather than the real engine. There is no
+<code>SWIFTRECKLESS_INTEGRATION</code> env var or separate integration target — gating is by
+net presence at <code>rust/networks/</code> plus not being a forced-source stub build.</p>
 
 
 

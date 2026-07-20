@@ -932,6 +932,11 @@ after downloading on every supported platform (see
 <p><code>ensure(in:progress:)</code>:</p>
 <ol>
 <li>Creates <code>directory</code> if it does not exist.</li>
+<li>Prunes the directory: stale <code>v…-….nnue</code> nets from a previous Reckless version
+   and orphaned hidden <code>.….nnue.&lt;UUID&gt;.part</code> download-staging files from a crashed
+   earlier run are deleted (other files are never touched). Don't point
+   <code>ensure(in:)</code> at a directory holding unrelated <code>v*-*.nnue</code> files you want to
+   keep.</li>
 <li>If <code>v54-5478683c.nnue</code> is already present and passes complete SHA-256 verification,
    returns
    immediately — <strong>no download, no network access</strong>.</li>

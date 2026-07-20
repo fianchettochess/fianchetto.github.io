@@ -815,7 +815,9 @@ for what that means for your application.</p>
 <p class="admonition-title">One engine per process</p>
 <p>The Rust engine owns process-global state (lookup tables, NNUE weights). Only one
 <code>RecklessEngine</code> may be alive in a process at a time. Create, use, and fully
-the currently pinned fork allows one successful engine lifetime per process.</p>
+shut down at most one engine: the currently pinned fork allows only one
+successful engine lifetime per process — a later <code>RecklessEngine(networkDirectory:)</code>
+returns <code>nil</code> rather than hanging.</p>
 </div>
 <h2 id="quick-start">Quick start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">import</span><span class="w"> </span><span class="nc">SwiftReckless</span>

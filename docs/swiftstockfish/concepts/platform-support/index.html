@@ -887,7 +887,7 @@ multi-threading runtime and defaults to <code>-fno-exceptions</code>, while Stoc
 exceptions. The remaining work is in the toolchain, not the bridge.</p>
 <h2 id="releasing-maintainers">Releasing (maintainers)<a class="headerlink" href="#releasing-maintainers" title="Permanent link">&para;</a></h2>
 <p>Releases are produced by the <strong><code>Release binary</code></strong> GitHub Actions workflow, not by
-hand. Push a semver <strong>tag</strong> (e.g. <code>git tag 18.0.1 &amp;&amp; git push origin 18.0.1</code>); the
+hand. Push a semver <strong>tag</strong> (e.g. <code>git tag 18.0.10 &amp;&amp; git push origin 18.0.10</code>); the
 workflow builds <code>Stockfish.xcframework</code>, publishes it as a release asset, computes
 its checksum, rewrites the active <code>binaryTarget</code> from <code>path:</code> to <code>url:</code> +
 <code>checksum:</code> on a detached commit, and force-points the tag at that commit. <strong><code>main</code>

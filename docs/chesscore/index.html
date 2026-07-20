@@ -818,10 +818,13 @@ engine-output parsing — with no Apple-UI dependencies.</p>
 <li><strong>Foundation-only.</strong> No SwiftData, CloudKit, GameKit, CoreML, UIKit, AppKit,
   SwiftUI, Combine, or CoreBluetooth, and no networking. Presentation and engine
   access sit behind protocol seams.</li>
-<li><strong>Wide reach.</strong> Deployment floor declared at <strong>iOS 13 / macOS 10.15</strong> (and the
-  code builds down to iOS 11 / macOS 10.10).</li>
-<li><strong>Cross-platform.</strong> Builds for <code>aarch64-unknown-linux-android28</code> and passes its
-  test suite on macOS. Value types are <code>Sendable</code> and presentation-free.</li>
+<li><strong>Wide reach.</strong> Deployment floor declared at <strong>iOS 13 / macOS 10.15</strong> (tvOS 13,
+  watchOS 6, visionOS 1) — a hard floor set by the async engine seams
+  (Swift-concurrency back-deployment); the pure value types would build lower on
+  their own.</li>
+<li><strong>Cross-platform.</strong> Builds for <code>aarch64-unknown-linux-android28</code>, and the test
+  suite runs on macOS and on Linux (on-push CI on ubuntu-latest, <code>swift:latest</code>).
+  Value types are <code>Sendable</code> and presentation-free.</li>
 <li><strong>Correct.</strong> The move generator is validated by a <strong>perft suite</strong> with exact
   node counts (initial <code>perft(4) = 197281</code>, Kiwipete <code>perft(3) = 97862</code>, plus
   en-passant and promotion positions).</li>

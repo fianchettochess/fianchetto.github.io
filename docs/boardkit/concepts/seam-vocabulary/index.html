@@ -514,6 +514,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#hardware-reported-picks-and-stored-games" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hardware-reported picks and stored games
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -823,6 +834,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#hardware-reported-picks-and-stored-games" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hardware-reported picks and stored games
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -914,7 +936,11 @@ that a physical board can produce regardless of brand or protocol.</p>
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="c1">// Housekeeping</span>
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">battery</span><span class="p">(</span><span class="n">percent</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">)</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">raw</span><span class="p">(</span><span class="n">Data</span><span class="p">)</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="p">}</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="c1">// Hardware-reported picks</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">promotionPick</span><span class="p">(</span><span class="n">piece</span><span class="p">:</span><span class="w"> </span><span class="n">PieceType</span><span class="p">)</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="c1">// Stored-game import</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">storedGameImported</span><span class="p">(</span><span class="n">moves</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Move</span><span class="p">],</span><span class="w"> </span><span class="n">sanMoves</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">String</span><span class="p">],</span><span class="w"> </span><span class="n">isComplete</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span><span class="p">)</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="sensor-cases">Sensor cases<a class="headerlink" href="#sensor-cases" title="Permanent link">&para;</a></h3>
 <p><strong><code>.squareSensed</code></strong> fires on every lift or place detected by the board's
@@ -956,6 +982,17 @@ only occupancy: <code>map { $0 != nil }</code>.</p>
 support it (Chessnut Air family, DGT Pegasus).</p>
 <p><strong><code>.raw(Data)</code></strong> — undecoded bytes for unknown opcodes; session code must
 never branch on this case.</p>
+<h3 id="hardware-reported-picks-and-stored-games">Hardware-reported picks and stored games<a class="headerlink" href="#hardware-reported-picks-and-stored-games" title="Permanent link">&para;</a></h3>
+<p><strong><code>.promotionPick(piece:)</code></strong> — a board-side promotion piece pick (ChessUp
+<code>0x97</code> frame). When the board reports the promotion piece this way, the
+session can auto-resolve the promotion picker without asking the human.
+Session code must handle this case and must NOT treat it like <code>.raw</code>.</p>
+<p><strong><code>.storedGameImported(moves:sanMoves:isComplete:)</code></strong> — one game
+reconstructed from a board's internal storage during a
+<code>BoardCommand.requestStoredGames</code> import. Emitted by adapters that advertise
+<code>BoardCapabilities.gameArchive</code> (Chessnut Air family), one event per stored
+game. <code>isComplete</code> is <code>false</code> when the replay truncated and <code>moves</code> holds the
+recovered prefix.</p>
 <hr />
 <h2 id="boardcommand">BoardCommand<a class="headerlink" href="#boardcommand" title="Permanent link">&para;</a></h2>
 <p><code>BoardCommand</code> is the session-to-adapter vocabulary — commands the session
@@ -967,8 +1004,9 @@ case into board-specific wire bytes, returning <code>nil</code> for unsupported 
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">requestState</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">indicateSquares</span><span class="p">([</span><span class="nb">String</span><span class="p">],</span><span class="w"> </span><span class="n">style</span><span class="p">:</span><span class="w"> </span><span class="n">LEDStyle</span><span class="p">)</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">executeMove</span><span class="p">(</span><span class="n">uci</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">custom</span><span class="p">(</span><span class="n">Data</span><span class="p">)</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">}</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">requestStoredGames</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">custom</span><span class="p">(</span><span class="n">Data</span><span class="p">)</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">}</span>
 </code></pre></div>
 <table>
 <thead>
@@ -993,6 +1031,10 @@ case into board-specific wire bytes, returning <code>nil</code> for unsupported 
 <tr>
 <td><code>.executeMove(uci:)</code></td>
 <td>Ask a motorised board to physically play a move</td>
+</tr>
+<tr>
+<td><code>.requestStoredGames</code></td>
+<td>Begin importing the games stored on the board's internal flash (<code>.gameArchive</code> boards); each game surfaces as <code>.storedGameImported</code></td>
 </tr>
 <tr>
 <td><code>.custom(Data)</code></td>
@@ -1028,11 +1070,12 @@ to activate.</p>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">motorised</span><span class="w">         </span><span class="c1">// auto-move mechanism</span>
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">batteryReporting</span><span class="w">  </span><span class="c1">// reports battery level</span>
 <a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">perPieceTracking</span><span class="w">  </span><span class="c1">// per-robot unique identity (Chessnut Move)</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="c1">// Convenience presets</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">chessnutAirFamily</span><span class="p">:</span><span class="w"> </span><span class="n">BoardCapabilities</span>
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">squareOff</span><span class="p">:</span><span class="w"> </span><span class="n">BoardCapabilities</span>
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="p">}</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">gameArchive</span><span class="w">       </span><span class="c1">// onboard stored-game archive (requestStoredGames)</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="c1">// Convenience presets</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">chessnutAirFamily</span><span class="p">:</span><span class="w"> </span><span class="n">BoardCapabilities</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">squareOff</span><span class="p">:</span><span class="w"> </span><span class="n">BoardCapabilities</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="capability-matrix">Capability matrix<a class="headerlink" href="#capability-matrix" title="Permanent link">&para;</a></h3>
 <table>
@@ -1045,6 +1088,7 @@ to activate.</p>
 <th>moveIndication</th>
 <th>motorised</th>
 <th>battery</th>
+<th>gameArchive</th>
 </tr>
 </thead>
 <tbody>
@@ -1056,6 +1100,7 @@ to activate.</p>
 <td>✓</td>
 <td>✓ (GKS)</td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>Chessnut Air family</td>
@@ -1064,6 +1109,7 @@ to activate.</p>
 <td>✓</td>
 <td>✓</td>
 <td></td>
+<td>✓</td>
 <td>✓</td>
 </tr>
 <tr>
@@ -1074,6 +1120,7 @@ to activate.</p>
 <td>✓</td>
 <td>✓</td>
 <td>✓</td>
+<td></td>
 </tr>
 <tr>
 <td>DGT Pegasus</td>
@@ -1083,6 +1130,7 @@ to activate.</p>
 <td>✓</td>
 <td></td>
 <td>✓</td>
+<td></td>
 </tr>
 <tr>
 <td>Millennium</td>
@@ -1092,6 +1140,7 @@ to activate.</p>
 <td>✓ (9×9 corner)</td>
 <td></td>
 <td></td>
+<td></td>
 </tr>
 <tr>
 <td>Certabo</td>
@@ -1099,6 +1148,7 @@ to activate.</p>
 <td>✓</td>
 <td>✓</td>
 <td>✓</td>
+<td></td>
 <td></td>
 <td></td>
 </tr>

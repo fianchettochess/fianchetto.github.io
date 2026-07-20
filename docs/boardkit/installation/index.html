@@ -930,7 +930,7 @@ uses throwing <code>FileHandle</code> APIs (available since iOS 13.4 / macOS 10.
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// Package.swift</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">dependencies</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="p">.</span><span class="n">package</span><span class="p">(</span><span class="n">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;../BoardKit&quot;</span><span class="p">),</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="p">.</span><span class="n">package</span><span class="p">(</span><span class="n">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;../ChessCore&quot;</span><span class="p">),</span><span class="w">   </span><span class="c1">// BoardKit re-exports ChessCore types</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="p">.</span><span class="n">package</span><span class="p">(</span><span class="n">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;../ChessCore&quot;</span><span class="p">),</span><span class="w">   </span><span class="c1">// BoardKit&#39;s public API uses ChessCore types (Piece, Position, Move) — import ChessCore in files that name them</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">],</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">targets</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="p">.</span><span class="n">target</span><span class="p">(</span>
@@ -985,7 +985,7 @@ its own wire-codec files and declares no transitive library dependencies beyond
 <td><code>CertaboAdapter</code></td>
 </tr>
 <tr>
-<td>ChessUp (gen-1)</td>
+<td>ChessUp (gen-1 / ChessUp 2)</td>
 <td><code>ChessUpAdapter</code></td>
 </tr>
 <tr>

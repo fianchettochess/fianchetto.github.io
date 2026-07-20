@@ -746,11 +746,14 @@ over an in-process queue, and the Swift surface is identical on every platform.<
 <h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
 <div class="admonition danger">
 <p class="admonition-title">Run the loader before creating the engine</p>
-<p>Stockfish loads its NNUE network during initialization and calls
-<code>exit(EXIT_FAILURE)</code> if the net is missing or invalid — that terminates the
-<strong>entire host process</strong>, not a catchable Swift error. Always <code>await</code>
-<code>StockfishNetworkLoader.ensure(in:)</code> into the engine's network directory
-first.</p>
+<p>Stockfish verifies its NNUE nets on the first <code>go</code>/<code>ucinewgame</code> and calls
+<code>exit(EXIT_FAILURE)</code> if one is missing or invalid — terminating the
+<strong>entire host process</strong>, not a catchable Swift error.
+<code>StockfishEngine.init?</code> pre-flights the nets and returns <code>nil</code> instead of
+letting that happen, but the pre-flight can only pass if the directory is
+already correct — so always run <code>StockfishNetworkLoader.ensure(in:)</code> (and
+<code>await</code> it) before <code>StockfishEngine(networkDirectory:)</code>. Raw <code>CStockfish</code>
+consumers get no pre-flight.</p>
 </div>
 <div class="admonition danger">
 <p class="admonition-title">One engine per process</p>

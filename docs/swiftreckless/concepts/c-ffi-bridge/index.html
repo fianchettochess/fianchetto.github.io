@@ -878,24 +878,27 @@ subprocess is spawned; the engine runs on a background thread inside the host pr
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">typedef</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">RKEngineRef</span><span class="p">;</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1">/// Callback invoked (on the engine thread) for each UCI output line.</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1">/// `line`    — NUL-terminated UTF-8 string, without trailing newline.</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1">/// `context` — the opaque pointer passed to rk_set_output_callback.</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="k">typedef</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">RKOutputCallback</span><span class="p">)(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">context</span><span class="p">);</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1">/// Create and start a Reckless engine instance.</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1">/// `network_path` — full path to the NNUE file; returns NULL if missing or unreadable.</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">RKEngineRef</span><span class="w"> </span><span class="nf">rk_create</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">network_path</span><span class="p">);</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1">/// Destroy the engine, joining its thread and freeing all resources. Safe with NULL.</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="kt">void</span><span class="w"> </span><span class="nf">rk_destroy</span><span class="p">(</span><span class="n">RKEngineRef</span><span class="w"> </span><span class="n">engine</span><span class="p">);</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1">/// `line`    — NUL-terminated UTF-8 string, without trailing newline. A NULL</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1">///             `line` is a sentinel meaning the engine thread has exited</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1">///             (normal quit or contained panic) — treat it as end-of-output,</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1">///             not a line.</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1">/// `context` — the opaque pointer passed to rk_set_output_callback.</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="k">typedef</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">RKOutputCallback</span><span class="p">)(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">context</span><span class="p">);</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="c1">/// Create and start a Reckless engine instance.</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1">/// `network_path` — full path to the NNUE file; returns NULL if missing or unreadable.</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">RKEngineRef</span><span class="w"> </span><span class="nf">rk_create</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">network_path</span><span class="p">);</span>
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="c1">/// Register a callback for UCI output lines. Thread-safe.</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="kt">void</span><span class="w"> </span><span class="nf">rk_set_output_callback</span><span class="p">(</span><span class="n">RKEngineRef</span><span class="w"> </span><span class="n">engine</span><span class="p">,</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">                             </span><span class="n">RKOutputCallback</span><span class="w"> </span><span class="n">callback</span><span class="p">,</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">                             </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">context</span><span class="p">);</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="c1">/// Send a UCI command to the engine&#39;s input queue (no trailing newline needed). Thread-safe.</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="kt">void</span><span class="w"> </span><span class="nf">rk_send_command</span><span class="p">(</span><span class="n">RKEngineRef</span><span class="w"> </span><span class="n">engine</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">command</span><span class="p">);</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="c1">/// Destroy the engine, joining its thread and freeing all resources. Safe with NULL.</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="kt">void</span><span class="w"> </span><span class="nf">rk_destroy</span><span class="p">(</span><span class="n">RKEngineRef</span><span class="w"> </span><span class="n">engine</span><span class="p">);</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="c1">/// Register a callback for UCI output lines. Thread-safe.</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="kt">void</span><span class="w"> </span><span class="nf">rk_set_output_callback</span><span class="p">(</span><span class="n">RKEngineRef</span><span class="w"> </span><span class="n">engine</span><span class="p">,</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">                             </span><span class="n">RKOutputCallback</span><span class="w"> </span><span class="n">callback</span><span class="p">,</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">                             </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">context</span><span class="p">);</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="c1">/// Send a UCI command to the engine&#39;s input queue (no trailing newline needed). Thread-safe.</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="kt">void</span><span class="w"> </span><span class="nf">rk_send_command</span><span class="p">(</span><span class="n">RKEngineRef</span><span class="w"> </span><span class="n">engine</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">command</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="the-rust-implementation-rustsrcffirs">The Rust implementation (<code>rust/src/ffi.rs</code>)<a class="headerlink" href="#the-rust-implementation-rustsrcffirs" title="Permanent link">&para;</a></h2>
 <p>The Rust crate exports identical symbols with the <code>rk_ffi_*</code> prefix to avoid
@@ -921,8 +924,8 @@ re-exports them as the cleaner <code>rk_*</code> names seen by Swift:</p>
 <li>Input is delivered via <code>mpsc::Sender</code>; <code>rk_send_command</code> is therefore thread-safe
   (it only calls <code>Sender::send</code>).</li>
 <li>Each UCI output line fires the registered <code>RKOutputCallback</code> on the <strong>engine thread</strong>.
-  <code>AsyncStream.Continuation</code> is <code>Sendable</code> / thread-safe, so <code>RecklessEngine</code> feeds
-  the stream from the callback without additional locking.</li>
+  <code>RecklessEngine</code> feeds its lock-protected output FIFO (<code>RecklessOutputStorage</code>)
+  from the callback, so no additional synchronization is needed on the Swift side.</li>
 <li><code>rk_destroy</code> sends <code>"quit"</code>, drops the <code>Sender</code> (causing <code>run_io</code> to observe
   channel closure), and <code>join()</code>s the thread. After it returns, the callback can
   never fire — there is no use-after-free window.</li>
@@ -932,9 +935,10 @@ re-exports them as the cleaner <code>rk_*</code> names seen by Swift:</p>
 buffers — the Reckless bridge uses <strong>per-instance callback delivery with no
 stdout/fd redirection</strong>. There is no global stream manipulation; all I/O flows
 through the <code>mpsc</code> channel and the C callback registered via <code>rk_set_output_callback</code>.</p>
-<p>This design makes the bridge cleaner for multi-engine-lifetime scenarios (create,
-use, destroy, create again) and eliminates the class of bugs caused by a leaked
-stream-buffer swap.</p>
+<p>This design eliminates the class of bugs caused by a leaked stream-buffer swap.
+(It also clears the path to future create→destroy→create-again support, but the
+currently pinned fork still allows only one engine lifetime per process — see
+<a href="../engine-api/#teardown-sequence">Engine API → Teardown sequence</a>.)</p>
 <h2 id="swift-to-c-mapping-in-recklessengine">Swift-to-C mapping in <code>RecklessEngine</code><a class="headerlink" href="#swift-to-c-mapping-in-recklessengine" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// init(networkDirectory:)</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kd">let</span><span class="w"> </span><span class="nv">ref</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">netFile</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">withCString</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">rk_create</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// → RKEngineRef (OpaquePointer)</span>
@@ -942,20 +946,31 @@ stream-buffer swap.</p>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1">// Register callback — bridge `self` as an unretained void*</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="kd">let</span><span class="w"> </span><span class="nv">context</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">Unmanaged</span><span class="p">.</span><span class="n">passUnretained</span><span class="p">(</span><span class="kc">self</span><span class="p">).</span><span class="n">toOpaque</span><span class="p">()</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">rk_set_output_callback</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">linePtr</span><span class="p">,</span><span class="w"> </span><span class="n">ctx</span><span class="w"> </span><span class="k">in</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nv">line</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">String</span><span class="p">(</span><span class="n">cString</span><span class="p">:</span><span class="w"> </span><span class="n">linePtr</span><span class="p">!)</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nv">me</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">Unmanaged</span><span class="p">&lt;</span><span class="n">RecklessEngine</span><span class="p">&gt;.</span><span class="n">fromOpaque</span><span class="p">(</span><span class="n">ctx</span><span class="p">!).</span><span class="n">takeUnretainedValue</span><span class="p">()</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="n">me</span><span class="p">.</span><span class="n">continuation</span><span class="p">.</span><span class="n">yield</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">},</span><span class="w"> </span><span class="n">context</span><span class="p">)</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1">// send(_:)</span>
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="n">command</span><span class="p">.</span><span class="n">withCString</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">rk_send_command</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span><span class="w"> </span><span class="nv">$0</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
-<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="c1">// deinit</span>
-<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="n">rk_destroy</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span>
-<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="n">continuation</span><span class="p">.</span><span class="n">finish</span><span class="p">()</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="k">guard</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">ctx</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nv">me</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">Unmanaged</span><span class="p">&lt;</span><span class="n">RecklessEngine</span><span class="p">&gt;.</span><span class="n">fromOpaque</span><span class="p">(</span><span class="n">ctx</span><span class="p">).</span><span class="n">takeUnretainedValue</span><span class="p">()</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="k">guard</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">linePtr</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">        </span><span class="c1">// NULL line = the engine-thread-exit sentinel (normal quit or a</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">        </span><span class="c1">// contained Rust panic): finish the output channel so consumers</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">        </span><span class="c1">// receive EOF instead of hanging.</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">        </span><span class="n">me</span><span class="p">.</span><span class="n">outputStorage</span><span class="p">.</span><span class="n">finish</span><span class="p">()</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">        </span><span class="k">return</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">    </span><span class="n">me</span><span class="p">.</span><span class="n">outputStorage</span><span class="p">.</span><span class="n">yield</span><span class="p">(</span><span class="nb">String</span><span class="p">(</span><span class="n">cString</span><span class="p">:</span><span class="w"> </span><span class="n">linePtr</span><span class="p">))</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="p">},</span><span class="w"> </span><span class="n">context</span><span class="p">)</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="c1">// send(_:)</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="n">command</span><span class="p">.</span><span class="n">withCString</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">rk_send_command</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span><span class="w"> </span><span class="nv">$0</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="c1">// Teardown: shutdown() — idempotent (teardown lock + isShutdown flag);</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="c1">// deinit merely calls it if explicit teardown was omitted.</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="n">rk_destroy</span><span class="p">(</span><span class="n">engine</span><span class="p">)</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="n">outputStorage</span><span class="p">.</span><span class="n">finish</span><span class="p">()</span>
 </code></pre></div>
-<p>The unretained pointer is safe because <code>deinit</code> calls <code>rk_destroy</code> (which joins the
-engine thread) before <code>self</code> is deallocated, guaranteeing the callback cannot fire
+<p>The callback yields into <code>RecklessOutputStorage</code> — the lock-protected FIFO behind
+<code>cancellationSafeOutput</code> and the <code>output</code> adapter — not into a bare
+<code>AsyncStream.Continuation</code>. The unretained pointer is safe because <code>shutdown()</code>
+(called by <code>deinit</code> at the latest) calls <code>rk_destroy</code> (which joins the engine
+thread) before <code>self</code> is deallocated, guaranteeing the callback cannot fire
 against a freed object.</p>
 <h2 id="recklesshoststubsc"><code>RecklessHostStubs.c</code><a class="headerlink" href="#recklesshoststubsc" title="Permanent link">&para;</a></h2>
 <p>In the source arm on non-Android hosts, the real <code>rk_ffi_*</code> symbols from the Rust
