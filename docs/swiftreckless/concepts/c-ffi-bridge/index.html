@@ -862,12 +862,12 @@ subprocess is spawned; the engine runs on a background thread inside the host pr
 </tr>
 <tr>
 <td>C shim (<code>CReckless</code>)</td>
-<td>SPM module</td>
+<td>SwiftPM module</td>
 <td><code>RecklessBridge.c</code> forwards <code>rk_*</code> → <code>rk_ffi_*</code>; <code>RecklessHostStubs.c</code> supplies no-op <code>rk_ffi_*</code> on non-Android source-arm hosts; the public C header is the Swift module boundary</td>
 </tr>
 <tr>
 <td>Swift (<code>SwiftReckless</code>)</td>
-<td>SPM module</td>
+<td>SwiftPM module</td>
 <td><code>RecklessEngine</code> wraps <code>RKEngineRef</code>; <code>AsyncStream</code> output; <code>RecklessNetworkLoader</code>; mirrors <code>StockfishEngine</code></td>
 </tr>
 </tbody>
@@ -923,9 +923,10 @@ re-exports them as the cleaner <code>rk_*</code> names seen by Swift:</p>
   crate. Swift never needs to manage its own thread for the engine.</li>
 <li>Input is delivered via <code>mpsc::Sender</code>; <code>rk_send_command</code> is therefore thread-safe
   (it only calls <code>Sender::send</code>).</li>
-<li>Each UCI output line fires the registered <code>RKOutputCallback</code> on the <strong>engine thread</strong>.
-  <code>RecklessEngine</code> feeds its lock-protected output FIFO (<code>RecklessOutputStorage</code>)
-  from the callback, so no additional synchronization is needed on the Swift side.</li>
+<li>Each UCI output line fires the registered <code>RKOutputCallback</code> on the engine
+  thread or a search-worker thread. <code>RecklessEngine</code> feeds its lock-protected
+  output FIFO (<code>RecklessOutputStorage</code>) from the callback, so callers must not
+  assume a particular callback thread or call back into <code>rk_ffi_*</code> from it.</li>
 <li><code>rk_destroy</code> sends <code>"quit"</code>, drops the <code>Sender</code> (causing <code>run_io</code> to observe
   channel closure), and <code>join()</code>s the thread. After it returns, the callback can
   never fire — there is no use-after-free window.</li>
@@ -936,9 +937,9 @@ buffers — the Reckless bridge uses <strong>per-instance callback delivery with
 stdout/fd redirection</strong>. There is no global stream manipulation; all I/O flows
 through the <code>mpsc</code> channel and the C callback registered via <code>rk_set_output_callback</code>.</p>
 <p>This design eliminates the class of bugs caused by a leaked stream-buffer swap.
-(It also clears the path to future create→destroy→create-again support, but the
-currently pinned fork still allows only one engine lifetime per process — see
-<a href="../engine-api/#teardown-sequence">Engine API → Teardown sequence</a>.)</p>
+The pinned fork supports create→destroy→create-again lifecycles; overlap remains
+prohibited because the engine owns process-global tables and NNUE state. See
+<a href="../engine-api/#teardown-sequence">Engine API → Teardown sequence</a>.</p>
 <h2 id="swift-to-c-mapping-in-recklessengine">Swift-to-C mapping in <code>RecklessEngine</code><a class="headerlink" href="#swift-to-c-mapping-in-recklessengine" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// init(networkDirectory:)</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kd">let</span><span class="w"> </span><span class="nv">ref</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">netFile</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">withCString</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">rk_create</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// → RKEngineRef (OpaquePointer)</span>

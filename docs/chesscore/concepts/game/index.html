@@ -1202,17 +1202,17 @@ round-trip the original headers. Assign <code>nil</code> to clear them (exportPG
 fall back to neutral placeholder tags).</p>
 <hr />
 <h2 id="movenode">MoveNode<a class="headerlink" href="#movenode" title="Permanent link">&para;</a></h2>
-<p><code>MoveNode</code> is a plain reference type — observation-framework-free so it is
-portable across ChessCore, FianchettoKit, and the Skip Android port. App layers
-wrap it with <code>@Observable</code>.</p>
+<p><code>MoveNode</code> is a plain reference type with no observation-framework dependency,
+so it remains portable across Apple, Linux, and Android consumers. App layers
+can wrap it with <code>@Observable</code>.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kd">public</span><span class="w"> </span><span class="kr">final</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">MoveNode</span><span class="p">:</span><span class="w"> </span><span class="n">Identifiable</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="n">UUID</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="n">UUID</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">get</span><span class="w"> </span><span class="p">}</span><span class="w">                  </span><span class="c1">// generated lazily, then stable</span>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">move</span><span class="p">:</span><span class="w"> </span><span class="n">Move</span>
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">notation</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">               </span><span class="c1">// SAN</span>
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">positionBefore</span><span class="p">:</span><span class="w"> </span><span class="n">Position</span>
 <a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">children</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">MoveNode</span><span class="p">]</span><span class="w">           </span><span class="c1">// mainline first, then variations</span>
 <a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kr">weak</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">parent</span><span class="p">:</span><span class="w"> </span><span class="n">MoveNode</span><span class="p">?</span>
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">plyIndex</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="w">                  </span><span class="c1">// 0 = White&#39;s first move</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">plyIndex</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="w">                  </span><span class="c1">// zero-based, relative to this tree</span>
 <a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
 <a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span><span class="c1">// Per-node data</span>
 <a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">annotation</span><span class="p">:</span><span class="w"> </span><span class="n">MoveAnnotation</span><span class="p">?</span>
@@ -1225,8 +1225,8 @@ wrap it with <code>@Observable</code>.</p>
 <a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="computed-members">Computed members<a class="headerlink" href="#computed-members" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">node</span><span class="p">.</span><span class="n">moveNumber</span><span class="w">          </span><span class="c1">// 1-based (plyIndex / 2 + 1)</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">node</span><span class="p">.</span><span class="n">moverColor</span><span class="w">          </span><span class="c1">// .white for even plyIndex, .black for odd</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">node</span><span class="p">.</span><span class="n">moveNumber</span><span class="w">          </span><span class="c1">// positionBefore.fullmoveNumber</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">node</span><span class="p">.</span><span class="n">moverColor</span><span class="w">          </span><span class="c1">// positionBefore.activeColor</span>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1">// positionAfter is lazily computed and cached on first access:</span>
 <a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">node</span><span class="p">.</span><span class="n">positionAfter</span><span class="w">       </span><span class="c1">// position after applying node.move</span>
@@ -1309,7 +1309,7 @@ for a full walkthrough. The key entry points:</p>
 </tr>
 </tbody>
 </table>
-<p><code>SetUp</code>/<code>FEN</code> tags are honoured: a PGN that starts from a non-initial position
+<p><code>SetUp</code>/<code>FEN</code> tags are honored: a PGN that starts from a non-initial position
 will seed the <code>Game</code> from the tag's FEN before replaying moves.</p>
 
 

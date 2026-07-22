@@ -795,10 +795,23 @@
 <p>Swift tools version 6.0; C++20 (<code>gnu++20</code>). WASM is not yet supported. See
 <a href="../concepts/platform-support/">Platform support</a> for the full matrix and SIMD
 details.</p>
+<div class="admonition note">
+<p class="admonition-title">Intel CPU requirement</p>
+<p>The prebuilt Apple x86_64 slices intentionally retain AVX2/BMI2 performance
+and require a Haswell-class Intel CPU or newer. The binary does not runtime-
+dispatch to a baseline implementation on older Intel hardware.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">ARM CPU requirement</p>
+<p>The optimized arm64 and arm64_32 engine slices emit ARM dot-product
+instructions directly and require FEAT_DotProd-capable hardware. They do not
+runtime-dispatch to a scalar kernel. The watchOS archive starts at arm64_32
+and does not cover legacy armv7k watches.</p>
+</div>
 <h2 id="add-the-package">Add the package<a class="headerlink" href="#add-the-package" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// Package.swift</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">dependencies</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="p">.</span><span class="n">package</span><span class="p">(</span><span class="n">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://github.com/fianchettochess/SwiftStockfish&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;18.0.0&quot;</span><span class="p">),</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="p">.</span><span class="n">package</span><span class="p">(</span><span class="n">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://github.com/fianchettochess/SwiftStockfish.git&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;18.0.10&quot;</span><span class="p">),</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">],</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">targets</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="p">.</span><span class="n">target</span><span class="p">(</span>
@@ -833,7 +846,7 @@ details.</p>
 <p class="admonition-title">GPL-3.0</p>
 <p>This package links Stockfish and is therefore a <strong>GPL-3.0</strong> work. Consuming it
 carries GPL-3.0 obligations on your application. Treat SwiftStockfish as the
-separately-distributable GPL component.</p>
+separately distributable GPL component.</p>
 </div>
 <h2 id="main-vs-release-tags"><code>main</code> vs. release tags<a class="headerlink" href="#main-vs-release-tags" title="Permanent link">&para;</a></h2>
 <ul>
@@ -841,7 +854,7 @@ separately-distributable GPL component.</p>
   <code>Frameworks/Stockfish.xcframework</code>), so a plain <code>swift build</code> succeeds without
   additional setup.</li>
 <li>Each <strong>release tag</strong> rewrites that <code>binaryTarget</code> to a <code>url:</code> + <code>checksum:</code>
-  form, pulling the xcframework from the GitHub release asset. This keeps the
+  form, pulling the XCFramework from the GitHub release asset. This keeps the
   binary out of source control and produces a URL-based binary package.</li>
 </ul>
 <p>Pin a version tag for a remote dependency; clone <code>main</code> for local development.</p>
@@ -854,14 +867,15 @@ separately-distributable GPL component.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>swift<span class="w"> </span>build
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>swift<span class="w"> </span><span class="nb">test</span><span class="w">     </span><span class="c1"># offline logic + filesystem suites (the live-engine suite is gated)</span>
 </code></pre></div>
-<p>The default <code>swift test</code> run never touches the network. The real-engine UCI
-integration suite is gated behind the <code>SWIFTSTOCKFISH_INTEGRATION</code> environment
-variable (it needs a ~107 MB net download and a live engine).</p>
+<p>The default <code>swift test</code> run never touches the network. Enable the real-engine
+UCI integration suite only with <code>SWIFTSTOCKFISH_INTEGRATION=1</code>; every other
+value leaves it disabled. The suite needs a ~107 MB net download and a live
+engine.</p>
 <div class="admonition note">
-<p class="admonition-title">Build on a local disk</p>
-<p><code>swift build</code> fails on an SMB network mount — the index store / module cache
-rely on atomic <code>rename()</code> semantics SMB does not provide. Build on a local
-APFS volume.</p>
+<p class="admonition-title">Filesystem requirements</p>
+<p>Some SMB network mounts do not provide the atomic <code>rename()</code> semantics
+Swift's index store and module cache require. If a build fails there, use a
+local filesystem with atomic rename support.</p>
 </div>
 
 

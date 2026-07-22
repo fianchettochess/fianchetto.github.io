@@ -1121,7 +1121,7 @@ streams. For <strong>session-level</strong> tests that bypass byte decoding, use
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">ReplayTransport</span><span class="p">&lt;</span><span class="n">A</span><span class="p">:</span><span class="w"> </span><span class="n">BoardAdapter</span><span class="p">&gt;.</span><span class="n">Step</span><span class="p">:</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">bytes</span><span class="p">(</span><span class="n">Data</span><span class="p">)</span><span class="w">              </span><span class="c1">// push through adapter.feed(bytes:)</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">lifecycle</span><span class="p">(</span><span class="n">BoardEvent</span><span class="p">)</span><span class="w">    </span><span class="c1">// inject directly into the output stream</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">delay</span><span class="p">(</span><span class="n">TimeInterval</span><span class="p">)</span><span class="w">      </span><span class="c1">// recorded but NOT enforced in runSync()</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">delay</span><span class="p">(</span><span class="n">TimeInterval</span><span class="p">)</span><span class="w">      </span><span class="c1">// recorded but not enforced in runSync()</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="execution-modes">Execution modes<a class="headerlink" href="#execution-modes" title="Permanent link">&para;</a></h3>
@@ -1142,7 +1142,7 @@ exposes the full script (including <code>.delay</code> steps) exactly as provide
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Conformance</p>
-<p><code>ReplayTransport</code> does NOT conform to <code>BoardTransport</code>. It intentionally
+<p><code>ReplayTransport</code> does not conform to <code>BoardTransport</code>. It intentionally
 omits the BLE scan/connect surface that requires a platform import. It
 replaces only the byte-injection path.</p>
 </div>
@@ -1195,6 +1195,10 @@ replaces only the byte-injection path.</p>
 <a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1"># #filePath-relative path (the test target declares no SwiftPM resources),</span>
 <a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1"># or follow the existing Captures/ convention.</span>
 </code></pre></div>
+<p>Before committing, reduce the capture to the protocol bytes required by the
+test and remove device addresses and UUIDs, serial numbers, names, pairing
+material, local paths, account data, and unrelated traffic. Do not commit the
+raw PacketLogger, btsnoop, pcap, phone, or application log.</p>
 <h3 id="parse-errors">Parse errors<a class="headerlink" href="#parse-errors" title="Permanent link">&para;</a></h3>
 <p><code>ReplayScript.parse(text:)</code> throws <code>ReplayScript.ParseError</code> on the first
 malformed or unrecognised line:</p>
@@ -1258,7 +1262,7 @@ session logic directly.</p>
 </tr>
 </tbody>
 </table>
-<p>When capabilities do NOT include <code>.pieceIdentity</code>, all <code>piece</code> fields are <code>nil</code>.</p>
+<p>When capabilities do not include <code>.pieceIdentity</code>, all <code>piece</code> fields are <code>nil</code>.</p>
 <hr />
 <h2 id="boardkit-emulator">boardkit-emulator<a class="headerlink" href="#boardkit-emulator" title="Permanent link">&para;</a></h2>
 <p>A macOS CLI executable that advertises over real Bluetooth as a physical chess

@@ -371,10 +371,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#local-path-dependency-recommended-for-monorepo-setups" class="md-nav__link">
+  <a href="#local-chesscore-override" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Local path dependency (recommended for monorepo setups)
+        Local ChessCore override
       
     </span>
   </a>
@@ -794,10 +794,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#local-path-dependency-recommended-for-monorepo-setups" class="md-nav__link">
+  <a href="#local-chesscore-override" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Local path dependency (recommended for monorepo setups)
+        Local ChessCore override
       
     </span>
   </a>
@@ -883,9 +883,9 @@
 
 <h1 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h1>
 <p>BoardKit is a Swift Package Manager library. Its only runtime dependency is
-<a href="https://github.com/fianchettochess/ChessCore">ChessCore</a> (MIT), which it pulls in
-automatically. No third-party networking, UI, or platform-specific libraries
-are required by the library targets.</p>
+<a href="https://github.com/fianchettochess/ChessCore">ChessCore</a> 0.7.2 or newer within
+the 0.7.x line (MIT), which it pulls in automatically. No third-party networking, UI, or
+platform-specific libraries are required by the library targets.</p>
 <h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -925,27 +925,18 @@ are required by the library targets.</p>
 <code>AsyncStream</code> and <code>actor</code> require. The <code>boardkit-emulator</code> executable target
 uses throwing <code>FileHandle</code> APIs (available since iOS 13.4 / macOS 10.15.4).</p>
 <h2 id="add-the-package">Add the package<a class="headerlink" href="#add-the-package" title="Permanent link">&para;</a></h2>
-<h3 id="local-path-dependency-recommended-for-monorepo-setups">Local path dependency (recommended for monorepo setups)<a class="headerlink" href="#local-path-dependency-recommended-for-monorepo-setups" title="Permanent link">&para;</a></h3>
-<p>BoardKit and ChessCore are sibling packages. Add both as path dependencies:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// Package.swift</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">dependencies</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="p">.</span><span class="n">package</span><span class="p">(</span><span class="n">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;../BoardKit&quot;</span><span class="p">),</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="p">.</span><span class="n">package</span><span class="p">(</span><span class="n">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;../ChessCore&quot;</span><span class="p">),</span><span class="w">   </span><span class="c1">// BoardKit&#39;s public API uses ChessCore types (Piece, Position, Move) — import ChessCore in files that name them</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">],</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">targets</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="p">.</span><span class="n">target</span><span class="p">(</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">        </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;MyApp&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">        </span><span class="n">dependencies</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">            </span><span class="p">.</span><span class="n">product</span><span class="p">(</span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;BoardKit&quot;</span><span class="p">,</span><span class="w">        </span><span class="n">package</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;BoardKit&quot;</span><span class="p">),</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">            </span><span class="p">.</span><span class="n">product</span><span class="p">(</span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ChessnutAdapter&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">package</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;BoardKit&quot;</span><span class="p">),</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">            </span><span class="c1">// Add other adapter products as needed.</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">        </span><span class="p">]</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="p">),</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="p">]</span>
+<h3 id="local-chesscore-override">Local ChessCore override<a class="headerlink" href="#local-chesscore-override" title="Permanent link">&para;</a></h3>
+<p>BoardKit always declares the versioned ChessCore dependency so its identity
+does not change based on checkout layout. When developing both sibling
+packages together, override that dependency explicitly from the BoardKit
+checkout:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>swift<span class="w"> </span>package<span class="w"> </span>edit<span class="w"> </span>ChessCore<span class="w"> </span>--path<span class="w"> </span>../ChessCore
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># Return to the versioned dependency when finished:</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>swift<span class="w"> </span>package<span class="w"> </span>unedit<span class="w"> </span>ChessCore
 </code></pre></div>
 <h3 id="remote-dependency">Remote dependency<a class="headerlink" href="#remote-dependency" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">dependencies</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="p">.</span><span class="n">package</span><span class="p">(</span><span class="n">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://github.com/fianchettochess/BoardKit&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0.1.0&quot;</span><span class="p">),</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="p">.</span><span class="n">package</span><span class="p">(</span><span class="n">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://github.com/fianchettochess/BoardKit.git&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0.5.2&quot;</span><span class="p">),</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">],</span>
 </code></pre></div>
 <h3 id="xcode">Xcode<a class="headerlink" href="#xcode" title="Permanent link">&para;</a></h3>

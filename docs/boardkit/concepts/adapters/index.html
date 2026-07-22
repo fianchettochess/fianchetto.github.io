@@ -590,6 +590,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Hardware status">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hardware-tested-works-within-the-verified-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hardware-tested: works within the verified scope
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#should-work-but-untested-on-target-hardware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Should work but untested on target hardware
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -681,10 +709,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#source-attributions" class="md-nav__link">
+  <a href="#source-attributions-by-adapter" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Source attributions
+        Source attributions by adapter
       
     </span>
   </a>
@@ -808,6 +836,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Hardware status">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hardware-tested-works-within-the-verified-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hardware-tested: works within the verified scope
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#should-work-but-untested-on-target-hardware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Should work but untested on target hardware
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -899,10 +955,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#source-attributions" class="md-nav__link">
+  <a href="#source-attributions-by-adapter" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Source attributions
+        Source attributions by adapter
       
     </span>
   </a>
@@ -940,52 +996,55 @@
 <h1 id="concrete-adapters">Concrete adapters<a class="headerlink" href="#concrete-adapters" title="Permanent link">&para;</a></h1>
 <p>Each concrete adapter is a <code>struct</code> conforming to <code>BoardAdapter</code>. It owns
 wire framing, protocol parsing, command encoding, handshake sequencing, and
-orientation flip for one board family. All adapters import only <code>BoardKit</code> and
-<code>ChessCore</code> — no Bluetooth, no networking.</p>
+orientation flip for one board family. Adapters depend only on <code>BoardKit</code>,
+<code>ChessCore</code>, and system frameworks; Square Off conditionally uses Apple's <code>os</code>
+module for logging. No adapter contains Bluetooth or networking code.</p>
 <h2 id="hardware-status">Hardware status<a class="headerlink" href="#hardware-status" title="Permanent link">&para;</a></h2>
+<p>A checkmark means the adapter implements and declares the corresponding
+<code>BoardCapabilities</code> flag. It does not mean that every listed capability has
+been exercised on physical hardware. A blank means the flag is not declared.
+The <code>motorised</code> spelling is retained because it is an exact API identifier.</p>
+<h3 id="hardware-tested-works-within-the-verified-scope">Hardware-tested: works within the verified scope<a class="headerlink" href="#hardware-tested-works-within-the-verified-scope" title="Permanent link">&para;</a></h3>
+<p>These adapters have at least one hardware-tested path. The verified scope and
+known limitations are explicit because other implemented capabilities may
+remain untested.</p>
 <table>
 <thead>
 <tr>
-<th>Adapter</th>
-<th>Status</th>
-<th>occupancy</th>
-<th>identity</th>
-<th>perSquareLEDs</th>
-<th>motorised</th>
-<th>battery</th>
+<th>Board</th>
+<th>Hardware-verified scope</th>
+<th>Known limitations</th>
+<th><code>.occupancySensing</code></th>
+<th><code>.pieceIdentity</code></th>
+<th><code>.perSquareLEDs</code></th>
+<th><code>.moveIndication</code></th>
+<th><code>.motorised</code></th>
+<th><code>.batteryReporting</code></th>
+<th><code>.perPieceTracking</code></th>
+<th><code>.gameArchive</code></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>SquareOffAdapter</code></td>
-<td><strong>Battle-tested in-app</strong></td>
+<td>Square Off Pro / Kingdom Set (GKS)</td>
+<td>Production use on iOS and Android covers connection, handshake and reconnect, field updates, board state, and LEDs.</td>
+<td>The <code>executeMove</code> motor command remains quarantined; <code>.motorised</code> is not declared.</td>
 <td>✓</td>
 <td></td>
 <td>✓</td>
-<td>✓ (GKS, quarantined)</td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td></td>
 <td></td>
 </tr>
 <tr>
-<td><code>ChessnutAdapter</code> (Air family)</td>
-<td><strong>Protocol-verified; Go stored-game import exercised on real hardware (2026-07)</strong></td>
+<td>Chessnut Go</td>
+<td>Onboard stored-game import reconstructed completed games from a physical board in July 2026.</td>
+<td>Only the archive/import path is hardware-tested; broader live play and the remaining capabilities are not.</td>
 <td>✓</td>
 <td>✓</td>
 <td>✓</td>
-<td></td>
-<td>✓</td>
-</tr>
-<tr>
-<td><code>ChessnutMoveAdapter</code></td>
-<td>Protocol-pinned; hardware-unverified</td>
-<td>✓</td>
-<td>✓</td>
-<td>✓</td>
-<td>✓</td>
-<td>✓</td>
-</tr>
-<tr>
-<td><code>PegasusAdapter</code></td>
-<td>Protocol-pinned; hardware-unverified</td>
 <td>✓</td>
 <td></td>
 <td>✓</td>
@@ -993,26 +1052,165 @@ orientation flip for one board family. All adapters import only <code>BoardKit</
 <td>✓</td>
 </tr>
 <tr>
-<td><code>MillenniumAdapter</code></td>
-<td>Protocol-pinned; exercised on a physical board (move-decode misread found + fixed)</td>
+<td>Millennium (BLE/USB)</td>
+<td>Live move decoding was exercised on a physical board, exposing a misread that was reproduced and fixed.</td>
+<td>Validation covers one board and firmware path; broader firmware variants and the full command surface remain untested.</td>
 <td>✓</td>
 <td>✓</td>
+<td></td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ChessUp 2</td>
+<td>A complete 90-ply live game decoded 90/90 with zero mismatches on Android and iOS; phoneOTB session setup and acknowledgments were also verified.</td>
+<td>The <code>0x99</code> move-indication command, <code>0xFD</code> occupancy stream, and <code>0x66</code> FEN load remain untested. Battery percentage is readable from the standard service, but the adapter does not declare <code>.batteryReporting</code>.</td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="should-work-but-untested-on-target-hardware">Should work but untested on target hardware<a class="headerlink" href="#should-work-but-untested-on-target-hardware" title="Permanent link">&para;</a></h3>
+<p>These adapters implement the documented paths and pass their checked-in frame
+and codec fixtures, but they have not been exercised on the named target
+hardware.</p>
+<table>
+<thead>
+<tr>
+<th>Board</th>
+<th>Verification basis</th>
+<th>Known limitations</th>
+<th><code>.occupancySensing</code></th>
+<th><code>.pieceIdentity</code></th>
+<th><code>.perSquareLEDs</code></th>
+<th><code>.moveIndication</code></th>
+<th><code>.motorised</code></th>
+<th><code>.batteryReporting</code></th>
+<th><code>.perPieceTracking</code></th>
+<th><code>.gameArchive</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Chessnut Air</td>
+<td>Official documentation and pinned MIT implementations; all golden-frame fixtures pass.</td>
+<td>No physical-board or BLE capture-log validation.</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td>✓</td>
+<td></td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Chessnut Air+</td>
+<td>Official documentation and pinned MIT implementations; all golden-frame fixtures pass.</td>
+<td>No physical-board or BLE capture-log validation.</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td>✓</td>
+<td></td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Chessnut Pro</td>
+<td>Official documentation and pinned MIT implementations; all golden-frame fixtures pass.</td>
+<td>No physical-board or BLE capture-log validation.</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td>✓</td>
+<td></td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Chessnut Move</td>
+<td>Official protocol documentation with a pinned MIT cross-check; all golden-frame fixtures pass.</td>
+<td>No physical-board or BLE capture-log validation.</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+</tr>
+<tr>
+<td>DGT Pegasus</td>
+<td>Pinned public implementations and protocol references; all frame fixtures pass.</td>
+<td>No physical-board or BLE capture-log validation. The developer-key authorization context is documented in the adapter notes.</td>
+<td>✓</td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td>✓</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Certabo (classic LED)</td>
+<td>A pinned MIT implementation and locally constructed protocol regressions.</td>
+<td>No physical-board or USB/Bluetooth capture-log validation; identity requires calibration.</td>
+<td>✓</td>
+<td>✓ after calibration</td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td><code>CertaboAdapter</code></td>
-<td>Protocol-pinned; hardware-unverified</td>
+<td>Certabo Spectrum RGB</td>
+<td>A pinned MIT implementation and locally constructed protocol regressions.</td>
+<td>No physical-board or USB/Bluetooth capture-log validation; identity requires calibration, and the 9×9 corner grid does not provide per-square LEDs.</td>
 <td>✓</td>
+<td>✓ after calibration</td>
+<td></td>
 <td>✓</td>
-<td>✓</td>
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td><code>ChessUpAdapter</code> (gen-1 / CU2)</td>
-<td><strong>Hardware-verified (full 90-ply game, Android + iOS) 2026-07</strong></td>
+<td>Tabutronic Sentio</td>
+<td>A pinned MIT implementation and locally constructed protocol regressions.</td>
+<td>No physical-board or USB/Bluetooth capture-log validation.</td>
+<td>✓</td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ChessUp (gen-1)</td>
+<td>Pinned protocol references; its shared GATT transport and exercised frame formats were corroborated indirectly on ChessUp 2.</td>
+<td>No ChessUp gen-1 unit has been tested.</td>
+<td>✓</td>
+<td></td>
+<td></td>
 <td>✓</td>
 <td></td>
 <td></td>
@@ -1031,7 +1229,8 @@ home rank correct, 0x40 = empty); 0xB8/0xBB capacitive touch/release; 0xB1
 new-game/set-state; 0xA3 move frames (<code>[A3, sub, fromCol, fromRow, toCol, toRow]</code>).
 pieceCode in 0xB8 is type-only and color-agnostic (e.g., pawn = 0x00 for both sides).
 A complete 90-ply over-the-board game (Android btsnoop + iOS PacketLogger) decoded
-<strong>0/90</strong> against the board app's own PGN export, resolving the 0xA3 frame shapes:
+<strong>90/90 moves with zero mismatches</strong> against the board app's own PGN export,
+resolving the 0xA3 frame shapes:
 castling is a single king-slide 0xA3, promotion is a plain pawn 0xA3 followed by a
 0x97 board-side pick, capture is a plain from→to 0xA3, and the 0x35 sub byte is
 constant across every move kind (not a discriminator). Locked by the <code>G1</code> golden
@@ -1041,20 +1240,20 @@ behind a 0xB9 game-settings frame with mode 5 (phoneOTB, both sides human, no re
 — bytes <code>B9 05 00 01 00 00 01 00 00 00 00 00</code>). Standalone AI-mode games never stream
 moves to the host. <code>.startSession</code> now encodes this via <code>collectionSessionData()</code>.</p>
 <p><strong>Ack discipline (hardware-observed):</strong> the board retransmits each 0xA3 until the host
-writes a 0x21 ack; an unacked flood destabilised the BLE link in testing. 0x97
+writes a 0x21 ack; an unacked flood destabilized the BLE link in testing. 0x97
 board-side promotions require 0x23. The adapter queues both internally —
 <code>takePendingResponses()</code> drains them; the transport need not inspect raw frames.</p>
-<p><strong>Still pending (honest):</strong> 0x99 move-indication LEDs on CU2; 0xFD occupancy stream
+<p><strong>Remaining hardware validation:</strong> 0x99 move-indication LEDs on CU2; 0xFD occupancy stream
 (0x50 enable); 0x66 FEN-load; Android <code>ChessUpBleManager.kt</code>; gen-1 physical hardware
 itself untested (but CU2 corroborates the gen-1-pinned transport and frame formats).</p>
 </div>
 <hr />
 <h2 id="squareoffadapter">SquareOffAdapter<a class="headerlink" href="#squareoffadapter" title="Permanent link">&para;</a></h2>
 <p>Square Off Pro and Kingdom Set (GKS). Field-proven in the Fianchetto iOS and
-Android production apps. All BLE codec paths (fieldUpdate, boardState, setLeds,
-handshake/reconnect) are hardware-verified.</p>
+Android production apps. The connection, field-update, board-state, LED,
+handshake, and reconnect paths are hardware-verified.</p>
 <p>The <code>executeMove</code> motor command is <strong>quarantined</strong> — its wire semantics may
-auto-move on motorised GKS boards and are not fully confirmed. The adapter
+auto-move on motorized GKS boards and are not fully confirmed. The adapter
 returns <code>nil</code> from <code>encode(.executeMove(uci:))</code> until the wire format is
 hardware-verified.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">import</span><span class="w"> </span><span class="nc">SquareOffAdapter</span>
@@ -1070,14 +1269,14 @@ hardware-verified.</p>
 <h2 id="chessnutadapter">ChessnutAdapter<a class="headerlink" href="#chessnutadapter" title="Permanent link">&para;</a></h2>
 <p>Covers the Chessnut <strong>Air</strong>, <strong>Air+</strong>, <strong>Pro</strong>, and <strong>Go</strong> (the "classic profile" boards).
 Protocol-verified against the official Chessnut docs, NSStudent/EasyLinkSwiftSDK
-(MIT), and chessnutech/EasyLinkSDK (MIT).</p>
+(MIT, <code>1b971059</code>), and chessnutech/EasyLinkSDK (MIT, <code>4554d17b</code>).</p>
 <p>The Air / Air+ / Pro / Go family uses the standard Chessnut BLE profile:
 all golden-frame fixtures from the pinned spec pass. The <strong>Chessnut Go</strong>
 onboard stored-game import path was exercised against real hardware (2026-07,
 reconstructing completed games from the board's snapshot log); broader
 live-play field validation across the family is ongoing.</p>
 <p>Use <code>ChessnutGATT.isClassicProfile(name:)</code> to filter BLE scan results to this
-adapter. For the Chessnut Move (motorised board) see the
+adapter. For the Chessnut Move (motorized board), see the
 <a href="#chessnutmoveadapter">ChessnutMoveAdapter</a> section below.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">import</span><span class="w"> </span><span class="nc">ChessnutAdapter</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
@@ -1095,9 +1294,9 @@ adapter. For the Chessnut Move (motorised board) see the
 </code></pre></div>
 <hr />
 <h2 id="chessnutmoveadapter">ChessnutMoveAdapter<a class="headerlink" href="#chessnutmoveadapter" title="Permanent link">&para;</a></h2>
-<p>The Chessnut Move — a motorised board where 34 micro-robot pieces move
-autonomously. Shares all GATT UUIDs with the classic profile but adds
-4-colour LEDs, an auto-move command (opcode 0x42), and per-piece tracking
+<p>The Chessnut Move is a motorized board where 34 micro-robot pieces move
+autonomously. It shares all GATT UUIDs with the classic profile but adds
+four-color LEDs, an auto-move command (opcode 0x42), and per-piece tracking
 (opcode 0x41/0x0B). Hardware-unverified; protocol-pinned against
 chessnutech/chess_move_api (official, facts only; re-derived independently)
 and NSStudent/EasyLinkSwiftSDK (MIT).</p>
@@ -1117,7 +1316,7 @@ distinguish it from the classic profile.</p>
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="kd">let</span><span class="w"> </span><span class="nv">autoMoveCmd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ChessnutMoveAdapter</span><span class="p">.</span><span class="n">encodeAutoMove</span><span class="p">(</span><span class="n">identity</span><span class="p">:</span><span class="w"> </span><span class="n">targetBoard</span><span class="p">,</span><span class="w"> </span><span class="n">force</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1">// 35-byte 0x42 frame — write to ChessnutGATT.commandWriteChar</span>
 <a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="c1">// 4-colour LED indication:</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="c1">// Four-color LED indication:</span>
 <a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="kd">let</span><span class="w"> </span><span class="nv">ledCmd</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">adapter</span><span class="p">.</span><span class="n">encode</span><span class="p">(.</span><span class="n">indicateSquares</span><span class="p">([</span><span class="s">&quot;e2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;e4&quot;</span><span class="p">],</span><span class="w"> </span><span class="n">style</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">moveFrom</span><span class="p">))</span>
 <a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="c1">// 34-byte 0x43 frame (green = .moveFrom, blue = .moveTo, red = .danger)</span>
 <a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>
@@ -1143,10 +1342,16 @@ on 1b7e8262 are suppressed during execution. Session code must poll
 <hr />
 <h2 id="pegasusadapter">PegasusAdapter<a class="headerlink" href="#pegasusadapter" title="Permanent link">&para;</a></h2>
 <p>DGT Pegasus BLE board. Occupancy sensing + per-square LED move indication;
-no piece identity. Protocol-pinned against mono424/dgtdriver (MIT, Dart) as
-primary reference.</p>
-<p>The devkey bundled is the White Pawn / dgtdriver default. Integrators should
-obtain their own from DGT Projects for production deployments.</p>
+no piece identity. Protocol-pinned against
+<a href="https://github.com/mono424/dgtdriver/blob/333b1d6b151368168a395c43364cc27798920bfc/lib/DGTBoard.dart">mono424/dgtdriver at <code>333b1d6b</code></a>
+(MIT, Dart) as the primary reference.</p>
+<p>At least two public community implementations publish the same default
+developer-key frame: the pinned dgtdriver source and
+<a href="https://github.com/EdNekebno/PegasusChessComChromeExtension/blob/5fe10bdcf00827886d1ad8702278abe65680a2ee/content_script.js">PegasusChessComChromeExtension at <code>5fe10bdc</code></a>
+at the pinned revisions. That public duplication does not establish official
+DGT authorization for general reuse. Deployments requiring authorization
+should confirm their requirements with DGT and inject an appropriate value via
+<code>PegasusAdapter(devkey:)</code>.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">import</span><span class="w"> </span><span class="nc">PegasusAdapter</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kd">var</span><span class="w"> </span><span class="nv">adapter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">PegasusAdapter</span><span class="p">()</span>
@@ -1156,8 +1361,8 @@ obtain their own from DGT Projects for production deployments.</p>
 <hr />
 <h2 id="millenniumadapter">MillenniumAdapter<a class="headerlink" href="#millenniumadapter" title="Permanent link">&para;</a></h2>
 <p>Millennium chess boards (BLE and USB-HID). Piece identity via Hall sensors;
-9×9 corner-LED grid for move indication — the board uses <code>.moveIndication</code> but
-NOT <code>.perSquareLEDs</code>.</p>
+9×9 corner-LED grid for move indication. The board uses <code>.moveIndication</code> but
+not <code>.perSquareLEDs</code>.</p>
 <p>Protocol-pinned against domschl/python-mchess (MIT) and alstrup/chesslink
 (MIT). Full codec implemented: MF1–MF7 golden fixtures pass, full-position
 orientation detection, E2ROM read/write, and delta event generation.</p>
@@ -1165,21 +1370,21 @@ orientation detection, E2ROM read/write, and delta event generation.</p>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kd">var</span><span class="w"> </span><span class="nv">adapter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">MillenniumAdapter</span><span class="p">()</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1">// capabilities: [.occupancySensing, .pieceIdentity, .moveIndication]</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1">// Note: perSquareLEDs is NOT set — the board uses a 9×9 corner-LED grid.</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1">// Note: perSquareLEDs is not set; the board uses a 9×9 corner-LED grid.</span>
 </code></pre></div>
 <hr />
 <h2 id="certaboadapter">CertaboAdapter<a class="headerlink" href="#certaboadapter" title="Permanent link">&para;</a></h2>
 <p>Certabo RFID boards (USB serial, BT Classic RFCOMM, and BLE byte pipe) plus
 the Tabutronic Sentio occupancy family. Piece identity via calibrated RFID
 tags; per-square LEDs (classic LED) or 9×9 corner-LED grid (Spectrum RGB).</p>
-<p>Protocol-pinned against mono424/certabodriver (MIT); test vectors confirmed
-against gkalab/cer2nut fixtures.</p>
+<p>Protocol-pinned against mono424/certabodriver (MIT, <code>d61997c6</code>); behavior was
+cross-checked using locally constructed regressions informed by gkalab/cer2nut.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">import</span><span class="w"> </span><span class="nc">CertaboAdapter</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1">// Default (uncalibrated) — occupancy + LEDs only:</span>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="kd">var</span><span class="w"> </span><span class="nv">adapter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">CertaboAdapter</span><span class="p">()</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1">// capabilities: [.occupancySensing, .moveIndication, .perSquareLEDs]</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1">// .pieceIdentity is NOT set until a calibrated RFID board is detected.</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1">// .pieceIdentity is not set until a calibrated RFID board is detected.</span>
 <a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
 <a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1">// With calibration — enables piece identity:</span>
 <a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="kd">var</span><span class="w"> </span><span class="nv">calibratedAdapter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">CertaboAdapter</span><span class="p">(</span><span class="n">calibration</span><span class="p">:</span><span class="w"> </span><span class="n">myCalibration</span><span class="p">)</span>
@@ -1191,7 +1396,7 @@ against gkalab/cer2nut fixtures.</p>
 <p class="admonition-title">Dynamic capabilities</p>
 <p><code>CertaboAdapter</code> capabilities are dynamic. The default is
 <code>[.occupancySensing, .moveIndication, .perSquareLEDs]</code>. <code>.pieceIdentity</code>
-is added only when an RFID board is detected AND a <code>CertaboCalibration</code> is
+is added only when an RFID board is detected and a <code>CertaboCalibration</code> is
 provided to the adapter. <code>.perSquareLEDs</code> is dropped for Spectrum RGB
 boards (reported <code>D</code> status), leaving <code>.moveIndication</code> only — the same
 corner-LED-grid pattern as <code>MillenniumAdapter</code>.</p>
@@ -1221,19 +1426,19 @@ mono424/chessupdriver (MIT, commit 589d43ad); CU2 transport and core frame seman
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kd">var</span><span class="w"> </span><span class="nv">adapter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ChessUpAdapter</span><span class="p">()</span>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1">// capabilities: [.occupancySensing, .moveIndication]</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1">// Note: .perSquareLEDs is NOT set — the 0x99 command accepts only two squares</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1">// Note: .perSquareLEDs is not set; the 0x99 command accepts only two squares</span>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1">// and injects a remote-move intent, not free-form per-square illumination.</span>
 <a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1">// This follows the same Millennium precedent: move-indication without</span>
 <a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1">// per-square contract.</span>
 <a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
-<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1">// REQUIRED: start a phoneOTB session BEFORE requesting state.</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1">// Required: start a phoneOTB session before requesting state.</span>
 <a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="c1">// Without 0xB9 mode-5 the board never streams 0xA3 move frames.</span>
 <a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="kd">let</span><span class="w"> </span><span class="nv">handshake</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">adapter</span><span class="p">.</span><span class="n">handshakeCommands</span><span class="p">(</span><span class="n">isReconnect</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
 <a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="c1">// First connect:  [(.startSession, 0.0s), (.requestState, 0.15s)]</span>
 <a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="c1">//   .startSession encodes collectionSessionData() — 0xB9 phoneOTB frame</span>
 <a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="c1">// Reconnect only: [(.requestState, 0.25s)] — 250 ms link-settle; never re-sends 0xB9 (would reset board score)</span>
 <a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>
-<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="c1">// REQUIRED: drain acks after every inbound feed() call.</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="c1">// Required: drain acks after every inbound feed() call.</span>
 <a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="kd">let</span><span class="w"> </span><span class="nv">events</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">adapter</span><span class="p">.</span><span class="n">feed</span><span class="p">(</span><span class="n">bytes</span><span class="p">:</span><span class="w"> </span><span class="n">bleNotification</span><span class="p">)</span>
 <a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="kd">let</span><span class="w"> </span><span class="nv">acks</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">adapter</span><span class="p">.</span><span class="n">takePendingResponses</span><span class="p">()</span>
 <a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="c1">// Write each element of `acks` to ChessUpGATT.nusRX.</span>
@@ -1301,50 +1506,55 @@ implementation needs. You must use these rather than hard-coding strings.</p>
 <a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="p">}</span>
 </code></pre></div>
 <hr />
-<h2 id="source-attributions">Source attributions<a class="headerlink" href="#source-attributions" title="Permanent link">&para;</a></h2>
+<h2 id="source-attributions-by-adapter">Source attributions by adapter<a class="headerlink" href="#source-attributions-by-adapter" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Adapter</th>
-<th>MIT sources (code-ok)</th>
-<th>Facts-only sources (GPL / proprietary)</th>
+<th>MIT implementation sources</th>
+<th>Protocol/behavior references (other terms)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>SquareOffAdapter</td>
-<td>First-party reverse engineering</td>
+<td>First-party reverse engineering — no external driver</td>
 <td>—</td>
 </tr>
 <tr>
 <td>ChessnutAdapter</td>
-<td>NSStudent/EasyLinkSwiftSDK (MIT); chessnutech/EasyLinkSDK (MIT)</td>
-<td>chessnutech README</td>
+<td>NSStudent/EasyLinkSwiftSDK (MIT, <code>1b971059</code>); chessnutech/EasyLinkSDK (MIT, <code>4554d17b</code>)</td>
+<td>chessnutech/Chessnut_eBoards README</td>
+</tr>
+<tr>
+<td>ChessnutMoveAdapter</td>
+<td>NSStudent/EasyLinkSwiftSDK (MIT, <code>1b971059</code>, cross-check)</td>
+<td>chessnutech/chess_move_api (no license — facts only, re-derived)</td>
 </tr>
 <tr>
 <td>PegasusAdapter</td>
-<td>mono424/dgtdriver (MIT, Dart)</td>
-<td>DGTCentaurMods/pegasus.py (GPL); DGT docs</td>
+<td>mono424/dgtdriver (MIT, Dart, <code>333b1d6b</code>)</td>
+<td>EdNekebno/PegasusChessComChromeExtension (GPL-3.0, <code>5fe10bdc</code>); DGTCentaurMods/pegasus.py (GPL); Graham O'Neill ReadMe PDF; DGT Projects dgtbrd13.h</td>
 </tr>
 <tr>
 <td>MillenniumAdapter</td>
-<td>domschl/python-mchess (MIT); alstrup/chesslink (MIT)</td>
-<td>Graham O'Neill readme</td>
+<td>domschl/python-mchess (MIT, <code>74ccfd40</code>); alstrup/chesslink (MIT, <code>13b64273</code>)</td>
+<td>Graham O'Neill readme (proprietary — facts only)</td>
 </tr>
 <tr>
 <td>CertaboAdapter</td>
-<td>mono424/certabodriver (MIT)</td>
-<td>Various GPL drivers (facts only)</td>
+<td>mono424/certabodriver (MIT, <code>d61997c6</code>)</td>
+<td>Protocol/behavior references: CERTABO software (GPL), CERTABO/BT (no declared license), haklein/certabo-lichess (GPL), gkalab/cer2nut (GPL)</td>
 </tr>
 <tr>
 <td>ChessUpAdapter</td>
-<td>mono424/chessupdriver (MIT, 589d43ad)</td>
-<td>chessup-pc (all rights reserved)</td>
+<td>mono424/chessupdriver (MIT, commit 589d43ad)</td>
+<td>atomice1/bluecheese (GPL/LGPL); Kevin-BryghtLabs/chessup-pc (all rights reserved)</td>
 </tr>
 </tbody>
 </table>
-<p>GPL, AGPL, and license-less repos are <strong>facts only</strong> — protocol constants and
-frame layouts may be learned from them but no code structure is copied. See
+<p>GPL, AGPL, and license-less repositories are protocol research references. No
+third-party source files or fixture blobs from them are redistributed here. See
 per-adapter file headers for specific source attribution tags.</p>
 <hr />
 <h2 id="contributing-a-hardware-verified-adapter">Contributing a hardware-verified adapter<a class="headerlink" href="#contributing-a-hardware-verified-adapter" title="Permanent link">&para;</a></h2>
@@ -1354,7 +1564,10 @@ hardware-unverified" to "hardware-verified", submit a capture log in the
 <ol>
 <li>Capture a BLE session covering: initial connection, several moves, battery
    request (where available).</li>
-<li>Convert to <code>.replay</code> format using <code>tshark</code> (see the README for the
+<li>Remove device addresses and UUIDs, serial numbers, names, pairing material,
+   local paths, account data, and unrelated traffic. Do not submit the raw
+   PacketLogger, btsnoop, pcap, phone, or application log.</li>
+<li>Convert the minimal protocol bytes to <code>.replay</code> format using <code>tshark</code> (see the README for the
    one-liner).</li>
 <li>Save under <code>Tests/Fixtures/&lt;board-name&gt;.replay</code>. <code>Tests/Fixtures/</code> does
    not exist yet — create it with your first fixture and load it in the test

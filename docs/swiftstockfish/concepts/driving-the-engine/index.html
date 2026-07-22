@@ -801,8 +801,7 @@ back-pressure. It finishes when the engine is torn down.</p>
 <p class="admonition-title">Sanitize FENs from your own board</p>
 <p>Stockfish's parser asserts on inconsistent metadata and <strong>aborts the process</strong>.
 If you build FENs from your own state, sanitize them first — with
-<a href="https://github.com/fianchettochess/ChessCore">ChessCore</a> (a private sibling
-package; the link may not resolve for external readers), send
+<a href="https://github.com/fianchettochess/ChessCore">ChessCore</a>, send
 <code>position.stockfishSafeFEN</code>.</p>
 </div>
 <h2 id="search-controls">Search controls<a class="headerlink" href="#search-controls" title="Permanent link">&para;</a></h2>
@@ -836,7 +835,7 @@ teardown keeps the gate held and causes the next <code>StockfishEngine(...)</cod
 block indefinitely.</p>
 <p>Two constraints govern the engine lifecycle:</p>
 <ul>
-<li><strong>Valid nets before creation</strong> — <code>StockfishEngine.init?</code> pre-flights the required
+<li><strong>Valid nets before creation</strong> — <code>StockfishEngine.init?</code> preflights the required
   NNUE nets and returns <code>nil</code> if any is missing or invalid, so run the network
   loader first. Driving the raw <code>CStockfish</code> bridge yourself has no such guard:
   Stockfish calls <code>exit(EXIT_FAILURE)</code> in <code>verify_networks()</code> on the first

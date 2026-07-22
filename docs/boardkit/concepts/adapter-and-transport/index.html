@@ -951,7 +951,7 @@ connecting and routes events through the appropriate kernel path
 <p>The adapter accumulates partial frame bytes across calls (framing is
 stateful). Emits events only when a complete frame boundary is reached.
 Must be called serially — concurrent calls to a <code>mutating</code> function on a
-value type are undefined behaviour. An empty <code>Data</code> is safe (no-op).</p>
+value type are undefined behavior. An empty <code>Data</code> is safe (no-op).</p>
 <h3 id="encode_"><code>encode(_:)</code><a class="headerlink" href="#encode_" title="Permanent link">&para;</a></h3>
 <p>Returns the wire bytes for a <code>BoardCommand</code>, or <code>nil</code> when the command is
 unsupported for this board. The transport silently skips <code>nil</code> results.</p>

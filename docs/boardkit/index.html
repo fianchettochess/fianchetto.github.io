@@ -814,9 +814,10 @@ inference, execution gate, diff resolver, correction planner, takeback
 detector, sync gate, reconnect policy), so downstream session shells are
 written once and work with any physical board brand. BLE and USB-HID
 transport code lives in the consuming app targets (where <code>CoreBluetooth</code> or
-<code>SkipFuse</code> is available); BoardKit's library targets import only ChessCore
-and Foundation and carry no platform-specific dependencies. The one exception
-is the <code>boardkit-emulator</code> executable, whose CoreBluetooth peripheral code is
+<code>SkipFuse</code> is available); BoardKit's library targets depend only on ChessCore
+and system frameworks. They use Foundation throughout and conditionally use
+Apple's <code>os</code> module for Square Off logging. The only CoreBluetooth exception is
+the <code>boardkit-emulator</code> executable, whose peripheral code is
 guarded by <code>#if os(macOS) &amp;&amp; canImport(CoreBluetooth)</code> and never enters the
 library graph.</p>
 <h2 id="products">Products<a class="headerlink" href="#products" title="Permanent link">&para;</a></h2>

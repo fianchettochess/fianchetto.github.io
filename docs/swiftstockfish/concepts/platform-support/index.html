@@ -738,8 +738,8 @@
 
 
 <h1 id="platform-support">Platform Support<a class="headerlink" href="#platform-support" title="Permanent link">&para;</a></h1>
-<p>SwiftStockfish presents a byte-for-byte identical Swift API on every platform, but
-delivers the engine two ways: a prebuilt xcframework on Apple, and a from-source
+<p>SwiftStockfish presents the same source-level Swift API on every platform, but
+delivers the engine two ways: a prebuilt XCFramework on Apple, and a from-source
 build everywhere else. <code>Package.swift</code> selects the appropriate target based on the
 build host.</p>
 <h2 id="supported-platforms">Supported platforms<a class="headerlink" href="#supported-platforms" title="Permanent link">&para;</a></h2>
@@ -756,44 +756,44 @@ build host.</p>
 <tr>
 <td>macOS</td>
 <td>10.15</td>
-<td>prebuilt xcframework</td>
-<td>arm64 NEON+DOTPROD · x86_64 AVX2+PEXT</td>
+<td>prebuilt XCFramework</td>
+<td>arm64 NEON+DOTPROD · x86_64 AVX2/BMI2 (PEXT, Haswell+)</td>
 </tr>
 <tr>
 <td>iOS</td>
 <td>13</td>
-<td>prebuilt xcframework</td>
+<td>prebuilt XCFramework</td>
 <td>arm64 NEON+DOTPROD</td>
 </tr>
 <tr>
 <td>tvOS</td>
 <td>13</td>
-<td>prebuilt xcframework</td>
-<td>arm64 NEON</td>
+<td>prebuilt XCFramework</td>
+<td>arm64 NEON+DOTPROD</td>
 </tr>
 <tr>
 <td>watchOS</td>
 <td>6</td>
-<td>prebuilt xcframework</td>
-<td>arm64 NEON (use a small <code>Hash</code>)</td>
+<td>prebuilt XCFramework</td>
+<td>arm64_32 (watchOS 6+) + arm64 (watchOS 26+), NEON+DOTPROD; no armv7k</td>
 </tr>
 <tr>
 <td>visionOS</td>
 <td>1</td>
-<td>prebuilt xcframework</td>
-<td>arm64 NEON</td>
+<td>prebuilt XCFramework</td>
+<td>arm64 NEON+DOTPROD</td>
 </tr>
 <tr>
 <td>Mac Catalyst</td>
 <td>13</td>
-<td>prebuilt xcframework</td>
-<td>arm64 NEON · x86_64 AVX2</td>
+<td>prebuilt XCFramework</td>
+<td>arm64 NEON+DOTPROD · x86_64 AVX2/BMI2 (PEXT, Haswell+)</td>
 </tr>
 <tr>
 <td>Linux arm64</td>
 <td>—</td>
 <td>source build</td>
-<td>NEON+DOTPROD (full speed)</td>
+<td>NEON+DOTPROD (FEAT_DotProd required)</td>
 </tr>
 <tr>
 <td>Linux x86_64</td>
@@ -805,7 +805,7 @@ build host.</p>
 <td>Android arm64</td>
 <td>API 28</td>
 <td>source build</td>
-<td>NEON+DOTPROD (full speed)</td>
+<td>NEON+DOTPROD (FEAT_DotProd required)</td>
 </tr>
 <tr>
 <td>Android x86_64</td>
@@ -831,13 +831,14 @@ build host.</p>
 <ul>
 <li><strong>Apple — prebuilt <code>Stockfish.xcframework</code>.</strong> A <code>binaryTarget</code> with 10 slices
   (ios/macos/tvos/watchos/xros/maccatalyst, device + simulator), all built from
-  the same Stockfish 18 source. Per-architecture SIMD flags are baked in at build
-  time, so every Apple architecture links with full SIMD and the package carries no
-  per-architecture compile flags.</li>
+  the same Stockfish 18 source. Apple ARM slices preserve NEON+DOTPROD and
+  require FEAT_DotProd-capable hardware; x86_64 preserves the optimized
+  AVX2/BMI2 (PEXT) build and requires Haswell-class hardware. Neither path has runtime
+  baseline dispatch.</li>
 <li><strong>Non-Apple (Linux / Android) — compiled from source.</strong> The bridge plus all the
   Stockfish translation units compile in the <code>CStockfish</code> target. SIMD follows the
-  compiler's own feature predefines: full NEON on arm64; on x86_64 the publishable
-  default is the SSE2 baseline (correct and version-pinnable, with SSSE3/SSE4.1/AVX2
+  package config: NEON+DOTPROD on arm64 (FEAT_DotProd required); on x86_64 the
+  publishable default is the SSE2 baseline (correct and version-pinnable, with SSSE3/SSE4.1/AVX2
   available as an opt-in).</li>
 </ul>
 <p>The package carries <strong>no <code>.unsafeFlags</code></strong>, which keeps it
@@ -854,8 +855,9 @@ accepting revision-pinning on that platform:</p>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># AVX2 as well:</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>swift<span class="w"> </span>build<span class="w"> </span>-Xcxx<span class="w"> </span>-mavx2<span class="w"> </span>-Xcxx<span class="w"> </span>-mbmi2<span class="w"> </span>-Xcxx<span class="w"> </span>-DSF_ENABLE_AVX2
 </code></pre></div>
-<p><strong>arm64 incurs no penalty</strong> — NEON is the architecture baseline on both Linux and
-Apple.</p>
+<p><strong>arm64 needs no opt-in flag</strong>, but the selected optimized kernel emits DOTPROD
+instructions and requires FEAT_DotProd-capable hardware. The watchOS device slice
+begins at arm64_32; legacy armv7k watches are not included.</p>
 <h2 id="cross-compiling-for-android">Cross-compiling for Android<a class="headerlink" href="#cross-compiling-for-android" title="Permanent link">&para;</a></h2>
 <p>Android uses the same from-source target as Linux, compiled with the
 <a href="https://github.com/swiftlang/swift-android">Swift Android SDK</a>. The package builds
@@ -864,7 +866,7 @@ cross-compiling from macOS, all handled by <code>Tools/android/build-android.sh<
 <ol>
 <li><strong>Force the source target.</strong> SwiftPM evaluates <code>Package.swift</code> on the build host,
    so on macOS <code>#if os(macOS)</code> is true and the manifest would otherwise select the
-   Apple xcframework target even for an Android build. Set
+   Apple XCFramework target even for an Android build. Set
    <code>SWIFTSTOCKFISH_FORCE_SOURCE_ENGINE=1</code> to select the from-source target (and pull
    in swift-crypto for the loader's SHA-256) regardless of host.</li>
 <li><strong>Match the toolchain to the SDK.</strong> Swift modules are not forward-compatible: a
@@ -878,21 +880,22 @@ cross-compiling from macOS, all handled by <code>Tools/android/build-android.sh<
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Tools/android/build-android.sh<span class="w"> </span>-c<span class="w"> </span>release<span class="w">     </span><span class="c1"># release</span>
 </code></pre></div>
 <p>The minimum Android API level is <strong>28</strong> (the lowest the Swift Android SDK
-provides). arm64 builds at full NEON speed; the x86_64 emulator slice uses the SSE2
-baseline. The public C API and Swift surface are identical to every other platform.</p>
+provides). arm64 builds use NEON+DOTPROD and require FEAT_DotProd; the x86_64
+emulator slice uses the SSE2 baseline. The public C API and Swift surface are
+identical to every other platform.</p>
 <h2 id="wasm">WASM<a class="headerlink" href="#wasm" title="Permanent link">&para;</a></h2>
 <p>WASM is not yet supported. The source target and the in-memory-queue bridge are
 already WASI-compatible, but the current Swift WASM SDK lacks a working
 multi-threading runtime and defaults to <code>-fno-exceptions</code>, while Stockfish uses
 exceptions. The remaining work is in the toolchain, not the bridge.</p>
 <h2 id="releasing-maintainers">Releasing (maintainers)<a class="headerlink" href="#releasing-maintainers" title="Permanent link">&para;</a></h2>
-<p>Releases are produced by the <strong><code>Release binary</code></strong> GitHub Actions workflow, not by
-hand. Push a semver <strong>tag</strong> (e.g. <code>git tag 18.0.10 &amp;&amp; git push origin 18.0.10</code>); the
-workflow builds <code>Stockfish.xcframework</code>, publishes it as a release asset, computes
-its checksum, rewrites the active <code>binaryTarget</code> from <code>path:</code> to <code>url:</code> +
-<code>checksum:</code> on a detached commit, and force-points the tag at that commit. <strong><code>main</code>
-is never pushed</strong> — it keeps its committed binary and stays path-based, so a plain
-local <code>swift build</code> keeps working; the url form lives solely on release tags.</p>
+<p>Releases are produced by the manual <strong><code>Release binary</code></strong> GitHub Actions workflow,
+not by pushing a tag. Run it from the current default branch with a new semver
+version. It rebuilds and tests the exact XCFramework (including the live engine),
+archives and checksum-verifies it, creates the detached URL-based manifest commit,
+then uploads and re-downloads the asset through a draft release before publishing.
+The final tag is created once and is never force-moved. <strong><code>main</code> is never pushed</strong>
+by the workflow; it retains the committed path-based binary for local builds.</p>
 
 
 

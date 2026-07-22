@@ -939,12 +939,12 @@ Stockfish-specific behavior.</p>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="kd">let</span><span class="w"> </span><span class="nv">best</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">UCIOutputParser</span><span class="p">.</span><span class="n">parseBestMove</span><span class="p">(</span><span class="s">&quot;bestmove e2e4 ponder e7e5&quot;</span><span class="p">)</span><span class="w">   </span><span class="c1">// &quot;e2e4&quot;</span>
 <a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1">// Distil a MultiPV batch — keeps the last (highest-depth) entry per rank.</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1">// The result dictionary maps MultiPV index (1 = best) to the deepest UCIInfo</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="c1">// seen for that rank; lines without a multipv field count as rank 1.</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1">// Distil a MultiPV batch. The result maps each MultiPV index (1 = best)</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1">// to the deepest UCIInfo seen for that rank. Equal-depth updates prefer the</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="c1">// latest line; lines without a multipv field count as rank 1.</span>
 <a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="kd">let</span><span class="w"> </span><span class="nv">byRank</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">Int</span><span class="p">:</span><span class="w"> </span><span class="n">UCIInfo</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">UCIOutputParser</span><span class="p">.</span><span class="n">bestInfoByRank</span><span class="p">(</span><span class="n">collectedInfos</span><span class="p">)</span>
 <a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="c1">// parse(_:) is an alias for parseInfo(_:) used by FianchettoKit call sites:</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="c1">// parse(_:) is a concise alias for parseInfo(_:):</span>
 <a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="kd">let</span><span class="w"> </span><span class="nv">info2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">UCIOutputParser</span><span class="p">.</span><span class="n">parse</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
 </code></pre></div>
 <div class="admonition note">

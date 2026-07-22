@@ -986,7 +986,7 @@ never branch on this case.</p>
 <p><strong><code>.promotionPick(piece:)</code></strong> — a board-side promotion piece pick (ChessUp
 <code>0x97</code> frame). When the board reports the promotion piece this way, the
 session can auto-resolve the promotion picker without asking the human.
-Session code must handle this case and must NOT treat it like <code>.raw</code>.</p>
+Session code must handle this case and must not treat it like <code>.raw</code>.</p>
 <p><strong><code>.storedGameImported(moves:sanMoves:isComplete:)</code></strong> — one game
 reconstructed from a board's internal storage during a
 <code>BoardCommand.requestStoredGames</code> import. Emitted by adapters that advertise
@@ -1030,7 +1030,7 @@ case into board-specific wire bytes, returning <code>nil</code> for unsupported 
 </tr>
 <tr>
 <td><code>.executeMove(uci:)</code></td>
-<td>Ask a motorised board to physically play a move</td>
+<td>Ask a motorized board to physically play a move</td>
 </tr>
 <tr>
 <td><code>.requestStoredGames</code></td>
@@ -1047,14 +1047,14 @@ case into board-specific wire bytes, returning <code>nil</code> for unsupported 
 <hr />
 <h2 id="ledstyle">LEDStyle<a class="headerlink" href="#ledstyle" title="Permanent link">&para;</a></h2>
 <p><code>LEDStyle</code> is an advisory illumination hint for <code>.indicateSquares</code>. Adapters
-that support only a single LED colour treat all non-<code>.highlight</code> values as
+that support only a single LED color treat all non-<code>.highlight</code> values as
 <code>.highlight</code>.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">LEDStyle</span><span class="p">:</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">highlight</span><span class="w">          </span><span class="c1">// plain on/off — universally supported</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">moveFrom</span><span class="w">           </span><span class="c1">// source-square emphasis (green on Chessnut)</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">moveTo</span><span class="w">             </span><span class="c1">// destination-square emphasis (yellow on Chessnut)</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">danger</span><span class="w">             </span><span class="c1">// check/threat emphasis (red on Chessnut)</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">custom</span><span class="p">(</span><span class="nb">UInt8</span><span class="p">)</span><span class="w">      </span><span class="c1">// board-specific colour index</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">custom</span><span class="p">(</span><span class="nb">UInt8</span><span class="p">)</span><span class="w">      </span><span class="c1">// board-specific color index</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">}</span>
 </code></pre></div>
 <hr />
@@ -1064,7 +1064,7 @@ that support only a single LED colour treat all non-<code>.highlight</code> valu
 to activate.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="nc">BoardCapabilities</span><span class="p">:</span><span class="w"> </span><span class="n">OptionSet</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">occupancySensing</span><span class="w">  </span><span class="c1">// per-square lift/place</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">pieceIdentity</span><span class="w">     </span><span class="c1">// piece type+colour per square</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">pieceIdentity</span><span class="w">     </span><span class="c1">// piece type+color per square</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">perSquareLEDs</span><span class="w">     </span><span class="c1">// individually addressable per-square LEDs</span>
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">moveIndication</span><span class="w">    </span><span class="c1">// any move-highlight capability</span>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">motorised</span><span class="w">         </span><span class="c1">// auto-move mechanism</span>
@@ -1078,86 +1078,13 @@ to activate.</p>
 <a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="capability-matrix">Capability matrix<a class="headerlink" href="#capability-matrix" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Board</th>
-<th>occupancy</th>
-<th>identity</th>
-<th>perSquareLEDs</th>
-<th>moveIndication</th>
-<th>motorised</th>
-<th>battery</th>
-<th>gameArchive</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Square Off Pro / GKS</td>
-<td>✓</td>
-<td></td>
-<td>✓</td>
-<td>✓</td>
-<td>✓ (GKS)</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Chessnut Air family</td>
-<td>✓</td>
-<td>✓</td>
-<td>✓</td>
-<td>✓</td>
-<td></td>
-<td>✓</td>
-<td>✓</td>
-</tr>
-<tr>
-<td>Chessnut Move</td>
-<td>✓</td>
-<td>✓</td>
-<td>✓</td>
-<td>✓</td>
-<td>✓</td>
-<td>✓</td>
-<td></td>
-</tr>
-<tr>
-<td>DGT Pegasus</td>
-<td>✓</td>
-<td></td>
-<td>✓</td>
-<td>✓</td>
-<td></td>
-<td>✓</td>
-<td></td>
-</tr>
-<tr>
-<td>Millennium</td>
-<td>✓</td>
-<td>✓</td>
-<td></td>
-<td>✓ (9×9 corner)</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Certabo</td>
-<td>✓</td>
-<td>✓</td>
-<td>✓</td>
-<td>✓</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<p>See the canonical <a href="../adapters/#hardware-status">hardware-status and capability tables</a>,
+which distinguish implemented flags from hardware-tested scope and document
+runtime-dependent capabilities such as calibrated Certabo identity.</p>
 <div class="admonition note">
 <p class="admonition-title">Millennium and <code>perSquareLEDs</code></p>
 <p>The Millennium board uses a 9×9 corner-LED grid rather than per-square LEDs.
-It sets <code>.moveIndication</code> but NOT <code>.perSquareLEDs</code>. Always check <code>.perSquareLEDs</code>
+It sets <code>.moveIndication</code> but not <code>.perSquareLEDs</code>. Always check <code>.perSquareLEDs</code>
 before sending granular LED commands.</p>
 </div>
 

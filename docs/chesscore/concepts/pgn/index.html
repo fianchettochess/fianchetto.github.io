@@ -1042,8 +1042,9 @@ can run on a detached task:</p>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="n">MoveGenerator</span><span class="p">.</span><span class="n">applyMoveUnchecked</span><span class="p">(&amp;</span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="n">move</span><span class="p">)</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">}</span>
 </code></pre></div>
-<p><code>parseMove</code> handles castling (<code>O-O</code> / <code>0-0</code>), promotion (<code>=Q</code>), disambiguation,
-and captures, and defaults an ambiguous promotion to a queen.</p>
+<p><code>parseMove</code> handles castling (<code>O-O</code> / <code>0-0</code>), promotion (<code>=Q</code> and the lenient
+<code>Q</code> suffix), disambiguation, and captures. A promotion suffix is required;
+omitting it does not silently choose a queen.</p>
 <h2 id="write-pgn">Write PGN<a class="headerlink" href="#write-pgn" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">let</span><span class="w"> </span><span class="nv">movetext</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">PGNExporter</span><span class="p">.</span><span class="n">tokenText</span><span class="p">(</span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="n">game</span><span class="p">)</span>
 </code></pre></div>
@@ -1063,7 +1064,7 @@ round-trip that bridges PGN text to a <code>Game</code> instance and back.</p>
 <a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
 <a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="c1">// If you already have a PGNGame from PGNParser.parse(_:):</span>
 <a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">game</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">PGNParser</span><span class="p">.</span><span class="n">loadGame</span><span class="p">(</span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="n">pgnGame</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">    </span><span class="c1">// SetUp/FEN tags are honoured: non-standard start positions work.</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">    </span><span class="c1">// SetUp/FEN tags are honored: non-standard start positions work.</span>
 <a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="p">}</span>
 </code></pre></div>
 <p><code>loadGame(from:)</code> returns <code>nil</code> only when the PGN is syntactically invalid or a

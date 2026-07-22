@@ -566,12 +566,12 @@
   <a href="#building-the-apple-xcframework" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Building the Apple xcframework
+        Building the Apple XCFramework
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Building the Apple xcframework">
+    <nav class="md-nav" aria-label="Building the Apple XCFramework">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -636,10 +636,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#build-the-android-staticlibs" class="md-nav__link">
+  <a href="#build-the-android-static-libraries" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Build the Android staticlibs
+        Build the Android static libraries
       
     </span>
   </a>
@@ -647,10 +647,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#build-the-swift-package-for-a-specific-abi" class="md-nav__link">
+  <a href="#configure-the-consuming-root-package" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Build the Swift package for a specific ABI
+        Configure the consuming root package
       
     </span>
   </a>
@@ -658,10 +658,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#gradle-package-the-staticlib-as-jnilibs" class="md-nav__link">
+  <a href="#link-the-static-archive" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Gradle: package the staticlib as jniLibs
+        Link the static archive
       
     </span>
   </a>
@@ -874,12 +874,12 @@
   <a href="#building-the-apple-xcframework" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Building the Apple xcframework
+        Building the Apple XCFramework
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Building the Apple xcframework">
+    <nav class="md-nav" aria-label="Building the Apple XCFramework">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -944,10 +944,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#build-the-android-staticlibs" class="md-nav__link">
+  <a href="#build-the-android-static-libraries" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Build the Android staticlibs
+        Build the Android static libraries
       
     </span>
   </a>
@@ -955,10 +955,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#build-the-swift-package-for-a-specific-abi" class="md-nav__link">
+  <a href="#configure-the-consuming-root-package" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Build the Swift package for a specific ABI
+        Configure the consuming root package
       
     </span>
   </a>
@@ -966,10 +966,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#gradle-package-the-staticlib-as-jnilibs" class="md-nav__link">
+  <a href="#link-the-static-archive" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Gradle: package the staticlib as jniLibs
+        Link the static archive
       
     </span>
   </a>
@@ -1034,7 +1034,7 @@
 <h1 id="build-model">Build model<a class="headerlink" href="#build-model" title="Permanent link">&para;</a></h1>
 <p><code>Package.swift</code> selects between two build arms depending on the host environment.
 Understanding this is essential for Android / Skip (SkipFuse) integration and for
-CI builds that need to produce fresh xcframeworks.</p>
+CI builds that need to produce fresh XCFrameworks.</p>
 <h2 id="the-two-arms">The two arms<a class="headerlink" href="#the-two-arms" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1051,9 +1051,9 @@ CI builds that need to produce fresh xcframeworks.</p>
 <td><code>.binaryTarget</code> → <code>Frameworks/RecklessFFI.xcframework</code> + <code>RecklessBridge.c</code></td>
 </tr>
 <tr>
-<td><code>SWIFTRECKLESS_FORCE_SOURCE_BUILD=1</code></td>
+<td>Non-Apple host, or <code>SWIFTRECKLESS_FORCE_SOURCE_BUILD=1</code> in an Apple command-line build</td>
 <td><strong>source</strong></td>
-<td><code>RecklessBridge.c</code> + <code>RecklessHostStubs.c</code>; on Android, links <code>libcreckless.a</code> from <code>RECKLESS_LIB_DIR</code></td>
+<td><code>RecklessBridge.c</code> + <code>RecklessHostStubs.c</code>; Android integration also links a cross-built <code>libcreckless.a</code></td>
 </tr>
 </tbody>
 </table>
@@ -1068,11 +1068,11 @@ CI builds that need to produce fresh xcframeworks.</p>
 <tbody>
 <tr>
 <td><code>SWIFTRECKLESS_FORCE_SOURCE_BUILD=1</code></td>
-<td>Forces the source arm, even on Apple hosts. Required for Android / Skip cross-builds.</td>
+<td>Selects the source arm outside Xcode. Required for Android / Skip cross-builds; Xcode deliberately ignores it.</td>
 </tr>
 <tr>
 <td><code>RECKLESS_LIB_DIR</code></td>
-<td>Path to the directory containing the cross-compiled <code>libcreckless.a</code>. Defaults to <code>rust/target/release</code> (the host debug/release path). Set to <code>rust/target/&lt;triple&gt;/release</code> for a cross-build.</td>
+<td>Integration input read by the consuming Android root package. It points to the directory containing the cross-compiled <code>libcreckless.a</code>; SwiftReckless does not embed this local path in its published manifest.</td>
 </tr>
 </tbody>
 </table>
@@ -1080,27 +1080,27 @@ CI builds that need to produce fresh xcframeworks.</p>
 <p>When <code>__CFBundleIdentifier == com.apple.dt.Xcode</code> is detected in the environment,
 <code>Package.swift</code> forces the binary arm regardless of <code>SWIFTRECKLESS_FORCE_SOURCE_BUILD</code>.
 This prevents Xcode from attempting to link an Android ELF into a macOS build.</p>
-<h2 id="building-the-apple-xcframework">Building the Apple xcframework<a class="headerlink" href="#building-the-apple-xcframework" title="Permanent link">&para;</a></h2>
-<p>The xcframework is <strong>committed</strong> to <code>main</code> (a path-based binary target), so a fresh
+<h2 id="building-the-apple-xcframework">Building the Apple XCFramework<a class="headerlink" href="#building-the-apple-xcframework" title="Permanent link">&para;</a></h2>
+<p>The XCFramework is <strong>committed</strong> to <code>main</code> (a path-based binary target), so a fresh
 clone builds on Apple without rebuilding it; rebuild only when the Rust changes. The
-release CI publishes it as a GitHub release asset, and a tagged SPM dependency fetches
+release CI publishes it as a GitHub release asset, and a tagged SwiftPM dependency fetches
 it automatically via the <code>url:</code> + <code>checksum:</code> binary target.</p>
 <h3 id="macos-only-development">macOS only (development)<a class="headerlink" href="#macos-only-development" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>rustup<span class="w"> </span>target<span class="w"> </span>add<span class="w"> </span>aarch64-apple-darwin<span class="w"> </span>x86_64-apple-darwin
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>bash<span class="w"> </span>Tools/build-macos.sh
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># → Frameworks/RecklessFFI.xcframework  (macOS fat slice)</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>swift<span class="w"> </span>build<span class="w">   </span><span class="c1"># binary arm links the freshly built xcframework</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>bash<span class="w"> </span>Tools/build-macos.sh
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># → Frameworks/RecklessFFI.xcframework  (macOS fat slice)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>swift<span class="w"> </span>build<span class="w">   </span><span class="c1"># binary arm links the freshly built XCFramework</span>
 </code></pre></div>
 <h3 id="full-apple-gamut">Full Apple gamut<a class="headerlink" href="#full-apple-gamut" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>bash<span class="w"> </span>Tools/build-xcframework.sh
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># → Frameworks/RecklessFFI.xcframework  (10 slices: iOS + macOS + Mac Catalyst + tvOS + watchOS + visionOS)</span>
 </code></pre></div>
-<p>The script installs the rustup targets it needs automatically. Tier-3 platforms
-(tvOS / watchOS / visionOS) are built via <code>-Z build-std</code> on a nightly toolchain +
-<code>rust-src</code> — no manual <code>rustup target add</code> is required.</p>
+<p>The script installs its pinned stable 1.96.1 targets automatically. Tier-3
+platforms (tvOS / watchOS / visionOS) use <code>nightly-2026-07-21</code> + <code>rust-src</code> and
+<code>-Z build-std</code>. Those exact toolchains produced the committed artifact; no
+manual <code>rustup target add</code> is required.</p>
 <h2 id="per-arch-simd-flags">Per-arch SIMD flags<a class="headerlink" href="#per-arch-simd-flags" title="Permanent link">&para;</a></h2>
 <p>The build scripts bake SIMD flags into the Rust compilation per architecture. These
-flags directly activate Reckless's vectorised NNUE accumulator path:</p>
+flags directly activate Reckless's vectorized NNUE accumulator path:</p>
 <table>
 <thead>
 <tr>
@@ -1113,12 +1113,17 @@ flags directly activate Reckless's vectorised NNUE accumulator path:</p>
 <tr>
 <td><code>aarch64-apple-*</code></td>
 <td><code>+neon</code></td>
-<td>Always present on ARMv8-A; activates vectorised NNUE</td>
+<td>Always present on ARMv8-A; activates vectorized NNUE</td>
 </tr>
 <tr>
 <td><code>x86_64-apple-*</code></td>
 <td><code>+avx2,+bmi2,+popcnt</code></td>
-<td>Present on all Intel Macs (Haswell 2013+) and Rosetta simulator</td>
+<td>Optimized build; requires Haswell-class hardware or newer</td>
+</tr>
+<tr>
+<td><code>arm64_32-apple-watchos</code></td>
+<td><code>+neon</code></td>
+<td>Physical Apple Watch architecture used before watchOS 26</td>
 </tr>
 <tr>
 <td><code>armv7-linux-androideabi</code></td>
@@ -1128,57 +1133,75 @@ flags directly activate Reckless's vectorised NNUE accumulator path:</p>
 <tr>
 <td><code>x86_64-linux-android</code></td>
 <td><code>+avx2,+popcnt</code></td>
-<td>Safe for x86_64 Android emulators</td>
+<td>Requires AVX2 hardware</td>
 </tr>
 <tr>
 <td><code>i686-linux-android</code></td>
 <td><code>+sse4.2,+popcnt</code></td>
-<td>Conservative 32-bit x86 baseline</td>
+<td>Requires SSE4.2 + POPCNT</td>
 </tr>
 </tbody>
 </table>
-<p>Reckless selects the vectorised vs. scalar NNUE path at compile time via
-<code>#[cfg(target_feature = "…")]</code>. The xcframework carries per-arch slices with their
+<p>Reckless selects the vectorized or scalar NNUE path at compile time via
+<code>#[cfg(target_feature = "…")]</code>. The XCFramework carries per-architecture slices with their
 SIMD code already baked in, so consuming Swift packages inherit the optimal path per
-device without any SPM-level arch flags.</p>
+device without any SwiftPM-level architecture flags.</p>
+<p>The x86_64 Apple binary intentionally preserves the AVX2/BMI2 performance
+uplift. Reckless has no runtime SIMD dispatch, so older Intel CPUs need a
+separate baseline build; the prebuilt product requires Haswell-class hardware
+or newer even though the operating-system deployment floor remains macOS 10.15.</p>
 <h2 id="android-skip-skipfuse-build">Android / Skip (SkipFuse) build<a class="headerlink" href="#android-skip-skipfuse-build" title="Permanent link">&para;</a></h2>
-<p>Android uses the <strong>source arm</strong>. Cross-compile the Rust staticlib for each
-Android ABI, then point SPM at the target slice.</p>
+<p>Android uses the <strong>source arm</strong>. Cross-compile the Rust static library for each
+Android ABI, then have the consuming root package link the selected slice.</p>
 <h3 id="rust-toolchain-prerequisites">Rust toolchain prerequisites<a class="headerlink" href="#rust-toolchain-prerequisites" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Install rustup targets</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>rustup<span class="w"> </span>target<span class="w"> </span>add<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>aarch64-linux-android<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>armv7-linux-androideabi<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span>x86_64-linux-android<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span>i686-linux-android
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1"># cargo-ndk (cross-compile helper)</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>cargo<span class="w"> </span>install<span class="w"> </span>cargo-ndk
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="c1"># NDK r26+ via Android Studio SDK Manager or brew</span>
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ANDROID_NDK_ROOT</span><span class="o">=</span>~/Library/Android/sdk/ndk/&lt;version&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Tools/build-android.sh installs pinned Rust 1.96.1 and its Android targets.</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># cargo-ndk (cross-compile helper)</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>cargo<span class="w"> </span>install<span class="w"> </span>cargo-ndk<span class="w"> </span>--version<span class="w"> </span><span class="m">4</span>.1.2<span class="w"> </span>--locked
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># NDK r26+ via Android Studio SDK Manager or brew</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ANDROID_NDK_ROOT</span><span class="o">=</span>~/Library/Android/sdk/ndk/&lt;version&gt;
 </code></pre></div>
-<h3 id="build-the-android-staticlibs">Build the Android staticlibs<a class="headerlink" href="#build-the-android-staticlibs" title="Permanent link">&para;</a></h3>
+<h3 id="build-the-android-static-libraries">Build the Android static libraries<a class="headerlink" href="#build-the-android-static-libraries" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>bash<span class="w"> </span>Tools/build-android.sh
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># → android-libs/{arm64-v8a,armeabi-v7a,x86_64,x86}/libcreckless.a</span>
 </code></pre></div>
-<h3 id="build-the-swift-package-for-a-specific-abi">Build the Swift package for a specific ABI<a class="headerlink" href="#build-the-swift-package-for-a-specific-abi" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nv">RECKLESS_LIB_DIR</span><span class="o">=</span>rust/target/aarch64-linux-android/release<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nv">SWIFTRECKLESS_FORCE_SOURCE_BUILD</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>swift<span class="w"> </span>build<span class="w"> </span>--swift-sdk<span class="w"> </span>aarch64-android
+<h3 id="configure-the-consuming-root-package">Configure the consuming root package<a class="headerlink" href="#configure-the-consuming-root-package" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">let</span><span class="w"> </span><span class="nv">recklessLinkerSettings</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">LinkerSetting</span><span class="p">]</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">directory</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Context</span><span class="p">.</span><span class="n">environment</span><span class="p">[</span><span class="s">&quot;RECKLESS_LIB_DIR&quot;</span><span class="p">],</span><span class="w"> </span><span class="o">!</span><span class="n">directory</span><span class="p">.</span><span class="bp">isEmpty</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="n">recklessLinkerSettings</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">        </span><span class="p">.</span><span class="n">unsafeFlags</span><span class="p">(</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">            </span><span class="p">[</span><span class="s">&quot;</span><span class="si">\(</span><span class="n">directory</span><span class="si">)</span><span class="s">/libcreckless.a&quot;</span><span class="p">],</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">            </span><span class="p">.</span><span class="n">when</span><span class="p">(</span><span class="n">platforms</span><span class="p">:</span><span class="w"> </span><span class="p">[.</span><span class="n">android</span><span class="p">])</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">        </span><span class="p">),</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="p">]</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="n">recklessLinkerSettings</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="p">}</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="c1">// Attach this to the consuming root application&#39;s target:</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="p">.</span><span class="n">target</span><span class="p">(</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">    </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;MyApp&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">    </span><span class="n">dependencies</span><span class="p">:</span><span class="w"> </span><span class="p">[.</span><span class="n">product</span><span class="p">(</span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;SwiftReckless&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">package</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;SwiftReckless&quot;</span><span class="p">)],</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">    </span><span class="n">linkerSettings</span><span class="p">:</span><span class="w"> </span><span class="n">recklessLinkerSettings</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="p">)</span>
 </code></pre></div>
-<h3 id="gradle-package-the-staticlib-as-jnilibs">Gradle: package the staticlib as jniLibs<a class="headerlink" href="#gradle-package-the-staticlib-as-jnilibs" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">// app/build.gradle (or the equivalent Skip module):</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">android</span><span class="w"> </span><span class="o">{</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="n">sourceSets</span><span class="o">.</span><span class="na">main</span><span class="o">.</span><span class="na">jniLibs</span><span class="o">.</span><span class="na">srcDirs</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="o">[</span><span class="s1">&#39;&lt;path-to-SwiftReckless&gt;/android-libs&#39;</span><span class="o">]</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="o">}</span>
+<p>Then select the absolute output directory and force SwiftReckless's source arm
+before building that root package:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">RECKLESS_LIB_DIR</span><span class="o">=</span>/absolute/path/to/SwiftReckless/rust/target/aarch64-linux-android/release
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SWIFTRECKLESS_FORCE_SOURCE_BUILD</span><span class="o">=</span><span class="m">1</span>
 </code></pre></div>
-<p>Note the two distinct consumers of <code>libcreckless.a</code>:</p>
-<ul>
-<li><strong>SwiftPM</strong> links the single slice named by <code>RECKLESS_LIB_DIR</code> at build time.</li>
-<li><strong>Gradle</strong> packages <code>android-libs/{abi}/libcreckless.a</code> into the APK's <code>jniLibs</code>
-  for on-device loading.</li>
-</ul>
+<h3 id="link-the-static-archive">Link the static archive<a class="headerlink" href="#link-the-static-archive" title="Permanent link">&para;</a></h3>
+<p><code>libcreckless.a</code> is a link-time input, not a JNI runtime library. The consuming
+root package links the single slice named by <code>RECKLESS_LIB_DIR</code> into the final
+native output. Do not
+put the archive in Gradle <code>jniLibs</code>; Android loads <code>.so</code> files from that directory,
+not <code>.a</code> archives. If the surrounding Skip/native build produces a shared
+library, package that final <code>.so</code> instead.</p>
+<p>SwiftReckless itself uses only the safe
+<code>.linkedLibrary("c++", .when(platforms: [.android]))</code> declaration. Keeping the
+machine-local archive path in the root package avoids unsafe flags in the
+versioned dependency while preserving the required NDK C++ runtime link.</p>
 <h2 id="recklesshoststubsc"><code>RecklessHostStubs.c</code><a class="headerlink" href="#recklesshoststubsc" title="Permanent link">&para;</a></h2>
 <p>In the source arm on non-Android hosts (e.g. a CI Linux host), the real Rust
 implementation symbols (<code>rk_ffi_*</code>) are not linked. <code>RecklessHostStubs.c</code> provides
@@ -1186,18 +1209,22 @@ no-op implementations of those symbols so the Skip/Gradle host-introspection pas
 links cleanly without an Android NDK.</p>
 <h2 id="the-reckless-fork">The Reckless fork<a class="headerlink" href="#the-reckless-fork" title="Permanent link">&para;</a></h2>
 <p>The Rust dependency is <code>github.com/fianchettochess/Reckless.git</code>, pinned to
-tag <code>swiftreckless-v0.9.0</code> (commit <code>420b3d7</code>) (<code>default-features = false</code>). The fork makes four patches to the
+tag <code>swiftreckless-v0.9.1</code> (commit <code>de35beac9074137e9776af14859bf6f40562553c</code>)
+(<code>default-features = false</code>). The fork makes five patches to the
 upstream <code>codedeliveryservice/Reckless</code> at tag <code>v0.9.0</code>:</p>
 <ol>
-<li>Adds a <code>[lib]</code> target (upstream Reckless is binary-only; it has no library target
-   and no FFI planned upstream).</li>
+<li>Adds a <code>[lib]</code> target (the pinned upstream Reckless version is binary-only
+   and defines no library target or FFI).</li>
 <li>Replaces the compile-time <code>include_bytes!</code> NNUE embed with runtime loading
    (the path is passed to <code>rk_ffi_create</code>), enabling runtime net provisioning and
    net upgrades without a Rust rebuild.</li>
-<li>Adds per-instance I/O so concurrent engine instances do not share a process-wide
-   UCI input/output channel.</li>
+<li>Adds per-instance I/O so an engine lifetime does not use a process-wide UCI
+   input/output channel. The engine still owns other process-global state, so
+   overlapping instances remain prohibited.</li>
 <li>Guards terminal positions with no legal root move and emits <code>bestmove (none)</code>
    instead of aborting.</li>
+<li>Makes sequential engine lifetimes safe by guarding global initialization,
+   joining the worker pool, and allowing the NNUE network to be unloaded.</li>
 </ol>
 <p>With <code>default-features = false</code>, the effective transitive dependency is just <code>libc</code>.</p>
 <h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>

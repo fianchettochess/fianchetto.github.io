@@ -1214,9 +1214,9 @@ against destroy) plus the Rust mutex/channel implementation.</p>
 <div class="admonition danger">
 <p class="admonition-title">One live engine per process</p>
 <p>The Rust engine owns process-global state: lookup tables and the loaded NNUE
-weights. Running two <code>RecklessEngine</code> instances concurrently is undefined behaviour.
-The pinned fork currently permits one successful engine lifetime per
-process. A later initializer fails cleanly; see the lifecycle note below.</p>
+weights. SwiftReckless rejects an overlapping engine with a <code>nil</code> initializer.
+Sequential lifetimes are supported after the current engine completes a
+clean <code>shutdown()</code>; see the lifecycle note below.</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">NNUE net must be present before init</p>
@@ -1333,11 +1333,11 @@ emits a <code>bestmove</code> line.</p>
 <li>After <code>rk_destroy</code> returns, no further output callbacks can fire.</li>
 <li>All memory allocated by the Rust engine (NNUE weights, hash tables) is freed.</li>
 </ol>
-<p>There is no use-after-free window. However, pinned fork revision <code>420b3d7</code>
-cannot safely initialize its global cuckoo/NNUE lookup tables twice. The FFI
-therefore rejects any second engine creation in one process. Restart support
-requires <code>std::sync::Once</code> guards in the fork, a pin bump, and rebuilt binary
-artifacts.</p>
+<p>There is no use-after-free window. Pinned fork tag <code>swiftreckless-v0.9.1</code>
+(commit <code>de35beac9074137e9776af14859bf6f40562553c</code>) guards global table
+initialization, joins the worker pool, and supports unloading the NNUE network.
+The FFI therefore rejects overlap but releases its lifecycle slot after a clean
+destroy so another sequential engine lifetime can start.</p>
 <h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../nnue-loader/">NNUE Network Loader</a> — provisioning the net before <code>init</code>.</li>

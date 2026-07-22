@@ -767,12 +767,12 @@ networks, and it must complete before the engine is created.</p>
 <p class="admonition-title">Order matters</p>
 <p>Stockfish verifies its nets on the first <code>go</code>/<code>ucinewgame</code> and exits the host
 process (<code>exit(EXIT_FAILURE)</code>) on a missing or invalid net — not a catchable
-Swift error. <code>StockfishEngine.init?</code> pre-flights the nets and returns <code>nil</code>
-instead of letting that happen, but the pre-flight can only pass if the
+Swift error. <code>StockfishEngine.init?</code> preflights the nets and returns <code>nil</code>
+instead of letting that happen, but the preflight can only pass if the
 directory is already correct — so always <code>await</code> <code>ensure(in:)</code> (or point the
 engine at a known-good bundled directory) <strong>before</strong>
 <code>StockfishEngine(networkDirectory:)</code>. Raw <code>CStockfish</code> consumers get no
-pre-flight.</p>
+preflight.</p>
 </div>
 <h2 id="the-manifest">The manifest<a class="headerlink" href="#the-manifest" title="Permanent link">&para;</a></h2>
 <p><code>StockfishNetworks</code> is the single source of truth for which nets the bundled
@@ -844,9 +844,9 @@ download:</p>
 </code></pre></div>
 <h2 id="errors">Errors<a class="headerlink" href="#errors" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">LoaderError</span><span class="p">:</span><span class="w"> </span><span class="n">Error</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">checksumMismatch</span><span class="p">(</span><span class="nb">String</span><span class="p">)</span><span class="w">    </span><span class="c1">// a download&#39;s SHA-256 didn&#39;t match the pinned digest</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">checksumMismatch</span><span class="p">(</span><span class="nb">String</span><span class="p">)</span><span class="w">    </span><span class="c1">// manifest metadata or bytes didn&#39;t match the pinned digest</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">allSourcesFailed</span><span class="p">(</span><span class="nb">String</span><span class="p">)</span><span class="w">    </span><span class="c1">// every source failed for a file</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">invalidNetworkName</span><span class="p">(</span><span class="nb">String</span><span class="p">)</span><span class="w">  </span><span class="c1">// filename isn&#39;t nn-&lt;hex&gt;.nnue</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">invalidNetworkName</span><span class="p">(</span><span class="nb">String</span><span class="p">)</span><span class="w">  </span><span class="c1">// filename isn&#39;t nn-&lt;12 lowercase hex&gt;.nnue</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">fileSystem</span><span class="p">(</span><span class="nb">String</span><span class="p">)</span><span class="w">          </span><span class="c1">// a filesystem operation failed</span>
 <a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="p">}</span>
 </code></pre></div>
