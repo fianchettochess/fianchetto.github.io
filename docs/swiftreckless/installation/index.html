@@ -887,7 +887,7 @@ carries AGPL-3.0 obligations on your application. See
 <h2 id="add-the-package">Add the package<a class="headerlink" href="#add-the-package" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// Package.swift</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">dependencies</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="p">.</span><span class="n">package</span><span class="p">(</span><span class="n">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://github.com/fianchettochess/SwiftReckless.git&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0.9.9&quot;</span><span class="p">),</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="p">.</span><span class="n">package</span><span class="p">(</span><span class="n">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://github.com/fianchettochess/SwiftReckless.git&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0.9.10&quot;</span><span class="p">),</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">],</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">targets</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="p">.</span><span class="n">target</span><span class="p">(</span>
@@ -942,9 +942,13 @@ when the Rust engine changes:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>bash<span class="w"> </span>Tools/build-xcframework.sh
 </code></pre></div>
 <p>The Rust toolchain prerequisites are documented in <a href="../concepts/build-model/">Build model</a>.
-The manual release workflow builds and tests the exact XCFramework, stages it in
-a draft release, verifies the uploaded bytes, and creates the final tag once at a
-<code>url:</code> + <code>checksum:</code> manifest. Consuming a tagged version via SwiftPM therefore needs
+The manual release workflow builds and tests the exact XCFramework, runs the
+Rust targets and terminal-position guard with the verified network staged,
+tests both Swift package arms plus a SemVer-tagged remote consumer, stages the
+artifact in a draft release, verifies the uploaded bytes, and creates the final
+tag once at a <code>url:</code> + <code>checksum:</code> manifest. The source arm's live-engine test
+records an intentional skip because it links host stubs; the rebuilt binary arm
+runs the live handshake. Consuming a tagged version via SwiftPM therefore needs
 no local Rust build.</p>
 <h2 id="verifying-the-install">Verifying the install<a class="headerlink" href="#verifying-the-install" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>swift<span class="w"> </span>build

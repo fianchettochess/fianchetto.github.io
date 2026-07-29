@@ -553,6 +553,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#arm64-simd-opt-in-linux-and-android" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ARM64 SIMD opt-in (Linux and Android)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#cross-compiling-for-android" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -688,6 +699,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#arm64-simd-opt-in-linux-and-android" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ARM64 SIMD opt-in (Linux and Android)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#cross-compiling-for-android" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -793,7 +815,7 @@ build host.</p>
 <td>Linux arm64</td>
 <td>—</td>
 <td>source build</td>
-<td>NEON+DOTPROD (FEAT_DotProd required)</td>
+<td>NEON baseline; DOTPROD opt-in</td>
 </tr>
 <tr>
 <td>Linux x86_64</td>
@@ -805,7 +827,7 @@ build host.</p>
 <td>Android arm64</td>
 <td>API 28</td>
 <td>source build</td>
-<td>NEON+DOTPROD (FEAT_DotProd required)</td>
+<td>NEON baseline; DOTPROD opt-in</td>
 </tr>
 <tr>
 <td>Android x86_64</td>
@@ -837,9 +859,8 @@ build host.</p>
   baseline dispatch.</li>
 <li><strong>Non-Apple (Linux / Android) — compiled from source.</strong> The bridge plus all the
   Stockfish translation units compile in the <code>CStockfish</code> target. SIMD follows the
-  package config: NEON+DOTPROD on arm64 (FEAT_DotProd required); on x86_64 the
-  publishable default is the SSE2 baseline (correct and version-pinnable, with SSSE3/SSE4.1/AVX2
-  available as an opt-in).</li>
+  package config: baseline NEON on arm64 and baseline SSE2 on x86_64.
+  DOTPROD on ARM and SSSE3/SSE4.1/AVX2 on x86_64 are explicit opt-ins.</li>
 </ul>
 <p>The package carries <strong>no <code>.unsafeFlags</code></strong>, which keeps it
 version-publishable as a remote dependency. The Stockfish <code>.cpp</code> files are retained
@@ -855,9 +876,17 @@ accepting revision-pinning on that platform:</p>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># AVX2 as well:</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>swift<span class="w"> </span>build<span class="w"> </span>-Xcxx<span class="w"> </span>-mavx2<span class="w"> </span>-Xcxx<span class="w"> </span>-mbmi2<span class="w"> </span>-Xcxx<span class="w"> </span>-DSF_ENABLE_AVX2
 </code></pre></div>
-<p><strong>arm64 needs no opt-in flag</strong>, but the selected optimized kernel emits DOTPROD
-instructions and requires FEAT_DotProd-capable hardware. The watchOS device slice
-begins at arm64_32; legacy armv7k watches are not included.</p>
+<h2 id="arm64-simd-opt-in-linux-and-android">ARM64 SIMD opt-in (Linux and Android)<a class="headerlink" href="#arm64-simd-opt-in-linux-and-android" title="Permanent link">&para;</a></h2>
+<p>ARM64 source builds default to the architecture's baseline NEON instructions.
+This is safe across the full ARM64 device range, including Android API 28
+devices that do not implement FEAT_DotProd. If every deployment target is known
+to implement that feature, opt into Stockfish's faster SDOT kernel:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nv">SWIFTSTOCKFISH_ENABLE_DOTPROD</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>swift<span class="w"> </span>build
+</code></pre></div>
+<p>The package translates the environment opt-in to <code>SF_ENABLE_DOTPROD</code> without
+adding <code>.unsafeFlags</code>. There is no runtime dispatch: do not distribute an
+opted-in build to CPUs without FEAT_DotProd. The prebuilt Apple ARM slices
+remain explicitly opted in and retain their documented CPU floor.</p>
 <h2 id="cross-compiling-for-android">Cross-compiling for Android<a class="headerlink" href="#cross-compiling-for-android" title="Permanent link">&para;</a></h2>
 <p>Android uses the same from-source target as Linux, compiled with the
 <a href="https://github.com/swiftlang/swift-android">Swift Android SDK</a>. The package builds
@@ -875,14 +904,15 @@ cross-compiling from macOS, all handled by <code>Tools/android/build-android.sh<
 <li><strong>Archive with the NDK's <code>llvm-ar</code>.</strong> Apple's <code>ar</code> cannot read the response file
    SwiftPM passes when archiving; point the librarian at the NDK's <code>llvm-ar</code>.</li>
 </ol>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Defaults to aarch64 / API 28; override with ANDROID_ARCH / ANDROID_API_LEVEL.</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Tools/android/build-android.sh<span class="w">                </span><span class="c1"># debug</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Tools/android/build-android.sh<span class="w"> </span>-c<span class="w"> </span>release<span class="w">     </span><span class="c1"># release</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Defaults to aarch64 / API 28; override with ANDROID_ARCH / ANDROID_API_LEVEL.</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Tools/android/build-android.sh<span class="w">                </span><span class="c1"># debug</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Tools/android/build-android.sh<span class="w"> </span>-c<span class="w"> </span>release<span class="w">     </span><span class="c1"># release</span>
 </code></pre></div>
 <p>The minimum Android API level is <strong>28</strong> (the lowest the Swift Android SDK
-provides). arm64 builds use NEON+DOTPROD and require FEAT_DotProd; the x86_64
-emulator slice uses the SSE2 baseline. The public C API and Swift surface are
-identical to every other platform.</p>
+provides). arm64 builds use baseline NEON; set
+<code>SWIFTSTOCKFISH_ENABLE_DOTPROD=1</code> only for a fleet that guarantees
+FEAT_DotProd. The x86_64 emulator slice uses the SSE2 baseline. The public C API
+and Swift surface are identical to every other platform.</p>
 <h2 id="wasm">WASM<a class="headerlink" href="#wasm" title="Permanent link">&para;</a></h2>
 <p>WASM is not yet supported. The source target and the in-memory-queue bridge are
 already WASI-compatible, but the current Swift WASM SDK lacks a working
