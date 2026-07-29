@@ -882,6 +882,27 @@ nav.site-nav {
   line-height: 1.68;
   color: var(--study-text-sec);
 }
+.study-beta-chip {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-style: normal;
+  color: var(--study-cream);
+  background: var(--study-green-dk);
+  border: 1px solid var(--study-green-dk);
+  padding: 0.6em 1.4em;
+  white-space: nowrap;
+  display: inline-block;
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.study-beta-chip:hover {
+  background: var(--study-maroon);
+  border-color: var(--study-maroon);
+  color: var(--study-cream);
+}
+
 .study-gpl-chip {
   font-family: 'Source Code Pro', monospace;
   font-size: 0.7rem;
