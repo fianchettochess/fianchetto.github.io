@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Developer documentation for the open-source Swift packages behind Fianchetto: ChessCore, BoardKit, SwiftStockfish, and SwiftReckless." />
+  <meta name="description" content="Developer documentation for Fianchetto and the Swift packages behind it: FianchettoKit, ChessCore, BoardKit, SwiftStockfish, and SwiftReckless." />
   <meta name="theme-color" content="#0F2E1D" />
   <meta property="og:title" content="Fianchetto — Package Documentation" />
-  <meta property="og:description" content="Docs for ChessCore, BoardKit, SwiftStockfish, and SwiftReckless — the Swift packages Fianchetto is built on." />
+  <meta property="og:description" content="Docs for FianchettoKit, ChessCore, BoardKit, SwiftStockfish, and SwiftReckless — the Swift packages Fianchetto is built on." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="/assets/icon-512.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-32.png" />
@@ -46,8 +46,9 @@
   <div class="section-label">Documentation</div>
   <h1>Built on open Swift packages</h1>
   <p class="docs-lead">
-    Fianchetto is assembled from a family of standalone, reusable Swift packages.
-    Each one is documented on its own — pick a package to dive into its guides and API.
+    Fianchetto is assembled from a family of Swift packages — FianchettoKit, its
+    headless core, on top of standalone, reusable foundations. Each one is
+    documented on its own — pick a package to dive into its guides and API.
   </p>
 </header>
 
@@ -62,6 +63,16 @@
       <div class="doc-card-foot">
         <span class="doc-lic">MIT</span>
         <a href="/docs/chesscore/" class="btn btn-outline">Read the docs →</a>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">🧩</div>
+      <h3>FianchettoKit</h3>
+      <p>The app's headless core. The docs cover its storage seam and stat stores (spaced repetition, Elo), the shared analysis math, the persistence DTOs, and the network clients that import games.</p>
+      <div class="doc-card-foot">
+        <span class="doc-lic">GPL-3.0</span>
+        <a href="/docs/fianchettokit/" class="btn btn-outline">Read the docs →</a>
       </div>
     </div>
 
@@ -113,7 +124,7 @@
     </div>
   </div>
   <div class="footer-fine">
-    <p>Each package is licensed independently (see its documentation): ChessCore and BoardKit under the MIT license, SwiftStockfish under GPL-3.0 (it ships and links Stockfish), and SwiftReckless under AGPL-3.0 (it wraps the Reckless engine).</p>
+    <p>Each package is licensed independently (see its documentation): ChessCore and BoardKit under the MIT license, FianchettoKit under GPL-3.0 (it is part of the Fianchetto app repository), SwiftStockfish under GPL-3.0 (it ships and links Stockfish), and SwiftReckless under AGPL-3.0 (it wraps the Reckless engine).</p>
   </div>
 </footer>
 
