@@ -4,6 +4,7 @@
 #   _site/     : the assembled deploy artifact
 /_packages/
 /_site/
+/.build-tmp/
 
 # macOS
 .DS_Store

@@ -2,14 +2,20 @@
 
 `fianchettochess.app` is served by **GitHub Pages "Deploy from a branch"** (this
 repo is private, so Pages-from-Actions isn't available on the current plan). The
-site's own HTML/CSS is committed directly. The four package docs under `docs/`
-are built from each package's `docs-site/` (the source of truth) and committed
-here; branch-serving then publishes them.
+site's own HTML/CSS is committed directly. The package docs under `docs/` are
+built from each package's `docs-site/` (the source of truth) and committed here;
+branch-serving then publishes them.
+
+Five doc sets are aggregated: ChessCore, BoardKit, SwiftStockfish, SwiftReckless
+— each its own repo with `docs-site/` at the root — and **FianchettoKit**, which
+is *not* its own repo. It is a package inside the `fianchetto` app repo, so its
+docs live at `FianchettoKit/docs-site`; `build-docs.sh` entries take an optional
+third field for that nested path.
 
 ## Keeping the docs current
 
-- **Automated** — `.github/workflows/rebuild-docs.yml` checks out the four
-  package repos, runs `build-docs.sh`, and **commits the rebuilt `docs/` back**.
+- **Automated** — `.github/workflows/rebuild-docs.yml` checks out the package
+  repos, runs `build-docs.sh`, and **commits the rebuilt `docs/` back**.
   It runs daily, on a manual **Run workflow**, and on a `repository_dispatch` of
   type `docs-updated`. (Not on push — a source-only push doesn't change the
   package docs.) After changing a package's docs, click **Run workflow** here (or
@@ -23,9 +29,16 @@ here; branch-serving then publishes them.
 
 ## Setup
 
-1. **`DOCS_PACKAGES_TOKEN`** — the workflow reads the four *private* package
-   repos, so it needs a token: a fine-grained PAT with **Contents: Read-only** on
-   `fianchettochess/{ChessCore,BoardKit,SwiftStockfish,SwiftReckless}`. Set it as
+1. **`DOCS_PACKAGES_TOKEN`** — the workflow reads the *private* package repos,
+   so it needs a token: a fine-grained PAT with **Contents: Read-only** on
+   `fianchettochess/{ChessCore,BoardKit,SwiftStockfish,SwiftReckless,fianchetto}`.
+
+   The `fianchetto` grant is what lets FianchettoKit's docs be aggregated. The
+   app repo's `docs/CI_RUNBOOK.md` §4d currently prescribes "Only select
+   repositories" over the **four** sibling packages, which does not include
+   `fianchetto` — so this grant likely needs adding, and §4d updating to match.
+   Until then the rebuild still succeeds and simply omits FianchettoKit: its
+   checkout step is `continue-on-error`, and the job summary says so. Set it as
    an **org-level** secret at github.com/organizations/fianchettochess/settings/
    secrets/actions (not a repo secret here) so it is shared with the Fianchetto
    app CI without duplication — both the app's sibling checkout and this docs

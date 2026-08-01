@@ -56,6 +56,26 @@ jobs:
           repository: fianchettochess/SwiftReckless
           path: _packages/SwiftReckless
           token: ${{ secrets.DOCS_PACKAGES_TOKEN }}
+      # FianchettoKit has no repo of its own — it is a package inside the app
+      # repo, so this checks out fianchetto (default branch) and build-docs.sh
+      # reaches into FianchettoKit/docs-site.
+      #
+      # continue-on-error is deliberate.  DOCS_PACKAGES_TOKEN is documented in
+      # the app repo's CI_RUNBOOK §4d as "Only select repositories" over the
+      # four sibling packages, which does NOT include fianchetto.  If that is
+      # still the case this step fails — and a hard failure here would take
+      # down a rebuild that currently publishes four package doc sets every
+      # day.  Instead it degrades: build-docs.sh skips a package with no
+      # mkdocs.yml, and the summary step below reports what was skipped, so a
+      # missing grant is visible rather than silent.
+      - name: Checkout Fianchetto (for FianchettoKit docs)
+        id: checkout_fianchetto
+        continue-on-error: true
+        uses: actions/checkout@v4
+        with:
+          repository: fianchettochess/fianchetto
+          path: _packages/Fianchetto
+          token: ${{ secrets.DOCS_PACKAGES_TOKEN }}
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -66,9 +86,51 @@ jobs:
         run: pip install mkdocs-material
 
       - name: Rebuild aggregated docs
+        id: build
         run: SIBLINGS="$GITHUB_WORKSPACE/_packages" MKDOCS="$(command -v mkdocs)" ./build-docs.sh
 
+      - name: Report what was aggregated
+        if: always()
+        run: |
+          {
+            echo "### Aggregated doc sets"
+            echo
+            for d in docs/*/; do
+              name="$(basename "$d")"
+              [[ -f "$d/index.html" ]] && echo "- ✅ \`$name\`"
+            done
+            case "${{ steps.checkout_fianchetto.outcome }}" in
+              success) ;;
+              skipped)
+                echo
+                echo "> ⚠️ **FianchettoKit was skipped** — its checkout never"
+                echo "> ran, because an earlier required checkout failed."
+                echo "> Check that step's log; this is *not* a token problem."
+                ;;
+              *)
+                echo
+                echo "> ⚠️ **FianchettoKit was skipped** — checking out"
+                echo "> \`fianchettochess/fianchetto\` failed"
+                echo "> (outcome: \`${{ steps.checkout_fianchetto.outcome }}\`)."
+                echo "> Grant \`DOCS_PACKAGES_TOKEN\` **Contents: Read** on that"
+                echo "> repo; see CI_RUNBOOK §4d, which currently scopes the PAT"
+                echo "> to the four sibling packages only."
+                ;;
+            esac
+            if [[ "${{ steps.build.outcome }}" != "success" ]]; then
+              echo
+              echo "> ❌ **A package failed to build.** Any package that did"
+              echo "> build was still committed; the one that failed kept its"
+              echo "> previous output. See the build step's log for which."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # always(): build-docs.sh exits non-zero if any package failed, but it
+      # still swapped in every package that DID build.  Committing those keeps
+      # one bad package from discarding the others' rebuild; the job still goes
+      # red because the build step itself failed.
       - name: Commit the rebuilt docs (only if changed)
+        if: always()
         run: |
           git config user.name  "docs-bot"
           git config user.email "docs-bot@users.noreply.github.com"
