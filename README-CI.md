@@ -30,20 +30,27 @@ third field for that nested path.
 ## Setup
 
 1. **`DOCS_PACKAGES_TOKEN`** — the workflow reads the *private* package repos,
-   so it needs a token: a fine-grained PAT with **Contents: Read-only** on
+   so it needs a token: a fine-grained PAT with **Contents: Read-only** covering
    `fianchettochess/{ChessCore,BoardKit,SwiftStockfish,SwiftReckless,fianchetto}`.
+   The live token is scoped to **all repositories** in the org, which satisfies
+   this.
 
-   The `fianchetto` grant is what lets FianchettoKit's docs be aggregated. The
-   app repo's `docs/CI_RUNBOOK.md` §4d currently prescribes "Only select
-   repositories" over the **four** sibling packages, which does not include
-   `fianchetto` — so this grant likely needs adding, and §4d updating to match.
-   Until then the rebuild still succeeds and simply omits FianchettoKit: its
-   checkout step is `continue-on-error`, and the job summary says so. Set it as
-   an **org-level** secret at github.com/organizations/fianchettochess/settings/
-   secrets/actions (not a repo secret here) so it is shared with the Fianchetto
-   app CI without duplication — both the app's sibling checkout and this docs
-   rebuild use the same `DOCS_PACKAGES_TOKEN`. The workflow pushes the commit-back
-   with the default `GITHUB_TOKEN` (`contents: write`).
+   The `fianchetto` grant is what lets FianchettoKit's docs be aggregated. Note
+   that the app repo's `docs/CI_RUNBOOK.md` §4d still describes the older
+   "Only select repositories" over the four sibling packages — that text is
+   stale and should be updated to match the all-repositories scope.
+
+   If that checkout ever does fail (expiry, re-scoping), the rebuild degrades
+   rather than collapsing: the other four packages still build and commit, the
+   job summary says what was skipped, and a final `Require FianchettoKit` step
+   fails the job so it is loud.
+
+   It lives as an **org-level** secret at
+   github.com/organizations/fianchettochess/settings/secrets/actions (not a repo
+   secret here) so it is shared with the Fianchetto app CI without duplication —
+   both the app's sibling checkout and this docs rebuild use the same
+   `DOCS_PACKAGES_TOKEN`. The workflow pushes the commit-back with the default
+   `GITHUB_TOKEN` (`contents: write`).
 2. **Pages source** — Settings → Pages → **Deploy from a branch** (the default).
    If you switched it to "GitHub Actions" earlier, switch it back — that mode
    can't deploy from a private repo on this plan.

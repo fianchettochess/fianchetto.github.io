@@ -60,14 +60,17 @@ jobs:
       # repo, so this checks out fianchetto (default branch) and build-docs.sh
       # reaches into FianchettoKit/docs-site.
       #
-      # continue-on-error is deliberate.  DOCS_PACKAGES_TOKEN is documented in
-      # the app repo's CI_RUNBOOK §4d as "Only select repositories" over the
-      # four sibling packages, which does NOT include fianchetto.  If that is
-      # still the case this step fails — and a hard failure here would take
-      # down a rebuild that currently publishes four package doc sets every
-      # day.  Instead it degrades: build-docs.sh skips a package with no
-      # mkdocs.yml, and the summary step below reports what was skipped, so a
-      # missing grant is visible rather than silent.
+      # DOCS_PACKAGES_TOKEN is scoped to all repositories in the org, so this
+      # is expected to succeed.  (The app repo's CI_RUNBOOK §4d still describes
+      # the older "Only select repositories" over four packages — that text is
+      # stale; the live token is broader.)
+      #
+      # continue-on-error is still deliberate, but it does NOT mean a failure
+      # is tolerated: the "Require FianchettoKit" step below fails the job if
+      # this did not succeed.  It buys ordering, not forgiveness — the four
+      # other packages still build and commit first, so a broken fianchetto
+      # checkout costs a red job and a stale FianchettoKit rather than a whole
+      # day's rebuild for every package.
       - name: Checkout Fianchetto (for FianchettoKit docs)
         id: checkout_fianchetto
         continue-on-error: true
@@ -109,12 +112,12 @@ jobs:
                 ;;
               *)
                 echo
-                echo "> ⚠️ **FianchettoKit was skipped** — checking out"
+                echo "> ❌ **FianchettoKit was skipped** — checking out"
                 echo "> \`fianchettochess/fianchetto\` failed"
                 echo "> (outcome: \`${{ steps.checkout_fianchetto.outcome }}\`)."
-                echo "> Grant \`DOCS_PACKAGES_TOKEN\` **Contents: Read** on that"
-                echo "> repo; see CI_RUNBOOK §4d, which currently scopes the PAT"
-                echo "> to the four sibling packages only."
+                echo "> \`DOCS_PACKAGES_TOKEN\` is supposed to cover all org"
+                echo "> repositories — check whether it expired or was"
+                echo "> re-scoped. The other packages still published."
                 ;;
             esac
             if [[ "${{ steps.build.outcome }}" != "success" ]]; then
@@ -141,3 +144,16 @@ jobs:
             git commit -m "docs: rebuild package docs [automated]"
             git push
           fi
+
+      # The checkout is continue-on-error so the other packages still publish,
+      # but a missing FianchettoKit is a real failure, not an accepted state.
+      # Fail the job here — after the commit above has salvaged what did build.
+      - name: Require FianchettoKit
+        if: always() && steps.checkout_fianchetto.outcome != 'success'
+        run: |
+          echo "::error::FianchettoKit was not aggregated — checking out" \
+               "fianchettochess/fianchetto had outcome" \
+               "'${{ steps.checkout_fianchetto.outcome }}'." \
+               "DOCS_PACKAGES_TOKEN should cover all org repositories;" \
+               "check whether it expired or was re-scoped."
+          exit 1
