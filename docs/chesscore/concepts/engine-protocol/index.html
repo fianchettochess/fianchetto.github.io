@@ -994,7 +994,7 @@ engine, or a mock:</p>
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">notation</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// SAN is stable across depth updates</span>
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">move</span><span class="p">:</span><span class="w"> </span><span class="n">Move</span>
 <a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">notation</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">probability</span><span class="p">:</span><span class="w"> </span><span class="nb">Double</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">probability</span><span class="p">:</span><span class="w"> </span><span class="nb">Double</span><span class="p">?</span><span class="w">      </span><span class="c1">// policy networks only; nil for search engines</span>
 <a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">score</span><span class="p">:</span><span class="w"> </span><span class="n">UCIInfo</span><span class="p">.</span><span class="n">Score</span><span class="p">?</span>
 <a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">pvLine</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">String</span><span class="p">]</span>
 <a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="p">}</span>
@@ -1003,20 +1003,23 @@ engine, or a mock:</p>
 <a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="n">winDrawLoss</span><span class="p">(</span><span class="n">win</span><span class="p">:</span><span class="w"> </span><span class="nb">Double</span><span class="p">,</span><span class="w"> </span><span class="n">draw</span><span class="p">:</span><span class="w"> </span><span class="nb">Double</span><span class="p">,</span><span class="w"> </span><span class="n">loss</span><span class="p">:</span><span class="w"> </span><span class="nb">Double</span><span class="p">)</span>
 <a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="n">centipawns</span><span class="p">(</span><span class="nb">Int</span><span class="p">)</span>
 <a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="n">mate</span><span class="p">(</span><span class="nb">Int</span><span class="p">)</span>
-<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>
-<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">displayText</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span>
-<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">scoreText</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span>
-<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="p">}</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="p">}</span>
 </code></pre></div>
+<p><code>probability</code> is for engines that produce one — a policy network ranking moves
+by how likely they are to be played. A search engine leaves it <code>nil</code> and ranks
+by <code>score</code>; there is no invented value to tell apart from a genuine zero.</p>
+<p><code>Evaluation</code> carries the engine's assessment in whichever form the engine
+natively produces. Formatting it — decimal places, mate spelling, whether a
+win/draw/loss split becomes a percentage — is the caller's.</p>
 <p><code>ScoredMove.id</code> is the SAN notation — it is unique within one position's move
 list and stable across depth updates, so list rows keep a stable identity as the
 engine publishes deeper results.</p>
 <h2 id="engine-errors">Engine errors<a class="headerlink" href="#engine-errors" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">EngineError</span><span class="p">:</span><span class="w"> </span><span class="n">LocalizedError</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">modelNotLoaded</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">invalidInput</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">predictionFailed</span><span class="p">(</span><span class="nb">String</span><span class="p">)</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">engineUnavailable</span><span class="w">      </span><span class="c1">// no engine loaded, or not ready</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">invalidPosition</span><span class="w">        </span><span class="c1">// position could not be encoded for the engine</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">analysisFailed</span><span class="p">(</span><span class="nb">String</span><span class="p">)</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">noLegalMoves</span>
 <a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="p">}</span>
 </code></pre></div>
@@ -1060,7 +1063,7 @@ live at a time.</p>
 </div>
 <h2 id="wiring-a-real-engine">Wiring a real engine<a class="headerlink" href="#wiring-a-real-engine" title="Permanent link">&para;</a></h2>
 <p>A typical <code>ChessEngine</code> adapter drives <a href="https://github.com/fianchettochess/SwiftStockfish">SwiftStockfish</a>,
-sends <code>position.stockfishSafeFEN</code>, collects <code>info</code> lines via
+sends <code>position.consistentFEN</code>, collects <code>info</code> lines via
 <code>UCIOutputParser.parseInfo</code>, and constructs <code>ScoredMove</code> values with
 <code>UCIParser.uciToMove</code> and <code>MoveGenerator.algebraicNotation</code>. See the
 <a href="../../examples/">Usage Examples</a> for a complete implementation.</p>

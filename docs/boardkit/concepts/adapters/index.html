@@ -1249,9 +1249,9 @@ itself untested (but CU2 corroborates the gen-1-pinned transport and frame forma
 </div>
 <hr />
 <h2 id="squareoffadapter">SquareOffAdapter<a class="headerlink" href="#squareoffadapter" title="Permanent link">&para;</a></h2>
-<p>Square Off Pro and Kingdom Set (GKS). Field-proven in the Fianchetto iOS and
-Android production apps. The connection, field-update, board-state, LED,
-handshake, and reconnect paths are hardware-verified.</p>
+<p>Square Off Pro and Kingdom Set (GKS). Field-proven in shipping iOS and Android
+clients. The connection, field-update, board-state, LED, handshake, and
+reconnect paths are hardware-verified.</p>
 <p>The <code>executeMove</code> motor command is <strong>quarantined</strong> — its wire semantics may
 auto-move on motorized GKS boards and are not fully confirmed. The adapter
 returns <code>nil</code> from <code>encode(.executeMove(uci:))</code> until the wire format is

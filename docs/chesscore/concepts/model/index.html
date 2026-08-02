@@ -550,10 +550,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#spoken-labels" class="md-nav__link">
+  <a href="#piece-names" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Spoken labels
+        Piece names
       
     </span>
   </a>
@@ -925,10 +925,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#spoken-labels" class="md-nav__link">
+  <a href="#piece-names" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Spoken labels
+        Piece names
       
     </span>
   </a>
@@ -1102,17 +1102,15 @@ consuming UI.</p>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">positionBefore</span><span class="p">:</span><span class="w"> </span><span class="n">Position</span>
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">}</span>
 </code></pre></div>
-<h3 id="spoken-labels">Spoken labels<a class="headerlink" href="#spoken-labels" title="Permanent link">&para;</a></h3>
-<p><code>PieceType</code> and <code>Piece</code> carry spoken-label helpers for VoiceOver / TalkBack
-accessibility labels and human-readable piece descriptions:</p>
+<h3 id="piece-names">Piece names<a class="headerlink" href="#piece-names" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">PieceType</span><span class="p">.</span><span class="n">knight</span><span class="p">.</span><span class="n">displayName</span><span class="w">         </span><span class="c1">// &quot;knight&quot;</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">PieceType</span><span class="p">.</span><span class="n">queen</span><span class="p">.</span><span class="n">displayName</span><span class="w">          </span><span class="c1">// &quot;queen&quot;</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="kd">let</span><span class="w"> </span><span class="nv">piece</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Piece</span><span class="p">(</span><span class="n">type</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">bishop</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">white</span><span class="p">)</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="n">piece</span><span class="p">.</span><span class="n">descriptiveName</span><span class="w">                </span><span class="c1">// &quot;White bishop&quot;</span>
 </code></pre></div>
-<p><code>displayName</code> is the lowercase noun; <code>descriptiveName</code> is the <code>"Color noun"</code> form
-used by accessibility square labels and physical-board correction prose.</p>
+<p><code>displayName</code> is the English noun the algebraic-notation letter abbreviates, so
+it is a property of the notation rather than of a user interface. It is not
+localized: a program presenting piece names in another language should map from
+the <code>PieceType</code> case rather than from this string. Composing a phrase from it
+("White knight", a screen-reader sentence) is the caller's.</p>
 <h2 id="moveannotation">MoveAnnotation<a class="headerlink" href="#moveannotation" title="Permanent link">&para;</a></h2>
 <p>The PGN/NAG glyphs. The model covers chess logic only; display name, symbol,
 and tint are left to the UI:</p>
@@ -1159,7 +1157,7 @@ and tint are left to the UI:</p>
 <a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>
 <a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">fen</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">                   </span><span class="c1">// full FEN incl. counters</span>
 <a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">positionKey</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">           </span><span class="c1">// FEN without counters (the legality/transposition key)</span>
-<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">stockfishSafeFEN</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">      </span><span class="c1">// sanitized for a strict UCI engine</span>
+<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">consistentFEN</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">      </span><span class="c1">// metadata reconciled with the placement</span>
 <a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">capturableEnPassantTarget</span><span class="p">:</span><span class="w"> </span><span class="n">Square</span><span class="p">?</span><span class="w">  </span><span class="c1">// EP only when a capture exists</span>
 <a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">hasInsufficientMaterial</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span>
 <a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a><span class="p">}</span>

@@ -883,10 +883,9 @@
 
 <h1 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h1>
 <p>BoardKit is a Swift Package Manager library. Its only runtime dependency is
-<a href="https://github.com/fianchettochess/ChessCore">ChessCore</a> 0.8.0 (MIT), which it
-pins exactly until the private packages make their public debut. No third-party
-networking, UI, or platform-specific libraries are required by the library
-targets.</p>
+<a href="https://github.com/fianchettochess/ChessCore">ChessCore</a> 0.8.0 (MIT), pinned
+exactly. No third-party networking, UI, or platform-specific libraries are
+required by the library targets.</p>
 <h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -927,8 +926,10 @@ targets.</p>
 uses throwing <code>FileHandle</code> APIs (available since iOS 13.4 / macOS 10.15.4).</p>
 <h2 id="add-the-package">Add the package<a class="headerlink" href="#add-the-package" title="Permanent link">&para;</a></h2>
 <h3 id="local-chesscore-checkout">Local ChessCore checkout<a class="headerlink" href="#local-chesscore-checkout" title="Permanent link">&para;</a></h3>
-<p>When a valid <code>../ChessCore</code> sibling checkout is present, BoardKit selects it
-automatically. Standalone consumers resolve the exact versioned dependency.</p>
+<p>The manifest declares one ordinary versioned dependency and never inspects the
+filesystem. To develop against a local ChessCore alongside BoardKit, use
+<code>swift package edit ChessCore</code> or a root-level <code>.package(path:)</code> override in
+the package that consumes both.</p>
 <h3 id="remote-dependency">Remote dependency<a class="headerlink" href="#remote-dependency" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">dependencies</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="p">.</span><span class="n">package</span><span class="p">(</span><span class="n">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://github.com/fianchettochess/BoardKit.git&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">exact</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0.6.0&quot;</span><span class="p">),</span>

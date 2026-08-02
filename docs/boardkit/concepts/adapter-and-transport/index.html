@@ -1062,9 +1062,9 @@ target; BoardKit defines only the protocol.</p>
 <p><code>.connected</code> means the transport has a writable link and its notification
 subscription is active. It deliberately precedes the adapter handshake; wait
 for <code>BoardEvent.ready</code> before treating the board's sensor stream as ready.</p>
-<p>The <code>.reconnecting(attempt:)</code> case is 1-indexed. Display as
-"Reconnecting (attempt N/5)…" alongside a <code>BoardReconnectPolicy</code> that
-supplies the per-attempt delay schedule.</p>
+<p>The <code>.reconnecting(attempt:)</code> case is 1-indexed. Pair it with the
+<code>maxAttempts</code> of the <code>BoardReconnectPolicy</code> driving the loop if you want to
+report progress.</p>
 <h3 id="discoveredboarddevice">DiscoveredBoardDevice<a class="headerlink" href="#discoveredboarddevice" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="nc">DiscoveredBoardDevice</span><span class="p">:</span><span class="w"> </span><span class="n">Identifiable</span><span class="p">,</span><span class="w"> </span><span class="nb">Equatable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="n">UUID</span><span class="w">       </span><span class="c1">// stable OS-assigned peripheral UUID</span>

@@ -866,9 +866,9 @@ king squares. It returns <code>nil</code> on malformed input.</p>
 <td>the legality / transposition key</td>
 </tr>
 <tr>
-<td><code>stockfishSafeFEN</code></td>
-<td>sanitized FEN safe for a strict UCI engine</td>
-<td>any FEN that crosses into a UCI engine</td>
+<td><code>consistentFEN</code></td>
+<td>metadata fields made consistent with the placement</td>
+<td>any FEN leaving for a parser you don't control</td>
 </tr>
 </tbody>
 </table>
@@ -877,10 +877,10 @@ king squares. It returns <code>nil</code> on malformed input.</p>
 </code></pre></div>
 <h2 id="crossing-the-engine-boundary">Crossing the engine boundary<a class="headerlink" href="#crossing-the-engine-boundary" title="Permanent link">&para;</a></h2>
 <p>Stockfish's FEN parser asserts on inconsistent metadata and <strong>aborts the
-process</strong> (<code>assert(is_ok(s))</code>). Always hand it <code>stockfishSafeFEN</code>, which zeros out
+process</strong> (<code>assert(is_ok(s))</code>). Always hand it <code>consistentFEN</code>, which zeros out
 castling rights that don't match the placement and drops phantom en-passant
 targets:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">engine</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="s">&quot;position fen </span><span class="si">\(</span><span class="n">position</span><span class="p">.</span><span class="n">stockfishSafeFEN</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">engine</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="s">&quot;position fen </span><span class="si">\(</span><span class="n">position</span><span class="p">.</span><span class="n">consistentFEN</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">engine</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="s">&quot;go depth 20&quot;</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="real-en-passant">Real en passant<a class="headerlink" href="#real-en-passant" title="Permanent link">&para;</a></h2>
