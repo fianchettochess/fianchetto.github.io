@@ -719,6 +719,33 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -938,18 +965,21 @@ product's patience rather than the hardware's, so both are parameters.</p>
 describes a ramp that then holds steady. The default <code>[2, 4, 8]</code> over five
 attempts waits 2 s, 4 s, then 8 s three times.</p>
 <h3 id="example_1">Example<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">let</span><span class="w"> </span><span class="nv">policy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">BoardReconnectPolicy</span><span class="p">()</span><span class="w">                    </span><span class="c1">// 2 s, 4 s, then 8 s</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1">// let policy = BoardReconnectPolicy(delays: [0.5, 1]) // impatient, two attempts</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">for</span><span class="w"> </span><span class="n">attempt</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mf">1.</span><span class="p">..</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="k">guard</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">delay</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">policy</span><span class="p">.</span><span class="n">nextDelay</span><span class="p">(</span><span class="n">attempt</span><span class="p">:</span><span class="w"> </span><span class="n">attempt</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">        </span><span class="n">transport</span><span class="p">.</span><span class="n">state</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">.</span><span class="n">disconnected</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">        </span><span class="k">break</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="n">transport</span><span class="p">.</span><span class="n">state</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">.</span><span class="n">reconnecting</span><span class="p">(</span><span class="n">attempt</span><span class="p">:</span><span class="w"> </span><span class="n">attempt</span><span class="p">)</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">Task</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="k">for</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">seconds</span><span class="p">(</span><span class="n">delay</span><span class="p">))</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="n">transport</span><span class="p">.</span><span class="n">attemptReconnect</span><span class="p">()</span>
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">let</span><span class="w"> </span><span class="nv">policy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">BoardReconnectPolicy</span><span class="p">()</span><span class="w">                      </span><span class="c1">// 2, 4, 8, 8, 8</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1">// `delays` sets the shape of the ramp; `maxAttempts` sets how many there are.</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1">// BoardReconnectPolicy(delays: [0.5, 1])                // 0.5, 1, 1, 1, 1</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1">// BoardReconnectPolicy(maxAttempts: 2, delays: [0.5])   // 0.5, 0.5 — then give up</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="k">for</span><span class="w"> </span><span class="n">attempt</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mf">1.</span><span class="p">..</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="k">guard</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">delay</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">policy</span><span class="p">.</span><span class="n">nextDelay</span><span class="p">(</span><span class="n">attempt</span><span class="p">:</span><span class="w"> </span><span class="n">attempt</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">        </span><span class="n">transport</span><span class="p">.</span><span class="n">state</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">.</span><span class="n">disconnected</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">        </span><span class="k">break</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="n">transport</span><span class="p">.</span><span class="n">state</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">.</span><span class="n">reconnecting</span><span class="p">(</span><span class="n">attempt</span><span class="p">:</span><span class="w"> </span><span class="n">attempt</span><span class="p">)</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">Task</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="k">for</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">seconds</span><span class="p">(</span><span class="n">delay</span><span class="p">))</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="n">transport</span><span class="p">.</span><span class="n">attemptReconnect</span><span class="p">()</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="p">}</span>
 </code></pre></div>
 
 

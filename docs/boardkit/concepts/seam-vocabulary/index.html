@@ -763,6 +763,33 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -980,8 +1007,14 @@ only occupancy: <code>map { $0 != nil }</code>.</p>
 <h3 id="housekeeping">Housekeeping<a class="headerlink" href="#housekeeping" title="Permanent link">&para;</a></h3>
 <p><strong><code>.battery(percent:)</code></strong> — battery level 0–100, emitted by boards that
 support it (Chessnut Air family, DGT Pegasus).</p>
-<p><strong><code>.raw(Data)</code></strong> — undecoded bytes for unknown opcodes; session code must
-never branch on this case.</p>
+<p><strong><code>.raw(Data)</code></strong> — undecoded bytes for any frame an adapter does not decode, so
+a consumer can log or capture it without losing data. Do not branch on it for
+ordinary board handling: the payload is a vendor's wire format, it is not stable
+across firmware, and anything built on it stops working on the next board. The
+one exception is a capability the seam advertises but does not yet model —
+<code>.perPieceTracking</code> is the current example — where a consumer that has checked
+the bit, and therefore knows exactly which adapter it is talking to, may parse
+the payload that adapter documents.</p>
 <h3 id="hardware-reported-picks-and-stored-games">Hardware-reported picks and stored games<a class="headerlink" href="#hardware-reported-picks-and-stored-games" title="Permanent link">&para;</a></h3>
 <p><strong><code>.promotionPick(piece:)</code></strong> — a board-side promotion piece pick (ChessUp
 <code>0x97</code> frame). When the board reports the promotion piece this way, the
@@ -1069,14 +1102,50 @@ to activate.</p>
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">moveIndication</span><span class="w">    </span><span class="c1">// any move-highlight capability</span>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">motorised</span><span class="w">         </span><span class="c1">// auto-move mechanism</span>
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">batteryReporting</span><span class="w">  </span><span class="c1">// reports battery level</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">perPieceTracking</span><span class="w">  </span><span class="c1">// per-robot unique identity (Chessnut Move)</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">perPieceTracking</span><span class="w">  </span><span class="c1">// true per-piece unique identity (Chessnut Move)</span>
 <a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">gameArchive</span><span class="w">       </span><span class="c1">// onboard stored-game archive (requestStoredGames)</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="c1">// Convenience presets</span>
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">chessnutAirFamily</span><span class="p">:</span><span class="w"> </span><span class="n">BoardCapabilities</span>
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">squareOff</span><span class="p">:</span><span class="w"> </span><span class="n">BoardCapabilities</span>
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="p">}</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">}</span>
 </code></pre></div>
+<p>Vendor capability presets live with the vendor's adapter, not on the shared
+type, so importing <code>BoardKit</code> alone does not pull in a vocabulary for hardware
+you do not use:</p>
+<table>
+<thead>
+<tr>
+<th>Preset</th>
+<th>Declared in</th>
+<th>Import</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BoardCapabilities.squareOff</code></td>
+<td><code>SquareOffAdapter</code></td>
+<td><code>import SquareOffAdapter</code></td>
+</tr>
+<tr>
+<td><code>BoardCapabilities.chessnutAirFamily</code></td>
+<td><code>ChessnutAdapter</code></td>
+<td><code>import ChessnutAdapter</code></td>
+</tr>
+<tr>
+<td><code>BoardCapabilities.chessUp</code></td>
+<td><code>ChessUpAdapter</code></td>
+<td><code>import ChessUpAdapter</code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title"><code>.perPieceTracking</code> is a hardware fact, not a seam feature</p>
+<p>The bit says the board can tell one knight from the other. The seam does not
+model that yet: <code>identitySnapshot</code> carries type and colour per square exactly
+as it does for <code>.pieceIdentity</code>, and per-piece status arrives as
+<code>BoardEvent.raw</code>. A consumer that wants it must poll and parse through the
+adapter it has already declared a dependency on — for the Chessnut Move that
+is <code>ChessnutMoveAdapter.pieceStatusRequestData()</code>, whose response shape that
+adapter documents. Read the bit as "the hardware can do it", not "the seam
+can express it".</p>
+</div>
 <h3 id="capability-matrix">Capability matrix<a class="headerlink" href="#capability-matrix" title="Permanent link">&para;</a></h3>
 <p>See the canonical <a href="../adapters/#hardware-status">hardware-status and capability tables</a>,
 which distinguish implemented flags from hardware-tested scope and document
