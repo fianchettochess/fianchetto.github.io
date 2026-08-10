@@ -547,6 +547,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#which-backend-did-this-build-get" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Which backend did this build get?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#xcode-lock-in" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -662,6 +673,34 @@
     <span class="md-ellipsis">
       
         Link the static archive
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linux-and-windows-desktop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linux and Windows (desktop)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Linux and Windows (desktop)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#native-link-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Native link dependencies
       
     </span>
   </a>
@@ -855,6 +894,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#which-backend-did-this-build-get" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Which backend did this build get?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#xcode-lock-in" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -982,6 +1032,34 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#linux-and-windows-desktop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Linux and Windows (desktop)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Linux and Windows (desktop)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#native-link-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Native link dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#recklesshoststubsc" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1053,7 +1131,7 @@ CI builds that need to produce fresh XCFrameworks.</p>
 <tr>
 <td>Non-Apple host, or <code>SWIFTRECKLESS_FORCE_SOURCE_BUILD=1</code> in an Apple command-line build</td>
 <td><strong>source</strong></td>
-<td><code>RecklessBridge.c</code> + <code>RecklessHostStubs.c</code>; Android integration also links a cross-built <code>libcreckless.a</code></td>
+<td><code>RecklessBridge.c</code>, plus <code>RecklessHostStubs.c</code> on any platform not told an archive is coming. Android links a cross-built <code>libcreckless.a</code>; Linux and Windows link <code>libcreckless.a</code> / <code>creckless.lib</code> under <code>SWIFTRECKLESS_LINK_ARCHIVE=1</code></td>
 </tr>
 </tbody>
 </table>
@@ -1072,10 +1150,29 @@ CI builds that need to produce fresh XCFrameworks.</p>
 </tr>
 <tr>
 <td><code>RECKLESS_LIB_DIR</code></td>
-<td>Integration input read by the consuming Android root package. It points to the directory containing the cross-compiled <code>libcreckless.a</code>; SwiftReckless does not embed this local path in its published manifest.</td>
+<td>Integration input read by the consuming root package, on every platform. It points to the directory containing the built archive; SwiftReckless does not embed this local path in its published manifest, because a path could only become a link input through <code>.unsafeFlags</code>, which would make the package's products unusable to remote consumers.</td>
+</tr>
+<tr>
+<td><code>SWIFTRECKLESS_LINK_ARCHIVE=1</code></td>
+<td>Desktop (Linux/Windows) opt-in, read by <em>this</em> manifest. A boolean, not a path: it declares that a real <code>creckless</code> archive is on the linker search path, so the package stops compiling stubs for those platforms and asks for the archive via <code>.linkedLibrary</code> — a safe build setting that stays legal in a tagged dependency. All of its effects are scoped <code>.when(platforms: [.linux, .windows])</code>.</td>
+</tr>
+<tr>
+<td><code>SWIFTRECKLESS_EXPECT_BACKEND=real\|stub</code></td>
+<td>Test-suite assertion. Fails the run if the build linked the other backend; records a skip when unset. Set it in any CI job that has an opinion about what it just built.</td>
 </tr>
 </tbody>
 </table>
+<h3 id="which-backend-did-this-build-get">Which backend did this build get?<a class="headerlink" href="#which-backend-did-this-build-get" title="Permanent link">&para;</a></h3>
+<p>The source arm's stub configuration is legitimate — it keeps the Skip/Gradle
+host-introspection link working, and it lets a desktop consumer with no archive
+still build — but it must never be silent. One preprocessor condition in
+<code>Sources/CReckless/RecklessBackend.h</code> decides whether the stubs are compiled, and
+the same condition is what <code>rk_backend_is_stub()</code> (C) and <code>RecklessBackend.current</code>
+(Swift) report, so the two cannot disagree. <code>RecklessEngine.init?</code> names the stub
+backend in its failure log, and <code>reckless-smoke</code> prints it and exits non-zero
+instead of reporting a generic engine failure.</p>
+<p>Opting in on desktop and then supplying no archive is a link error, never a quiet
+fallback to stubs.</p>
 <h3 id="xcode-lock-in">Xcode lock-in<a class="headerlink" href="#xcode-lock-in" title="Permanent link">&para;</a></h3>
 <p>When <code>__CFBundleIdentifier == com.apple.dt.Xcode</code> is detected in the environment,
 <code>Package.swift</code> forces the binary arm regardless of <code>SWIFTRECKLESS_FORCE_SOURCE_BUILD</code>.
@@ -1202,11 +1299,75 @@ library, package that final <code>.so</code> instead.</p>
 <code>.linkedLibrary("c++", .when(platforms: [.android]))</code> declaration. Keeping the
 machine-local archive path in the root package avoids unsafe flags in the
 versioned dependency while preserving the required NDK C++ runtime link.</p>
+<h2 id="linux-and-windows-desktop">Linux and Windows (desktop)<a class="headerlink" href="#linux-and-windows-desktop" title="Permanent link">&para;</a></h2>
+<p>Desktop uses the source arm as well, in the same shape as Android: build the Rust
+static library, then hand it to the link. The difference is that the desktop
+archive is asked for by <em>name</em> — <code>.linkedLibrary("creckless")</code>, a safe build
+setting — and the consumer supplies only the search path, so no machine-local
+path has to enter any manifest.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>bash<span class="w"> </span>Tools/build-desktop.sh<span class="w"> </span>linux<span class="w">    </span><span class="c1"># → rust/target/x86_64-unknown-linux-gnu/release/libcreckless.a</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>bash<span class="w"> </span>Tools/build-desktop.sh<span class="w"> </span>windows<span class="w">  </span><span class="c1"># → rust/target/x86_64-pc-windows-msvc/release/creckless.lib</span>
+</code></pre></div>
+<p>A <code>staticlib</code> is assembled by rustc's own archiver and needs no system linker, so
+both targets cross-build from any host.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Linux</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SWIFTRECKLESS_LINK_ARCHIVE</span><span class="o">=</span><span class="m">1</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">LIBRARY_PATH</span><span class="o">=</span><span class="nv">$PWD</span>/rust/target/x86_64-unknown-linux-gnu/release
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>swift<span class="w"> </span>build<span class="w">            </span><span class="c1"># or: swift build -Xlinker -L&lt;that directory&gt;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c"># Windows</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nv">$env:SWIFTRECKLESS_LINK_ARCHIVE</span> <span class="p">=</span> <span class="s1">&#39;1&#39;</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="n">swift</span> <span class="n">build</span> <span class="n">-Xlinker</span> <span class="s2">&quot;/LIBPATH:$PWD\rust\target\x86_64-pc-windows-msvc\release&quot;</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Windows: use <code>/LIBPATH:</code>, not <code>LIB</code></p>
+<p>Defining <code>LIB</code> in an ordinary shell breaks the build: clang stops
+auto-detecting the MSVC and Windows SDK library directories once <code>LIB</code> is
+set, and the link then fails on <code>msvcrt.lib</code> / <code>oldnames.lib</code> /
+<code>msvcprt.lib</code>, including while compiling the package manifest. <code>LIB</code> is only
+safe to <em>append</em> to inside a Visual Studio developer command prompt.</p>
+</div>
+<p>Verify the result instead of assuming it:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nv">SWIFTRECKLESS_EXPECT_BACKEND</span><span class="o">=</span>real<span class="w"> </span>swift<span class="w"> </span><span class="nb">test</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>swift<span class="w"> </span>run<span class="w"> </span>reckless-smoke<span class="w">     </span><span class="c1"># prints &quot;backend: real&quot;, then uci → bestmove</span>
+</code></pre></div>
+<h3 id="native-link-dependencies">Native link dependencies<a class="headerlink" href="#native-link-dependencies" title="Permanent link">&para;</a></h3>
+<p>Taken from <code>rustc --print native-static-libs</code> for this crate (the build script
+prints the current list on every run) and declared by the package under the
+opt-in:</p>
+<table>
+<thead>
+<tr>
+<th>Target</th>
+<th>Needs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x86_64-unknown-linux-gnu</code></td>
+<td><code>-lm -ldl -lpthread -lrt -lutil</code>, plus <code>libc</code>/<code>libgcc_s</code> which the Swift driver already links. <strong>No C++ runtime.</strong></td>
+</tr>
+<tr>
+<td><code>x86_64-pc-windows-msvc</code></td>
+<td><code>kernel32 ntdll userenv ws2_32 dbghelp legacy_stdio_definitions</code>, plus the default <code>msvcrt</code>. <strong>No C++ runtime.</strong></td>
+</tr>
+</tbody>
+</table>
+<p><code>-lc++</code> remains Android-only: it is the NDK's requirement, not Reckless's.</p>
+<p>The desktop archives are not committed. A checkout without one links stubs and
+reports it.</p>
 <h2 id="recklesshoststubsc"><code>RecklessHostStubs.c</code><a class="headerlink" href="#recklesshoststubsc" title="Permanent link">&para;</a></h2>
-<p>In the source arm on non-Android hosts (e.g. a CI Linux host), the real Rust
-implementation symbols (<code>rk_ffi_*</code>) are not linked. <code>RecklessHostStubs.c</code> provides
-no-op implementations of those symbols so the Skip/Gradle host-introspection pass
-links cleanly without an Android NDK.</p>
+<p>In the source arm, any platform that has not been told a real archive is coming
+compiles this file, which provides no-op <code>rk_ffi_*</code> implementations. That covers
+the Skip/Gradle host-introspection pass (a macOS host build carrying the Android
+environment, which must link without the Android ELF) and a Linux/Windows
+consumer that has not opted in — both link cleanly and neither gets an engine.</p>
+<p>The guard is a single condition in <code>Sources/CReckless/RecklessBackend.h</code>:
+stubs are compiled unless <code>__ANDROID__</code> or <code>RECKLESS_LINK_ARCHIVE</code> says the real
+symbols are arriving from an archive. This matters for correctness, not just
+tidiness: a stub object file always beats an archive member (an archive is only
+searched for symbols still undefined), so compiling stubs alongside a real
+archive would silently produce a dead engine.</p>
 <h2 id="the-reckless-fork">The Reckless fork<a class="headerlink" href="#the-reckless-fork" title="Permanent link">&para;</a></h2>
 <p>The Rust dependency is <code>github.com/fianchettochess/Reckless.git</code>, pinned to
 tag <code>swiftreckless-v0.9.1</code> (commit <code>de35beac9074137e9776af14859bf6f40562553c</code>)
