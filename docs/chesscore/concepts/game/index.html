@@ -848,6 +848,33 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -1094,8 +1121,10 @@ ChessCore.</p>
 <a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="p">}</span>
 </code></pre></div>
 <p><code>Game</code> is a pure domain object — no SwiftUI, no SwiftData, no observation
-framework. App layers wrap it (with <code>@Observable</code>) and add clock, sound, and
-haptic side-effects after each <code>apply(_:)</code> call.</p>
+framework, and no interaction state (no selected square, no pending promotion).
+Those belong to whatever drives it, so a consumer is free to layer an observable
+wrapper, a clock, or sound and haptic side-effects over <code>apply(_:)</code> without
+fighting the model for ownership.</p>
 <h3 id="navigation">Navigation<a class="headerlink" href="#navigation" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">let</span><span class="w"> </span><span class="nv">game</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Game</span><span class="p">()</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
@@ -1113,12 +1142,13 @@ haptic side-effects after each <code>apply(_:)</code> call.</p>
 </code></pre></div>
 <h3 id="applying-moves">Applying moves<a class="headerlink" href="#applying-moves" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// Apply a pre-validated Move (promotion already resolved).</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1">// Updates tree + position; clock/sound are added by the app wrapper.</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">game</span><span class="p">.</span><span class="n">apply</span><span class="p">(</span><span class="n">move</span><span class="p">)</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1">// Apply a move loaded from PGN. If the identical move already exists</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1">// among the siblings, the cursor moves to it (no duplicate node created).</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">game</span><span class="p">.</span><span class="n">applyMoveFromPGN</span><span class="p">(</span><span class="n">move</span><span class="p">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1">// Updates the tree and the position, and nothing else — a clock, a sound, or</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1">// a haptic belongs to whatever is driving the game.</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">game</span><span class="p">.</span><span class="n">apply</span><span class="p">(</span><span class="n">move</span><span class="p">)</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1">// Apply a move loaded from PGN. If the identical move already exists</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1">// among the siblings, the cursor moves to it (no duplicate node created).</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">game</span><span class="p">.</span><span class="n">applyMoveFromPGN</span><span class="p">(</span><span class="n">move</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="mutation-new-game-reset-retract">Mutation — new game, reset, retract<a class="headerlink" href="#mutation-new-game-reset-retract" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">game</span><span class="p">.</span><span class="n">newGame</span><span class="p">()</span><span class="w">              </span><span class="c1">// clear tree, reset to initial position</span>

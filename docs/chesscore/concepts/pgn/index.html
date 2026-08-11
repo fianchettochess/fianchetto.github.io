@@ -618,6 +618,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#what-a-comment-yields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What a comment yields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#off-the-main-actor" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -793,6 +804,33 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -852,6 +890,17 @@
   
     <nav class="md-nav" aria-label="Replay a mainline into board snapshots">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-a-comment-yields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What a comment yields
+      
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#off-the-main-actor" class="md-nav__link">
@@ -1029,6 +1078,23 @@ array of <code>MainLineMoveSnapshot</code>:</p>
 <p>Each snapshot carries the parsed <code>Move</code>, its SAN, the position before and after,
 the <code>MoveAnnotation</code> (from <code>!?</code>-style suffixes or NAGs), any inline comment, and
 engine evaluation, best-move, and clock data extracted from the comment.</p>
+<h3 id="what-a-comment-yields">What a comment yields<a class="headerlink" href="#what-a-comment-yields" title="Permanent link">&para;</a></h3>
+<p><code>PGNParser.parseEngineComment(_:)</code> splits a <code>{ … }</code> comment into the engine data
+it carries and the prose left over. Two vocabularies are understood:</p>
+<ul>
+<li><strong>The <code>[%key value]</code> command syntax the PGN specification reserves.</strong> ChessCore
+  reads <code>[%clk H:MM:SS]</code> for a clock reading and <code>[%eval …]</code> for an evaluation —
+  either a signed decimal in pawns (<code>[%eval -1.42]</code>) or a mate distance
+  (<code>[%eval #-3]</code>, reported as <code>"-M3"</code>).</li>
+<li><strong>The dialect <code>PGNExporter</code> writes</strong> — an evaluation, then <code>best &lt;SAN&gt;</code>, then
+  free prose, separated by semicolons: <code>{+0.34; best Nf3; solid}</code>. That is this
+  library's own format, not a standard, and it round-trips what this library
+  exports.</li>
+</ul>
+<p>Everything else comes back untouched as prose. An evaluation token must contain
+a digit, so the Informant symbols (<code>+-</code>, <code>-+</code>, <code>+/-</code>) survive in a reader's
+comment rather than being consumed as evaluations. A <code>[%eval …]</code> tag wins over a
+bare token in the same comment.</p>
 <h3 id="off-the-main-actor">Off the main actor<a class="headerlink" href="#off-the-main-actor" title="Permanent link">&para;</a></h3>
 <p>Both <code>ParsedMainLine</code> and <code>MainLineMoveSnapshot</code> are <code>Sendable</code>, so a large parse
 can run on a detached task:</p>

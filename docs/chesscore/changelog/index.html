@@ -1,0 +1,2357 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A portable, Foundation-only Swift chess core — model, move generation, FEN, SAN/UCI, PGN, and UCI engine-output parsing.">
+      
+      
+        <meta name="author" content="Jared Brewer">
+      
+      
+        <link rel="canonical" href="https://fianchettochess.app/docs/chesscore/changelog/">
+      
+      
+        <link rel="prev" href="../examples/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/icon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Changelog - ChessCore</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/brand.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#changelog" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="https://fianchettochess.app/" title="ChessCore" class="md-header__button md-logo" aria-label="ChessCore" data-md-component="logo">
+      
+  <img src="../assets/icon.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ChessCore
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Changelog
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://fianchettochess.app/" title="ChessCore" class="md-nav__button md-logo" aria-label="ChessCore" data-md-component="logo">
+      
+  <img src="../assets/icon.png" alt="logo">
+
+    </a>
+    ChessCore
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://fianchettochess.app/docs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ↩ All package docs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The board model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/move-generation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Move generation & perft
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/fen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FEN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/san-uci/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SAN & UCI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/pgn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PGN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/game/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The game tree
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/engine-protocol/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine protocol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#090-2026-08-01" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.9.0 — 2026-08-01
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.9.0 — 2026-08-01">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#removed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Removed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#080-2026-07-28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.8.0 — 2026-07-28
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.8.0 — 2026-07-28">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#072-2026-07-21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.7.2 — 2026-07-21
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.7.2 — 2026-07-21">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#071-2026-07-17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.7.1 — 2026-07-17
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.7.1 — 2026-07-17">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#070-2026-07-17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.7.0 — 2026-07-17
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.7.0 — 2026-07-17">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#061-2026-07-15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.6.1 — 2026-07-15
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.6.1 — 2026-07-15">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changed_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#060-2026-07-15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.6.0 — 2026-07-15
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.6.0 — 2026-07-15">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changed_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#added_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#051-2026-07-14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.5.1 — 2026-07-14
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.5.1 — 2026-07-14">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#050-2026-07-13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.5.0 — 2026-07-13
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.5.0 — 2026-07-13">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#040-2026-07-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.4.0 — 2026-07-10
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.4.0 — 2026-07-10">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#030-2026-07-06" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.3.0 — 2026-07-06
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.0 — 2026-07-06">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#020-2026-07-05" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.2.0 — 2026-07-05
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.2.0 — 2026-07-05">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#removed_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Removed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#added_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#011-2026-06-29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.1.1 — 2026-06-29
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.1.1 — 2026-06-29">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changed_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#added_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#010-2026-06-24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.1.0 — 2026-06-24
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#090-2026-08-01" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.9.0 — 2026-08-01
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.9.0 — 2026-08-01">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#removed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Removed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#080-2026-07-28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.8.0 — 2026-07-28
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.8.0 — 2026-07-28">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#072-2026-07-21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.7.2 — 2026-07-21
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.7.2 — 2026-07-21">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#071-2026-07-17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.7.1 — 2026-07-17
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.7.1 — 2026-07-17">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#070-2026-07-17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.7.0 — 2026-07-17
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.7.0 — 2026-07-17">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#061-2026-07-15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.6.1 — 2026-07-15
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.6.1 — 2026-07-15">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changed_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#060-2026-07-15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.6.0 — 2026-07-15
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.6.0 — 2026-07-15">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changed_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#added_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#051-2026-07-14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.5.1 — 2026-07-14
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.5.1 — 2026-07-14">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#050-2026-07-13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.5.0 — 2026-07-13
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.5.0 — 2026-07-13">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#040-2026-07-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.4.0 — 2026-07-10
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.4.0 — 2026-07-10">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#030-2026-07-06" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.3.0 — 2026-07-06
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.0 — 2026-07-06">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#020-2026-07-05" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.2.0 — 2026-07-05
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.2.0 — 2026-07-05">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#removed_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Removed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#added_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#011-2026-06-29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.1.1 — 2026-06-29
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.1.1 — 2026-06-29">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changed_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#added_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Added
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#010-2026-06-24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0.1.0 — 2026-06-24
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
+<p>All notable changes to ChessCore are documented here.</p>
+<p>The format follows <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>.
+ChessCore is pre-1.0: <strong>under <code>0.x</code> the minor is the breaking position</strong>, so
+<code>0.8.0 → 0.9.0</code> may break source compatibility and <code>0.7.1 → 0.7.2</code> may not.
+Depend on it with <code>.upToNextMinor(from:)</code> rather than <code>from:</code> — SwiftPM does not
+special-case <code>0.x</code>, so <code>from: "0.9.0"</code> spans <code>0.9.0 ..&lt; 1.0.0</code> and would accept a
+breaking <code>0.10.0</code>.</p>
+<p>Published tags are never moved or re-cut.</p>
+<h2 id="090-2026-08-01"><a href="https://github.com/fianchettochess/ChessCore/releases/tag/0.9.0">0.9.0</a> — 2026-08-01<a class="headerlink" href="#090-2026-08-01" title="Permanent link">&para;</a></h2>
+<p>Breaking. A pre-publication pass over the public surface, removing symbols that
+named product concepts rather than chess ones. Entries below give the
+replacement to write.</p>
+<h3 id="removed">Removed<a class="headerlink" href="#removed" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>Game.restoreDrillSnapshot(_:)</code>.</strong> The body was <code>isEmpty ? newGame() :
+  loadPGN(_:)</code>, and both of those are public. Write the branch at the call site:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">if</span><span class="w"> </span><span class="n">savedPGN</span><span class="p">.</span><span class="bp">isEmpty</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="n">game</span><span class="p">.</span><span class="n">newGame</span><span class="p">()</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="kc">_</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">game</span><span class="p">.</span><span class="n">loadPGN</span><span class="p">(</span><span class="n">savedPGN</span><span class="p">)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">}</span>
+</code></pre></div>
+<ul>
+<li>
+<p><strong><code>Game.finishAnnotationRestore()</code>.</strong> It was a byte-identical alias of
+  <code>bumpNodeProperty()</code>, whose own documentation covers the batched-write case.
+  Call <code>game.bumpNodeProperty()</code> instead — same effect, same coalesced bump.</p>
+</li>
+<li>
+<p><strong><code>EngineAnalysis.Evaluation.displayText</code> and <code>.scoreText</code>.</strong> Two spellings of
+  one number (<code>"+1.30"</code> vs <code>"+1.3"</code>) in a library whose stated scope excludes
+  presentation. How many decimal places to show is the caller's decision. Both
+  bodies move downstream unchanged:</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">extension</span><span class="w"> </span><span class="nc">EngineAnalysis</span><span class="p">.</span><span class="n">Evaluation</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">displayText</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">        </span><span class="k">switch</span><span class="w"> </span><span class="kc">self</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">.</span><span class="n">winDrawLoss</span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nv">w</span><span class="p">,</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">d</span><span class="p">,</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">l</span><span class="p">):</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nb">String</span><span class="p">(</span><span class="n">format</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;W %.0f%% D %.0f%% L %.0f%%&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">.</span><span class="n">centipawns</span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nv">cp</span><span class="p">):</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nb">String</span><span class="p">(</span><span class="n">format</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;%+.2f&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">Double</span><span class="p">(</span><span class="n">cp</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">100.0</span><span class="p">)</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">.</span><span class="n">mate</span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nv">m</span><span class="p">):</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;M</span><span class="si">\(</span><span class="bp">abs</span><span class="si">(</span><span class="n">m</span><span class="si">))</span><span class="s">&quot;</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>UCIInfo.displayText</code> and <code>UCIInfo.Score.displayText</code> are unaffected and remain
+  public — those spell a parsed UCI score, not an <code>Evaluation</code>.</p>
+<ul>
+<li><strong><code>Piece.descriptiveName</code></strong> and <strong><code>MoveNode.spokenLabel(isCurrent:)</code>.</strong>
+  Composed English sentences, one of them carrying a list-selection flag. Copy
+  them into the consumer, where they can be localized:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">extension</span><span class="w"> </span><span class="nc">Piece</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">descriptiveName</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nv">colorWord</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="p">.</span><span class="n">white</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="s">&quot;White&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Black&quot;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;</span><span class="si">\(</span><span class="n">colorWord</span><span class="si">)</span><span class="s"> </span><span class="si">\(</span><span class="n">type</span><span class="p">.</span><span class="n">displayName</span><span class="si">)</span><span class="s">&quot;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="p">}</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="kd">extension</span><span class="w"> </span><span class="nc">MoveNode</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="kd">func</span><span class="w"> </span><span class="nf">spokenLabel</span><span class="p">(</span><span class="n">isCurrent</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">String</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nv">moveNumber</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">positionBefore</span><span class="p">.</span><span class="n">fullmoveNumber</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nv">isBlack</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">positionBefore</span><span class="p">.</span><span class="n">activeColor</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="p">.</span><span class="n">black</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nv">prefix</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">isBlack</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="s">&quot;</span><span class="si">\(</span><span class="n">moveNumber</span><span class="si">)</span><span class="s">...&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="si">\(</span><span class="n">moveNumber</span><span class="si">)</span><span class="s">.&quot;</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nv">label</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;</span><span class="si">\(</span><span class="kr">prefix</span><span class="si">)</span><span class="s"> </span><span class="si">\(</span><span class="n">notation</span><span class="si">)</span><span class="s">&quot;</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">annotation</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s">&quot;, </span><span class="si">\(</span><span class="n">annotation</span><span class="p">.</span><span class="n">rawValue</span><span class="si">)</span><span class="s">&quot;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">isCurrent</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s">&quot;, current&quot;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">label</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>PieceType.displayName</code> stays: it is the noun that algebraic notation
+  abbreviates. It is documented as English and explicitly not localized.</p>
+<h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>Game+ReplayInfo</code> is now <code>Game+PGNMetadata</code></strong>, with typed accessors named
+  for the PGN tags they read rather than for the screen they fed:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Removed</th>
+<th>Write instead</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>game.hasReplayClockData</code></td>
+<td><code>game.hasClockAnnotations</code></td>
+</tr>
+<tr>
+<td><code>game.replayClockTimes</code></td>
+<td><code>game.clockTimes</code></td>
+</tr>
+<tr>
+<td><code>game.replayInitialClockTime</code></td>
+<td><code>game.initialClockSeconds</code></td>
+</tr>
+<tr>
+<td><code>game.replayPlayerName(for:)</code></td>
+<td><code>game.playerName(for:)</code></td>
+</tr>
+<tr>
+<td><code>game.replayPlayerELO(for:) -&gt; String?</code></td>
+<td><code>game.elo(for:) -&gt; Int?</code></td>
+</tr>
+<tr>
+<td><code>game.hasReplayPlayerInfo(for:)</code></td>
+<td><em>(removed — see below)</em></td>
+</tr>
+</tbody>
+</table>
+<p><code>elo(for:)</code> returns <code>Int?</code>. It still filters the PGN placeholders (absent,
+  empty, <code>"?"</code>, <code>"0"</code>), so the nil-ness contract is unchanged; only the type
+  moved. To recover the old string:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">let</span><span class="w"> </span><span class="nv">text</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">?</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">game</span><span class="p">.</span><span class="n">elo</span><span class="p">(</span><span class="k">for</span><span class="p">:</span><span class="w"> </span><span class="n">color</span><span class="p">).</span><span class="bp">map</span><span class="p">(</span><span class="nb">String</span><span class="p">.</span><span class="kd">init</span><span class="p">)</span>
+</code></pre></div>
+<p><code>hasReplayPlayerInfo(for:)</code> was a render gate — it answered "should this panel
+  appear", which is not a question about PGN. Ask it where the decision is made:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">func</span><span class="w"> </span><span class="nf">hasPlayerInfo</span><span class="p">(</span><span class="kc">_</span><span class="w"> </span><span class="n">game</span><span class="p">:</span><span class="w"> </span><span class="n">Game</span><span class="p">,</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">color</span><span class="p">:</span><span class="w"> </span><span class="n">PieceColor</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Bool</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">name</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">game</span><span class="p">.</span><span class="n">playerName</span><span class="p">(</span><span class="k">for</span><span class="p">:</span><span class="w"> </span><span class="n">color</span><span class="p">),</span><span class="w"> </span><span class="o">!</span><span class="n">name</span><span class="p">.</span><span class="bp">isEmpty</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">&quot;?&quot;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">game</span><span class="p">.</span><span class="n">elo</span><span class="p">(</span><span class="k">for</span><span class="p">:</span><span class="w"> </span><span class="n">color</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">}</span>
+</code></pre></div>
+<ul>
+<li><strong><code>initialClockSeconds</code> parses the <code>TimeControl</code> forms the PGN specification
+  defines</strong>, not just base-plus-increment. <code>replayInitialClockTime</code> split on
+  <code>"+"</code> and took the first field, so every form below except the first two
+  returned <code>nil</code> or a wrong number. Behaviour change, not just a rename — a
+  consumer that worked around the old parser should drop the workaround.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Tag</th>
+<th>Meaning</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>600</code></td>
+<td>sudden death</td>
+<td><code>600</code></td>
+</tr>
+<tr>
+<td><code>300+5</code></td>
+<td>base plus increment</td>
+<td><code>300</code></td>
+</tr>
+<tr>
+<td><code>40/5400</code></td>
+<td>moves per period</td>
+<td><code>5400</code></td>
+</tr>
+<tr>
+<td><code>40/5400+30</code></td>
+<td>moves per period with increment</td>
+<td><code>5400</code></td>
+</tr>
+<tr>
+<td><code>*180</code></td>
+<td>hourglass / sandclock</td>
+<td><code>180</code></td>
+</tr>
+<tr>
+<td><code>40/5400:1800:*60</code></td>
+<td>multi-period</td>
+<td><code>5400</code> (first period)</td>
+</tr>
+<tr>
+<td><code>-</code> / <code>?</code></td>
+<td>none / unknown</td>
+<td><code>nil</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong><code>EngineAnalysis.ScoredMove.probability</code> is <code>Double?</code></strong>, defaulting to <code>nil</code>.
+  It is a policy network's output; a search engine had to invent a value, and
+  <code>0</code> was indistinguishable from a genuine zero-probability move. A UCI engine
+  now omits the argument at construction, and a reader unwraps:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">p</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">move</span><span class="p">.</span><span class="n">probability</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">show</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">rankBy</span><span class="p">(</span><span class="n">move</span><span class="p">.</span><span class="n">score</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<ul>
+<li><strong><code>EngineError</code> cases are engine-neutral.</strong> Rename at the switch:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Removed</th>
+<th>Write instead</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.modelNotLoaded</code></td>
+<td><code>.engineUnavailable</code></td>
+</tr>
+<tr>
+<td><code>.invalidInput</code></td>
+<td><code>.invalidPosition</code></td>
+</tr>
+<tr>
+<td><code>.predictionFailed(String)</code></td>
+<td><code>.analysisFailed(String)</code></td>
+</tr>
+<tr>
+<td><code>.noLegalMoves</code></td>
+<td><code>.noLegalMoves</code> (unchanged)</td>
+</tr>
+</tbody>
+</table>
+<p><code>errorDescription</code> text is unchanged except for <code>.analysisFailed</code>, which now
+  reads <code>"Analysis failed: …"</code> rather than <code>"Prediction failed: …"</code>.</p>
+<ul>
+<li><strong><code>Position.stockfishSafeFEN</code> is now <code>Position.consistentFEN</code></strong> — named for
+  the invariant it enforces rather than the one engine that asserts without it.
+  The old name remains as a deprecated alias, so this is the one rename in this
+  release that still compiles; you will get a warning, and Xcode's fix-it
+  applies the rename. <code>stockfishSafeFEN</code> will be removed in a future minor.</li>
+</ul>
+<h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><strong><code>PGNParser.parseEngineComment</code> no longer eats Informant symbols out of
+  prose.</strong> An evaluation token must now contain a digit. Without that
+  requirement <code>{+-}</code> and <code>{-+}</code> satisfied the character test — every character
+  was in <code>+-.M0123456789</code> — and were parsed as evaluations, deleting them from
+  the comment a reader had written. <code>{White is much better, +-}</code> now comes back
+  with its prose intact.</p>
+</li>
+<li>
+<p><strong><code>PGNParser.parseEngineComment</code> reads the PGN-reserved <code>[%eval …]</code> command</strong>,
+  in both its decimal (<code>[%eval -1.42]</code>) and mate (<code>[%eval #-3]</code>, reported as
+  <code>"-M3"</code>) forms, alongside the existing <code>[%clk …]</code>. A <code>[%eval …]</code> tag wins over
+  a bare evaluation token in the same comment, being the standardized spelling.</p>
+</li>
+</ul>
+<h3 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Type documentation no longer explains itself by reference to a codebase the
+  reader cannot see. Where that boundary information was load-bearing — <code>Game</code>
+  holds no interaction state; <code>PieceColor</code>'s string forms are the web APIs' and
+  FEN's — it is restated in general terms.</li>
+<li>Fixed a stacked comment block above <code>PGNParser.startingPosition(for:)</code>: three
+  doc paragraphs for three different functions had collapsed onto one internal
+  helper, leaving <code>mainLineSnapshot</code> and <code>parseMainLineSnapshot</code> undocumented.</li>
+<li><code>MoveAnnotation</code> now states that four of its ten cases are review vocabulary
+  with no PGN suffix, and that <code>pgnSuffix</code> is how to ask for only what the
+  standard defines.</li>
+<li>The comment dialect <code>PGNExporter</code> writes is documented as this library's own
+  format rather than as a standard.</li>
+</ul>
+<h2 id="080-2026-07-28"><a href="https://github.com/fianchettochess/ChessCore/releases/tag/0.8.0">0.8.0</a> — 2026-07-28<a class="headerlink" href="#080-2026-07-28" title="Permanent link">&para;</a></h2>
+<p>Breaking. Scoreless engine output and the fifty-move rule were both being
+reported as something more definite than they are.</p>
+<h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>Game.canClaimDrawByFiftyMoveRule</code> — <code>true</code> while the halfmove clock is in
+  <code>100 ..&lt; 150</code> and the game is still playing. FIDE 9.3 makes fifty moves
+  <em>claimable</em>; it does not end the game.</li>
+</ul>
+<h3 id="changed_1">Changed<a class="headerlink" href="#changed_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>The fifty-move rule no longer ends a game automatically.</strong> <code>gameState</code>
+  returns <code>.draw</code> at 150 halfmoves (the seventy-five-move rule, FIDE 9.6.2)
+  rather than at 100. A consumer that surfaced the automatic draw at 100 should
+  now offer a claim by reading <code>canClaimDrawByFiftyMoveRule</code>. Checkmate takes
+  precedence over the automatic threshold.</li>
+<li><strong><code>UCIInfo</code> reports an absent score as absent.</strong> UCI permits useful scoreless
+  lines such as <code>info depth 12 pv e2e4</code>, and those were being flattened into
+  <code>cp 0</code> — a principal variation misread as an equal evaluation. Four members
+  became optional:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Was</th>
+<th>Now</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>UCIInfo.score</code></td>
+<td><code>Score</code></td>
+<td><code>Score?</code></td>
+</tr>
+<tr>
+<td><code>UCIInfo.centipawns</code></td>
+<td><code>Int</code></td>
+<td><code>Int?</code></td>
+</tr>
+<tr>
+<td><code>UCIInfo.whitePovCentipawns(sideToMoveIsWhite:)</code></td>
+<td><code>Int</code></td>
+<td><code>Int?</code></td>
+</tr>
+<tr>
+<td><code>UCIInfo.displayText</code></td>
+<td><code>String</code></td>
+<td><code>String?</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unwrap rather than defaulting to zero — the whole point of the change is that
+  "no score" and "equal" are different claims.</p>
+<h2 id="072-2026-07-21"><a href="https://github.com/fianchettochess/ChessCore/releases/tag/0.7.2">0.7.2</a> — 2026-07-21<a class="headerlink" href="#072-2026-07-21" title="Permanent link">&para;</a></h2>
+<h3 id="fixed_1">Fixed<a class="headerlink" href="#fixed_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Restored Swift 6.0 compatibility (the declared toolchain floor).</li>
+</ul>
+<h3 id="changed_2">Changed<a class="headerlink" href="#changed_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>CI: added an on-push Linux test gate on <code>ubuntu-latest</code>; updated the checkout
+  action runtime.</li>
+</ul>
+<h3 id="documentation_1">Documentation<a class="headerlink" href="#documentation_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Dropped the private-repository installation caveat, corrected audited claims,
+  and harmonized the README badge row across the package repositories.</li>
+</ul>
+<h2 id="071-2026-07-17"><a href="https://github.com/fianchettochess/ChessCore/releases/tag/0.7.1">0.7.1</a> — 2026-07-17<a class="headerlink" href="#071-2026-07-17" title="Permanent link">&para;</a></h2>
+<h3 id="fixed_2">Fixed<a class="headerlink" href="#fixed_2" title="Permanent link">&para;</a></h3>
+<p>Pre-public hardening pass:</p>
+<ul>
+<li>A kingless FEN no longer crashes: it yields no legal moves and a safe game
+  state.</li>
+<li>A SAN token ending in a multi-grapheme uppercase character parses to <code>nil</code>
+  rather than trapping.</li>
+<li>A phantom en-passant target in a FEN no longer produces an illegal EP move.</li>
+<li>Added draw-state coverage across the fifty-move, seventy-five-move,
+  repetition, and insufficient-material rules.</li>
+</ul>
+<h2 id="070-2026-07-17"><a href="https://github.com/fianchettochess/ChessCore/releases/tag/0.7.0">0.7.0</a> — 2026-07-17<a class="headerlink" href="#070-2026-07-17" title="Permanent link">&para;</a></h2>
+<h3 id="added_1">Added<a class="headerlink" href="#added_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>Game.reconcilePath(from:toPlacementOf:maxPly:)</code> (static) — retract-aware path
+  correction toward a target placement, without needing a live <code>Game</code>.</li>
+<li>CI publishes a GitHub Release automatically on a version-tag push.</li>
+</ul>
+<h3 id="fixed_3">Fixed<a class="headerlink" href="#fixed_3" title="Permanent link">&para;</a></h3>
+<ul>
+<li>PGN: promotions written without <code>=</code> (the ChessUp coordinate dialect) now
+  parse.</li>
+</ul>
+<h2 id="061-2026-07-15"><a href="https://github.com/fianchettochess/ChessCore/releases/tag/0.6.1">0.6.1</a> — 2026-07-15<a class="headerlink" href="#061-2026-07-15" title="Permanent link">&para;</a></h2>
+<h3 id="changed_3">Changed<a class="headerlink" href="#changed_3" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Dropped a now-redundant <code>nonisolated(unsafe)</code> from the PGN statics.</li>
+</ul>
+<h2 id="060-2026-07-15"><a href="https://github.com/fianchettochess/ChessCore/releases/tag/0.6.0">0.6.0</a> — 2026-07-15<a class="headerlink" href="#060-2026-07-15" title="Permanent link">&para;</a></h2>
+<p>A benchmark-driven pass over the hot paths, each change measured on both macOS
+and arm64 Linux. Perft node counts are the correctness oracle; all parsing and
+export output is byte-identical to 0.5.1.</p>
+<h3 id="changed_4">Changed<a class="headerlink" href="#changed_4" title="Permanent link">&para;</a></h3>
+<p>Measured wins (Linux / Apple, best of five):</p>
+<ul>
+<li><code>positionKey</code> / <code>repetitionKey</code> roughly 2.6× faster — the key is built from
+  the four identity fields directly, and <code>MoveNode</code> caches its repetition key.</li>
+<li><code>loadPGN</code> 12–14% faster on Linux — one legal-move list per ply, stdlib newline
+  splitting instead of Foundation, and a lazily generated <code>MoveNode.id</code>.</li>
+<li>PGN export 51% faster on Linux — the <code>DateFormatter</code> is hoisted to a static.</li>
+<li><code>UCIOutputParser.parseInfo</code> 6% faster on Linux — split tokens stay
+  <code>[Substring]</code>.</li>
+<li><code>perft</code> 5% faster on Linux, 7% on Apple — pseudo-legal moves are filtered to
+  legal in one buffer.</li>
+<li>The <code>[%clk]</code> regex is compiled once and skipped entirely when the literal is
+  absent.</li>
+</ul>
+<p>Two candidates were measured and rejected rather than shipped: struct-of-arrays
+magic tables (a ~6% perft regression on Linux) and packing <code>Square</code> to <code>Int8</code> (a
+platform-split wash).</p>
+<h3 id="added_2">Added<a class="headerlink" href="#added_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>ChessCoreBench</code>, a release-only perft/parse harness, and an opt-in
+  <code>PerfGuard</code> test gate. Neither is visible to library consumers.</li>
+</ul>
+<h3 id="changed_5">Changed<a class="headerlink" href="#changed_5" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Organization migration: <code>jaredbrewer</code> references retargeted to
+  <code>fianchettochess</code>.</li>
+</ul>
+<h2 id="051-2026-07-14"><a href="https://github.com/fianchettochess/ChessCore/releases/tag/0.5.1">0.5.1</a> — 2026-07-14<a class="headerlink" href="#051-2026-07-14" title="Permanent link">&para;</a></h2>
+<h3 id="fixed_4">Fixed<a class="headerlink" href="#fixed_4" title="Permanent link">&para;</a></h3>
+<ul>
+<li>PGN rejects ambiguous SAN rather than picking a candidate.</li>
+<li>Player-identity matching rejects ambiguous matches.</li>
+</ul>
+<h2 id="050-2026-07-13"><a href="https://github.com/fianchettochess/ChessCore/releases/tag/0.5.0">0.5.0</a> — 2026-07-13<a class="headerlink" href="#050-2026-07-13" title="Permanent link">&para;</a></h2>
+<h3 id="added_3">Added<a class="headerlink" href="#added_3" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>GameTreeSnapshot</code></strong> — lossless game-tree snapshots with a stable schema,
+  ordered structured tags, and enforced decode bounds.</li>
+<li><code>PGNParser</code> diagnostics for tags-only records.</li>
+</ul>
+<h3 id="fixed_5">Fixed<a class="headerlink" href="#fixed_5" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>PGNParser</code> bounds live move-tree materialization and fails closed on snapshot
+  desync.</li>
+<li>PGN tag values are escaped per §8.1 on export and unescaped on parse; the
+  tag-value scanner is escape-aware (the first unescaped quote closes).</li>
+<li><code>parseMainLineSnapshot</code> honors the <code>[FEN]</code> tag.</li>
+<li><code>MoveNode</code> derives <code>moverColor</code> from <code>positionBefore.activeColor</code> rather than
+  ply parity, and anchors move numbers to FEN state.</li>
+<li><code>MoveNode</code> deinitializes iteratively, so a long chain no longer overflows the
+  stack.</li>
+<li>Castling generation requires a friendly corner rook, with defense in depth in
+  both <code>isLegal</code> and apply.</li>
+<li>Threefold detection no longer double-counts the start position.</li>
+<li>Move text that is missing the blank line after the tag pairs is no longer
+  dropped.</li>
+<li>Bounded move text parses in linear time.</li>
+</ul>
+<h2 id="040-2026-07-10"><a href="https://github.com/fianchettochess/ChessCore/releases/tag/0.4.0">0.4.0</a> — 2026-07-10<a class="headerlink" href="#040-2026-07-10" title="Permanent link">&para;</a></h2>
+<h3 id="added_4">Added<a class="headerlink" href="#added_4" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>MoveGenerator.legalCastlingUCIs</code> — castling-only legality without full move
+  generation.</li>
+</ul>
+<h3 id="fixed_6">Fixed<a class="headerlink" href="#fixed_6" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Hardened chess-state and UCI validation.</li>
+<li><code>PGNExporter</code> honors the start-position ply offset (FEN-setup numbering fix).</li>
+</ul>
+<h2 id="030-2026-07-06"><a href="https://github.com/fianchettochess/ChessCore/releases/tag/0.3.0">0.3.0</a> — 2026-07-06<a class="headerlink" href="#030-2026-07-06" title="Permanent link">&para;</a></h2>
+<h3 id="added_5">Added<a class="headerlink" href="#added_5" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>Game</code>: a node-property invalidation counter, <code>reconcilePath</code>, and public
+  <code>legalMoves</code>.</li>
+</ul>
+<h2 id="020-2026-07-05"><a href="https://github.com/fianchettochess/ChessCore/releases/tag/0.2.0">0.2.0</a> — 2026-07-05<a class="headerlink" href="#020-2026-07-05" title="Permanent link">&para;</a></h2>
+<p>Breaking. The scope boundary was drawn: analysis heuristics, opening data, and
+application-specific engine types left the package.</p>
+<h3 id="removed_1">Removed<a class="headerlink" href="#removed_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Win-probability and <code>PositionEval</code> analysis heuristics.</li>
+<li><code>OpeningBook</code> — ChessCore keeps foundational chess-game logic only.</li>
+<li>Application-specific analysis types formerly in <code>EngineTypes</code>.</li>
+</ul>
+<h3 id="added_6">Added<a class="headerlink" href="#added_6" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>UCIEngine</code>, the multi-engine transport seam.</li>
+<li><code>Game.retractLastPlies</code> — deleting undone plies so a take-back's next move is
+  main line rather than a variation.</li>
+<li><code>PGNParser.loadGame</code> honors <code>[SetUp]</code> / <code>[FEN]</code> start positions.</li>
+<li>Shared spoken-label phrasing on <code>MoveNode</code> / <code>Piece</code> / <code>PieceType</code>. <em>(Removed
+  again in 0.9.0 — see above.)</em></li>
+</ul>
+<h3 id="fixed_7">Fixed<a class="headerlink" href="#fixed_7" title="Permanent link">&para;</a></h3>
+<ul>
+<li>PGN comment-brace sanitization and <code>pliesLimit</code> prefix parsing.</li>
+<li><code>parseInfo</code> rejects score-less, pv-less progress noise.</li>
+<li>Duplicate position-key serialization collapsed to one implementation.</li>
+</ul>
+<h2 id="011-2026-06-29"><a href="https://github.com/fianchettochess/ChessCore/releases/tag/0.1.1">0.1.1</a> — 2026-06-29<a class="headerlink" href="#011-2026-06-29" title="Permanent link">&para;</a></h2>
+<h3 id="changed_6">Changed<a class="headerlink" href="#changed_6" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>StockfishInfo</code> is now <code>UCIInfo</code></strong> — the generic UCI layer no longer names
+  one engine.</li>
+<li><code>EngineAnalysis</code>, <code>ScoredMove</code>, and <code>Evaluation</code> conform to <code>Sendable</code>.</li>
+</ul>
+<h3 id="added_7">Added<a class="headerlink" href="#added_7" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>Game.reconcile(toPlacementOf:)</code> — history-preserving correction toward a
+  target position.</li>
+<li>CI workflow and Swift Package Index manifest.</li>
+</ul>
+<h2 id="010-2026-06-24"><a href="https://github.com/fianchettochess/ChessCore/releases/tag/0.1.0">0.1.0</a> — 2026-06-24<a class="headerlink" href="#010-2026-06-24" title="Permanent link">&para;</a></h2>
+<p>First tagged release: the position model, perft-verified magic-bitboard move
+generation, FEN, SAN/UCI conversion, PGN parsing and export, the <code>Game</code> move
+tree, and UCI engine-output parsing.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      ChessCore — a portable, Foundation-only Swift chess library.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
