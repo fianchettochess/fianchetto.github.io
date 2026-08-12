@@ -1160,6 +1160,10 @@ CI builds that need to produce fresh XCFrameworks.</p>
 <td><code>SWIFTRECKLESS_EXPECT_BACKEND=real\|stub</code></td>
 <td>Test-suite assertion. Fails the run if the build linked the other backend; records a skip when unset. Set it in any CI job that has an opinion about what it just built.</td>
 </tr>
+<tr>
+<td><code>SWIFTRECKLESS_REQUIRE_NET=1</code></td>
+<td>Test-suite assertion for the Rust crate. <code>rust/tests/ffi_smoke.rs</code> skips when the NNUE net is not staged at <code>rust/networks/</code> — right for a developer who has not downloaded 60 MB, wrong for a job whose name promises FFI coverage. Set it wherever the net is staged and a missing net becomes a failure instead of a pass that never touched the FFI. An empty value counts as unset.</td>
+</tr>
 </tbody>
 </table>
 <h3 id="which-backend-did-this-build-get">Which backend did this build get?<a class="headerlink" href="#which-backend-did-this-build-get" title="Permanent link">&para;</a></h3>
