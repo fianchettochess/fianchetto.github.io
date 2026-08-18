@@ -1524,8 +1524,8 @@ position, so this is 0.8.0 rather than 0.7.1.</p>
   ChessCore than the one BoardKit named could not have it — resolution failed
   outright rather than negotiating:</li>
 </ul>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>error: Dependencies could not be resolved because root depends on &#39;chesscore&#39; 0.9.0..&lt;0.10.0
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>and &#39;boardkit&#39; depends on &#39;chesscore&#39; 0.8.0.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>error: Dependencies could not be resolved because root depends on 'chesscore' 0.9.0..&lt;0.10.0
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>and 'boardkit' depends on 'chesscore' 0.8.0.
 </code></pre></div>
 <p>The requirement is now <code>.upToNextMinor(from: "0.9.0")</code>, i.e.
   <code>0.9.0 ..&lt; 0.10.0</code>. <code>.upToNextMinor</code> rather than <code>from:</code> because ChessCore is
@@ -1588,7 +1588,7 @@ position, so this is 0.8.0 rather than 0.7.1.</p>
   computed, and the caller writes the sentence in its own words and language:</li>
 </ul>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">let</span><span class="w"> </span><span class="nv">gate</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">BoardExecutionGate</span><span class="p">(</span><span class="n">move</span><span class="p">:</span><span class="w"> </span><span class="n">engineMove</span><span class="p">,</span><span class="w"> </span><span class="n">positionBefore</span><span class="p">:</span><span class="w"> </span><span class="n">position</span><span class="p">)</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">showBanner</span><span class="p">(</span><span class="s">&quot;Play </span><span class="si">\(</span><span class="n">gate</span><span class="p">.</span><span class="n">san</span><span class="si">)</span><span class="s"> on the board&quot;</span><span class="p">)</span><span class="w">   </span><span class="c1">// gate.san == &quot;Nf3&quot;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">showBanner</span><span class="p">(</span><span class="s">"Play </span><span class="si">\(</span><span class="n">gate</span><span class="p">.</span><span class="n">san</span><span class="si">)</span><span class="s"> on the board"</span><span class="p">)</span><span class="w">   </span><span class="c1">// gate.san == "Nf3"</span>
 </code></pre></div>
 <ul>
 <li><strong><code>BoardReconnectPolicy</code> takes its schedule as data.</strong>

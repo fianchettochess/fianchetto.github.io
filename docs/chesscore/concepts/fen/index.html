@@ -867,7 +867,7 @@
 accessors, each suited to a different purpose.</p>
 <h2 id="parsing">Parsing<a class="headerlink" href="#parsing" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">let</span><span class="w"> </span><span class="nv">position</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Position</span><span class="p">(</span><span class="n">fen</span><span class="p">:</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="s">&quot;rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="s">"rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1"</span><span class="p">)</span>
 </code></pre></div>
 <p><code>init(fen:)</code> is failable. It requires at least the four core fields
 (placement, side, castling, en-passant) and eight ranks, and it recomputes the
@@ -899,16 +899,16 @@ king squares. It returns <code>nil</code> on malformed input.</p>
 </tr>
 </tbody>
 </table>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="bp">print</span><span class="p">(</span><span class="n">position</span><span class="p">.</span><span class="n">fen</span><span class="p">)</span><span class="w">          </span><span class="c1">// &quot;...b KQkq e3 0 1&quot;</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="bp">print</span><span class="p">(</span><span class="n">position</span><span class="p">.</span><span class="n">positionKey</span><span class="p">)</span><span class="w">  </span><span class="c1">// &quot;...b KQkq e3&quot;     (no counters)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="bp">print</span><span class="p">(</span><span class="n">position</span><span class="p">.</span><span class="n">fen</span><span class="p">)</span><span class="w">          </span><span class="c1">// "...b KQkq e3 0 1"</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="bp">print</span><span class="p">(</span><span class="n">position</span><span class="p">.</span><span class="n">positionKey</span><span class="p">)</span><span class="w">  </span><span class="c1">// "...b KQkq e3"     (no counters)</span>
 </code></pre></div>
 <h2 id="crossing-the-engine-boundary">Crossing the engine boundary<a class="headerlink" href="#crossing-the-engine-boundary" title="Permanent link">&para;</a></h2>
 <p>Stockfish's FEN parser asserts on inconsistent metadata and <strong>aborts the
 process</strong> (<code>assert(is_ok(s))</code>). Always hand it <code>consistentFEN</code>, which zeros out
 castling rights that don't match the placement and drops phantom en-passant
 targets:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">engine</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="s">&quot;position fen </span><span class="si">\(</span><span class="n">position</span><span class="p">.</span><span class="n">consistentFEN</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">engine</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="s">&quot;go depth 20&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">engine</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="s">"position fen </span><span class="si">\(</span><span class="n">position</span><span class="p">.</span><span class="n">consistentFEN</span><span class="si">)</span><span class="s">"</span><span class="p">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">engine</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="s">"go depth 20"</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="real-en-passant">Real en passant<a class="headerlink" href="#real-en-passant" title="Permanent link">&para;</a></h2>
 <p><code>enPassantTarget</code> is the raw FEN field. <code>capturableEnPassantTarget</code> reports the EP
@@ -916,7 +916,7 @@ square <strong>only when a capture is genuinely available</strong> — the X-FEN
 "real en passant" rule. Use it for transposition matching, since two positions
 that differ only in a phantom EP target should be treated as the same position.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">ep</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">position</span><span class="p">.</span><span class="n">capturableEnPassantTarget</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="bp">print</span><span class="p">(</span><span class="s">&quot;a real en-passant capture is possible on&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ep</span><span class="p">.</span><span class="n">algebraic</span><span class="p">)</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="bp">print</span><span class="p">(</span><span class="s">"a real en-passant capture is possible on"</span><span class="p">,</span><span class="w"> </span><span class="n">ep</span><span class="p">.</span><span class="n">algebraic</span><span class="p">)</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="p">}</span>
 </code></pre></div>
 <h2 id="insufficient-material">Insufficient material<a class="headerlink" href="#insufficient-material" title="Permanent link">&para;</a></h2>
