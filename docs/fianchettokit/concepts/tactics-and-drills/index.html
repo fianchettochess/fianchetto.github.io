@@ -1,0 +1,2590 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Chess training logic built on ChessCore — engine annotation, strength/Elo estimation, tactics, repertoire and endgame drills, portable persistence, game import, electronic-board handling, and the fianchetto-cli headless tools.">
+      
+      
+        <meta name="author" content="Fianchetto">
+      
+      
+      
+        <link rel="prev" href="../maia/">
+      
+      
+        <link rel="next" href="../repertoire/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Tactics, drills & spaced repetition - FianchettoKit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tactics-drills-spaced-repetition" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="FianchettoKit" class="md-header__button md-logo" aria-label="FianchettoKit" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FianchettoKit
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Tactics, drills & spaced repetition
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="FianchettoKit" class="md-nav__button md-logo" aria-label="FianchettoKit" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    FianchettoKit
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stores & the storage seam
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../storage-and-authored-history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage, DTOs & authored history
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dtos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistence DTOs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../engine-annotation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine & annotation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analysis math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../strength-and-elo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Strength, Elo & accuracy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../maia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Maia policy model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tactics, drills & spaced repetition
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tactics, drills & spaced repetition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-four-layers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The four layers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#puzzle-extraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Puzzle extraction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Puzzle extraction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-four-extraction-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The four extraction modes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qualification-and-answer-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qualification and answer selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#difficulty-and-quality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Difficulty and quality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#missed-mates-in-legacy-games" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Missed mates in legacy games
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache-identity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache identity
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grading-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grading policy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pacing-and-ownership" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pacing and ownership
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rating-the-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rating the user
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attempt-history-and-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attempt history and metrics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mastery-and-scheduling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mastery and scheduling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-mutation-ledger-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The mutation-ledger pattern
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mining-combinations-stage-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mining combinations, stage 1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mining-combinations-stage-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mining combinations, stage 2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-the-puzzle-tree-stage-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Building the puzzle tree, stage 3
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#walking-the-drill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Walking the drill
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caching-mined-pools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caching mined pools
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#train-hub-bookkeeping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Train hub bookkeeping
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-it-headless" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running it headless
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../repertoire/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repertoire, openings & traps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../endgame-mining/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Endgame mining & the endgame trainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../review-play-voice/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Review, play & voice
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network clients & game import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-clients/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network clients
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../library-backup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library backup & collections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Electronic board integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reconciliation-note/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reconciliation note
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../cli/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command-Line Interface
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Command-Line Interface
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/annotate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    annotate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/estimate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    estimate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/maia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    maia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/accuracy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    accuracy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/project/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    project
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/track/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    track
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/expansion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI expansion (proposed)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-four-layers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The four layers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#puzzle-extraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Puzzle extraction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Puzzle extraction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-four-extraction-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The four extraction modes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qualification-and-answer-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Qualification and answer selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#difficulty-and-quality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Difficulty and quality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#missed-mates-in-legacy-games" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Missed mates in legacy games
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache-identity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache identity
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grading-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grading policy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pacing-and-ownership" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pacing and ownership
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rating-the-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rating the user
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attempt-history-and-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attempt history and metrics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mastery-and-scheduling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mastery and scheduling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-mutation-ledger-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The mutation-ledger pattern
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mining-combinations-stage-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mining combinations, stage 1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mining-combinations-stage-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mining combinations, stage 2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-the-puzzle-tree-stage-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Building the puzzle tree, stage 3
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#walking-the-drill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Walking the drill
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#caching-mined-pools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caching mined pools
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#train-hub-bookkeeping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Train hub bookkeeping
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-it-headless" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Running it headless
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="tactics-drills-spaced-repetition">Tactics, drills &amp; spaced repetition<a class="headerlink" href="#tactics-drills-spaced-repetition" title="Permanent link">&para;</a></h1>
+<p>How FianchettoKit turns annotated games into puzzles, grades an answer, scores it
+into a rating, and decides when to ask again.</p>
+<h2 id="the-four-layers">The four layers<a class="headerlink" href="#the-four-layers" title="Permanent link">&para;</a></h2>
+<p>The area is four pure stages with an optional engine probe in the middle:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Types</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Extract</td>
+<td><code>TacticsExtractor</code>, <code>TacticsInput</code>, <code>TacticsPuzzle</code>, <code>CombinationMiningKernel</code>, <code>CombinationPuzzleKernel</code></td>
+<td>annotated game → puzzles</td>
+</tr>
+<tr>
+<td>Grade</td>
+<td><code>DrillStrictness</code>, <code>DrillVerdict</code>, <code>DrillProbeVerdict</code>, <code>CombinationDrillCore</code></td>
+<td>played move → verdict</td>
+</tr>
+<tr>
+<td>Score</td>
+<td><code>TacticsRatingStore</code>, <code>TacticsPerformanceStore</code>, <code>BlunderMasteryStore</code></td>
+<td>verdict → rating / history / mastery</td>
+</tr>
+<tr>
+<td>Schedule</td>
+<td><code>DrillSRS</code>, <code>DrillMastery</code>, <code>TrainProgressCache</code></td>
+<td>mastery → what to ask next</td>
+</tr>
+</tbody>
+</table>
+<p>Every type on this page imports only <code>Foundation</code> and <code>ChessCore</code> — no SwiftUI,
+no app lifecycle, no actors — so the whole pipeline runs headless against a
+<code>JSONBlobStore</code> you supply.</p>
+<h2 id="puzzle-extraction">Puzzle extraction<a class="headerlink" href="#puzzle-extraction" title="Permanent link">&para;</a></h2>
+<p><code>TacticsInput</code> is the <code>Sendable</code> snapshot of one annotated game: the two player
+names, the PGN move text, the encoded tags, the username, and three <em>parallel</em>
+per-position arrays encoded as JSON — <code>annotationEvalsJSON</code> (<code>[Double]</code>,
+white-oriented centipawns), <code>secondBestEvalsJSON</code> (<code>[Double?]</code>), and
+<code>mateDistancesJSON</code> (<code>[Int?]</code>, white-oriented forced-mate distance, <code>null</code> for
+"not a mate").</p>
+<p><code>mainLineSnapshot(pliesLimit:)</code> is the single PGN reconstruction boundary —
+<code>TacticsExtractor</code>, <code>CombinationMiningKernel</code> and personal-endgame extraction all
+go through it, so custom start positions and ply orientation cannot drift between
+them. <code>startingPositionFEN</code> projects only the <code>FEN</code> tag out of <code>tagsJSON</code>, because
+that is the one tag that changes how the move text is interpreted.</p>
+<p>Extraction refuses to run on anything it cannot trust:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>guard user color resolvable from (white, black, username)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>guard parsed.moves.count &gt;= 4
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>guard evals.count == parsed.moves.count + 1
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>secondBestEvals / mateDistances: used only if count == evals.count,
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>                                 otherwise replaced by all-nil
+</code></pre></div>
+<p>A stale or truncated blob is therefore a no-op, not a crash and not a wrong
+puzzle.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The per-ply eval array these guards check is exactly what the Stockfish
+annotation path produces. Available from the command line:
+<code>fianchetto-cli annotate</code>.</p>
+</div>
+<h3 id="the-four-extraction-modes">The four extraction modes<a class="headerlink" href="#the-four-extraction-modes" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">public</span> <span class="n">nonisolated</span> <span class="kd">enum</span> <span class="nc">TacticsExtractionMode</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">Sendable</span><span class="p">,</span> <span class="n">CaseIterable</span><span class="p">,</span> <span class="n">Codable</span> <span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="k">case</span> <span class="n">opponentBlunders</span><span class="p">,</span> <span class="n">userBlunders</span><span class="p">,</span> <span class="n">criticalPositions</span><span class="p">,</span> <span class="n">missedMate</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">}</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th><code>displayName</code></th>
+<th>Who moved at ply <code>i</code></th>
+<th>Qualifies when</th>
+<th>Puzzle starts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.opponentBlunders</code></td>
+<td>Punish</td>
+<td>opponent</td>
+<td><code>swingForUser &gt;= threshold</code></td>
+<td><em>after</em> the move (<code>positionAfter</code>)</td>
+</tr>
+<tr>
+<td><code>.userBlunders</code></td>
+<td>Improve</td>
+<td>user</td>
+<td><code>swingForUser &lt;= -threshold</code></td>
+<td><em>before</em> the move (<code>positionBefore</code>)</td>
+</tr>
+<tr>
+<td><code>.criticalPositions</code></td>
+<td>Critical</td>
+<td>either</td>
+<td><code>abs(swingForUser) &gt;= threshold</code></td>
+<td>before the move</td>
+</tr>
+<tr>
+<td><code>.missedMate</code></td>
+<td>Mates</td>
+<td>user</td>
+<td>user's forced mate lost (below)</td>
+<td>before the move</td>
+</tr>
+</tbody>
+</table>
+<p><code>prompt</code> carries the long caption ("Your opponent erred — find the punishing
+move.", "You went wrong here — what should you have played?", …).</p>
+<p>Only <code>.opponentBlunders</code> fills <code>opponentMove</code>; the other three set it to the empty
+string, because the move played at the puzzle position <em>is</em> the user's previous
+wrong guess and showing it as context would leak it back to them. <code>contextText</code>
+reflects that: "After 12…Nxg5" for Punish, versus "Your move 12 — what should you
+have played?".</p>
+<h3 id="qualification-and-answer-selection">Qualification and answer selection<a class="headerlink" href="#qualification-and-answer-selection" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>swingForUser = (color == .white) ? evals[i+1] - evals[i]
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>                                 : evals[i]   - evals[i+1]
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>swingLimit   = Double(swingThreshold)          // default 150
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>.opponentBlunders  !isUserMove &amp;&amp; swingForUser &gt;=  swingLimit
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>.userBlunders       isUserMove &amp;&amp; swingForUser &lt;= -swingLimit
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>.criticalPositions               abs(swingForUser) &gt;= swingLimit
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>.missedMate         isUserMove
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>                 &amp;&amp; i + 1 &lt; mateDistances.count
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>                 &amp;&amp; favorsUserMate(mateDistances[i])
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>                 &amp;&amp; abs(mateDistances[i] ?? 0) &lt;= mateMaxN     // default 5
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>                 &amp;&amp; !favorsUserMate(mateDistances[i + 1])
+</code></pre></div>
+<p>The <code>.missedMate</code> chain relies on <code>&amp;&amp;</code> short-circuiting: the bounds check runs
+before the subscripts. <code>favorsUserMate</code> is false for <code>nil</code> and for <code>0</code> (checkmate
+already on the board), else <code>dist &gt; 0</code> for White and <code>dist &lt; 0</code> for Black.</p>
+<p><code>.opponentBlunders</code> requires <code>i + 1 &lt; mainLine.count</code>, uses
+<code>node.positionAfter.fen</code>, and takes the answer from the <strong>next</strong> node's
+<code>engineBestMoveUCI</code>, falling back to that node's played move and notation. The
+other three use <code>node.positionBefore.fen</code> and require a non-empty
+<code>engineBestMoveUCI</code> on the current node — without one the position is skipped
+entirely, because there is no defensible answer to grade against. Output is sorted
+by descending <code>abs(evalAfter - evalBefore)</code>.</p>
+<p><code>extractAll(from:modes:mateMaxN:swingThreshold:)</code> pays the PGN walk and the three
+JSON decodes once for any number of modes. Every requested mode gets a key — an
+empty array when nothing qualifies — but the early exits (unresolvable user
+color, a game under four plies, an eval-count mismatch) return an <strong>empty
+dictionary</strong>, so callers should still read <code>byMode[mode] ?? []</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">let</span> <span class="nv">input</span> <span class="p">=</span> <span class="n">TacticsInput</span><span class="p">(</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="n">white</span><span class="p">:</span> <span class="s">&quot;kasparov&quot;</span><span class="p">,</span> <span class="n">black</span><span class="p">:</span> <span class="s">&quot;topalov&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="n">moveText</span><span class="p">:</span> <span class="n">game</span><span class="p">.</span><span class="n">moveText</span><span class="p">,</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="n">tagsJSON</span><span class="p">:</span> <span class="n">game</span><span class="p">.</span><span class="n">tagsJSON</span><span class="p">,</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="n">annotationEvalsJSON</span><span class="p">:</span> <span class="n">game</span><span class="p">.</span><span class="n">evalsJSON</span><span class="p">,</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="n">secondBestEvalsJSON</span><span class="p">:</span> <span class="n">game</span><span class="p">.</span><span class="n">secondBestJSON</span><span class="p">,</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="n">mateDistancesJSON</span><span class="p">:</span> <span class="n">game</span><span class="p">.</span><span class="n">mateDistancesJSON</span><span class="p">,</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">username</span><span class="p">:</span> <span class="s">&quot;topalov&quot;</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="p">)</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="kd">let</span> <span class="nv">byMode</span> <span class="p">=</span> <span class="n">TacticsExtractor</span><span class="p">.</span><span class="n">extractAll</span><span class="p">(</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    <span class="n">from</span><span class="p">:</span> <span class="n">input</span><span class="p">,</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>    <span class="n">modes</span><span class="p">:</span> <span class="p">[.</span><span class="n">opponentBlunders</span><span class="p">,</span> <span class="p">.</span><span class="n">userBlunders</span><span class="p">,</span> <span class="p">.</span><span class="n">missedMate</span><span class="p">],</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>    <span class="n">mateMaxN</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>    <span class="n">swingThreshold</span><span class="p">:</span> <span class="mi">150</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="p">)</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="k">for</span> <span class="n">puzzle</span> <span class="k">in</span> <span class="n">byMode</span><span class="p">[.</span><span class="n">userBlunders</span><span class="p">]</span> <span class="p">??</span> <span class="p">[]</span> <span class="k">where</span> <span class="n">puzzle</span><span class="p">.</span><span class="n">isHighQuality</span> <span class="p">{</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>    <span class="bp">print</span><span class="p">(</span><span class="n">puzzle</span><span class="p">.</span><span class="n">contextText</span><span class="p">,</span> <span class="n">puzzle</span><span class="p">.</span><span class="n">correctMoveSAN</span><span class="p">,</span> <span class="n">puzzle</span><span class="p">.</span><span class="n">difficulty</span><span class="p">.</span><span class="n">rawValue</span><span class="p">)</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="difficulty-and-quality">Difficulty and quality<a class="headerlink" href="#difficulty-and-quality" title="Permanent link">&para;</a></h3>
+<p>The sharpness gap is the engine's best minus second-best at the <em>puzzle</em>
+position, oriented to whoever is to move there:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>evalIndex     = (mode == .opponentBlunders) ? i + 1 : i
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>isWhiteToMove = (evalIndex % 2 == 0) == startIsWhite
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>signedGap     = isWhiteToMove ? evals[evalIndex] - second
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>                              : second - evals[evalIndex]
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>bestVsSecondGapCp = max(0, signedGap)     // nil if no second-best stored
+</code></pre></div>
+<p><code>difficulty</code> crosses the swing bands with a 100 cp sharpness threshold. A legacy
+game with no gap is treated as sharp, so labels do not move until re-annotation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>swing  = abs(evalAfter - evalBefore)
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>isSharp = bestVsSecondGapCp.map { $0 &gt;= 100 } ?? true
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>swing &gt;= 500   →  isSharp ? .easy   : .medium
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>swing &gt;= 250   →  isSharp ? .medium : .hard
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>otherwise      →  .hard
+</code></pre></div>
+<p><code>isHighQuality</code> is a stricter, independent label — contested <em>and</em> effectively
+unique:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>puzzleEvalCp = (mode == .opponentBlunders) ? evalAfter : evalBefore
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>contested    = abs(puzzleEvalCp) &lt;= 600
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>isHighQuality = false                        when bestVsSecondGapCp == nil
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>              = contested &amp;&amp; gap &gt;= 100      otherwise
+</code></pre></div>
+<p>A nil gap is not high-quality but stays eligible at lower priority, and
+re-annotation that fills <code>bestVsSecondGapCp</code> upgrades legacy puzzles
+automatically — nothing needs re-extracting.</p>
+<h3 id="missed-mates-in-legacy-games">Missed mates in legacy games<a class="headerlink" href="#missed-mates-in-legacy-games" title="Permanent link">&para;</a></h3>
+<p>Games annotated before the mate-distance array shipped carry the forced mate only
+as the ±100000 eval marker, with no N. <code>missedMateCandidates(from:)</code> runs <em>only</em>
+for those games (<code>decodeMateDistances(...).isEmpty</code>) and pinpoints the positions
+worth re-probing:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>mateMarker = 100_000.0
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>white:  before &gt;=  100_000  &amp;&amp;  after &lt;   100_000
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>black:  before &lt;= -100_000  &amp;&amp;  after &gt;  -100_000
+</code></pre></div>
+<p>Each <code>MissedMateCandidate</code> carries <code>fen</code>, <code>userColor</code>, <code>moveNumber</code>, <code>gameInfo</code>,
+<code>storedBestMoveUCI</code>, and <code>plyIndex</code> — the 0-based index into the same array
+<code>extract</code> uses, so a caller with engine access can confirm N and backfill exactly
+those positions instead of re-annotating whole games.</p>
+<h3 id="cache-identity">Cache identity<a class="headerlink" href="#cache-identity" title="Permanent link">&para;</a></h3>
+<p><code>TacticsInput.cacheFingerprint</code> is a hand-rolled FNV-1a with length framing:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>hash  = 14_695_981_039_346_656_037
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>prime = 1_099_511_628_211
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>components, in order:
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>  &quot;tactics-cache-v4&quot;, white, black, username, moveText,
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>  startingPositionFEN, annotationEvalsJSON, secondBestEvalsJSON,
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>  mateDistancesJSON
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>per component:  fold 8 little-endian bytes of utf8.count, then every utf8 byte
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>per byte:       hash ^= byte;  hash &amp;*= prime
+</code></pre></div>
+<p>Length framing is what prevents component-boundary collisions such as
+<code>["ab", "c"]</code> versus <code>["a", "bc"]</code>. Swift's <code>Hasher</code> cannot be used here at all:
+it is process-randomized, and a persisted fingerprint must be stable across
+launches and across devices.</p>
+<p><code>CombinationPuzzleStore.corpusFingerprint(ofGameFingerprints:)</code> is the same fold
+over the <strong>sorted</strong> per-game fingerprints, with the element count folded first —
+sorted because library iteration order is not stable under CloudKit merges.</p>
+<h2 id="grading-policy">Grading policy<a class="headerlink" href="#grading-policy" title="Permanent link">&para;</a></h2>
+<p><code>DrillStrictness</code> drives both the acceptance margin and whether a middle ground
+exists at all:</p>
+<table>
+<thead>
+<tr>
+<th>Case</th>
+<th><code>marginScale</code></th>
+<th><code>showsCloseEnough</code></th>
+<th><code>requiresExactBestMove</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.lenient</code></td>
+<td>2.0</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>.normal</code></td>
+<td>1.0</td>
+<td><strong>true</strong></td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>.strict</code></td>
+<td>0.3</td>
+<td>false</td>
+<td><strong>true</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>scaledMargin(base) = max(1, Int((Double(base) * marginScale).rounded()))
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>base margins at the app&#39;s call sites:
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>  Tactics / Traps / Punish  50 cp   → strict 15,  lenient 100
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>  Study                     80 cp   → strict 24,  lenient 160
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>  Endgame trainer          150 cp   → strict 45,  lenient 300
+</code></pre></div>
+<p><code>DrillStrictness.from(_:)</code> resolves the stored raw string (key
+<code>DrillStrictness.appStorageKey</code>, <code>"drillStrictness"</code>) and defaults to <code>.normal</code>.
+<code>requiresExactBestMove</code> is a prohibition, not a threshold: strict grading must not
+run a smaller-margin probe and then relabel a near-best move as correct.</p>
+<p><code>DrillVerdict</code> has six cases — <code>checking</code>, <code>correct</code>,
+<code>closeEnough(expected:played:)</code>, <code>wrong(expected:played:)</code>,
+<code>unavailable(message:)</code>, <code>done</code>. The load-bearing one is <code>.unavailable</code>: an engine
+that timed out or returned no score is <strong>not evidence that a chess move was
+wrong</strong>. <code>DrillProbeVerdict</code> makes that explicit at the probe boundary:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kd">let</span> <span class="nv">verdict</span> <span class="p">=</span> <span class="n">DrillProbeVerdict</span><span class="p">(</span><span class="n">completed</span><span class="p">:</span> <span class="n">probe</span><span class="p">.</span><span class="n">decision</span><span class="p">)</span>  <span class="c1">// Bool? → three states</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="c1">// true → .accepted, false → .rejected, nil → .unavailable</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">completed</span> <span class="o">+=</span> <span class="n">verdict</span><span class="p">.</span><span class="n">completedAttemptDelta</span>   <span class="c1">// 1, 1, 0</span>
+</code></pre></div>
+<p>Retrying an unavailable probe therefore contributes zero attempts until one
+completed accepted/rejected result lands.</p>
+<h2 id="pacing-and-ownership">Pacing and ownership<a class="headerlink" href="#pacing-and-ownership" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>.correct                      →   900_000_000 ns  (0.9 s)
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>.closeEnough, .wrong          → 1_600_000_000 ns  (1.6 s)
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>.checking, .unavailable, .done, nil → no auto-advance
+</code></pre></div>
+<p>After the delay elapses, the transition is committed only if the ticket still
+matches on <strong>both</strong> fields:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kd">let</span> <span class="nv">ticket</span> <span class="p">=</span> <span class="n">DrillAutoAdvanceTicket</span><span class="p">(</span><span class="n">itemIndex</span><span class="p">:</span> <span class="n">index</span><span class="p">,</span> <span class="n">feedbackGeneration</span><span class="p">:</span> <span class="n">generation</span><span class="p">)</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="k">guard</span> <span class="kd">let</span> <span class="nv">delay</span> <span class="p">=</span> <span class="n">DrillAutoAdvancePolicy</span><span class="p">.</span><span class="n">delayNanoseconds</span><span class="p">(</span><span class="k">for</span><span class="p">:</span> <span class="n">verdict</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="k">try</span> <span class="k">await</span> <span class="n">Task</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">nanoseconds</span><span class="p">:</span> <span class="n">delay</span><span class="p">)</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="k">guard</span> <span class="n">ticket</span><span class="p">.</span><span class="n">isCurrent</span><span class="p">(</span><span class="n">itemIndex</span><span class="p">:</span> <span class="n">currentIndex</span><span class="p">,</span> <span class="n">feedbackGeneration</span><span class="p">:</span> <span class="n">currentGeneration</span><span class="p">)</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+</code></pre></div>
+<p>Cancellation alone is not sufficient — a cancelled task can already be resuming,
+which is precisely when it would advance past an item the user has moved on from.</p>
+<h2 id="rating-the-user">Rating the user<a class="headerlink" href="#rating-the-user" title="Permanent link">&para;</a></h2>
+<p><code>TacticsRatingStore</code> (blob key <code>tacticsRating</code>) is zero-sum Elo with <strong>K = 32</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>seed ratings   easy 1200 | medium 1500 | hard 1800
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>user seed      1400
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>actual   = (outcome == .correct) ? 1 : 0
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>expected = 1 / (1 + 10^((puzzleRating − userRating) / 400))
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>delta    = 32 · (actual − expected)
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>userRating   += delta
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>puzzleRating −= delta          // strictly zero-sum
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>attemptCount += 1
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>lastUpdated   = mutation.timestamp     // not .now — replay must be deterministic
+</code></pre></div>
+<p>A <code>.skipped</code> outcome is dropped before any of this and returns a delta of 0.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kd">var</span> <span class="nv">ratings</span> <span class="p">=</span> <span class="n">TacticsRatingStore</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">from</span><span class="p">:</span> <span class="n">blobStore</span><span class="p">)</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="kd">let</span> <span class="nv">delta</span> <span class="p">=</span> <span class="n">ratings</span><span class="p">.</span><span class="n">recordAttempt</span><span class="p">(</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>    <span class="n">puzzleKey</span><span class="p">:</span> <span class="n">puzzle</span><span class="p">.</span><span class="n">masteryKey</span><span class="p">,</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>    <span class="n">difficulty</span><span class="p">:</span> <span class="n">puzzle</span><span class="p">.</span><span class="n">difficulty</span><span class="p">,</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>    <span class="n">outcome</span><span class="p">:</span> <span class="p">.</span><span class="n">correct</span><span class="p">,</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>    <span class="k">in</span><span class="p">:</span> <span class="n">blobStore</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="p">)</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="n">ratings</span><span class="p">.</span><span class="n">displayUserRating</span>                      <span class="c1">// Int(userRating.rounded())</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="n">ratings</span><span class="p">.</span><span class="n">peakUserRating</span>                         <span class="c1">// floored at 1400</span>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="n">ratings</span><span class="p">.</span><span class="n">relativeDifficulty</span><span class="p">(</span><span class="k">for</span><span class="p">:</span> <span class="n">puzzle</span><span class="p">.</span><span class="n">masteryKey</span><span class="p">)</span>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="n">ratings</span><span class="p">.</span><span class="n">rating</span><span class="p">(</span><span class="k">for</span><span class="p">:</span> <span class="n">puzzle</span><span class="p">.</span><span class="n">masteryKey</span><span class="p">,</span> <span class="n">fallbackDifficulty</span><span class="p">:</span> <span class="n">puzzle</span><span class="p">.</span><span class="n">difficulty</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>gap = puzzleRating − userRating
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>gap &gt;=  200 → .veryHard      gap &gt;=   75 → .hard
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>gap &gt;=  −75 → .even          gap &gt;= −200 → .easy
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>otherwise   → .veryEasy      (nil when the puzzle was never attempted)
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>peakUserRating = Int(max(1400, max(userRating, maxRecordedPoint)).rounded())
+</code></pre></div>
+<p><code>ratingHistory</code> is capped at 200 points during replay.
+<code>recordRepertoireAttempt(repertoireIDs:puzzleRating:correct:in:)</code> maintains
+<code>RepertoirePerformance</code> separately, with <code>avgPuzzleRating</code> as an incremental mean
+(<code>previousSum = avg · attempts</code>, then divide by the incremented count) and
+<code>lastSolveAt</code> written only on a correct attempt.</p>
+<h2 id="attempt-history-and-metrics">Attempt history and metrics<a class="headerlink" href="#attempt-history-and-metrics" title="Permanent link">&para;</a></h2>
+<p><code>TacticsPerformanceStore</code> (blob key <code>tacticsPerformance</code>) keeps
+<code>[TacticsAttempt]</code>, whose <code>puzzleKey</code> follows the same <code>"&lt;fen&gt;:&lt;correctSAN&gt;"</code>
+convention as <code>BlunderMasteryStore.key(fen:correctSAN:)</code>. <code>extractionMode</code> and
+<code>difficulty</code> are stored as raw <code>String</code>s deliberately, so the persisted schema
+does not chase enum cases.</p>
+<p><code>public static let maxAttempts = 3_000</code>: at roughly 292 B of JSON per attempt the
+blob crosses CloudKit's ~1 MB record limit near ~3,400 attempts, so 3,000 keeps
+the worst case around 0.88 MB. Oversized legacy blobs still decode in full and
+shrink to the cap on the next <code>record</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>accuracy            = correct / (correct + wrong)      // skips excluded; 0 if none
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>recentAccuracy(over: n) = filter out skips, take last max(0, n), same ratio
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>currentStreak       = StreakMath.current(outcomes.map { $0 == .correct })
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>bestStreak          = StreakMath.best(...)
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>medianSolveSeconds  = median over CORRECT attempts of min(elapsed, 300)
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>                      (mean of the two middle values on an even count; nil if none)
+</code></pre></div>
+<p>The 300 s clamp exists so one abandoned tab cannot skew the median.
+<code>difficultyBreakdown()</code> and <code>modeBreakdown()</code> return
+<code>[String: (correct: Int, wrong: Int)]</code>, skips excluded.</p>
+<h2 id="mastery-and-scheduling">Mastery and scheduling<a class="headerlink" href="#mastery-and-scheduling" title="Permanent link">&para;</a></h2>
+<p><code>BlunderMasteryStore</code> is a namespace over one blob (<code>blunderMastery</code>) keyed by
+<code>"\(fen):\(correctSAN)"</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>correct → count += 1
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>wrong   → count  = 0        (an ordered operation, not a blob wipe)
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>mastered when count &gt;= masteryThreshold (3)
+</code></pre></div>
+<p><code>DrillMastery.counts(_:history:threshold:key:)</code> rolls any item pool up against
+that map, defaulting <code>threshold</code> to <code>BlunderMasteryStore.masteryThreshold</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kd">let</span> <span class="p">(</span><span class="n">total</span><span class="p">,</span> <span class="n">due</span><span class="p">,</span> <span class="n">mastered</span><span class="p">)</span> <span class="p">=</span> <span class="n">DrillMastery</span><span class="p">.</span><span class="n">counts</span><span class="p">(</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>    <span class="n">puzzles</span><span class="p">,</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>    <span class="n">history</span><span class="p">:</span> <span class="n">BlunderMasteryStore</span><span class="p">.</span><span class="n">history</span><span class="p">(</span><span class="k">in</span><span class="p">:</span> <span class="n">blobStore</span><span class="p">),</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>    <span class="n">key</span><span class="p">:</span> <span class="err">\</span><span class="p">.</span><span class="n">masteryKey</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="p">)</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="n">TrainProgressCache</span><span class="p">.</span><span class="n">record</span><span class="p">(.</span><span class="kd">init</span><span class="p">(</span><span class="n">total</span><span class="p">:</span> <span class="n">total</span><span class="p">,</span> <span class="n">due</span><span class="p">:</span> <span class="n">due</span><span class="p">,</span> <span class="n">mastered</span><span class="p">:</span> <span class="n">mastered</span><span class="p">),</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>                          <span class="k">for</span><span class="p">:</span> <span class="p">.</span><span class="n">tactics</span><span class="p">,</span> <span class="n">into</span><span class="p">:</span> <span class="n">blobStore</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code>due</code> here means <strong>not yet mastered</strong> (<code>total - mastered</code>), matching the
+menus' due/done badges. It is <em>not</em> SRS-time-due. Time-based due-ness lives
+in <code>DrillSRS.isDue(key:now:)</code>, which is a separate store with a separate key
+space.</p>
+</div>
+<p><code>DrillSRS</code> (blob key <code>drillSRS</code>) holds <code>Entry(nextReview:interval:streak:)</code> per
+key and schedules by doubling:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>correct →  streak += 1;  interval = min(interval * 2, 30)
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>wrong   →  streak  = 0;  interval = 1
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>both    →  nextReview = mutation.timestamp + interval days
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>calendar = Calendar(identifier: .gregorian), timeZone = GMT+0
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>isDue(key:now:) = true when the key has NO entry, else entry.nextReview &lt;= now
+</code></pre></div>
+<p>The calendar is pinned rather than <code>.current</code> so two devices replaying the same
+ledger land on the same dates. <code>DrillSRS.load(from:migrationStore:)</code> migrates the
+Android-era <code>"repertoireDrillSRS"</code> key once and immediately re-saves under the
+canonical key.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kd">var</span> <span class="nv">srs</span> <span class="p">=</span> <span class="n">DrillSRS</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">from</span><span class="p">:</span> <span class="n">blobStore</span><span class="p">,</span> <span class="n">migrationStore</span><span class="p">:</span> <span class="n">legacyStore</span><span class="p">)</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="k">if</span> <span class="n">srs</span><span class="p">.</span><span class="n">isDue</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="n">drillKey</span><span class="p">)</span> <span class="p">{</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>    <span class="n">srs</span><span class="p">.</span><span class="n">recordCorrect</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="n">drillKey</span><span class="p">,</span> <span class="n">to</span><span class="p">:</span> <span class="n">blobStore</span><span class="p">)</span>   <span class="c1">// or recordWrong(key:to:)</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="p">}</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="n">srs</span><span class="p">.</span><span class="n">entry</span><span class="p">(</span><span class="k">for</span><span class="p">:</span> <span class="n">drillKey</span><span class="p">)?.</span><span class="n">interval</span>      <span class="c1">// 2, 4, 8, 16, 30, 30 … on successive solves</span>
+</code></pre></div>
+<h2 id="the-mutation-ledger-pattern">The mutation-ledger pattern<a class="headerlink" href="#the-mutation-ledger-pattern" title="Permanent link">&para;</a></h2>
+<p><code>TacticsRatingStore</code>, <code>DrillSRS</code> and <code>ConsecutiveCorrectProgress</code> (behind
+<code>BlunderMasteryStore</code>) share one shape: a materialized baseline plus immutable,
+UUID-identified operations, so two replicas can union their ledgers instead of one
+whole-blob write winning. Replay is identical in all three, up to which fences
+each store carries — only <code>TacticsRatingStore</code> has <code>discardedMutationIDs</code>,
+<code>clearsLegacyBaseline</code> and <code>resetAt</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>baseline = clearsLegacyBaseline ? Baseline() : (legacyBaseline ?? current state)
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>lowerFence = max(mutationCompactedAt ?? .distantPast, resetAt ?? .distantPast)
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>keep mutations where  id ∉ discardedMutationIDs  &amp;&amp;  timestamp &gt; lowerFence
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>sort ascending by timestamp, tie-broken by id.uuidString
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>apply in order
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>compaction (at maxRetainedMutations == 1_000):
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>    legacyBaseline      = current materialized state
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>    mutations           = []
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>    mutationCompactedAt = .now
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>    clearsLegacyBaseline = nil          // cleared
+<a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a>    reset tombstones      RETAINED
+</code></pre></div>
+<p><code>TacticsPerformanceStore</code> is not ledger-backed — its attempts <em>are</em> the identified
+records — but its <code>reset(in:)</code> follows the same tombstone discipline, keeping
+<code>discardedAttemptIDs</code> only for future-dated attempts and covering the rest with
+<code>resetAt</code>.</p>
+<p>Reset tombstones outlive compaction on purpose. A mutation observed from another
+replica can carry a <em>future</em> timestamp because that device's clock is skewed;
+neither <code>resetAt</code> nor the compaction fence can suppress it until the clock catches
+up, so dropping its exact UUID would let a stale sibling resurrect it on the next
+merge.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The ledger is bounded and local. It is <strong>not</strong> a server-acknowledged event
+log: a concurrent mutation with a badly skewed earlier clock can land on the
+compacted side of the fence and be lost. It buys convergence for the normal
+case, not durability guarantees.</p>
+</div>
+<p><code>ConsecutiveCorrectProgress.decode(_:)</code> accepts the current envelope first and
+falls back to a raw <code>[String: Int]</code> map (promoting it to <code>legacyBaseline</code> with an
+empty ledger); <code>encoded()</code> sets <code>outputFormatting = [.sortedKeys]</code> so the bytes
+are stable.</p>
+<h2 id="mining-combinations-stage-1">Mining combinations, stage 1<a class="headerlink" href="#mining-combinations-stage-1" title="Permanent link">&para;</a></h2>
+<p>Swing and sharpness cannot tell a one-move fork from a seven-ply combination —
+both are just a big number. The discriminator is that the solver's material goes
+<em>negative</em> mid-line and only recovers at the end. Annotation stores no principal
+variation, only scalars plus one best move, so stage 1 has to decide from the
+first move alone.</p>
+<p>The worked example in the source (White to move): best is <code>Qxc8</code>, queen takes a
+rook defended by <code>Rf8</code>. The naive reading is <strong>−400</strong> ("queen for a rook"), which
+is where a human stops; the true exchange value is <strong>+100</strong>, because a second rook
+on c1 recaptures. Gating on the <em>true</em> value would discard this position. Gating
+on the <em>naive</em> value catches it, because what made the move hard to see was never
+that it loses material — it is that it looks like it does.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>piece values   pawn 100  knight 300  bishop 320  rook 500  queen 900  king 10_000
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>naiveCaptureValue(move) = 0                                   if not a capture
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>                        = value(captured) + promotionGain     if the capturer is a KING
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>                        = value(captured) + promotionGain − value(move.piece)  otherwise
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>staticExchangeEvaluation(move, in: position)
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>    = value(captured) + promotionGain − swapOff(target: move.to, in: after)
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>swapOff(target, in: position)
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>    = 0 when no legal recapture on target
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>    = max(0, value(captured) + promotionGain − swapOff(target, in: afterCheapest))
+</code></pre></div>
+<p>The king exception is not theoretical. Subtracting the king's nominal 10,000 read
+every routine <code>Kxf7</code> as a −9,500 mega-sacrifice, and the first library census
+returned twelve king recaptures as the twelve highest-scoring candidates across
+5,748 games. A king capture is only legal on an undefended square, so nothing
+recaptures and nothing is risked. <code>swapOff</code> recurses through
+<code>MoveGenerator.legalMoves(for:)</code> rather than a private attacker list, so pins,
+discovered defenders and x-ray recaptures come out right for free.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>gates, in order:
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>  1. the move captures AND see &lt; value(capturedPiece)
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>  2. naive  &lt;= sacrificeThresholdCp   (−150)
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>  3. evalCp &gt;= winningThresholdCp     ( 150)
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>  4. evalCp &lt;= decidedBandCp          ( 900)
+</code></pre></div>
+<p>Gate 1 is the swap-off test, and it is the one that kills free-pawn grabs. <code>Qxf2+</code>
+where the queen is defended reads naive −800 and SEE +100 — but that +100 <em>equals
+the pawn taken</em>, so nothing came back: <code>100 == value(.pawn)</code> fails <code>see &lt; value</code>.
+<code>Qxc8</code> passes it at <code>100 &lt; 500</code>. Testing whether the destination is merely
+<em>attacked</em> does not distinguish them, because f2 is attacked by a king that cannot
+legally take.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>score = min(−naiveCp, 900)                     // how bad it LOOKS
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>      + min(max(0, seeCp − naiveCp), 900) / 2  // the blind-spot gap
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>      + min(evalCp, 600) / 2                   // winning, not runaway
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>      + min(sharpnessCp ?? 0, 400) / 2         // uniqueness
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>      − 500  if foundIt                        // they already played it
+</code></pre></div>
+<p>Finding the combination is penalized rather than filtered, so it stays available
+for review. Results are sorted by descending score.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1">// One annotated game, through the shared reconstruction boundary.</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="kd">let</span> <span class="nv">candidates</span> <span class="p">=</span> <span class="n">CombinationMiningKernel</span><span class="p">.</span><span class="n">candidates</span><span class="p">(</span><span class="n">from</span><span class="p">:</span> <span class="n">input</span><span class="p">)</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="c1">// Or supply positions directly (nil mines both sides — useful for master games).</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="kd">let</span> <span class="nv">both</span> <span class="p">=</span> <span class="n">CombinationMiningKernel</span><span class="p">.</span><span class="n">candidates</span><span class="p">(</span><span class="k">in</span><span class="p">:</span> <span class="n">positions</span><span class="p">,</span> <span class="n">userIsWhite</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a><span class="k">for</span> <span class="n">candidate</span> <span class="k">in</span> <span class="n">candidates</span><span class="p">.</span><span class="kr">prefix</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="p">{</span>
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>    <span class="bp">print</span><span class="p">(</span><span class="n">candidate</span><span class="p">.</span><span class="n">engineBestSAN</span><span class="p">,</span>
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>          <span class="s">&quot;looks&quot;</span><span class="p">,</span> <span class="n">candidate</span><span class="p">.</span><span class="n">naiveCp</span><span class="p">,</span> <span class="s">&quot;is&quot;</span><span class="p">,</span> <span class="n">candidate</span><span class="p">.</span><span class="n">seeCp</span><span class="p">,</span>
+<a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a>          <span class="s">&quot;score&quot;</span><span class="p">,</span> <span class="n">candidate</span><span class="p">.</span><span class="n">score</span><span class="p">)</span>
+<a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="mining-combinations-stage-2">Mining combinations, stage 2<a class="headerlink" href="#mining-combinations-stage-2" title="Permanent link">&para;</a></h2>
+<p><code>validateLine(startingFEN:uciMoves:)</code> walks the principal variation an engine
+probe returned and judges whether it is teachable:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>openingBalance = material(solver) − material(opponent)      // kings excluded
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>per move:  balance = material(solver) − material(opponent)
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>           maxDeficit = min(maxDeficit, balance − openingBalance)
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>before each OPPONENT move: opponentTurns += 1
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>           forcedReplies += 1 when legalMoves(position).count &lt;= 2
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>netGain    = balance − openingBalance
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>dipped     = maxDeficit &lt;= −150
+<a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a>longEnough = solverMoves &gt;= 3
+<a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>
+<a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a>endsInCheckmate &amp;&amp; longEnough  → .combination
+<a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a>!dipped || !longEnough         → .notACombination
+<a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a>netGain &gt;= 0                   → .combination
+<a id="__codelineno-26-14" name="__codelineno-26-14" href="#__codelineno-26-14"></a>otherwise                      → .truncated
+</code></pre></div>
+<p>Legal forcedness is all a pure kernel can measure and it under-counts: a recapture
+is usually forced <em>economically</em> while remaining one of thirty legal moves. On the
+owner's line only 1 of 3 opponent turns is legally forced. Treat
+<code>forcedReplies / opponentTurns</code> as a quality signal, not a gate — a low ratio means
+the opponent has real alternatives, so the branch has to be handled before the
+puzzle is honest.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code>.truncated</code> means "promising, probe deeper" and must not be discarded. The
+motivating line — <code>Qxc8 Rxc8 Rxc8+ Kh7 Rh8+ Kxh8 Nxf7+</code> — <em>ends</em> while White
+is 300 down; the fork's payoff lies two plies past the probe horizon. A
+validator demanding recovery inside the line would reject the very
+combination it was built for.</p>
+</div>
+<h2 id="building-the-puzzle-tree-stage-3">Building the puzzle tree, stage 3<a class="headerlink" href="#building-the-puzzle-tree-stage-3" title="Permanent link">&para;</a></h2>
+<p><code>CombinationPuzzleKernel.buildPuzzle(startFEN:lines:evaluations:policy:…)</code> merges
+engine lines into a <code>PuzzleNode</code> tree:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="kd">public</span> <span class="n">nonisolated</span> <span class="kr">indirect</span> <span class="kd">enum</span> <span class="nc">PuzzleNode</span><span class="p">:</span> <span class="n">Sendable</span><span class="p">,</span> <span class="nb">Equatable</span><span class="p">,</span> <span class="n">Codable</span> <span class="p">{</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>    <span class="k">case</span> <span class="n">solverToMove</span><span class="p">(</span><span class="n">accepted</span><span class="p">:</span> <span class="n">Set</span><span class="p">&lt;</span><span class="nb">String</span><span class="p">&gt;,</span> <span class="n">expected</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>                      <span class="n">continuations</span><span class="p">:</span> <span class="p">[</span><span class="nb">String</span><span class="p">:</span> <span class="n">PuzzleNode</span><span class="p">])</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>    <span class="k">case</span> <span class="n">opponentToMove</span><span class="p">(</span><span class="n">replies</span><span class="p">:</span> <span class="p">[</span><span class="nb">String</span><span class="p">:</span> <span class="n">PuzzleNode</span><span class="p">],</span> <span class="n">mainReply</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span>
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>    <span class="k">case</span> <span class="n">end</span>
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>solver node:   accepted = [mainMove] ∪ { uci : bestCp − cp &lt;= 50 }   (dualSolutionToleranceCp)
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>               continuations built ONLY for moves the supplied lines actually play
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>opponent node: every supplied reply is scripted
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>               reach *= policy[fen]?[reply] ?? 1      (no policy ⇒ treated as forced)
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>demand a branch for an unscripted reply when a policy exists and
+<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>    probability                &gt;= 0.05   (minimumHumanProbability)
+<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>AND probability * reach        &gt;= 0.05   (minimumBranchFrequency)
+<a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a>with no policy at all, fall back to engine proximity: bestCp − cp &lt;= 100
+</code></pre></div>
+<p>The cumulative bar is what makes completeness reachable. A 9-ply line has about
+four opponent nodes; three plausible replies at each demands 3⁴ branches, and
+every closure opens more. The local 5% floor alone is combinatorially fatal —
+measured on the owner's library it withheld 15 of 28 mined puzzles.</p>
+<p>Unscripted-but-plausible replies are emitted as <code>UnresolvedBranch</code> values rather
+than dropped, sorted by <code>(expectedFrequency, -lossVsBestCp)</code> descending, where
+<code>expectedFrequency == (humanProbability ?? 1) * reachProbability</code>. A puzzle that
+quietly omits a reply the opponent can actually play is not a smaller puzzle, it
+is a wrong one.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>isComplete  = unresolvedBranches.isEmpty                 // a REALISM property
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>isDrillable = solverMoveCount(root) &gt;= 2
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>           &amp;&amp; everyOpponentNodeHasAReply(root)
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>           &amp;&amp; everyAcceptedSolverMoveHasAContinuation(root)
+</code></pre></div>
+<p>Presentation gates on <code>isDrillable</code>, never on <code>isComplete</code>: the drill always plays
+a <em>scripted</em> reply, so an unresolved branch cannot strand the walk. Gating on
+completeness withheld 15 of 28 mined puzzles, every one of them walkable.</p>
+<p><code>scriptedReply(at:)</code> returns <code>mainReply</code> when it is scripted, otherwise
+<code>replies.keys.sorted().first</code> — sorted, because dictionary order is not stable
+across processes and two devices drilling the same cached puzzle must see the same
+line. <code>unresolvedSolverBranches(in:)</code> reports accepted solver moves that still need
+their own continuation probed: an alternative cannot borrow the expected move's
+continuation, because unless the two transpose immediately the scripted reply may
+be illegal in the position the user actually reached.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="kd">let</span> <span class="nv">evaluations</span><span class="p">:</span> <span class="p">[</span><span class="nb">String</span><span class="p">:</span> <span class="n">NodeEvaluation</span><span class="p">]</span> <span class="p">=</span> <span class="p">[</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>    <span class="n">candidate</span><span class="p">.</span><span class="n">positionFEN</span><span class="p">:</span> <span class="n">NodeEvaluation</span><span class="p">(</span><span class="n">moveEvals</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;c2c8&quot;</span><span class="p">:</span> <span class="mi">480</span><span class="p">,</span> <span class="s">&quot;c1c8&quot;</span><span class="p">:</span> <span class="mi">445</span><span class="p">])</span>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="p">]</span>
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>
+<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="k">guard</span> <span class="kd">let</span> <span class="nv">puzzle</span> <span class="p">=</span> <span class="n">CombinationPuzzleKernel</span><span class="p">.</span><span class="n">buildPuzzle</span><span class="p">(</span>
+<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>    <span class="n">startFEN</span><span class="p">:</span> <span class="n">candidate</span><span class="p">.</span><span class="n">positionFEN</span><span class="p">,</span>
+<a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a>    <span class="n">lines</span><span class="p">:</span> <span class="n">probedLines</span><span class="p">,</span>        <span class="c1">// [[String]] of UCI, main line first</span>
+<a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a>    <span class="n">evaluations</span><span class="p">:</span> <span class="n">evaluations</span><span class="p">,</span>  <span class="c1">// keyed by FEN, mover-POV centipawns</span>
+<a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a>    <span class="n">policy</span><span class="p">:</span> <span class="n">maiaPolicy</span>         <span class="c1">// [FEN: [UCI: probability]]; omit to fall back to eval proximity</span>
+<a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+<a id="__codelineno-30-11" name="__codelineno-30-11" href="#__codelineno-30-11"></a>
+<a id="__codelineno-30-12" name="__codelineno-30-12" href="#__codelineno-30-12"></a><span class="n">puzzle</span><span class="p">.</span><span class="n">isDrillable</span>
+<a id="__codelineno-30-13" name="__codelineno-30-13" href="#__codelineno-30-13"></a><span class="n">puzzle</span><span class="p">.</span><span class="n">unresolvedBranches</span><span class="p">.</span><span class="bp">first</span><span class="p">?.</span><span class="n">expectedFrequency</span>
+<a id="__codelineno-30-14" name="__codelineno-30-14" href="#__codelineno-30-14"></a><span class="n">CombinationPuzzleKernel</span><span class="p">.</span><span class="n">unresolvedSolverBranches</span><span class="p">(</span><span class="k">in</span><span class="p">:</span> <span class="n">puzzle</span><span class="p">)</span>   <span class="c1">// miner work items</span>
+</code></pre></div>
+<h2 id="walking-the-drill">Walking the drill<a class="headerlink" href="#walking-the-drill" title="Permanent link">&para;</a></h2>
+<p><code>CombinationDrillCore</code> is a value-typed state machine that owns no board. Every
+board mutation comes back as an <code>Effect</code> the shell applies synchronously, and
+every board fact it needs arrives as a <code>BoardSnapshot</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="kd">var</span> <span class="nv">core</span> <span class="p">=</span> <span class="n">CombinationDrillCore</span><span class="p">(</span><span class="n">puzzle</span><span class="p">:</span> <span class="n">puzzle</span><span class="p">)</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="n">apply</span><span class="p">(</span><span class="n">core</span><span class="p">.</span><span class="n">start</span><span class="p">())</span>                       <span class="c1">// [.loadPosition(fen:), .setBoardFlipped(_)]</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="c1">// On EVERY cursor change — including the ones the drill caused itself.</span>
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="kd">let</span> <span class="nv">effects</span> <span class="p">=</span> <span class="n">core</span><span class="p">.</span><span class="n">boardChanged</span><span class="p">(</span><span class="n">CombinationDrillCore</span><span class="p">.</span><span class="n">BoardSnapshot</span><span class="p">(</span>
+<a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>    <span class="n">cursorUCI</span><span class="p">:</span> <span class="n">cursorUCI</span><span class="p">,</span>     <span class="c1">// the move under the cursor; nil at the start position</span>
+<a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a>    <span class="n">cursorPly</span><span class="p">:</span> <span class="n">cursorPly</span><span class="p">,</span>     <span class="c1">// its ply index; -1 at the start position</span>
+<a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a>    <span class="n">position</span><span class="p">:</span> <span class="n">livePosition</span>    <span class="c1">// WITH cursorUCI already on the board</span>
+<a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a><span class="p">))</span>
+<a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a><span class="n">apply</span><span class="p">(</span><span class="n">effects</span><span class="p">)</span>
+<a id="__codelineno-31-11" name="__codelineno-31-11" href="#__codelineno-31-11"></a>
+<a id="__codelineno-31-12" name="__codelineno-31-12" href="#__codelineno-31-12"></a><span class="n">core</span><span class="p">.</span><span class="n">solved</span><span class="p">;</span> <span class="n">core</span><span class="p">.</span><span class="n">wrongAttempts</span><span class="p">;</span> <span class="n">core</span><span class="p">.</span><span class="n">attempts</span><span class="p">;</span> <span class="n">core</span><span class="p">.</span><span class="n">totalSolverMoves</span><span class="p">;</span> <span class="n">core</span><span class="p">.</span><span class="n">isFinished</span>
+</code></pre></div>
+<p>The re-entrancy guard is a ply, not a flag: a board change is an <strong>answer</strong> only
+when <code>board.cursorPly == waitingPly + 1</code>. Everything else — the scripted reply
+landing at <code>waitingPly</code>, a take-back returning the cursor to <code>waitingPly</code>,
+<code>loadPosition</code> resetting it to −1, the user browsing the move list — grades
+nothing. <code>waitingPly</code> is written when the core <em>decides</em>, before the shell has
+applied anything, which is what makes the guard order-independent.</p>
+<p><code>Effect</code> is the complete vocabulary: <code>loadPosition(fen:)</code>, <code>setBoardFlipped(Bool)</code>,
+<code>takeBack(TakeBackReason)</code>, <code>playReply(uci:move:)</code>, <code>completed(solved:attempts:)</code>.
+It is <code>Equatable</code> so a golden test can assert the exact array — "exactly one
+take-back for one wrong move" is only assertable as an array. <code>playReply</code> carries
+both the tree's UCI and the already-parsed <code>Move</code>, so the shell's applier has no
+failure path.</p>
+<table>
+<thead>
+<tr>
+<th>Shipped bug</th>
+<th>Structural property that now makes it unrepresentable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Undo cascade: a take-back re-fired the check and scored the opponent's reply as another miss</td>
+<td>A wrong answer leaves <code>node</code> and <code>waitingPly</code> <strong>untouched</strong>, so the take-back's echo lands at <code>waitingPly</code>, not <code>waitingPly + 1</code></td>
+</tr>
+<tr>
+<td>Uncommitted consequence: the solver's move was scored before its reply was known playable</td>
+<td>Scoring sits downstream of <code>scriptedReply</code> + <code>uciToMove</code> + <code>advance</code>; nothing below those guards runs without a parsed <code>Move</code></td>
+</tr>
+<tr>
+<td>Completion stomped: <code>finish()</code> ran, then the caller overwrote <code>.complete</code> with <code>.toMove</code></td>
+<td>Completion is decided in the same branch that scores, <strong>one branch, one return</strong> — no later statement exists to stomp it</td>
+</tr>
+</tbody>
+</table>
+<p><code>TakeBackReason.wrongMove</code> is scored as a miss; <code>.replyUnplayable</code> (malformed
+tree, two solver nodes in a row, an unparseable scripted reply, or a missing
+continuation for it) is neither scored nor counted.</p>
+<h2 id="caching-mined-pools">Caching mined pools<a class="headerlink" href="#caching-mined-pools" title="Permanent link">&para;</a></h2>
+<p>Mining one combination costs hundreds of engine probes plus a Maia pass per
+opponent node, so <code>CombinationPuzzleStore</code> (blob key <code>combinationPuzzles</code>) caches
+the output on the same blob substrate as every other store.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>currentSchemaVersion       = 3
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>currentDerivationContractID = &quot;combination-puzzle-miner-v1|maia3-policy-serving-v2&quot;
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>hasCurrentDerivation        = schemaVersion == 3 &amp;&amp; derivationContractID == the above
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>stalenessReason(against: fingerprint):
+<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a>    !hasCurrentDerivation           → .producerContract   (WITHHOLDS the pool)
+<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a>    corpusFingerprint != fingerprint → .corpus            (warn only)
+<a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a>    otherwise                        → nil
+</code></pre></div>
+<p>Producer incompatibility outranks corpus drift deliberately: a foreign producer
+contract means the bytes cannot be trusted at all, so <code>drillable</code>,
+<code>partiallyCoveredCount</code> and <code>unusableCount</code> all return empty/0. Corpus drift only
+means the pool may omit newer games, which is worth a warning and a re-mine offer,
+not a blackout. Schema 3 retires every schema-2 pool, because those may have been
+mined before exact-Float16 model inputs and probe-v2 health validation made Maia
+serving fail closed.</p>
+<p>The accounting is deliberately honest — "60 candidates, 9 puzzles" is the real
+shape of this feature:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>candidatesFound</code></td>
+<td>stage-1 candidates the run saw, before the score floor and cap</td>
+</tr>
+<tr>
+<td><code>discarded</code></td>
+<td>candidates that probed into a non-combination or past the horizon</td>
+</tr>
+<tr>
+<td><code>partiallyCoveredCount</code></td>
+<td>drillable puzzles that do not answer every plausible reply</td>
+</tr>
+<tr>
+<td><code>unusableCount</code></td>
+<td><code>puzzles.count - drillable.count</code> — genuinely withheld</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="kd">var</span> <span class="nv">pool</span> <span class="p">=</span> <span class="n">CombinationPuzzleStore</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">from</span><span class="p">:</span> <span class="n">blobStore</span><span class="p">)</span>
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="kd">let</span> <span class="nv">fingerprint</span> <span class="p">=</span> <span class="n">CombinationPuzzleStore</span><span class="p">.</span><span class="n">corpusFingerprint</span><span class="p">(</span>
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>    <span class="n">ofGameFingerprints</span><span class="p">:</span> <span class="n">games</span><span class="p">.</span><span class="bp">map</span><span class="p">(</span><span class="err">\</span><span class="p">.</span><span class="n">cacheFingerprint</span><span class="p">)</span>
+<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="p">)</span>
+<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>
+<a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a><span class="k">switch</span> <span class="n">pool</span><span class="p">.</span><span class="n">stalenessReason</span><span class="p">(</span><span class="n">against</span><span class="p">:</span> <span class="n">fingerprint</span><span class="p">)</span> <span class="p">{</span>
+<a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a><span class="k">case</span> <span class="p">.</span><span class="n">producerContract</span><span class="p">:</span> <span class="k">break</span>            <span class="c1">// serve nothing; require a re-mine</span>
+<a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a><span class="k">case</span> <span class="p">.</span><span class="n">corpus</span><span class="p">:</span>           <span class="k">break</span>            <span class="c1">// serve, but offer a re-mine</span>
+<a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a><span class="k">case</span> <span class="kc">nil</span><span class="p">:</span>               <span class="k">break</span>
+<a id="__codelineno-33-10" name="__codelineno-33-10" href="#__codelineno-33-10"></a><span class="p">}</span>
+<a id="__codelineno-33-11" name="__codelineno-33-11" href="#__codelineno-33-11"></a>
+<a id="__codelineno-33-12" name="__codelineno-33-12" href="#__codelineno-33-12"></a><span class="n">pool</span><span class="p">.</span><span class="n">adopt</span><span class="p">(</span><span class="n">puzzles</span><span class="p">:</span> <span class="n">mined</span><span class="p">,</span> <span class="n">corpusFingerprint</span><span class="p">:</span> <span class="n">fingerprint</span><span class="p">,</span>
+<a id="__codelineno-33-13" name="__codelineno-33-13" href="#__codelineno-33-13"></a>           <span class="n">candidatesFound</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> <span class="n">discarded</span><span class="p">:</span> <span class="mi">51</span><span class="p">,</span> <span class="n">at</span><span class="p">:</span> <span class="p">.</span><span class="n">now</span><span class="p">)</span>
+<a id="__codelineno-33-14" name="__codelineno-33-14" href="#__codelineno-33-14"></a><span class="n">pool</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="n">to</span><span class="p">:</span> <span class="n">blobStore</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="train-hub-bookkeeping">Train hub bookkeeping<a class="headerlink" href="#train-hub-bookkeeping" title="Permanent link">&para;</a></h2>
+<p><code>PracticeMode</code>'s raw values are load-bearing — routing, deep-link tokens, and the
+per-drill progress key all use them:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="kd">public</span> <span class="n">nonisolated</span> <span class="kd">enum</span> <span class="nc">PracticeMode</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">Sendable</span><span class="p">,</span> <span class="n">CaseIterable</span><span class="p">,</span> <span class="n">Codable</span> <span class="p">{</span>
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>    <span class="k">case</span> <span class="n">study</span> <span class="p">=</span> <span class="s">&quot;Study&quot;</span>
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>    <span class="k">case</span> <span class="n">repertoire</span> <span class="p">=</span> <span class="s">&quot;Repertoire&quot;</span>      <span class="c1">// the app displays this as &quot;Openings&quot;</span>
+<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>    <span class="k">case</span> <span class="n">tactics</span> <span class="p">=</span> <span class="s">&quot;Tactics&quot;</span>
+<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>    <span class="k">case</span> <span class="n">combinations</span> <span class="p">=</span> <span class="s">&quot;Combinations&quot;</span>
+<a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>    <span class="k">case</span> <span class="n">traps</span> <span class="p">=</span> <span class="s">&quot;Traps&quot;</span>
+<a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>    <span class="k">case</span> <span class="n">endgame</span> <span class="p">=</span> <span class="s">&quot;Endgames&quot;</span>           <span class="c1">// note the plural raw value</span>
+<a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a>    <span class="k">case</span> <span class="n">punish</span> <span class="p">=</span> <span class="s">&quot;Punish&quot;</span>
+<a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>TrainProgressCache</code> writes <code>Snapshot(total:due:mastered:)</code> under
+<code>"trainProgress.\(mode.rawValue)"</code>. <code>record(_:for:into:)</code> no-ops when the
+<strong>decoded</strong> stored snapshot already equals the new one — every drill menu records
+its counts from its store's remote-change handler, and on CloudKit-mirrored
+backends the write itself posts another remote-change notification, so without the
+guard the handler → record → save → notification cycle is self-sustaining for as
+long as the pane is mounted. It compares decoded values, never raw JSON, because
+encoder key order is not a stable contract. For <code>.study</code>, <code>total</code> carries the
+mistake count and <code>due</code>/<code>mastered</code> are 0.</p>
+<h2 id="running-it-headless">Running it headless<a class="headerlink" href="#running-it-headless" title="Permanent link">&para;</a></h2>
+<p>Everything above persists through the two-method seam, so a file-backed
+implementation is enough to run the full pipeline from a script:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="kd">struct</span> <span class="nc">FileBlobStore</span><span class="p">:</span> <span class="n">JSONBlobStore</span> <span class="p">{</span>
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>    <span class="kd">let</span> <span class="nv">directory</span><span class="p">:</span> <span class="n">URL</span>
+<a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>
+<a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a>    <span class="kd">func</span> <span class="nf">loadJSON</span><span class="p">(</span><span class="n">forKey</span> <span class="n">key</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">String</span><span class="p">?</span> <span class="p">{</span>
+<a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a>        <span class="k">try</span><span class="p">?</span> <span class="nb">String</span><span class="p">(</span><span class="n">contentsOf</span><span class="p">:</span> <span class="n">directory</span><span class="p">.</span><span class="n">appendingPathComponent</span><span class="p">(</span><span class="s">&quot;</span><span class="si">\(</span><span class="n">key</span><span class="si">)</span><span class="s">.json&quot;</span><span class="p">),</span>
+<a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a>                    <span class="n">encoding</span><span class="p">:</span> <span class="p">.</span><span class="n">utf8</span><span class="p">)</span>
+<a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a>    <span class="p">}</span>
+<a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a>
+<a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a>    <span class="kd">func</span> <span class="nf">saveJSON</span><span class="p">(</span><span class="kc">_</span> <span class="n">json</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">forKey</span> <span class="n">key</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span>
+<a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a>        <span class="k">try</span><span class="p">?</span> <span class="n">json</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">to</span><span class="p">:</span> <span class="n">directory</span><span class="p">.</span><span class="n">appendingPathComponent</span><span class="p">(</span><span class="s">&quot;</span><span class="si">\(</span><span class="n">key</span><span class="si">)</span><span class="s">.json&quot;</span><span class="p">),</span>
+<a id="__codelineno-35-11" name="__codelineno-35-11" href="#__codelineno-35-11"></a>                        <span class="n">atomically</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="n">encoding</span><span class="p">:</span> <span class="p">.</span><span class="n">utf8</span><span class="p">)</span>
+<a id="__codelineno-35-12" name="__codelineno-35-12" href="#__codelineno-35-12"></a>    <span class="p">}</span>
+<a id="__codelineno-35-13" name="__codelineno-35-13" href="#__codelineno-35-13"></a><span class="p">}</span>
+<a id="__codelineno-35-14" name="__codelineno-35-14" href="#__codelineno-35-14"></a>
+<a id="__codelineno-35-15" name="__codelineno-35-15" href="#__codelineno-35-15"></a><span class="kd">let</span> <span class="nv">blobStore</span> <span class="p">=</span> <span class="n">FileBlobStore</span><span class="p">(</span><span class="n">directory</span><span class="p">:</span> <span class="n">workingDirectory</span><span class="p">)</span>
+<a id="__codelineno-35-16" name="__codelineno-35-16" href="#__codelineno-35-16"></a><span class="kd">var</span> <span class="nv">ratings</span> <span class="p">=</span> <span class="n">TacticsRatingStore</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">from</span><span class="p">:</span> <span class="n">blobStore</span><span class="p">)</span>
+<a id="__codelineno-35-17" name="__codelineno-35-17" href="#__codelineno-35-17"></a><span class="kd">var</span> <span class="nv">perf</span> <span class="p">=</span> <span class="n">TacticsPerformanceStore</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">from</span><span class="p">:</span> <span class="n">blobStore</span><span class="p">)</span>
+<a id="__codelineno-35-18" name="__codelineno-35-18" href="#__codelineno-35-18"></a>
+<a id="__codelineno-35-19" name="__codelineno-35-19" href="#__codelineno-35-19"></a><span class="k">for</span> <span class="n">puzzle</span> <span class="k">in</span> <span class="n">TacticsExtractor</span><span class="p">.</span><span class="n">extract</span><span class="p">(</span><span class="n">from</span><span class="p">:</span> <span class="n">input</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="p">.</span><span class="n">opponentBlunders</span><span class="p">)</span> <span class="p">{</span>
+<a id="__codelineno-35-20" name="__codelineno-35-20" href="#__codelineno-35-20"></a>    <span class="kd">let</span> <span class="nv">outcome</span><span class="p">:</span> <span class="n">TacticsAttempt</span><span class="p">.</span><span class="n">Outcome</span> <span class="p">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">puzzle</span><span class="p">)</span> <span class="p">?</span> <span class="p">.</span><span class="n">correct</span> <span class="p">:</span> <span class="p">.</span><span class="n">wrong</span>
+<a id="__codelineno-35-21" name="__codelineno-35-21" href="#__codelineno-35-21"></a>    <span class="n">ratings</span><span class="p">.</span><span class="n">recordAttempt</span><span class="p">(</span><span class="n">puzzleKey</span><span class="p">:</span> <span class="n">puzzle</span><span class="p">.</span><span class="n">masteryKey</span><span class="p">,</span>
+<a id="__codelineno-35-22" name="__codelineno-35-22" href="#__codelineno-35-22"></a>                          <span class="n">difficulty</span><span class="p">:</span> <span class="n">puzzle</span><span class="p">.</span><span class="n">difficulty</span><span class="p">,</span>
+<a id="__codelineno-35-23" name="__codelineno-35-23" href="#__codelineno-35-23"></a>                          <span class="n">outcome</span><span class="p">:</span> <span class="n">outcome</span><span class="p">,</span>
+<a id="__codelineno-35-24" name="__codelineno-35-24" href="#__codelineno-35-24"></a>                          <span class="k">in</span><span class="p">:</span> <span class="n">blobStore</span><span class="p">)</span>
+<a id="__codelineno-35-25" name="__codelineno-35-25" href="#__codelineno-35-25"></a>    <span class="n">perf</span><span class="p">.</span><span class="n">record</span><span class="p">(</span><span class="n">TacticsAttempt</span><span class="p">(</span><span class="n">puzzleKey</span><span class="p">:</span> <span class="n">puzzle</span><span class="p">.</span><span class="n">masteryKey</span><span class="p">,</span>
+<a id="__codelineno-35-26" name="__codelineno-35-26" href="#__codelineno-35-26"></a>                               <span class="n">outcome</span><span class="p">:</span> <span class="n">outcome</span><span class="p">,</span>
+<a id="__codelineno-35-27" name="__codelineno-35-27" href="#__codelineno-35-27"></a>                               <span class="n">elapsedSeconds</span><span class="p">:</span> <span class="n">elapsed</span><span class="p">,</span>
+<a id="__codelineno-35-28" name="__codelineno-35-28" href="#__codelineno-35-28"></a>                               <span class="n">attemptOrdinal</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<a id="__codelineno-35-29" name="__codelineno-35-29" href="#__codelineno-35-29"></a>                               <span class="n">extractionMode</span><span class="p">:</span> <span class="n">puzzle</span><span class="p">.</span><span class="n">mode</span><span class="p">.</span><span class="n">rawValue</span><span class="p">,</span>
+<a id="__codelineno-35-30" name="__codelineno-35-30" href="#__codelineno-35-30"></a>                               <span class="n">difficulty</span><span class="p">:</span> <span class="n">puzzle</span><span class="p">.</span><span class="n">difficulty</span><span class="p">.</span><span class="n">rawValue</span><span class="p">),</span>
+<a id="__codelineno-35-31" name="__codelineno-35-31" href="#__codelineno-35-31"></a>                <span class="k">in</span><span class="p">:</span> <span class="n">blobStore</span><span class="p">)</span>
+<a id="__codelineno-35-32" name="__codelineno-35-32" href="#__codelineno-35-32"></a>    <span class="n">BlunderMasteryStore</span><span class="p">.</span><span class="n">record</span><span class="p">(</span><span class="n">fen</span><span class="p">:</span> <span class="n">puzzle</span><span class="p">.</span><span class="n">fen</span><span class="p">,</span>
+<a id="__codelineno-35-33" name="__codelineno-35-33" href="#__codelineno-35-33"></a>                               <span class="n">correctSAN</span><span class="p">:</span> <span class="n">puzzle</span><span class="p">.</span><span class="n">correctMoveSAN</span><span class="p">,</span>
+<a id="__codelineno-35-34" name="__codelineno-35-34" href="#__codelineno-35-34"></a>                               <span class="n">correct</span><span class="p">:</span> <span class="n">outcome</span> <span class="p">==</span> <span class="p">.</span><span class="n">correct</span><span class="p">,</span>
+<a id="__codelineno-35-35" name="__codelineno-35-35" href="#__codelineno-35-35"></a>                               <span class="k">in</span><span class="p">:</span> <span class="n">blobStore</span><span class="p">)</span>
+<a id="__codelineno-35-36" name="__codelineno-35-36" href="#__codelineno-35-36"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>fianchetto-cli</code> already exposes the inputs this pipeline consumes:</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Status</th>
+<th>Relevance here</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fianchetto-cli annotate</code></td>
+<td>implemented</td>
+<td>produces the per-ply white-POV evals <code>TacticsInput.annotationEvalsJSON</code> expects</td>
+</tr>
+<tr>
+<td><code>fianchetto-cli accuracy</code></td>
+<td>implemented</td>
+<td>the <code>AccuracyAggregator</code> formulas over the same eval array</td>
+</tr>
+<tr>
+<td><code>fianchetto-cli maia</code></td>
+<td>implemented</td>
+<td>the app's Maia serving path headless (per-game log-likelihood evidence, not the per-FEN policy table <code>buildPuzzle</code> takes)</td>
+</tr>
+<tr>
+<td><code>fianchetto-cli estimate</code> / <code>project</code> / <code>track</code></td>
+<td>implemented</td>
+<td>Elo estimation, serving projection, and the Kalman strength posterior</td>
+</tr>
+</tbody>
+</table>
+<p>Subcommands wrapping this page's kernels directly — extraction (<code>tactics</code>),
+stage-1/2 mining (<code>combos</code>), tree construction (<code>puzzle-tree</code>), an effect-by-effect
+drill walk (<code>drill-walk</code>), SRS scheduling (<code>srs</code>), and strictness grading
+(<code>grade</code>) — are <strong>proposed, not implemented</strong>. Each would be one file conforming
+to <code>CLICommand</code> plus one registry entry.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      FianchettoKit — chess training logic built on ChessCore.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

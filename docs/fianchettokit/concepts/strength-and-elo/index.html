@@ -1,0 +1,2477 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Chess training logic built on ChessCore — engine annotation, strength/Elo estimation, tactics, repertoire and endgame drills, portable persistence, game import, electronic-board handling, and the fianchetto-cli headless tools.">
+      
+      
+        <meta name="author" content="Fianchetto">
+      
+      
+      
+        <link rel="prev" href="../analysis/">
+      
+      
+        <link rel="next" href="../maia/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Strength, Elo & accuracy - FianchettoKit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#strength-elo-accuracy" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="FianchettoKit" class="md-header__button md-logo" aria-label="FianchettoKit" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FianchettoKit
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Strength, Elo & accuracy
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="FianchettoKit" class="md-nav__button md-logo" aria-label="FianchettoKit" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    FianchettoKit
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stores & the storage seam
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../storage-and-authored-history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage, DTOs & authored history
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dtos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistence DTOs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../engine-annotation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine & annotation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analysis math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Strength, Elo & accuracy
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Strength, Elo & accuracy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#accuracy-foundations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accuracy foundations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#time-control-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time-control routing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-per-game-estimator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The per-game estimator
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The per-game estimator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-12-move-level-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The 12 move-level features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-four-maia-posterior-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The four Maia posterior features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prediction-and-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prediction and routing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#confidence-intervals-and-calibration-floors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confidence intervals and calibration floors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#calibration-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calibration data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tracking-strength-over-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tracking strength over time
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#account-local-calibration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Account-local calibration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Account-local calibration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#personalizedstrengthcalibrator-the-slow-trend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PersonalizedStrengthCalibrator — the slow trend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chesscomgameprojectioncalibrator-the-per-game-dot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ChessComGameProjectionCalibrator — the per-game dot
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-stats-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The stats pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#presentation-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Presentation policies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproducing-it-from-the-command-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducing it from the command line
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../maia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Maia policy model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tactics-and-drills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tactics, drills & spaced repetition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../repertoire/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repertoire, openings & traps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../endgame-mining/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Endgame mining & the endgame trainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../review-play-voice/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Review, play & voice
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network clients & game import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-clients/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network clients
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../library-backup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library backup & collections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Electronic board integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reconciliation-note/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reconciliation note
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../cli/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command-Line Interface
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Command-Line Interface
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/annotate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    annotate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/estimate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    estimate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/maia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    maia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/accuracy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    accuracy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/project/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    project
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/track/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    track
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/expansion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI expansion (proposed)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#accuracy-foundations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accuracy foundations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#time-control-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time-control routing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-per-game-estimator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The per-game estimator
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The per-game estimator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-12-move-level-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The 12 move-level features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-four-maia-posterior-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The four Maia posterior features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prediction-and-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prediction and routing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#confidence-intervals-and-calibration-floors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confidence intervals and calibration floors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#calibration-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calibration data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tracking-strength-over-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tracking strength over time
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#account-local-calibration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Account-local calibration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Account-local calibration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#personalizedstrengthcalibrator-the-slow-trend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PersonalizedStrengthCalibrator — the slow trend
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chesscomgameprojectioncalibrator-the-per-game-dot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ChessComGameProjectionCalibrator — the per-game dot
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-stats-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The stats pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#presentation-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Presentation policies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproducing-it-from-the-command-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducing it from the command line
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="strength-elo-accuracy">Strength, Elo &amp; accuracy<a class="headerlink" href="#strength-elo-accuracy" title="Permanent link">&para;</a></h1>
+<p>How FianchettoKit turns an array of engine evaluations into a rating number:
+per-game accuracy, an offline-calibrated per-game Elo estimate, a Kalman
+posterior over true strength, and an account-local projection onto a provider's
+rating scale.</p>
+<p>The subsystem produces three numbers and never collapses them into one, because
+they answer different questions and carry different uncertainty:</p>
+<table>
+<thead>
+<tr>
+<th>Number</th>
+<th>Type</th>
+<th>Scope</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Performance</td>
+<td><code>GamePerformance.elo</code></td>
+<td>one game</td>
+<td>Evidence-only, from this game's moves. Wide CI — single-game accuracy is a weak predictor of rating.</td>
+</tr>
+<tr>
+<td>Strength</td>
+<td><code>StrengthTracker.posteriorMean</code></td>
+<td>one account pool</td>
+<td>Slow Bayesian posterior over true Elo, updated game-by-game, shrunk toward the trailing estimate.</td>
+</tr>
+<tr>
+<td>Projection</td>
+<td><code>AnchoredGamePerformanceProjection.mean</code></td>
+<td>one game</td>
+<td>"Played like" — this game's mapped performance blended with the most recent <em>strictly earlier</em> provider rating.</td>
+</tr>
+</tbody>
+</table>
+<p>Every type here is pure domain logic: no SwiftUI, no SwiftData, no CoreML, no
+persistence. Value in, value out, so the whole pipeline runs off the main actor,
+in a test, or in a command-line tool.</p>
+<h2 id="accuracy-foundations">Accuracy foundations<a class="headerlink" href="#accuracy-foundations" title="Permanent link">&para;</a></h2>
+<p><code>AccuracyAggregator</code> is the single home of every win-probability and accuracy
+constant in the codebase. Its library-scale entry point works directly on the
+white-POV centipawn array the annotation pipeline stores (<code>annotationEvalsJSON</code>),
+with no <code>Game</code> / <code>MoveNode</code> graph to walk, so accuracy aggregates across a whole
+library cheaply. (<code>perSideAccuracy(mainLine:)</code> and <code>aggregateAccuracy(for:color:)</code>
+are separate <code>[MoveNode]</code> helpers, for a game already parsed into memory.)</p>
+<p>Two aggregation orders exist, and the difference is not a rounding artifact:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>winProbability(cp) = 1 / (1 + exp(-0.00368208 * cp))
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>per-move average  (accuracy(evalsJSON:startIsWhite:color:))
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    drop_i   = max(0, wpBefore_i - wpAfter_i) * 100          // mover POV
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    acc_i    = clamp(103.1668 * exp(-0.04354 * drop_i) - 3.1668, 0, 100)
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    accuracy = mean(acc_i)
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>mean loss         (accuracy(fromMeanLoss:))
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    meanLoss = mean(clamp(drop_i, 0, 100))
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    accuracy = clamp(103.1668 * exp(-0.04354 * meanLoss) - 3.1668, 0, 100)
+</code></pre></div>
+<p>By Jensen's inequality the per-move average is the higher of the two. The Review
+pane shows the per-move average; <code>EloEstimator</code> and the calibration corpus use
+the mean-loss form, because that is how the training rows were labeled. Mixing
+them would silently bias every estimate.</p>
+<p><code>whiteFraction(cp:mateIn:)</code> is the eval-bar variant: mate pins to 1.0 (<code>mateIn &gt;= 0</code>)
+or 0.0, a nil <code>cp</code> with no mate returns 0.5, and everything else delegates to
+<code>winProbability(cp:)</code>.</p>
+<p>Move quality has two independent classifiers measuring different things:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>classifyMoveQuality(wpDrop:playedBestMove:)     // Stockfish, win-prob drop 0…1
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    playedBestMove   -&gt; .best      (overrides everything below)
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    wpDrop &gt;= 0.20   -&gt; .blunder
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    wpDrop &gt;= 0.10   -&gt; .mistake
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    wpDrop &gt;= 0.05   -&gt; .inaccuracy
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    wpDrop &gt;= 0.02   -&gt; .good
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    else             -&gt; .excellent
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>maiaMoveQuality(rank:probability:)              // Maia, human-move rank/prob
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    rank == 0                             -&gt; .best
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    rank in 0...2                         -&gt; .excellent
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    rank in 0...5  or probability &gt;= 0.05 -&gt; .good
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>    rank in 0...15 or probability &gt;= 0.02 -&gt; .inaccuracy
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>    rank in 0...30                        -&gt; .mistake
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>    else                                  -&gt; .blunder   // rank == -1, outside top-K
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>maiaMoveAccuracy(rank:probability:) = clamp(sqrt(clamp(p, 0, 1)) * 100, 0, 100)
+</code></pre></div>
+<p>The <code>sqrt</code> is deliberate: a linear probability scale collapses every
+mid-probability human move toward zero.</p>
+<p><code>GameAccuracy</code> returns three windows, each with its own real sample count —
+<code>overall</code> / <code>overallSampleCount</code>, <code>phases</code> / <code>phaseSampleCounts</code>, and
+<code>moveBuckets</code> / <code>moveBucketSampleCounts</code>. <code>Phase</code> is <code>.opening</code> (move ≤ 10),
+<code>.middlegame</code> (≤ 30), <code>.endgame</code>, by full-move number rather than piece count so
+the PGN never has to be re-parsed. Buckets are 5 moves wide, keyed on the first
+move number in the window: <code>bucketStart(forMoveNumber:)</code> snaps to 1, 6, 11, …
+and <code>bucketLabel(start:)</code> renders "6–10". An absent entry means the side made no
+moves in that window — callers skip it rather than counting it as 0.</p>
+<p><code>AccuracyScaleKit</code> grades a 0–100 value. Note the extra split at 95 that the
+band scale does not have; color mappings are intentionally absent, so apps
+switch over <code>Band</code> themselves.</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th><code>descriptor(_:)</code></th>
+<th><code>band(_:)</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>95+</td>
+<td>"Engine-level"</td>
+<td><code>.elite</code></td>
+</tr>
+<tr>
+<td>90–95</td>
+<td>"Excellent"</td>
+<td><code>.elite</code></td>
+</tr>
+<tr>
+<td>80–90</td>
+<td>"Good"</td>
+<td><code>.good</code></td>
+</tr>
+<tr>
+<td>70–80</td>
+<td>"Solid"</td>
+<td><code>.solid</code></td>
+</tr>
+<tr>
+<td>60–70</td>
+<td>"Inconsistent"</td>
+<td><code>.inconsistent</code></td>
+</tr>
+<tr>
+<td>50–60</td>
+<td>"Shaky"</td>
+<td><code>.shaky</code></td>
+</tr>
+<tr>
+<td>&lt; 50</td>
+<td>"Room to grow"</td>
+<td><code>.struggling</code></td>
+</tr>
+</tbody>
+</table>
+<p>ChessCore cannot depend on FianchettoKit, so the ergonomic accessors on its
+engine types live here as extensions that delegate to the one logistic:
+<code>UCIInfo.Score.winProbability</code> / <code>.whiteWinProbability</code>, <code>UCIInfo.winProbability</code>
+(nil when the line reported no score), and
+<code>EngineAnalysis.Evaluation.whiteWinProbability</code>. Mate maps to 1.0 / 0.0;
+<code>.winDrawLoss(w, _, l)</code> returns <code>w / (w + l)</code> — draws are excluded from the
+denominator — and 0.5 when <code>w + l == 0</code>.</p>
+<p>Available from the command line: <code>fianchetto-cli accuracy</code>.</p>
+<h2 id="time-control-routing">Time-control routing<a class="headerlink" href="#time-control-routing" title="Permanent link">&para;</a></h2>
+<p>Two classifiers exist and they are <em>supposed</em> to disagree. <code>TimeControlClass</code>
+selects which calibration artifact serves a game; <code>StatsKernel.classifySpeed</code>
+selects which provider rating pool it belongs to.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>TimeControlClass.classify(baseSeconds:incrementSeconds:)   // artifact selection
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    total = baseSeconds + 40 * incrementSeconds
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    total &lt;  180 -&gt; .bullet      total &lt; 1500 -&gt; .rapid
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    total &lt;  480 -&gt; .blitz       else         -&gt; .classical
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    baseSeconds == nil -&gt; .correspondence
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>TimeControlClass.classify(fromPGNTag:)
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    &quot;&quot;, &quot;-&quot;, or a non-numeric base -&gt; .correspondence
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    otherwise split on &quot;+&quot; (maxSplits: 1); a missing increment is 0
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>StatsKernel.classifySpeed(tags:event:)                     // rating pool
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>    1. a definitive correspondence clock in the TimeControl tag -&gt; .daily
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>    2. event contains &quot;bullet&quot;/&quot;ultrabullet&quot; -&gt; .bullet; &quot;blitz&quot; -&gt; .blitz;
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>       &quot;rapid&quot; -&gt; .rapid; &quot;classical&quot; -&gt; .classical;
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>       &quot;correspondence&quot;/&quot;daily&quot;/&quot;let&#39;s play&quot;/&quot;lets play&quot; -&gt; .daily
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>    3. empty TimeControl tag -&gt; .rapid        (no signal is not evidence)
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>    4. raw base seconds only: &lt; 180 .bullet, &lt; 600 .blitz, &lt;= 1800 .rapid,
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>       else .classical
+</code></pre></div>
+<p>A 5|5 game is the canonical divergence: <code>300 + 40 × 5 = 500</code> routes it through
+the <strong>rapid</strong> artifact, while Chess.com rates it in the <strong>Blitz</strong> pool. Both are
+correct for their own purpose, and <code>StatsKernel</code> carries them side by side on
+each candidate (<code>timeControl</code> vs <code>displaySpeed</code>). When the <code>TimeControl</code> tag is
+absent entirely, the estimator's class is derived back from the chart speed
+rather than being forced to <code>.correspondence</code>.</p>
+<p><code>TimeSpeed.daily</code> exists because correspondence is a <em>separate rating pool</em>.
+Folding it into <code>.rapid</code> cost real accuracy: 378 daily games rated 627–1,225
+were plotted on the same curve as 2,529 live games rated 202–1,048, and because
+the two interleave chronologically the chart showed repeated vertical jumps. A
+chart cannot average two rating systems and mean anything.</p>
+<p>One more clock rule feeds the CI rather than the routing: the private
+<code>StatsKernel.isOTBClassicalTC(tag:tc:)</code> fires only when <code>tc == .classical</code> <strong>and</strong>
+<code>base + 40 × inc &gt;= 6000</code> seconds. 90+30 (6600) and 120+0 (7200) qualify; 30+0
+(1800) does not. The Lichess classical corpus is dominated by 30+0, so genuine
+OTB long time controls are out of distribution and get a 1.5× wider interval.</p>
+<h2 id="the-per-game-estimator">The per-game estimator<a class="headerlink" href="#the-per-game-estimator" title="Permanent link">&para;</a></h2>
+<p><code>EloEstimator</code> is a namespace, not a stateful object. <code>estimate(...)</code> returns
+<code>nil</code> when the eval array has fewer than 2 entries, or when the player made
+fewer than 3 moves on the v4.1 path (the v2 path needs at least 1).</p>
+<table>
+<thead>
+<tr>
+<th>Route</th>
+<th>Condition</th>
+<th>Model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v4.1 ensemble</td>
+<td>bullet / blitz / rapid / classical <strong>and</strong> a valid 11-point Maia log-likelihood vector</td>
+<td>16-feature standardized ridge</td>
+</tr>
+<tr>
+<td>v4.1 no-Maia</td>
+<td>the same time controls without usable Maia evidence</td>
+<td>12-feature standardized ridge, refit on the v4.1 corpus</td>
+</tr>
+<tr>
+<td>v2</td>
+<td>correspondence</td>
+<td>monotone binned-median lookup on accuracy alone</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-12-move-level-features">The 12 move-level features<a class="headerlink" href="#the-12-move-level-features" title="Permanent link">&para;</a></h3>
+<p>Assembled in the fitted CSV column order:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Feature</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td><code>accuracy</code></td>
+<td>mean-loss form, via <code>accuracy(fromMeanLoss:)</code></td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>blunder_rate</code></td>
+<td>fraction of this side's moves with win-% loss ≥ 20</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>mistake_rate</code></td>
+<td>… ≥ 10</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>inaccuracy_rate</code></td>
+<td>… ≥ 5</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>acpl_capped</code></td>
+<td>per-move centipawn loss capped at 500, averaged over this side's move count</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>eval_volatility</code></td>
+<td><strong>population</strong> std-dev of the post-ply win-% values (divide by n, matching Python)</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>opp_punish_rate</code></td>
+<td>see below</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>mean_abs_eval</code></td>
+<td>mean |win% − 50| over the post-ply values</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>n_moves</code></td>
+<td>this side's move count</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>plies</code></td>
+<td>total plies in the game</td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>is_checkmate</code></td>
+<td>hardcoded 0.0 — coefficient 0.0 and std 1.0 in every TC, so the value is moot</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>is_time</code></td>
+<td>1.0 when the game ended on time</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>opp_punish_rate
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    for each opponent ply whose win-% swing in our favor is &gt;= 20:
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>        find our FIRST subsequent move
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>        count it &quot;punished&quot; when our own loss on that move &lt;= oppLoss / 2
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    rate = punished / opportunities
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    no opponent blunder at all -&gt; 0.5      (training-set mean imputation)
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>EloEstimator.isTimeEnding(termination)                      // module-internal
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    trimmed+lowercased == &quot;time&quot; or &quot;time forfeit&quot;           -&gt; true
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    contains &quot;timeout vs insufficient material&quot;              -&gt; false  (a draw)
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>    contains &quot;won on time&quot; / &quot;lost on time&quot; / &quot;time forfeit&quot; -&gt; true
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    otherwise                                                -&gt; false
+</code></pre></div>
+<p>The <code>is_time</code> rule covers both representations: Lichess's normalized token and
+Chess.com's prose ("Alice won on time").</p>
+<h3 id="the-four-maia-posterior-features">The four Maia posterior features<a class="headerlink" href="#the-four-maia-posterior-features" title="Permanent link">&para;</a></h3>
+<p>The ensemble appends a summary of Maia's posterior over the 11-point Elo grid
+<code>[600, 800, …, 2600]</code> at indices 12–15, mirroring <code>fit_v41_ensemble.py</code> exactly —
+including the detail that the spread uses the <em>original</em> vector:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>llSpread        = max(logLikes) - min(logLikes)             // before shifting
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>weights         = softmax(logLikes - max(logLikes))
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>maia_mean_elo   = Σ eloGrid[i] * w[i]
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>maia_std_elo    = sqrt(Σ (eloGrid[i] - maia_mean_elo)² * w[i])
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>maia_argmax_elo = eloGrid[argmax w]
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>degenerate input (empty, or count != eloGrid.count)
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    -&gt; (mean 1200, std 400, argmax 1200, spread 0)
+</code></pre></div>
+<p><code>maia_mean_elo</code> carries by far the largest weight in the fitted vector — 484.47
+for bullet, against a 1519.5309 intercept.</p>
+<h3 id="prediction-and-routing">Prediction and routing<a class="headerlink" href="#prediction-and-routing" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>standardized ridge (12- and 16-feature alike)
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    prediction = intercept + Σ coefficients[i] * (x[i] - featureMeans[i]) / featureStds[i]
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    the loop runs over min(x.count, coefficients.count)
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>eligibility for the ensemble
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    candidate log-likes count == eloGrid.count (11)
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    AND typed evidence, when supplied, is valid:
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>        eligibleMoveCount &gt; 0  AND  every log-like finite
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    otherwise -&gt; v4.1 no-Maia ridge, servingPath = .moveQualityFallback,
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>                 maiaEligibleMoveCount = nil
+</code></pre></div>
+<p>Typed <code>MaiaBackfillPolicy.TargetEvidence</code> takes precedence over the legacy bare
+<code>maiaLogLikes</code> vector, and its conditioning survives into the result:</p>
+<table>
+<thead>
+<tr>
+<th>Evidence</th>
+<th><code>EloEstimatorServingPath</code></th>
+<th><code>servingPathLabel</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.exactLichess</code></td>
+<td><code>.exactOpponentMaiaEnsemble</code></td>
+<td>"Exact-opponent Maia"</td>
+</tr>
+<tr>
+<td><code>.neutralLichessPrior</code></td>
+<td><code>.neutral1500EvidenceExactArtifact</code></td>
+<td>"Neutral-1500 Maia (provisional)"</td>
+</tr>
+<tr>
+<td>legacy bare vector</td>
+<td><code>.exactOpponentMaiaEnsemble</code></td>
+<td>"Exact-opponent Maia"</td>
+</tr>
+<tr>
+<td>none / invalid / correspondence</td>
+<td><code>.moveQualityFallback</code></td>
+<td>"Move-quality model"</td>
+</tr>
+</tbody>
+</table>
+<p>The legacy vector reports as exact-opponent because that API carried no
+conditioning metadata. Neutral-1500 evidence is currently served by the
+<em>exact-opponent-trained</em> coefficients — <code>usesMaiaRefinement</code> is true for both
+Maia cases, and the separate case exists to make that compatibility behavior
+observable and to give a future neutral-conditioned artifact a routing seam.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kd">import</span> <span class="nc">ChessCore</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kd">import</span> <span class="nc">FianchettoKit</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="kd">let</span> <span class="nv">tc</span> <span class="p">=</span> <span class="n">TimeControlClass</span><span class="p">.</span><span class="n">classify</span><span class="p">(</span><span class="n">baseSeconds</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="n">incrementSeconds</span><span class="p">:</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1">// .rapid</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="k">guard</span> <span class="kd">let</span> <span class="nv">performance</span> <span class="p">=</span> <span class="n">EloEstimator</span><span class="p">.</span><span class="n">estimate</span><span class="p">(</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>    <span class="n">evalsJSON</span><span class="p">:</span> <span class="n">game</span><span class="p">.</span><span class="n">annotationEvalsJSON</span><span class="p">,</span>   <span class="c1">// white-POV centipawns, plies + 1 entries</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    <span class="n">startIsWhite</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    <span class="n">color</span><span class="p">:</span> <span class="p">.</span><span class="n">white</span><span class="p">,</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    <span class="n">tc</span><span class="p">:</span> <span class="n">tc</span><span class="p">,</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    <span class="n">isOTBClassical</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>    <span class="n">maiaEvidence</span><span class="p">:</span> <span class="n">MaiaBackfillPolicy</span><span class="p">.</span><span class="n">TargetEvidence</span><span class="p">(</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>        <span class="n">logLikes</span><span class="p">:</span> <span class="n">maiaLogLikes</span><span class="p">,</span>            <span class="c1">// 11 values, one per grid point</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>        <span class="n">eligibleMoveCount</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>        <span class="n">opponentConditioning</span><span class="p">:</span> <span class="p">.</span><span class="n">exactLichess</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>    <span class="p">),</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>    <span class="n">termination</span><span class="p">:</span> <span class="n">tags</span><span class="p">[</span><span class="s">&quot;Termination&quot;</span><span class="p">]</span>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>                          <span class="c1">// &lt; 2 evals, or &lt; 3 owner moves</span>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="n">performance</span><span class="p">.</span><span class="n">elo</span>                    <span class="c1">// clamped point estimate</span>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="n">performance</span><span class="p">.</span><span class="n">ci</span>                     <span class="c1">// ClosedRange&lt;Double&gt;</span>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="n">performance</span><span class="p">.</span><span class="n">accuracy</span>               <span class="c1">// mean-loss form, 0–100</span>
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="n">performance</span><span class="p">.</span><span class="n">sampleMoves</span>
+<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="n">performance</span><span class="p">.</span><span class="n">servingPath</span>            <span class="c1">// .exactOpponentMaiaEnsemble here</span>
+<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="n">performance</span><span class="p">.</span><span class="n">maiaEligibleMoveCount</span>  <span class="c1">// 17 — nil on the fallback path</span>
+<a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a><span class="n">performance</span><span class="p">.</span><span class="n">belowCalibrationFloor</span>
+</code></pre></div>
+<p>Available from the command line: <code>fianchetto-cli estimate</code> (and
+<code>fianchetto-cli maia</code> to produce the evidence).</p>
+<h2 id="confidence-intervals-and-calibration-floors">Confidence intervals and calibration floors<a class="headerlink" href="#confidence-intervals-and-calibration-floors" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>pointElo   = clamp(rawElo, 100.0, 3500.0)
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>belowFloor = rawElo &lt; 100.0                          // v4.1 paths
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>baseHalfWidth =
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    belowFloor     -&gt; 2.0 * floor-band MAE           (300.0 if the table is empty)
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    Maia ensemble  -&gt; residual std for pointElo      (200.0 if empty)
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    no-Maia / v2   -&gt; residual std for pointElo      (150.0 if empty)
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>sampleFactor = min(3.0, sqrt(max(1.0, 20.0 / nMoves)))
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>otbFactor    = isOTBClassical ? 1.5 : 1.0
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>ci           = pointElo ± baseHalfWidth * sampleFactor * otbFactor
+</code></pre></div>
+<p>The residual-band walk is identical for v2, v3 and v4.1: start at <code>bands[0].std</code>,
+walk the ascending table, keep the last band whose <code>bandLow &lt;= elo</code>. That makes
+the top band open-ended and the bottom band the below-all-bands default.</p>
+<p>Two details of the arithmetic are worth knowing. <code>sampleFactor</code> is 1.0 for any
+game of 20+ owner moves, and on the v4.1 paths it reaches at most
+<code>sqrt(20/3) ≈ 2.58</code>, so the 3.0 cap never binds there — a game with fewer than 3
+owner moves returns <code>nil</code> first. Only the v2 path, which accepts as few as one
+owner move, can drive it to the cap. And the CI is not re-clamped after the point
+estimate is, so a floored estimate legitimately reports a lower bound below 100.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code>belowCalibrationFloor</code> does not mean "this player is weak". On the v4.1
+paths it fires only when the raw ridge output lands below 100 Elo. On the v2
+path it means accuracy fell below the first bin center — 54.0 for
+correspondence, 26.0 in the blitz table, 30.0 in the bullet table — and the
+lookup clamped silently. Most beginners never trip it: the Lichess accuracy
+formula returns 60 %+ even for 800-rated play, so the model can overestimate
+a weak player without any flag firing.</p>
+</div>
+<h2 id="calibration-data">Calibration data<a class="headerlink" href="#calibration-data" title="Permanent link">&para;</a></h2>
+<p><code>EloCalibrationData</code> is generated — <code>DO NOT EDIT</code>, regenerate with
+<code>Tools/elo-calibration/generate_swift.py</code>. Its source is the Lichess Open
+Database (CC0, May 2026). It is module-internal; <code>EloEstimator</code> owns the public
+API.</p>
+<table>
+<thead>
+<tr>
+<th>Artifact</th>
+<th>Shape</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TCModel</code> (v2)</td>
+<td>accuracy → Elo</td>
+<td>cubic <code>polyCoefficients</code> <code>[a3, a2, a1, a0]</code>, <code>binnedCenters</code> / <code>binnedMedianRatings</code>, <code>residualBands</code></td>
+</tr>
+<tr>
+<td><code>V3TCModel</code></td>
+<td>12-feature ridge</td>
+<td><code>coefficients</code>, <code>featureMeans</code>, <code>featureStds</code> (12 each), <code>intercept</code>, <code>residualBands</code> — serves v3 <em>and</em> the v4.1 no-Maia fallback</td>
+</tr>
+<tr>
+<td><code>V41EnsembleTCModel</code></td>
+<td>16-feature ridge</td>
+<td>the above plus <code>eloGrid</code> (11 points) and <code>cvMAE</code></td>
+</tr>
+</tbody>
+</table>
+<p>Dispatch is by <code>TimeControlClass.rawValue</code>, and the fallbacks differ on purpose:
+<code>model(forRawTC:)</code> returns <code>rapid</code> for an unknown key (nearest calibrated
+neighbor), while <code>v3model</code>, <code>v41ensembleModel</code> and <code>v41noMaiaModel</code> return <code>nil</code>
+— which is exactly what routes correspondence to the v2 lookup:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>binnedLookup(accuracy:model:)
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    fewer than 2 centers, or lengths mismatched -&gt; evalPoly(polyCoefficients)  (Horner)
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    accuracy &lt;= centers.first  -&gt; ratings.first
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    accuracy &gt;= centers.last   -&gt; ratings.last
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    otherwise, between centers[i] and centers[i+1]:
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>        t   = (accuracy - centers[i]) / (centers[i+1] - centers[i])
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>        elo = ratings[i] + t * (ratings[i+1] - ratings[i])
+</code></pre></div>
+<p>Fitting notes that change how the numbers should be read:</p>
+<ul>
+<li>Bullet, blitz and rapid were fit with rating-band quota balancing (≤ 15 k rows
+  per band) for better sub-1200 coverage. Classical is an unbalanced fit — its
+  corpus was too small for quotas.</li>
+<li>Classical v4.1 credits +115.6 Elo of Maia contribution, which is why classical
+  is eligible for Maia backfill at all.</li>
+<li>v4.1 residual bands are 0–800 / 800–1200 / 1200–1600 / 1600–2000 / 2000+.
+  Classical band MAEs run 270.5 / 155.7 / 147.0 / 150.5 / 168.9; the bullet
+  no-Maia refit, for contrast, runs 400.8 / 363.0 / 238.8 / 296.7 / 536.0.</li>
+<li>Correspondence has no ridge model at any version, and its lowest v2 band
+  (1200–1400) has an MAE of 591.4. That number is why the stats pipeline refuses
+  to chart daily games at all.</li>
+</ul>
+<h2 id="tracking-strength-over-time">Tracking strength over time<a class="headerlink" href="#tracking-strength-over-time" title="Permanent link">&para;</a></h2>
+<p><code>StrengthTracker</code> is a Gaussian posterior over true Elo with pure value
+semantics — <code>updated(with:)</code> returns a new tracker and leaves the receiver alone.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>predVariance      = posteriorSigma² + processTau²
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>ciHalfWidth       = (ci.upperBound - ci.lowerBound) / 2
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>obsVariance       = max(1.0, ciHalfWidth²)                 // guards a zero-width CI
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>posteriorVariance = 1 / (1/predVariance + 1/obsVariance)
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>posteriorMean     = posteriorVariance * (priorMean/predVariance + performance.elo/obsVariance)
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>posteriorSigma    = sqrt(posteriorVariance)
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>defaults: priorSigma 300.0, processTau 50.0 (≈150 Elo of drift over 9 games)
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>StatsKernel seeds every pool at StrengthTracker(priorMean: 1500, priorSigma: 300)
+</code></pre></div>
+<p>Because the observation variance <em>is</em> the squared CI half-width, everything that
+widens an interval — few moves, OTB classical, a below-floor estimate —
+automatically reduces that game's influence on the posterior. There is no second
+weighting scheme to keep in sync.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kd">var</span> <span class="nv">tracker</span> <span class="p">=</span> <span class="n">StrengthTracker</span><span class="p">(</span><span class="n">priorMean</span><span class="p">:</span> <span class="mi">1500</span><span class="p">,</span> <span class="n">priorSigma</span><span class="p">:</span> <span class="mi">300</span><span class="p">)</span>   <span class="c1">// processTau defaults to 50</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">for</span> <span class="n">performance</span> <span class="k">in</span> <span class="n">performancesInGameOrder</span> <span class="p">{</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="n">tracker</span> <span class="p">=</span> <span class="n">tracker</span><span class="p">.</span><span class="n">updated</span><span class="p">(</span><span class="n">with</span><span class="p">:</span> <span class="n">performance</span><span class="p">)</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="p">}</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">tracker</span><span class="p">.</span><span class="n">posteriorMean</span>    <span class="c1">// best single-number strength estimate</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="n">tracker</span><span class="p">.</span><span class="n">ci</span>               <span class="c1">// 68%: mean ± 1σ</span>
+</code></pre></div>
+<p>Available from the command line: <code>fianchetto-cli track</code>.</p>
+<h2 id="account-local-calibration">Account-local calibration<a class="headerlink" href="#account-local-calibration" title="Permanent link">&para;</a></h2>
+<p>Both calibrators are causal and account-local: they use only strictly earlier
+labels, and they refuse to answer until they have enough of them.</p>
+<h3 id="personalizedstrengthcalibrator-the-slow-trend">PersonalizedStrengthCalibrator — the slow trend<a class="headerlink" href="#personalizedstrengthcalibrator-the-slow-trend" title="Permanent link">&para;</a></h3>
+<p>Offset-only by design. One account spans too little of a rating pool to identify
+a stable slope, while a robust rolling offset removes persistent platform bias
+without pretending to be a population calibration. A 20-residual window beat 50
+across three fast-improving accounts.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>residualWindow 20   forecastErrorWindow 50
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>minimumOffsetSamples 20   minimumConformalSamples 20
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>offset = median(trailing 20 residuals of actualRating - baseStrength)
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>         nil until 20 labels exist -&gt; prediction(...) returns nil
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>mean   = baseStrength + offset
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>warm-up intervals (fewer than 20 prior forecast errors)
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>    robustScale         = max(50.0, 1.4826 * median|residual - median|)
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>    offsetStandardError = 1.2533 * robustScale / sqrt(n)
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>    half68 = sqrt(baseSigma² + robustScale² + offsetStandardError²)
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>    half95 = 1.96 * half68
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>calibrated intervals (&gt;= 20 prior forecast errors) — split conformal
+<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>    rank = clamp(ceil((n + 1) * coverage), 1, n)
+<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>    half = max(1, sortedAbsoluteErrors[rank - 1])
+</code></pre></div>
+<p><code>PersonalizedStrengthPrediction.usesEmpiricalIntervals</code> reports which of the two
+produced the interval.</p>
+<h3 id="chesscomgameprojectioncalibrator-the-per-game-dot">ChessComGameProjectionCalibrator — the per-game dot<a class="headerlink" href="#chesscomgameprojectioncalibrator-the-per-game-dot" title="Permanent link">&para;</a></h3>
+<p>Here the provider rating is an <em>anchor</em>, not the target. The current game's move
+count decides how far its mapped performance may pull away from it.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>weight            = 0.60 * moveCount / (moveCount + 15.0)     // 30 moves -&gt; 0.40
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>mappedPerformance = clamp(performance.elo + pathOffset, 100, 3500)
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>weightedDelta     = weight * (mappedPerformance - anchorRating)
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>cappedDelta       = clamp(weightedDelta, -250.0, +250.0)
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>mean              = clamp(anchorRating + cappedDelta, 100, 3500)
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>propagated interval arms
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>    offsetStandardError = 1.2533 * max(50.0, 1.4826 * median|residual - median|) / sqrt(n)
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>    lowerSigma = sqrt((elo - ci.lowerBound)² + offsetStandardError²)
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>    upperSigma = sqrt((ci.upperBound - elo)² + offsetStandardError²)
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>    bound      = mean ± multiplier * weight * sigma      // 1 for 68%, 1.96 for 95%
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>empirical interval arms (&gt;= 20 strictly earlier projection errors) — conformal
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>    index = clamp(ceil((n + 1) * coverage) - 1, 0, n - 1)
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>    half  = sortedAbsoluteErrors[index]
+</code></pre></div>
+<p>The <code>weight</code> factor inside the propagated interval keeps uncertainty from
+collapsing when the ±250 cap binds. The 0.60 ceiling is a deliberate
+utility-first choice: the previous 0.40 yielded only 27 % evidence on a 30-move
+game and made the chart a redraw of the provider rating.</p>
+<p>Residual and forecast-error windows are kept <strong>separately per serving path</strong>,
+keyed on <code>usedMaiaRefinement</code>, so a partial Maia backfill can never calibrate one
+path with the other's residuals. A projection is emitted only when an anchor
+exists, the path-matching window holds ≥ 20 residuals, and the performance passes
+the validity gate: finite Elo within 100…3500, finite CI bounds bracketing the
+point, finite accuracy in 0…100, and <code>sampleMoves &gt; 0</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Prequential order</p>
+<p>Predict, emit, then observe — always. <code>projection(for:)</code> and
+<code>prediction(baseStrength:baseSigma:)</code> take no current-rating parameter at
+all, so the current label physically cannot leak into its own estimate. One
+consequence is easy to miss: a valid rating <em>always</em> advances the anchor,
+even for an unannotated game or one whose estimate returned nil. Such a game
+supplies no residual but still gives the next game the right anchor.</p>
+</div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kd">var</span> <span class="nv">tracker</span> <span class="p">=</span> <span class="n">StrengthTracker</span><span class="p">(</span><span class="n">priorMean</span><span class="p">:</span> <span class="mi">1500</span><span class="p">,</span> <span class="n">priorSigma</span><span class="p">:</span> <span class="mi">300</span><span class="p">)</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kd">var</span> <span class="nv">trend</span> <span class="p">=</span> <span class="n">PersonalizedStrengthCalibrator</span><span class="p">()</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="kd">var</span> <span class="nv">projections</span> <span class="p">=</span> <span class="n">ChessComGameProjectionCalibrator</span><span class="p">()</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="c1">// One account pool, oldest first. `performance` is nil when the game is</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="c1">// unannotated or its estimate returned nil; `rating` is the PGN Elo tag.</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="k">for</span> <span class="p">(</span><span class="n">performance</span><span class="p">,</span> <span class="n">rating</span><span class="p">)</span> <span class="k">in</span> <span class="n">chronologicalGames</span> <span class="p">{</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>    <span class="k">guard</span> <span class="kd">let</span> <span class="nv">performance</span> <span class="k">else</span> <span class="p">{</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>        <span class="k">if</span> <span class="kd">let</span> <span class="nv">rating</span> <span class="p">{</span> <span class="n">projections</span><span class="p">.</span><span class="n">observe</span><span class="p">(</span><span class="n">actualRating</span><span class="p">:</span> <span class="nb">Double</span><span class="p">(</span><span class="n">rating</span><span class="p">))</span> <span class="p">}</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>        <span class="k">continue</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>    <span class="p">}</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>    <span class="kd">let</span> <span class="nv">projection</span> <span class="p">=</span> <span class="n">projections</span><span class="p">.</span><span class="n">projection</span><span class="p">(</span><span class="k">for</span><span class="p">:</span> <span class="n">performance</span><span class="p">)</span>   <span class="c1">// strictly earlier ratings</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>    <span class="n">tracker</span> <span class="p">=</span> <span class="n">tracker</span><span class="p">.</span><span class="n">updated</span><span class="p">(</span><span class="n">with</span><span class="p">:</span> <span class="n">performance</span><span class="p">)</span>
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>    <span class="kd">let</span> <span class="nv">personalized</span> <span class="p">=</span> <span class="n">trend</span><span class="p">.</span><span class="n">prediction</span><span class="p">(</span>                        <span class="c1">// nil during warm-up</span>
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>        <span class="n">baseStrength</span><span class="p">:</span> <span class="n">tracker</span><span class="p">.</span><span class="n">posteriorMean</span><span class="p">,</span>
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>        <span class="n">baseSigma</span><span class="p">:</span> <span class="n">tracker</span><span class="p">.</span><span class="n">posteriorSigma</span>
+<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a>    <span class="p">)</span>
+<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a>    <span class="c1">// … emit the chart point here, and only then observe this game&#39;s label.</span>
+<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a>
+<a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a>    <span class="k">if</span> <span class="kd">let</span> <span class="nv">rating</span> <span class="p">{</span>
+<a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a>        <span class="n">trend</span><span class="p">.</span><span class="n">observe</span><span class="p">(</span>
+<a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a>            <span class="n">baseStrength</span><span class="p">:</span> <span class="n">tracker</span><span class="p">.</span><span class="n">posteriorMean</span><span class="p">,</span>
+<a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a>            <span class="n">actualRating</span><span class="p">:</span> <span class="nb">Double</span><span class="p">(</span><span class="n">rating</span><span class="p">),</span>
+<a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a>            <span class="n">personalizedPrediction</span><span class="p">:</span> <span class="n">personalized</span>
+<a id="__codelineno-13-26" name="__codelineno-13-26" href="#__codelineno-13-26"></a>        <span class="p">)</span>
+<a id="__codelineno-13-27" name="__codelineno-13-27" href="#__codelineno-13-27"></a>        <span class="n">projections</span><span class="p">.</span><span class="n">observe</span><span class="p">(</span>
+<a id="__codelineno-13-28" name="__codelineno-13-28" href="#__codelineno-13-28"></a>            <span class="n">actualRating</span><span class="p">:</span> <span class="nb">Double</span><span class="p">(</span><span class="n">rating</span><span class="p">),</span>
+<a id="__codelineno-13-29" name="__codelineno-13-29" href="#__codelineno-13-29"></a>            <span class="n">rawPerformanceElo</span><span class="p">:</span> <span class="n">performance</span><span class="p">.</span><span class="n">elo</span><span class="p">,</span>
+<a id="__codelineno-13-30" name="__codelineno-13-30" href="#__codelineno-13-30"></a>            <span class="n">usedMaiaRefinement</span><span class="p">:</span> <span class="n">performance</span><span class="p">.</span><span class="n">usedMaiaRefinement</span><span class="p">,</span>
+<a id="__codelineno-13-31" name="__codelineno-13-31" href="#__codelineno-13-31"></a>            <span class="n">projection</span><span class="p">:</span> <span class="n">projection</span>
+<a id="__codelineno-13-32" name="__codelineno-13-32" href="#__codelineno-13-32"></a>        <span class="p">)</span>
+<a id="__codelineno-13-33" name="__codelineno-13-33" href="#__codelineno-13-33"></a>    <span class="p">}</span>
+<a id="__codelineno-13-34" name="__codelineno-13-34" href="#__codelineno-13-34"></a><span class="p">}</span>
+</code></pre></div>
+<p>Available from the command line: <code>fianchetto-cli project</code>, which wires exactly
+this order for one account pool.</p>
+<h2 id="the-stats-pipeline">The stats pipeline<a class="headerlink" href="#the-stats-pipeline" title="Permanent link">&para;</a></h2>
+<p><code>StatsKernel.compute(from:includeEloEstimate:)</code> turns a <code>GameStatsSnapshot</code> — a
+persistence-free mirror of the stored games — into <code>AggregateStats</code>. Passing
+<code>includeEloEstimate: false</code> skips the per-game estimation pass entirely and
+leaves <code>estimatedEloHistory</code> empty.</p>
+<p><code>GameStatsSnapshot.Game</code> carries the scalar fields the pass reads, three of which
+matter here: <code>cachedMoveCount</code> (<code>-1</code> means unknown and forces PGN tokenization),
+<code>maiaLogLikesJSON</code> (legacy, <strong>deliberately ignored</strong> by the estimator), and
+<code>maiaTargetEvidenceV1JSON</code> (the corrected owner-side-only evidence actually used).</p>
+<p>Accuracy aggregation is sample-weighted everywhere, never an average of averages:
+each overall / phase / speed / opening / move-bucket accumulator adds
+<code>value × sampleCount</code> and divides by the summed counts, so a 60-move game
+outweighs a 30-move one. Two other rules are pre-computed by the kernel so view
+bodies never re-filter per render:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>weakOpenings     games &gt;= 5 AND wins &gt; 0 AND wins/games &lt; 0.45,
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>                 sorted ascending by win rate
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>repertoireGaps   walk the first 12 plies of each game, key positions by
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>                 OpeningBook.epNormalizedKey, surface any uncovered position
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>                 hit &gt;= 5 times, labeled with its most frequent opening name
+</code></pre></div>
+<p><code>estimateEloHistory(from:)</code> is the strength pass:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>grouping   (source, username, displaySpeed) — never shared across providers,
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>                                              accounts, or rating pools
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>sort       timestamp, source, username, displaySpeed.rawValue, stableID, inputOrdinal
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>timestamp  &quot;&lt;UTCDate|EndDate|Date|date&gt;T&lt;UTCTime|EndTime|StartTime|00:00:00&gt;&quot;
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>per group  tracker = StrengthTracker(priorMean: 1500, priorSigma: 300)
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>           personalization enabled only when source == &quot;chesscom&quot;
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>per game   projection -&gt; tracker update -&gt; personalized prediction
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>           -&gt; emit EloPoint -&gt; observe this game&#39;s rating
+</code></pre></div>
+<p>The entire <code>.daily</code> group is skipped. There is no v4.1 model for correspondence,
+the v3 corpus contains <strong>zero</strong> correspondence rows, and measured across 3,378
+real games the v2 curve returned a near-constant 1937 ± 98 against an actual 765.
+That is a flat offset, not a measurement, so it is withheld rather than drawn.
+Skipping is safe precisely because <code>displaySpeed</code> is part of the group key —
+daily games only ever anchor each other.</p>
+<p>Which number an <code>EloPoint</code> displays follows one rule:</p>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th><code>strengthMean</code> / intervals</th>
+<th><code>calibration</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a personalized prediction exists</td>
+<td>its <code>mean</code>, <code>interval68</code>, <code>interval95</code></td>
+<td><code>.chessComPersonalized</code></td>
+</tr>
+<tr>
+<td>Chess.com pool still warming up</td>
+<td><code>tracker.posteriorMean</code>, <code>tracker.ci</code>, mean ± 1.96σ</td>
+<td><code>.chessComCalibrating</code></td>
+</tr>
+<tr>
+<td>any other provider</td>
+<td>the same tracker values</td>
+<td><code>.lichessEquivalent</code></td>
+</tr>
+</tbody>
+</table>
+<p>Alongside those, each point carries the untouched <code>performance</code>, the optional
+<code>gameProjection</code>, <code>actualRating</code> (emitted for comparison — it becomes a label
+only <em>after</em> the point exists), <code>calibrationSampleCount</code>,
+<code>usesEmpiricalIntervals</code>, and pool identity (<code>speed</code>, <code>source</code>, <code>username</code>, and
+<code>accountID</code>, which is <code>"source|username"</code> lowercased). <code>timestamp</code> falls back to
+<code>date</code> when the PGN has no UTC time, keeping calibration deterministic within a
+day, and an omitted <code>strengthCI95</code> is derived as mean ± 1.96 × (CI68 half-width).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kd">let</span> <span class="nv">snapshot</span> <span class="p">=</span> <span class="n">GameStatsSnapshot</span><span class="p">(</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>    <span class="n">collections</span><span class="p">:</span> <span class="p">[.</span><span class="kd">init</span><span class="p">(</span><span class="n">username</span><span class="p">:</span> <span class="s">&quot;alice&quot;</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="s">&quot;chesscom&quot;</span><span class="p">,</span> <span class="n">games</span><span class="p">:</span> <span class="n">games</span><span class="p">)],</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>    <span class="n">whiteRepertoireKeys</span><span class="p">:</span> <span class="n">whiteKeys</span><span class="p">,</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>    <span class="n">blackRepertoireKeys</span><span class="p">:</span> <span class="n">blackKeys</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="p">)</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="kd">let</span> <span class="nv">stats</span> <span class="p">=</span> <span class="n">StatsKernel</span><span class="p">.</span><span class="n">compute</span><span class="p">(</span><span class="n">from</span><span class="p">:</span> <span class="n">snapshot</span><span class="p">)</span>   <span class="c1">// includeEloEstimate defaults to true</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="n">stats</span><span class="p">.</span><span class="n">overallAccuracy</span>                  <span class="c1">// sample-weighted, not an average of averages</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="n">stats</span><span class="p">.</span><span class="n">accuracyByPhase</span><span class="p">[.</span><span class="n">middlegame</span><span class="p">]</span>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="n">stats</span><span class="p">.</span><span class="n">accuracyByMoveBucket</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span>         <span class="c1">// the &quot;11–15&quot; window</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="n">stats</span><span class="p">.</span><span class="n">weakOpenings</span><span class="p">.</span><span class="bp">first</span><span class="p">?.</span><span class="n">name</span>         <span class="c1">// pre-filtered and pre-sorted</span>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="n">stats</span><span class="p">.</span><span class="n">estimatedEloHistory</span><span class="p">.</span><span class="bp">last</span><span class="p">?.</span><span class="n">strengthMean</span>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>
+<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="c1">// Or just the strength pass, plus a label for which artifact served it:</span>
+<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a><span class="kd">let</span> <span class="nv">points</span> <span class="p">=</span> <span class="n">StatsKernel</span><span class="p">.</span><span class="n">estimateEloHistory</span><span class="p">(</span><span class="n">from</span><span class="p">:</span> <span class="n">snapshot</span><span class="p">)</span>
+<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="kd">let</span> <span class="nv">coverage</span> <span class="p">=</span> <span class="n">StatsChartPresentationPolicy</span><span class="p">.</span><span class="n">estimatedStrengthServingCoverage</span><span class="p">(</span>
+<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>    <span class="k">for</span><span class="p">:</span> <span class="n">points</span><span class="p">.</span><span class="bp">map</span><span class="p">(</span><span class="err">\</span><span class="p">.</span><span class="n">performance</span><span class="p">)</span>
+<a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="p">)</span>
+<a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a><span class="n">coverage</span><span class="p">.</span><span class="n">label</span>   <span class="c1">// &quot;Maia-refined: 7 of 10 games (5 exact, 2 neutral-1500 provisional)&quot;</span>
+</code></pre></div>
+<p><code>OpeningStat.accuracy</code> stays nil when no game in that opening was annotated, so
+the UI never shows a misleading 0 %. <code>AggregateStats.hasChessComGames</code> is set
+from a PGN <code>Site</code> tag containing "chess.com" and drives the scale-caveat
+footnote — Lichess and Chess.com ratings are not directly comparable.</p>
+<h2 id="presentation-policies">Presentation policies<a class="headerlink" href="#presentation-policies" title="Permanent link">&para;</a></h2>
+<p><code>StatsChartPresentationPolicy</code> holds the tiny decisions that Apple and Android
+must not answer differently. It imports nothing at all — not even Foundation.
+Only the exact string <code>"estimated"</code> selects that mode; legacy, malformed, or
+future values fail safe to <code>"rating"</code> rather than leaving a segmented control
+with no selection, and <code>effectiveMode(storedMode:canShowEstimated:)</code> additionally
+forces <code>"rating"</code> when no estimate is available. <code>estimatedStrengthSpeeds</code> is
+<code>[.bullet, .blitz, .rapid, .classical]</code>; <code>normalizedEstimatedSpeed(_:)</code> folds
+<code>.daily</code> to <code>.rapid</code>. <code>servingPathLabel(for:)</code> returns the three strings in the
+routing table above — a non-Maia estimate is described as the move-quality model,
+never as "pending", because some games can never produce eligible Maia evidence
+and their engine-derived estimate is still valid.</p>
+<p><code>EstimatedStrengthServingCoverage</code> counts the paths behind a chart series:
+<code>maiaRefinedCount</code> is exact + neutral, <code>moveQualityFallbackCount</code> is
+<code>max(0, gameCount - maiaRefinedCount)</code>, and the compatibility initializer
+<code>init(maiaRefinedCount:gameCount:)</code> files all historical values under the
+exact-opponent path.</p>
+<p><code>RecentAccuracyKernel</code> is the Review sparkline's selection policy, and its budget
+rule is subtle:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>candidateLimit 25   pointLimit 10        rows arrive newest-first
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>empty annotationEvalsJSON  -&gt; skip, does NOT consume the budget
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>budget exhausted (25 rows) -&gt; stop
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>otherwise charge 1, then resolve username/color (lowercased against white/black)
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>and compute accuracy; failures still consume their charge
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>10 successful points       -&gt; stop
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>finally reverse to oldest-first for left-to-right display
+</code></pre></div>
+<p>A non-empty but malformed payload <em>does</em> consume the budget: that row passed the
+storage-level annotation predicate but cannot safely produce a point.
+<code>StreakMath.current(_:)</code> / <code>best(_:)</code>, which back the drill streak counters, are
+documented on the <a href="../analysis/">Analysis math</a> page.</p>
+<h2 id="reproducing-it-from-the-command-line">Reproducing it from the command line<a class="headerlink" href="#reproducing-it-from-the-command-line" title="Permanent link">&para;</a></h2>
+<p><code>fianchetto-cli</code> links the same FianchettoKit build the app ships, so its numbers
+cannot drift from the serving path.</p>
+<table>
+<thead>
+<tr>
+<th>Kit surface</th>
+<th>Subcommand</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>the Stockfish annotation path that produces <code>white_pov_evals</code></td>
+<td><code>annotate</code></td>
+</tr>
+<tr>
+<td><code>AccuracyAggregator</code> formulas, per-move labels, phase split</td>
+<td><code>accuracy</code></td>
+</tr>
+<tr>
+<td><code>MaiaBackfillPolicy</code> grid / conditioning / qualification + scoring</td>
+<td><code>maia</code></td>
+</tr>
+<tr>
+<td><code>EloEstimator.estimate</code> — all three routes, CI, floor flag</td>
+<td><code>estimate</code></td>
+</tr>
+<tr>
+<td><code>StrengthTracker</code> Kalman over a sequence</td>
+<td><code>track</code></td>
+</tr>
+<tr>
+<td>the <code>StatsKernel</code> serving order: projection → tracker → personalization</td>
+<td><code>project</code></td>
+</tr>
+</tbody>
+</table>
+<p>A whole account pool, end to end:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>fianchetto-cli<span class="w"> </span>annotate<span class="w"> </span>&lt;<span class="w"> </span>games.jsonl<span class="w">       </span>&gt;<span class="w"> </span>evals.jsonl
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="c1"># annotate emits only id / white_pov_evals / engine, so join each row with its</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="c1"># start_is_white, color and clock fields before estimating</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>fianchetto-cli<span class="w"> </span>estimate<span class="w"> </span>&lt;<span class="w"> </span>estimate-in.jsonl<span class="w"> </span>&gt;<span class="w"> </span>estimates.jsonl
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>fianchetto-cli<span class="w"> </span>track<span class="w">    </span>&lt;<span class="w"> </span>estimates.jsonl<span class="w">   </span>&gt;<span class="w"> </span>posterior.jsonl
+</code></pre></div>
+<p><code>estimate</code> output is directly compatible with <code>track</code> input (<code>id</code>, <code>elo</code>,
+<code>ci_low</code>, <code>ci_high</code>) — the one hop in the chain that needs no join — and <code>track</code>
+defaults to the app's own priors: prior mean 1500, prior sigma 300,
+<code>--process-tau</code> 50. <code>project</code> takes one account pool per run and expects games in
+chronological order — grouping by provider × account × speed stays with the
+caller, exactly as <code>StatsKernel</code> does it.</p>
+<p>Several surfaces on this page have no subcommand: the full snapshot →
+<code>AggregateStats</code> pass, <code>StatsKernel.classifySpeed</code>, the raw 12-feature vector
+(<code>EloEstimator.v3Features</code> is module-internal, exposed only for parity tests),
+<code>EstimatedStrengthServingCoverage</code>, <code>AccuracyScaleKit</code>, and
+<code>RecentAccuracyKernel</code>. Use the kit API directly for those.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      FianchettoKit — chess training logic built on ChessCore.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

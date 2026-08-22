@@ -44,6 +44,16 @@ jobs:
           repository: fianchettochess/BoardKit
           path: _packages/BoardKit
           token: ${{ secrets.DOCS_PACKAGES_TOKEN }}
+      # Added with the four-way split: the kit became a repository on
+      # 2026-08-22 and can be checked out like any other package. Its docs-site
+      # existed long before that and was never served, because a directory
+      # inside the application monorepo cannot be a sibling checkout.
+      - name: Checkout FianchettoKit
+        uses: actions/checkout@v4
+        with:
+          repository: fianchettochess/FianchettoKit
+          path: _packages/FianchettoKit
+          token: ${{ secrets.DOCS_PACKAGES_TOKEN }}
       - name: Checkout SwiftStockfish
         uses: actions/checkout@v4
         with:

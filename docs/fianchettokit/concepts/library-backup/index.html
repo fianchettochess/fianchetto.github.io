@@ -1,0 +1,3194 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Chess training logic built on ChessCore — engine annotation, strength/Elo estimation, tactics, repertoire and endgame drills, portable persistence, game import, electronic-board handling, and the fianchetto-cli headless tools.">
+      
+      
+        <meta name="author" content="Fianchetto">
+      
+      
+      
+        <link rel="prev" href="../network-clients/">
+      
+      
+        <link rel="next" href="../eboard/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Library backup & collections - FianchettoKit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#library-backup-collections" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="FianchettoKit" class="md-header__button md-logo" aria-label="FianchettoKit" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FianchettoKit
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Library backup & collections
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="FianchettoKit" class="md-nav__button md-logo" aria-label="FianchettoKit" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    FianchettoKit
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stores & the storage seam
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../storage-and-authored-history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage, DTOs & authored history
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dtos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistence DTOs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../engine-annotation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine & annotation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analysis math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../strength-and-elo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Strength, Elo & accuracy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../maia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Maia policy model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tactics-and-drills/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tactics, drills & spaced repetition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../repertoire/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repertoire, openings & traps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../endgame-mining/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Endgame mining & the endgame trainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../review-play-voice/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Review, play & voice
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network clients & game import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-clients/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network clients
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library backup & collections
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library backup & collections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#where-the-pieces-live" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where the pieces live
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-portable-value-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The portable value model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The portable value model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enrichment-overlay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enrichment overlay
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#categories-are-a-wire-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Categories are a wire contract
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#settingvalues-hand-written-codable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SettingValue's hand-written Codable
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-codec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The codec
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-layer-by-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation, layer by layer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Validation, layer by layer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-schema-gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Schema gate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-payload-ceiling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Payload ceiling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-resource-ceilings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Resource ceilings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-field-size-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Field-size classes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-chess-semantics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Chess semantics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-validationerror-vocabulary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The ValidationError vocabulary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authored-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authored history
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Authored history">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-unforgeable-shortcut" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The unforgeable shortcut
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bounded-memory-export" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bounded-memory export
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bounded-memory export">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#actor-confined-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actor-confined input
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-shell-splice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The shell splice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#byte-accounting-and-the-proof" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Byte accounting and the proof
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ancillary-overlays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ancillary overlays
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#curated-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Curated settings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#duplicate-game-reconciliation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Duplicate-game reconciliation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Duplicate-game reconciliation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grouping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grouping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subsumption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subsumption
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search-and-survivor-preference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search and survivor preference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#collection-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Collection lifecycle
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Collection lifecycle">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-rollout-gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The rollout gate
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resumable-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resumable cleanup
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#owner-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Owner resolution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-it-headlessly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using it headlessly
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Electronic board integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reconciliation-note/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reconciliation note
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../cli/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command-Line Interface
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Command-Line Interface
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/annotate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    annotate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/estimate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    estimate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/maia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    maia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/accuracy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    accuracy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/project/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    project
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/track/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    track
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/expansion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI expansion (proposed)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#where-the-pieces-live" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where the pieces live
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-portable-value-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The portable value model
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The portable value model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enrichment-overlay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enrichment overlay
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#categories-are-a-wire-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Categories are a wire contract
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#settingvalues-hand-written-codable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SettingValue's hand-written Codable
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-codec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The codec
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-layer-by-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation, layer by layer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Validation, layer by layer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-schema-gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Schema gate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-payload-ceiling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Payload ceiling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-resource-ceilings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Resource ceilings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-field-size-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Field-size classes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-chess-semantics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Chess semantics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-validationerror-vocabulary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The ValidationError vocabulary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authored-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authored history
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Authored history">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-unforgeable-shortcut" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The unforgeable shortcut
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bounded-memory-export" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bounded-memory export
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Bounded-memory export">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#actor-confined-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actor-confined input
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-shell-splice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The shell splice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#byte-accounting-and-the-proof" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Byte accounting and the proof
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ancillary-overlays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ancillary overlays
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#curated-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Curated settings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#duplicate-game-reconciliation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Duplicate-game reconciliation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Duplicate-game reconciliation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grouping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grouping
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#subsumption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subsumption
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search-and-survivor-preference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Search and survivor preference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#collection-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Collection lifecycle
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Collection lifecycle">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-rollout-gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The rollout gate
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resumable-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resumable cleanup
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#owner-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Owner resolution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-it-headlessly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using it headlessly
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="library-backup-collections">Library backup &amp; collections<a class="headerlink" href="#library-backup-collections" title="Permanent link">&para;</a></h1>
+<p>One portable JSON export format that the Apple app and the Android (Skip/SkipFuse)
+port both read and write, plus the shared kernels that validate it, stream it out
+in bounded memory, collapse duplicate games, and decide when a soft-deleted
+collection's rows may physically go away.</p>
+<p>Everything on this page is Foundation + ChessCore. There is no UI, no SwiftData,
+and no CloudKit dependency, so a command-line tool can run the same validator the
+app runs before it touches a user's library.</p>
+<h2 id="where-the-pieces-live">Where the pieces live<a class="headerlink" href="#where-the-pieces-live" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>What it owns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LibraryBackup.swift</code></td>
+<td>the portable value model, <code>LibraryBackupCategories</code>, <code>LibraryBackupAncillaryOverlay</code>, and <code>LibraryBackupCodec</code> (config + the whole validation boundary)</td>
+</tr>
+<tr>
+<td><code>LibraryBackupAuthoredAdapter.swift</code></td>
+<td>the one canonical authored-history view: identity candidates, ownership, row canonicalization, the two reconciler plans</td>
+</tr>
+<tr>
+<td><code>LibraryBackupReplayableSource.swift</code></td>
+<td>actor-confined streaming input and <code>LibraryBackup.Game.replaySemanticFingerprint</code></td>
+</tr>
+<tr>
+<td><code>LibraryBackupStreamingEncoder.swift</code></td>
+<td>incremental encode, <code>ValidatedStream</code>, <code>StreamingError</code>, byte accounting</td>
+</tr>
+<tr>
+<td><code>LibraryBackupSettingPolicy.swift</code></td>
+<td>the 40-key curated setting registry, its domains, and <code>RatingChartWindow</code></td>
+</tr>
+<tr>
+<td><code>LibraryGameReconciliation.swift</code></td>
+<td>lossless collapse of duplicate physical game rows</td>
+</tr>
+<tr>
+<td><code>CollectionLifecycle.swift</code> / <code>CollectionCleanupPolicy.swift</code></td>
+<td>soft-deletion generations and the resumable cleanup state machine</td>
+</tr>
+<tr>
+<td><code>CollectionOwnerResolver.swift</code></td>
+<td>"whose archive is this?" from an explicit username or by inference</td>
+</tr>
+</tbody>
+</table>
+<p>The prose specification of the file itself is <code>docs/BACKUP_FORMAT.md</code> in the repo;
+the types below are what that document tracks.</p>
+<h2 id="the-portable-value-model">The portable value model<a class="headerlink" href="#the-portable-value-model" title="Permanent link">&para;</a></h2>
+<p><code>LibraryBackup</code> is the top-level <code>Codable</code> value. <code>currentSchemaVersion</code> is <strong>1</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Row type</th>
+<th>Carries</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Collection</code></td>
+<td>name, source, username, <code>lastSyncDate</code>, <code>includeInOpeningBook</code>, <code>orderIndex</code>, <code>dateCreated</code>, <code>games</code></td>
+</tr>
+<tr>
+<td><code>Game</code></td>
+<td>the persisted, non-derived fields of a stored game (see below)</td>
+</tr>
+<tr>
+<td><code>Game.Enrichment</code></td>
+<td>the authored/engine-derived payload that may enrich an already-present game</td>
+</tr>
+<tr>
+<td><code>PersonalTrapRow</code></td>
+<td><code>fen</code>, <code>correctMoveUCI</code>, <code>userActualMoveUCI</code>, <code>gapCp</code>, <code>halfMoveIndex</code>, <code>sourceGameID</code>, <code>sourceOpeningName</code>, <code>detectedAt</code></td>
+</tr>
+<tr>
+<td><code>TrapScanRecord</code></td>
+<td><code>sourceGameID</code>, <code>trapsFound</code>, <code>scannedAt</code>, optional canonical <code>manifestJSON</code></td>
+</tr>
+<tr>
+<td><code>Repertoire</code> / <code>RepertoireMoveRow</code></td>
+<td>header (<code>color</code>, <code>repertoireID</code>, <code>anchorFEN</code>, <code>anchorLineSAN</code>) and its moves (<code>positionKey</code>, <code>san</code>, <code>comment</code>, <code>auditDismissed</code>, <code>annotation</code>)</td>
+</tr>
+<tr>
+<td><code>AuditCacheRow</code> / <code>PunishCacheRow</code></td>
+<td>one cached audit/punish generation per color, keyed by <code>colorRaw</code> + <code>fingerprint</code></td>
+</tr>
+<tr>
+<td><code>SyncedBlobRow</code></td>
+<td>the single-row-per-logical-key projection of the CloudKit-synced JSON blob store (<code>key</code>, <code>dataJSON</code>, <code>updatedAt</code>, <code>replicaID</code>)</td>
+</tr>
+<tr>
+<td><code>SyncedBlobConflictRow</code></td>
+<td>a lossless sidecar holding the <em>alternate</em> payloads for one duplicated blob key; the chosen active value stays in <code>syncedBlobs</code></td>
+</tr>
+<tr>
+<td><code>SettingRow</code> / <code>SettingValue</code></td>
+<td>one curated preference and its typed value (<code>bool</code> / <code>int</code> / <code>string</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>Three rules make this shape survivable across two platforms and several app
+versions:</p>
+<p><strong><code>date</code> is a string.</strong> <code>LibraryBackup.Game.date</code> is the PGN <code>yyyy.MM.dd</code> field,
+not an ISO-8601 <code>Date</code>. It stays opaque; nothing in the codec parses it.</p>
+<p><strong>Additive fields are optionals, never a schema bump.</strong> <code>repertoires</code> is
+<code>[Repertoire]?</code> and <code>auditCaches</code>, <code>punishCaches</code>, <code>syncedBlobs</code>,
+<code>syncedBlobConflicts</code> and <code>settings</code> are optionals defaulted to <code>nil</code>, so a backup
+written before those sections existed still decodes. The same applies inside rows:
+<code>annotationMateDistancesJSON</code>, <code>annotationProvenanceJSON</code>, <code>boardArrowsJSON</code>,
+<code>consensusJSON</code>, <code>maiaLogLikesJSON</code> and <code>maiaTargetEvidenceV1JSON</code> on <code>Game</code>,
+<code>anchorLineSAN</code> on <code>Repertoire</code>, <code>annotation</code> on <code>RepertoireMoveRow</code>.</p>
+<p><strong><code>exportedAt</code> is truncated at construction.</strong> Both <code>LibraryBackup.init</code> and
+<code>LibraryBackupAncillaryOverlay.init</code> push the date through
+<code>canonicalExportDate</code>, so the in-memory value matches what the ISO-8601 encoding
+can actually carry and signed byte metadata cannot claim precision the payload
+does not have.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>canonicalExportDate(d) = Date(timeIntervalSince1970: d.timeIntervalSince1970.rounded(.down))
+</code></pre></div>
+<h3 id="enrichment-overlay">Enrichment overlay<a class="headerlink" href="#enrichment-overlay" title="Permanent link">&para;</a></h3>
+<p><code>Game.Enrichment</code> exists so a restore can add analysis and notes to a game that is
+already present without disturbing its PGN identity. <code>overlayingNonEmpty(from:)</code>
+is the merge:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>live.overlayingNonEmpty(from: backup)
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  every String / String? field:  a non-empty incoming value wins;
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>                                 nil or empty NEVER erases live data
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  annotationProvenanceJSON:      replaced by the backup&#39;s value only when the
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>                                 backup carries a non-empty annotationEvalsJSON
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>                                 or secondBestEvalsJSON — otherwise a
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>                                 provenance-less older backup would misattribute
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>                                 the live engine&#39;s numbers
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>  maiaTargetEvidenceV1JSON:      MaiaBackfillPolicy.preferredTargetEvidence(
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>                                     live:incoming:)   — resolved by policy,
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>                                 not by emptiness
+</code></pre></div>
+<p>Available from the command line: <code>fianchetto-cli maia</code> produces the same
+target-evidence vector the backup carries in <code>maiaTargetEvidenceV1JSON</code>.</p>
+<h3 id="categories-are-a-wire-contract">Categories are a wire contract<a class="headerlink" href="#categories-are-a-wire-contract" title="Permanent link">&para;</a></h3>
+<p><code>LibraryBackupCategories</code> is an <code>OptionSet</code> naming the selective import/export
+categories. Persisted restore journals store its <code>rawValue</code>, so the bit
+assignments must never diverge by platform:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>.games 1 &lt;&lt; 0   .repertoires 1 &lt;&lt; 1   .traps    1 &lt;&lt; 2
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>.caches 1 &lt;&lt; 3  .progress    1 &lt;&lt; 4   .settings 1 &lt;&lt; 5
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>.all = the union of all six
+</code></pre></div>
+<h3 id="settingvalues-hand-written-codable"><code>SettingValue</code>'s hand-written <code>Codable</code><a class="headerlink" href="#settingvalues-hand-written-codable" title="Permanent link">&para;</a></h3>
+<p>Swift synthesizes <code>Codable</code> for an associated-value enum as a single-key object
+with the payload nested under <code>_0</code>. <code>SettingValue</code> hand-writes exactly that shape
+rather than relying on synthesis:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span><span class="nt">&quot;string&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;_0&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;blue&quot;</span><span class="p">}}</span>
+</code></pre></div>
+<p>Skip/SkipFuse transpilation of a synthesized associated-value enum <code>Codable</code> is a
+portability risk, and the "obvious" flat form <code>{"string":"blue"}</code> would fail to
+decode on iOS. The decoder probes for <code>bool</code>, then <code>int</code>, then <code>string</code>, and
+throws <code>DecodingError.dataCorrupted</code> when none is present.</p>
+<h2 id="the-codec">The codec<a class="headerlink" href="#the-codec" title="Permanent link">&para;</a></h2>
+<p><code>LibraryBackupCodec</code> is the single source of truth for encoder/decoder
+configuration and for the entire validation boundary.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>makeEncoder():  outputFormatting     = [.withoutEscapingSlashes, .sortedKeys]
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>                dateEncodingStrategy = .iso8601
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>makeDecoder():  dateDecodingStrategy = .iso8601
+</code></pre></div>
+<p><code>.sortedKeys</code> is load-bearing. Without it swift-foundation emits object keys in
+hash-seed-dependent order that varies across processes — and, on the macOS 15
+runner's older Foundation, across <code>encode()</code> calls within one process. Any
+consumer that treats the encoded bytes' SHA-256 as a payload identity (backup
+publication dedup and retention do) would see an unchanged library as "changed" on
+re-encode. Canonical key order makes that hash a true content identity.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Sorted keys are a guarantee about what this encoder <em>writes</em>, not a
+requirement on what a reader may <em>assume</em>. Object key order is deliberately
+not part of the portable contract — parse by key, and compare documents
+semantically rather than byte-for-byte across implementations.</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Entry point</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>decodeSupported(_:)</code></td>
+<td>decode a complete backup and enforce the whole boundary</td>
+</tr>
+<tr>
+<td><code>decodeSupportedWithAuthoredProjection(_:)</code></td>
+<td>the same, returning a <code>ValidatedDecode</code> that carries the authored projection</td>
+</tr>
+<tr>
+<td><code>encodeSupported(_:)</code></td>
+<td>validate, then encode, then re-check the payload ceiling</td>
+</tr>
+<tr>
+<td><code>validateSupported(_:)</code></td>
+<td>enforce the boundary on an already-decoded value</td>
+</tr>
+<tr>
+<td><code>decodeSupportedAncillaryOverlay(_:)</code> / <code>encodeSupportedAncillaryOverlay(_:)</code> / <code>validateSupportedAncillaryOverlay(_:)</code></td>
+<td>the game-free overlay equivalents</td>
+</tr>
+<tr>
+<td><code>authoredLogicalGameIDs(in:)</code></td>
+<td>every authored logical ID the backup's game rows safely own</td>
+</tr>
+<tr>
+<td><code>maxPayloadBytes</code></td>
+<td>the pre-decode byte ceiling, <code>512 * 1024 * 1024</code></td>
+</tr>
+</tbody>
+</table>
+<p>A bare <code>JSONDecoder</code> is never a safe entry point. Swift's <code>Codable</code> intentionally
+ignores unknown fields, so a future-schema backup would appear to restore
+successfully while silently dropping everything the reader does not know about —
+which is exactly what the schema gate below exists to prevent.</p>
+<h2 id="validation-layer-by-layer">Validation, layer by layer<a class="headerlink" href="#validation-layer-by-layer" title="Permanent link">&para;</a></h2>
+<h3 id="1-schema-gate">1. Schema gate<a class="headerlink" href="#1-schema-gate" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>schemaVersion &lt;  1                        → ValidationError.invalidSchema(found:)
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>schemaVersion &gt;  currentSchemaVersion (1) → ValidationError.unsupportedSchema(found:supported:)
+</code></pre></div>
+<h3 id="2-payload-ceiling">2. Payload ceiling<a class="headerlink" href="#2-payload-ceiling" title="Permanent link">&para;</a></h3>
+<p><code>maxPayloadBytes = 512 * 1024 * 1024</code> (536,870,912). It is checked <em>before</em>
+<code>JSONDecoder</code> runs in both decode paths, <em>after</em> encoding in both encode paths, and
+incrementally during streaming. An unbounded document would otherwise let a
+malformed multi-gigabyte file multiply its footprint inside the decoder and
+terminate the process.</p>
+<h3 id="3-resource-ceilings">3. Resource ceilings<a class="headerlink" href="#3-resource-ceilings" title="Permanent link">&para;</a></h3>
+<p>Every one of these throws <code>resourceLimitExceeded(section:limit:)</code>. Running totals
+use <code>addingReportingOverflow</code> and reject on overflow rather than wrapping.</p>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>collections</code></td>
+<td>4,096</td>
+</tr>
+<tr>
+<td><code>games</code></td>
+<td>250,000 across the whole backup</td>
+</tr>
+<tr>
+<td><code>collection.games</code></td>
+<td>100,000 in any one collection</td>
+</tr>
+<tr>
+<td><code>repertoires</code></td>
+<td>10,000</td>
+</tr>
+<tr>
+<td><code>auditCaches</code>, <code>punishCaches</code></td>
+<td>10,000 each</td>
+</tr>
+<tr>
+<td><code>repertoireMoves</code></td>
+<td>500,000 summed across repertoires</td>
+</tr>
+<tr>
+<td><code>personalTraps</code>, <code>trapScanRecords</code></td>
+<td>250,000 each</td>
+</tr>
+<tr>
+<td><code>syncedBlobs</code></td>
+<td>1,000,000</td>
+</tr>
+<tr>
+<td><code>syncedBlobConflicts</code></td>
+<td>500,000</td>
+</tr>
+<tr>
+<td><code>syncedBlobAlternates</code></td>
+<td>1,000,000 aggregate</td>
+</tr>
+<tr>
+<td><code>syncedBlobAlternatesPerKey</code></td>
+<td>63 for a compact-head key, 10,000 otherwise</td>
+</tr>
+<tr>
+<td><code>settings</code></td>
+<td>512</td>
+</tr>
+<tr>
+<td><code>syncedBlob</code></td>
+<td>16 MiB per <code>dataJSON</code> (primary rows and alternates alike)</td>
+</tr>
+</tbody>
+</table>
+<p>The per-key alternate limit is chosen by record kind:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>perKeyLimit = AuthoredBlobRecordCodec.kind(of: conflict.key) == .compactHead
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    ? AuthoredBlobRecordCodec.maximumCompactHeadAlternates   // 64 - 1 = 63
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    : 10_000
+</code></pre></div>
+<p>A sidecar excludes the active row, which is why the compact-head sidecar ceiling
+is one below <code>maximumCompactHeadCandidates</code> (64).</p>
+<h3 id="4-field-size-classes">4. Field-size classes<a class="headerlink" href="#4-field-size-classes" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>small fields ≤ 65,536 UTF-8 bytes
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>  collection name / source / username     → invalidCollection(index:field: &quot;metadata&quot;)
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>  game gameID                             → invalidGame(..., field: &quot;identity&quot;)
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>  game white, black, date, event, result,
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>       opening, tagsJSON                  → invalidGame(..., field: &quot;metadataSize&quot;)
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>large fields ≤ 8,388,608 bytes (8 MiB)
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>  moveText, annotationEvalsJSON, secondBestEvalsJSON, userNotes,
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>  annotationMateDistancesJSON, annotationProvenanceJSON, boardArrowsJSON,
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>  consensusJSON, maiaLogLikesJSON, maiaTargetEvidenceV1JSON
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>                                          → invalidGame(..., field: &quot;payloadSize&quot;)
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>blob fields ≤ 16,777,216 bytes (16 MiB)
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>  every syncedBlobs[].dataJSON and every conflict alternate dataJSON
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>                                          → resourceLimitExceeded(section: &quot;syncedBlob&quot;,
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>                                                                  limit: 16777216)
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>also: collection.orderIndex &gt;= 0 and game.orderIndex &gt;= 0
+</code></pre></div>
+<p>Empty identity strings are deliberately tolerated — older stores contain unnamed
+collections and empty game IDs, which import adapters repair with their canonical
+fallbacks.</p>
+<p>The same per-game pass enforces two authored-identity invariants:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>userNotes must pass AuthoredNotesValue.validatePersistenceRepresentation
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>                                    → invalidGame(..., field: &quot;userNotesRepresentation&quot;)
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>marker = AuthoredGameIdentity.marker(in: game.tagsJSON)
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>  throws                            → invalidGame(..., field: &quot;authoredIdentityMarker&quot;)
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>  present:
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    seed = GameDedup.authoredIdentityKey(
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>               white:, black:, date:, result:, event:, opening:,
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>               moveText:, tagsJSON:,
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>               strippingDerivedAnnotations:
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>                   PreparedGameData.computeIsAnnotated(
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>                       evalsJSON: game.annotationEvalsJSON,
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>                       moveText: game.moveText))
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>    markerBySeed[seed] exists and differs
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>                                    → invalidGame(..., field: &quot;authoredIdentityMarkerConflict&quot;)
+</code></pre></div>
+<h3 id="5-chess-semantics">5. Chess semantics<a class="headerlink" href="#5-chess-semantics" title="Permanent link">&para;</a></h3>
+<p>Non-authored semantic validation runs in this order, and every check is real chess
+rather than a shape assertion:</p>
+<table>
+<thead>
+<tr>
+<th>Rows</th>
+<th>Checks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>personalTraps</code></td>
+<td><code>fen</code> parses as a <code>Position</code>; <strong>both</strong> <code>correctMoveUCI</code> and <code>userActualMoveUCI</code> are legal in that position (<code>UCIParser.uciToMove</code>); <code>gapCp &gt;= 0</code>; <code>halfMoveIndex &gt;= 0</code></td>
+</tr>
+<tr>
+<td><code>trapScanRecords</code></td>
+<td><code>trapsFound &gt;= 0</code> and <code>manifestState != .malformed</code></td>
+</tr>
+<tr>
+<td><code>repertoires</code></td>
+<td><code>color</code> is exactly <code>"white"</code> or <code>"black"</code>; every non-nil <code>repertoireID</code> is unique; <code>anchorFEN</code> parses</td>
+</tr>
+<tr>
+<td><code>anchorLineSAN</code></td>
+<td>a non-empty line requires an anchor, and its whitespace-split SAN replayed from <code>Position.initial()</code> (<code>PGNParser.parseMove</code> + <code>MoveGenerator.applyMoveUnchecked</code>) must end on the anchor's <code>positionKey</code></td>
+</tr>
+<tr>
+<td>repertoire moves</td>
+<td><code>positionKey</code> parses as a FEN, <code>san</code> parses <em>in that position</em>, and a present <code>annotation</code> is a valid <code>MoveAnnotation(rawValue:)</code></td>
+</tr>
+<tr>
+<td><code>auditCaches</code>, <code>punishCaches</code></td>
+<td><code>colorRaw</code> is <code>"white"</code>/<code>"black"</code> and at most one row per color</td>
+</tr>
+<tr>
+<td><code>syncedBlobs</code></td>
+<td>keys non-empty and unique</td>
+</tr>
+<tr>
+<td><code>syncedBlobConflicts</code></td>
+<td>key non-empty and unique, <code>alternates</code> non-empty, and a primary row with the same key exists in <code>syncedBlobs</code></td>
+</tr>
+<tr>
+<td><code>settings</code></td>
+<td>key non-empty and unique, and <code>LibraryBackupSettingPolicy.accepts(row)</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-validationerror-vocabulary">The <code>ValidationError</code> vocabulary<a class="headerlink" href="#the-validationerror-vocabulary" title="Permanent link">&para;</a></h3>
+<p>The typed cases are a triage guide — each one names the section, the index, and
+where relevant the failing field.</p>
+<table>
+<thead>
+<tr>
+<th>Case</th>
+<th>Reached by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>payloadTooLarge(limit:)</code></td>
+<td>pre-decode, post-encode, or a streaming chunk</td>
+</tr>
+<tr>
+<td><code>resourceLimitExceeded(section:limit:)</code></td>
+<td>any count or blob-size ceiling</td>
+</tr>
+<tr>
+<td><code>invalidSchema(found:)</code> / <code>unsupportedSchema(found:supported:)</code></td>
+<td>the schema gate</td>
+</tr>
+<tr>
+<td><code>invalidCollection(index:field:)</code></td>
+<td>collection metadata size or negative <code>orderIndex</code></td>
+</tr>
+<tr>
+<td><code>invalidGame(collectionIndex:gameIndex:field:)</code></td>
+<td><code>identity</code>, <code>metadataSize</code>, <code>payloadSize</code>, <code>userNotesRepresentation</code>, <code>authoredIdentityMarker</code>, <code>authoredIdentityMarkerConflict</code></td>
+</tr>
+<tr>
+<td><code>invalidPersonalTrap(index:field:)</code></td>
+<td><code>fen</code>, <code>correctMoveUCI</code>, <code>userActualMoveUCI</code>, <code>numericRange</code></td>
+</tr>
+<tr>
+<td><code>invalidTrapScanRecord(index:)</code></td>
+<td>negative count or a malformed manifest</td>
+</tr>
+<tr>
+<td><code>invalidRepertoireColor(index:color:)</code>, <code>duplicateRepertoireID(_:)</code>, <code>invalidRepertoireAnchor(index:)</code>, <code>invalidRepertoireAnchorLine(index:)</code>, <code>invalidRepertoireMove(repertoireIndex:moveIndex:field:)</code></td>
+<td>the repertoire pass</td>
+</tr>
+<tr>
+<td><code>invalidAuditCache(index:)</code>, <code>invalidPunishCache(index:)</code></td>
+<td>bad color or a second row for one color</td>
+</tr>
+<tr>
+<td><code>duplicateSyncedBlobKey(_:)</code>, <code>invalidSyncedBlobConflict(key:)</code></td>
+<td>blob key uniqueness and sidecar/primary pairing</td>
+</tr>
+<tr>
+<td><code>invalidAuthoredBlob(key:)</code>, <code>orphanedAuthoredBlob(logicalGameID:)</code></td>
+<td>the authored adapter and the reconciler (below)</td>
+</tr>
+<tr>
+<td><code>duplicateSettingKey(_:)</code>, <code>invalidSettingValue(_:)</code></td>
+<td>the settings pass</td>
+</tr>
+</tbody>
+</table>
+<p>Authored failures are translated into those last two cases. <code>AdapterError</code> and
+every <code>AuthoredBackupReconciler.PlanError</code> map onto <code>invalidAuthoredBlob(key:)</code>
+except <code>PlanError.orphanedLogicalGameID</code>, which becomes
+<code>orphanedAuthoredBlob(logicalGameID:)</code>. Three sentinel keys appear when the
+failure has no single row to blame: <code>"&lt;game-identity&gt;"</code> for an
+<code>AuthoredGameIdentity.IdentityError</code>, <code>"&lt;validated-projection&gt;"</code> for a re-projection
+source mismatch, and <code>"&lt;authored&gt;"</code> for anything else.</p>
+<h2 id="authored-history">Authored history<a class="headerlink" href="#authored-history" title="Permanent link">&para;</a></h2>
+<p><code>LibraryBackupAuthoredAdapter</code> is the one canonical authored view of a backup. It
+builds identity candidates, resolves logical-ID ownership, moves every accepted
+causal row onto its promoted canonical lineage, and runs the reconciler twice.</p>
+<p>Each backup game becomes a candidate addressed by <code>GameOffset(collectionIndex:gameIndex:)</code>
+(<code>Comparable</code>, ordered by collection then game):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>identitySeed        = GameDedup.authoredIdentityKey(
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>                          white:, black:, date:, result:, event:, opening:,
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>                          moveText:, tagsJSON:,
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>                          strippingDerivedAnnotations:
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>                              PreparedGameData.computeIsAnnotated(
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>                                  evalsJSON:, moveText:))
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>semanticRemoteGameID = GameIdentity.persistedRemoteID(
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>                          gameID: game.gameID,
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>                          link:   tags[&quot;Link&quot;],
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>                          site:   tags[&quot;Site&quot;])
+</code></pre></div>
+<p><code>project(_:)</code> then runs a deliberately two-pass validation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>1. backup-ONLY ownership over those candidates, and
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>   AuthoredBackupReconciler.plan(.init(
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>       primaryRows:           authored rows as written,
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>       conflictSidecars:      authored sidecars as written,
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>       allowedLogicalGameIDs: backupOnlyOwnership.aliases))
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>   The boundary is backup-only on purpose: a live marker or semantic remote ID
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>   must never make an otherwise-orphan source row look valid. This pass is what
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>   still catches duplicate sidecars, mismatched keys, immutable-revision
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>   sidecars, and sidecars with no primary row — all of which could disappear
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>   once two aliases regroup under one canonical key.
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>2. canonicalize every primary row and every sidecar alternate through
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>   canonicalized(_:canonicalLogicalIDByAlias:); regroup alternates under the
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>   canonical key and emit keys in sorted order.
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>3. AuthoredBackupReconciler.plan(.init(
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>       primaryRows:           canonical rows,
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>       conflictSidecars:      regrouped sidecars,
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>       allowedLogicalGameIDs: Set(ownership.logicalIDByCandidate.values)))
+<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>
+<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a>   Alias-collision history conflicts surface here, before any live store is
+<a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a>   inspected or mutated.
+</code></pre></div>
+<p>Row canonicalization decodes with <code>AuthoredBlobRecordCodec.decode(key:dataJSON:)</code>,
+looks the decoded <code>logicalGameID</code> up in <code>canonicalLogicalIDByAlias</code> <em>defaulting to
+itself</em>, rekeys when the canonical ID differs, and re-emits
+<code>(storageKey(for:), canonicalDataJSON(for:), row.updatedAt)</code>. Unknown IDs stay
+unknown by design, so the reconciler's ownership check rejects them instead of
+laundering an orphan into the selected set. Any failure becomes
+<code>AdapterError.invalidRecord(key:)</code>.</p>
+<p><code>Projection.allowedLogicalGameIDs</code> holds <strong>canonical lineages only</strong>. Aliases are
+transit and storage names, not independent game ownership.</p>
+<p>When live candidates are supplied to <code>project(_:additionalCandidates:)</code>, backup
+rows are tagged <code>CombinedID(kind: 0, index:)</code> and live candidates
+<code>CombinedID(kind: 1, index:)</code> in one combined ownership replay, so a marker
+carried by either side can promote deterministic aliases without accepting two
+logical histories.</p>
+<h3 id="the-unforgeable-shortcut">The unforgeable shortcut<a class="headerlink" href="#the-unforgeable-shortcut" title="Permanent link">&para;</a></h3>
+<p><code>reprojectValidated(_:validatedBase:additionalCandidates:)</code> lets a restore adapter
+skip the raw structural plan it already paid for. The authorization is a
+<code>fileprivate let validatedSourceProof</code> on <code>Projection</code> — unreachable to callers, so
+a projection you construct yourself, or one obtained from a different backup, cannot
+authorize the shortcut and throws <code>AdapterError.validatedProjectionSourceMismatch</code>.</p>
+<p>The proof is recomputed with constant retained storage over exactly the inputs
+that can affect authored ownership:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>PortableSHA256, every field length-prefixed:
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>  &quot;library-authored-source:v1&quot;
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>  collections.count
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>  per collection: games.count
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    per game: white, black, date, result, event, opening,
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>              moveText, tagsJSON, gameID, annotationEvalsJSON
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>  &quot;primary&quot;
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>    per syncedBlobs row where AuthoredBlobRecordCodec.isAuthoredKey(key):
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>        &quot;row&quot;, key, dataJSON, framed(updatedAt)
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>    primaryRows.count
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>  &quot;sidecars&quot;
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>    per authored conflict row:
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>        &quot;sidecar&quot;, key, alternates.count,
+<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>        per alternate: dataJSON, framed(updatedAt)
+<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>    conflictSidecars.count
+<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>
+<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a>framed(nil)  = &quot;nil&quot;
+<a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>framed(date) = &quot;date&quot;, String(date.timeIntervalSinceReferenceDate.bitPattern, radix: 16)
+</code></pre></div>
+<p>Progress, repertoire and cache fields are excluded because they cannot affect
+authored ownership.</p>
+<h2 id="bounded-memory-export">Bounded-memory export<a class="headerlink" href="#bounded-memory-export" title="Permanent link">&para;</a></h2>
+<p><code>JSONEncoder</code> only hands back a payload-sized <code>Data</code>. The streaming encoder keeps
+that encoder authoritative for object fields and scalar representation but
+replaces aggregate arrays with incrementally emitted contents, so a 250,000-game
+library never needs a second full encoded copy in memory.</p>
+<h3 id="actor-confined-input">Actor-confined input<a class="headerlink" href="#actor-confined-input" title="Permanent link">&para;</a></h3>
+<p><code>LibraryBackupCodec.ReplayableSource</code> is a per-collection header plus a declared
+<code>gameCount</code> plus a replay closure that yields one <code>LibraryBackup.Game</code> at a time.
+It carries ordinary, non-<code>@Sendable</code> closures so a persistence actor may capture
+its native model objects — and it therefore declares:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="p">@</span><span class="n">available</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">unavailable</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="s">&quot;ReplayableSource is actor-confined&quot;</span><span class="p">)</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kd">extension</span> <span class="nc">LibraryBackupCodec</span><span class="p">.</span><span class="n">ReplayableSource</span><span class="p">:</span> <span class="n">Sendable</span> <span class="p">{}</span>
+</code></pre></div>
+<p>It must be consumed synchronously by the actor that created it.</p>
+<p>Every traversal accumulates a field-framed replay proof:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>&quot;library-replay-games:v1&quot;
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>collections.count
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>per collection:  collectionIndex, declared gameCount
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>  per game:      collectionIndex, gameIndex, &lt;replay fields&gt;
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>&lt;replay fields&gt; — the same framing as LibraryBackup.Game.replaySemanticFingerprint
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>                  (domain &quot;library-backup-game-replay:v2&quot;):
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>  orderIndex,
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>  white, black, date, event, result, opening, moveText, tagsJSON, gameID,
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>  annotationEvalsJSON, secondBestEvalsJSON, userNotes,
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>  then each of annotationMateDistancesJSON, annotationProvenanceJSON,
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>  boardArrowsJSON, consensusJSON, maiaLogLikesJSON, maiaTargetEvidenceV1JSON
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>  framed as &quot;some&quot; + value, or &quot;nil&quot;
+</code></pre></div>
+<p>The proof is field-framed rather than JSON-byte-based so harmless key-ordering
+changes cannot look like source mutation. Validation and the final write must
+reproduce the <em>same</em> proof, which is what stops a stateful source from validating
+one game set and encoding another. A collection that yields a different number of
+games than it declared throws
+<code>StreamingError.replayCollectionCountMismatch(collectionIndex:expected:actual:)</code>;
+a later pass that proves different content throws <code>.replaySourceChanged</code>.</p>
+<h3 id="the-shell-splice">The shell splice<a class="headerlink" href="#the-shell-splice" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>shell = the same value with every aggregate array emptied
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>        (optional arrays via `map { _ in [] }`, so nil-vs-empty presence survives)
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>for each aggregate property p:
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>    marker = &quot;\&quot;p\&quot;:[]&quot; located in the encoded shell with Data.range(of:)
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>    absent → StreamingError.incompatibleArrayShell(property: p)
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>             — and NO shell bytes have been emitted yet
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>    insertion index = the index just before the closing ]
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>sort insertion points ascending, then for each:
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>    write shell[cursor ..&lt; index]
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>    write the elements, comma-separated, each encoded independently
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>    cursor = index
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>finally write shell[cursor...]
+</code></pre></div>
+<p>Nested shells apply the same trick to <code>collections</code> → <code>games</code>, <code>repertoires</code> →
+<code>moves</code>, and <code>syncedBlobConflicts</code> → <code>alternates</code>.</p>
+<h3 id="byte-accounting-and-the-proof">Byte accounting and the proof<a class="headerlink" href="#byte-accounting-and-the-proof" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>maximumStreamingChunkBytes = 64 * 1_024 = 65,536
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>for each chunk of at most 65,536 bytes:
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>    (next, overflow) = byteCount.addingReportingOverflow(chunk.count)
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>    overflow || next &gt; maxPayloadBytes → ValidationError.payloadTooLarge(limit:)
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>    emit(chunk)            ← the sink first
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>    hasher.update(chunk)   ← then the proof
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>    byteCount = next
+</code></pre></div>
+<p>Only bytes the sink accepted participate in the returned
+<code>ExactByteProof(byteCount:sha256:)</code>; a throwing sink owns disposal of its partial
+staging target.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Validation completes before the first byte is emitted, but a sink failure or a
+late aggregate size failure can still leave a partial stream on disk. Always
+stream into a discardable staging file and publish it only after the call
+returns successfully.</p>
+</div>
+<p><code>validatedStream(for:)</code> runs <code>validateSupported</code> and hands back a <code>Sendable</code>
+<code>ValidatedStream</code>, so the expensive semantic work can happen <em>before</em> a
+file-coordination lock is taken. Each <code>write(emit:)</code> returns its own proof, because
+key order is not a stable part of the portable contract.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1">// Prepare before the lock; write inside it.</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kd">let</span> <span class="nv">stream</span> <span class="p">=</span> <span class="k">try</span> <span class="n">LibraryBackupCodec</span><span class="p">.</span><span class="n">validatedStream</span><span class="p">(</span><span class="k">for</span><span class="p">:</span> <span class="n">backup</span><span class="p">)</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="kd">let</span> <span class="nv">handle</span> <span class="p">=</span> <span class="k">try</span> <span class="n">FileHandle</span><span class="p">(</span><span class="n">forWritingTo</span><span class="p">:</span> <span class="n">stagingURL</span><span class="p">)</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="kd">let</span> <span class="nv">proof</span> <span class="p">=</span> <span class="k">try</span> <span class="n">stream</span><span class="p">.</span><span class="n">write</span> <span class="p">{</span> <span class="n">chunk</span> <span class="k">in</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>    <span class="k">try</span> <span class="n">handle</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">contentsOf</span><span class="p">:</span> <span class="n">chunk</span><span class="p">)</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="p">}</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="k">try</span> <span class="n">handle</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="k">guard</span> <span class="n">proof</span><span class="p">.</span><span class="n">isStructurallyValid</span><span class="p">(</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>    <span class="n">maximumByteCount</span><span class="p">:</span> <span class="n">LibraryBackupCodec</span><span class="p">.</span><span class="n">maxPayloadBytes</span>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">throw</span> <span class="n">ExportError</span><span class="p">.</span><span class="n">badProof</span> <span class="p">}</span>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>
+<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="k">try</span> <span class="n">FileManager</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">replaceItemAt</span><span class="p">(</span><span class="n">publishedURL</span><span class="p">,</span> <span class="n">withItemAt</span><span class="p">:</span> <span class="n">stagingURL</span><span class="p">)</span>
+</code></pre></div>
+<p>Streaming straight from a persistence actor, without materializing the games:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kd">let</span> <span class="nv">source</span> <span class="p">=</span> <span class="n">LibraryBackupCodec</span><span class="p">.</span><span class="n">ReplayableSource</span><span class="p">(</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>    <span class="n">exportedAt</span><span class="p">:</span> <span class="n">Date</span><span class="p">(),</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>    <span class="n">collections</span><span class="p">:</span> <span class="n">storedCollections</span><span class="p">.</span><span class="bp">map</span> <span class="p">{</span> <span class="n">stored</span> <span class="k">in</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>        <span class="p">.</span><span class="kd">init</span><span class="p">(</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>            <span class="n">name</span><span class="p">:</span> <span class="n">stored</span><span class="p">.</span><span class="n">name</span><span class="p">,</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>            <span class="n">source</span><span class="p">:</span> <span class="n">stored</span><span class="p">.</span><span class="n">source</span><span class="p">,</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>            <span class="n">username</span><span class="p">:</span> <span class="n">stored</span><span class="p">.</span><span class="n">username</span><span class="p">,</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>            <span class="n">lastSyncDate</span><span class="p">:</span> <span class="n">stored</span><span class="p">.</span><span class="n">lastSyncDate</span><span class="p">,</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>            <span class="n">includeInOpeningBook</span><span class="p">:</span> <span class="n">stored</span><span class="p">.</span><span class="n">includeInOpeningBook</span><span class="p">,</span>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>            <span class="n">orderIndex</span><span class="p">:</span> <span class="n">stored</span><span class="p">.</span><span class="n">orderIndex</span><span class="p">,</span>
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>            <span class="n">dateCreated</span><span class="p">:</span> <span class="n">stored</span><span class="p">.</span><span class="n">dateCreated</span><span class="p">,</span>
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>            <span class="n">gameCount</span><span class="p">:</span> <span class="n">stored</span><span class="p">.</span><span class="n">games</span><span class="p">.</span><span class="bp">count</span><span class="p">,</span>
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>            <span class="n">replayGames</span><span class="p">:</span> <span class="p">{</span> <span class="n">visit</span> <span class="k">in</span>
+<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>                <span class="c1">// One game in memory at a time. `prepared` is the adapter&#39;s own</span>
+<a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>                <span class="c1">// PreparedGameData projection; the enrichment is built beside it</span>
+<a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>                <span class="c1">// so PGN identity and authored payload never get mixed up.</span>
+<a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a>                <span class="k">for</span> <span class="n">row</span> <span class="k">in</span> <span class="n">stored</span><span class="p">.</span><span class="n">games</span> <span class="p">{</span>
+<a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a>                    <span class="k">try</span> <span class="n">visit</span><span class="p">(</span><span class="n">LibraryBackup</span><span class="p">.</span><span class="n">Game</span><span class="p">(</span>
+<a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a>                        <span class="n">prepared</span><span class="p">:</span> <span class="n">row</span><span class="p">.</span><span class="n">prepared</span><span class="p">,</span>
+<a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a>                        <span class="n">enrichment</span><span class="p">:</span> <span class="p">.</span><span class="kd">init</span><span class="p">(</span>
+<a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a>                            <span class="n">annotationEvalsJSON</span><span class="p">:</span> <span class="n">row</span><span class="p">.</span><span class="n">annotationEvalsJSON</span><span class="p">,</span>
+<a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a>                            <span class="n">secondBestEvalsJSON</span><span class="p">:</span> <span class="n">row</span><span class="p">.</span><span class="n">secondBestEvalsJSON</span><span class="p">,</span>
+<a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a>                            <span class="n">userNotes</span><span class="p">:</span> <span class="n">row</span><span class="p">.</span><span class="n">userNotes</span>
+<a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a>                        <span class="p">)</span>
+<a id="__codelineno-17-25" name="__codelineno-17-25" href="#__codelineno-17-25"></a>                    <span class="p">))</span>
+<a id="__codelineno-17-26" name="__codelineno-17-26" href="#__codelineno-17-26"></a>                <span class="p">}</span>
+<a id="__codelineno-17-27" name="__codelineno-17-27" href="#__codelineno-17-27"></a>            <span class="p">}</span>
+<a id="__codelineno-17-28" name="__codelineno-17-28" href="#__codelineno-17-28"></a>        <span class="p">)</span>
+<a id="__codelineno-17-29" name="__codelineno-17-29" href="#__codelineno-17-29"></a>    <span class="p">},</span>
+<a id="__codelineno-17-30" name="__codelineno-17-30" href="#__codelineno-17-30"></a>    <span class="n">personalTraps</span><span class="p">:</span> <span class="n">traps</span><span class="p">,</span>
+<a id="__codelineno-17-31" name="__codelineno-17-31" href="#__codelineno-17-31"></a>    <span class="n">trapScanRecords</span><span class="p">:</span> <span class="n">scans</span><span class="p">,</span>
+<a id="__codelineno-17-32" name="__codelineno-17-32" href="#__codelineno-17-32"></a>    <span class="n">repertoires</span><span class="p">:</span> <span class="n">repertoires</span><span class="p">,</span>
+<a id="__codelineno-17-33" name="__codelineno-17-33" href="#__codelineno-17-33"></a>    <span class="n">didEncodeGame</span><span class="p">:</span> <span class="p">{</span> <span class="n">completed</span><span class="p">,</span> <span class="n">total</span> <span class="k">in</span>
+<a id="__codelineno-17-34" name="__codelineno-17-34" href="#__codelineno-17-34"></a>        <span class="n">progress</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">completed</span><span class="p">:</span> <span class="n">completed</span><span class="p">,</span> <span class="n">total</span><span class="p">:</span> <span class="n">total</span><span class="p">)</span>
+<a id="__codelineno-17-35" name="__codelineno-17-35" href="#__codelineno-17-35"></a>    <span class="p">}</span>
+<a id="__codelineno-17-36" name="__codelineno-17-36" href="#__codelineno-17-36"></a><span class="p">)</span>
+<a id="__codelineno-17-37" name="__codelineno-17-37" href="#__codelineno-17-37"></a>
+<a id="__codelineno-17-38" name="__codelineno-17-38" href="#__codelineno-17-38"></a><span class="kd">let</span> <span class="nv">proof</span> <span class="p">=</span> <span class="k">try</span> <span class="n">LibraryBackupCodec</span><span class="p">.</span><span class="n">streamSupported</span><span class="p">(</span><span class="n">source</span><span class="p">)</span> <span class="p">{</span> <span class="n">chunk</span> <span class="k">in</span>
+<a id="__codelineno-17-39" name="__codelineno-17-39" href="#__codelineno-17-39"></a>    <span class="k">try</span> <span class="n">handle</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">contentsOf</span><span class="p">:</span> <span class="n">chunk</span><span class="p">)</span>
+<a id="__codelineno-17-40" name="__codelineno-17-40" href="#__codelineno-17-40"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="ancillary-overlays">Ancillary overlays<a class="headerlink" href="#ancillary-overlays" title="Permanent link">&para;</a></h2>
+<p><code>LibraryBackupAncillaryOverlay</code> is a prior export's ancillary rows <em>without</em> its
+game graph. <code>collections</code> and <code>repertoires</code> are absent from the encoded shape:
+a persistence adapter already owns their live representation, and decoding last
+export's whole game graph just doubles the dominant memory cost.</p>
+<p><code>init(projecting:)</code> builds one from a full backup; <code>ancillaryEnvelope</code> produces a
+compatibility <code>LibraryBackup</code> with empty collections and <code>nil</code> repertoires for
+existing ancillary merge kernels.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>An overlay envelope is not a backup and must never be published directly.
+Authored ownership cannot be checked without game rows, so overlay authored
+rows must go through <code>AuthoredBackupReconciler</code> against the adapter's live
+ownership before anything is emitted or persisted.</p>
+</div>
+<h2 id="curated-settings">Curated settings<a class="headerlink" href="#curated-settings" title="Permanent link">&para;</a></h2>
+<p><code>LibraryBackupSettingRegistry.definitions</code> holds 40 canonical, platform-neutral
+keys. Each is a <code>LibraryBackupSettingDefinition</code> (key + <code>LibraryBackupSettingRule</code>);
+platform adapters keep only their own physical UserDefaults / SharedPreferences
+mapping.</p>
+<p><strong>20 bools</strong> — <code>soundEnabled</code>, <code>hapticsEnabled</code>, <code>autoAnnotateOnImport</code>,
+<code>consensusAnnotation</code>, <code>pref.secondOpinion</code>, <code>updateGamesFullSweep</code>,
+<code>explorerAutoFollow</code>, <code>drillAutoAdvance</code>, <code>drillShowArrows</code>,
+<code>punishDrillSkipMastered</code>, <code>reviewQuizSkipMastered</code>, <code>trapDrillSkipMastered</code>,
+<code>endgameEndToEnd</code>, <code>otbAutoFlip</code>, <code>showCoordinates</code>, <code>showLegalMoveHints</code>,
+<code>autoICloudBackupEnabled</code>, <code>defaultStockfishEval</code>, <code>defaultMaiaEval</code>,
+<code>confirmGameDelete</code>.</p>
+<p><strong>9 bounded ints</strong> (inclusive ranges):</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Domain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>drillSessionSize</code></td>
+<td>1…100</td>
+</tr>
+<tr>
+<td><code>checkmateIntensity</code></td>
+<td>0…3</td>
+</tr>
+<tr>
+<td><code>missedMateMaxN</code></td>
+<td>2…10</td>
+</tr>
+<tr>
+<td><code>punishTopK</code></td>
+<td>2…8</td>
+</tr>
+<tr>
+<td><code>punishOpponentElo</code></td>
+<td>800…2,400</td>
+</tr>
+<tr>
+<td><code>autoICloudBackupRetention</code></td>
+<td>1…30</td>
+</tr>
+<tr>
+<td><code>masteryThreshold</code></td>
+<td>2…10</td>
+</tr>
+<tr>
+<td><code>tacticsSwingThreshold</code></td>
+<td>50…1,000</td>
+</tr>
+<tr>
+<td><code>stockfishDepthLimitPersisted</code></td>
+<td>0…128</td>
+</tr>
+</tbody>
+</table>
+<p><strong>11 bounded strings</strong>, every one <code>.string(maximumUTF8Bytes: 256)</code> — <code>boardTheme</code>,
+<code>pieceSet</code>, <code>explorerDatabase</code>, <code>annotateThoroughness</code>, <code>annotationEngine</code>,
+<code>tacticsMode</code>, <code>drillStrictness</code>, <code>evalDisplayFormat</code>, <code>libraryGameSort</code>,
+<code>ratingChartWindow</code>, <code>otbLastTimeControl</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>LibraryBackupSettingPolicy.accepts(row)
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>    = LibraryBackupSettingRegistry.definition(forKey: row.key)?
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>          .rule.accepts(row.value) ?? true
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>  UNKNOWN key   → accepted (forward compatibility; adapters apply only keys in
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>                  their own physical mapping)
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>  KNOWN key     → the value kind must match exactly, and:
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>                     .int(minimum: a, maximum: b)  (a...b).contains(value)
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>                     .string(maximumUTF8Bytes: n)  value.utf8.count &lt;= n
+</code></pre></div>
+<p><code>normalizedPortableRow(_:)</code> adds one canonicalization on top. Older Apple builds
+stored lowercase rating-window values while Android stored display labels
+(<code>"3M"</code>, <code>"6M"</code>, <code>"1Y"</code>, <code>"All"</code>):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>normalizedPortableRow(row)
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>    !accepts(row)                      → nil
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>    row.key != &quot;ratingChartWindow&quot;     → row unchanged
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>    row.key == &quot;ratingChartWindow&quot;:
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>        value must be .string, and RatingChartWindow(storedValue:) must map it
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>        (trim whitespace/newlines, lowercase)
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>        → re-emitted as the canonical lowercase rawValue: &quot;3m&quot; | &quot;6m&quot; | &quot;1y&quot; | &quot;all&quot;
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>        → unmappable value returns nil, so the row is DROPPED rather than
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>          persisted as a picker selection no UI can represent
+</code></pre></div>
+<p><code>RatingChartWindow</code> also exposes <code>shortLabel</code> (<code>3M</code>/<code>6M</code>/<code>1Y</code>/<code>All</code>) and
+<code>monthOffset</code> (<code>-3</code>, <code>-6</code>, <code>-12</code>, <code>nil</code> for <code>.all</code>). It conforms to <code>Identifiable</code>
+but has no UI dependency.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kd">let</span> <span class="nv">safeRows</span> <span class="p">=</span> <span class="p">(</span><span class="n">backup</span><span class="p">.</span><span class="n">settings</span> <span class="p">??</span> <span class="p">[])</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>    <span class="p">.</span><span class="n">compactMap</span><span class="p">(</span><span class="n">LibraryBackupSettingPolicy</span><span class="p">.</span><span class="n">normalizedPortableRow</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="duplicate-game-reconciliation">Duplicate-game reconciliation<a class="headerlink" href="#duplicate-game-reconciliation" title="Permanent link">&para;</a></h2>
+<p><code>LibraryGameReconciliation</code> plans the <em>lossless</em> collapse of multiple physical rows
+that are the same logical game. It is persistence-agnostic: preview and execution
+consume the same immutable <code>Plan</code> — update each survivor from <code>originalGame</code> to
+<code>mergedGame</code>, then delete exactly <code>deleteIndices</code>. Keeping the survivor preimage
+also lets an undo adapter restore both sides.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="kd">let</span> <span class="nv">plan</span> <span class="p">=</span> <span class="n">LibraryGameReconciliation</span><span class="p">.</span><span class="n">plan</span><span class="p">(</span><span class="n">games</span><span class="p">:</span> <span class="n">rows</span><span class="p">)</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="k">if</span> <span class="n">plan</span><span class="p">.</span><span class="n">hasChanges</span> <span class="p">{</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>    <span class="k">for</span> <span class="n">survivor</span> <span class="k">in</span> <span class="n">plan</span><span class="p">.</span><span class="n">survivors</span> <span class="p">{</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>        <span class="n">store</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">at</span><span class="p">:</span> <span class="n">survivor</span><span class="p">.</span><span class="n">inputIndex</span><span class="p">,</span> <span class="n">to</span><span class="p">:</span> <span class="n">survivor</span><span class="p">.</span><span class="n">mergedGame</span><span class="p">)</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>    <span class="p">}</span>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>    <span class="n">store</span><span class="p">.</span><span class="n">delete</span><span class="p">(</span><span class="n">at</span><span class="p">:</span> <span class="n">plan</span><span class="p">.</span><span class="n">deleteIndices</span><span class="p">)</span>   <span class="c1">// already sorted ascending</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="p">}</span>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="bp">print</span><span class="p">(</span><span class="s">&quot;</span><span class="si">\(</span><span class="n">plan</span><span class="p">.</span><span class="n">deletionCount</span><span class="si">)</span><span class="s"> rows collapsed, </span><span class="si">\(</span><span class="n">plan</span><span class="p">.</span><span class="n">retainedIndices</span><span class="p">.</span><span class="bp">count</span><span class="si">)</span><span class="s"> kept&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="grouping">Grouping<a class="headerlink" href="#grouping" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>BaseProof = (normalizedPersistedID, logicalKey, coreFingerprint, positionSequence)
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>fingerprint          = GameDedup.compositeKey(white:black:date:result:event:opening:
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>                                              moveText:tagsJSON:
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>                                              strippingDerivedAnnotations:)
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>stableID             = GameIdentity.stableID(gameID:link:site:contentID: fingerprint)
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>logicalKey           = GameDedup.key(gameID: stableID, compositeKey: fingerprint)
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>authoritative        = (logicalKey is .remoteID)
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>coreFingerprint      = authoritative ? &quot;&quot; : fingerprint
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>positionSequence     = GameDedup.positionSequenceProof(game.moveText,
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>                                                       tagsJSON: game.tagsJSON)
+<a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a>normalizedPersistedID = GameIdentity.canonicalProviderID(game.gameID)
+<a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a>                     ?? PreparedGameData.normalizedGameID(game.gameID)
+</code></pre></div>
+<p>Two field incidents shaped that key:</p>
+<ul>
+<li><strong>Canonical, not raw, persisted ID.</strong> <code>normalizedGameID</code> only trims, so
+  <code>"https://www.chess.com/game/live/171115885774"</code> and <code>"chesscom:171115885774"</code>
+  stay different strings for the same game — while <code>logicalKey</code>, which runs
+  <code>canonicalProviderID</code>, already says they are one. The raw form <em>defeated</em> the
+  canonical one: same logical key, different base proof, never grouped. Latent
+  until commit 73a36701 (2026-07-11) made imports write the canonical form; 96
+  such pairs were then found in the owner's library, confirmed by identical
+  final-position FENs.</li>
+<li><strong>Authoritative groups drop text sensitivity.</strong> When the logical key is
+  <code>.remoteID</code>, <code>coreFingerprint</code> is stored as the empty string. One chess.com game
+  held three rows, two carrying <code>{[%clk 0:09:54.6] +0.4; best Nf3}</code> and one
+  carrying only <code>{[%clk 0:09:54.6]}</code>. Identical moves, clocks and remote ID — but
+  <code>strippingDerivedAnnotations</code> is computed per row and did not reduce those
+  comments to the same text, so the fingerprints differed, the rows never entered
+  one group, and a <em>completed</em> repair pass left 542 rows untouched. The
+  position-sequence proof is what actually guards this. Content-keyed groups keep
+  the strict fingerprint, since text identity is their only evidence.</li>
+</ul>
+<h3 id="subsumption">Subsumption<a class="headerlink" href="#subsumption" title="Permanent link">&para;</a></h3>
+<p>A survivor may absorb a source only if it can prove nothing is lost:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>target.subsumes(source, authoritativeIdentity:)
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>both modes first require
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>    source.boardArrows == nil || source.boardArrows == target.boardArrows
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>        — board arrows are user-authored; never delete a row carrying arrows the
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>          survivor does not already hold
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>
+<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>authoritative (recognized remote ID: provably one online game):
+<a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a>    if source.hasGlyphedMainLine &amp;&amp; source.derivedMoveText == nil
+<a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a>       &amp;&amp; source.glyphLine != target.glyphLine        → NOT subsumed
+<a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a>        — nothing but the user&#39;s hand explains glyphs on a row with no engine
+<a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a>          annotation in either format
+<a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a>    for f in {derivedMoveText, annotationEvals, secondBestEvals,
+<a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a>              mateDistances, annotationProvenance, consensus}:
+<a id="__codelineno-23-15" name="__codelineno-23-15" href="#__codelineno-23-15"></a>        require source.f == nil || target.f != nil     ← PRESENCE only
+<a id="__codelineno-23-16" name="__codelineno-23-16" href="#__codelineno-23-16"></a>        — a redundant engine run is droppable; a COMPLEMENTARY partial analysis
+<a id="__codelineno-23-17" name="__codelineno-23-17" href="#__codelineno-23-17"></a>          is never lost, and the survivor keeps its own values
+<a id="__codelineno-23-18" name="__codelineno-23-18" href="#__codelineno-23-18"></a>
+<a id="__codelineno-23-19" name="__codelineno-23-19" href="#__codelineno-23-19"></a>content-keyed:
+<a id="__codelineno-23-20" name="__codelineno-23-20" href="#__codelineno-23-20"></a>    for the same six fields: require source.f == nil || source.f == target.f
+</code></pre></div>
+<h3 id="search-and-survivor-preference">Search and survivor preference<a class="headerlink" href="#search-and-survivor-preference" title="Permanent link">&para;</a></h3>
+<p>Rows are projected once and bucketed by <code>BaseProof</code>; only buckets with more than
+one member enter candidate work. Projection and exact-base grouping are linear in
+total input; the deterministic greedy reconciliation is at most cubic within one
+conflicting group. Inside a group the loop runs while more than one index remains
+available, evaluating each still-available index as a survivor over the
+<strong>order-preserving</strong> filtered list — never <code>Set</code> or <code>Dictionary</code> iteration order.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>isPreferred(lhs, over: rhs) — first difference wins:
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>  1. isAnnotated          annotated beats unannotated
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>  2. positionRichness     higher   (non-nil count among the 7 position fields)
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>  3. enrichmentRichness   higher   (positionRichness + non-empty note + non-empty maia)
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>  4. derivedDepth         higher   moveText.count
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>                                 + annotationEvalsJSON.count
+<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>                                 + secondBestEvalsJSON.count
+<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>                                 + annotationMateDistancesJSON?.count ?? 0
+<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a>                                 + annotationProvenanceJSON?.count ?? 0
+<a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a>                                 + consensusJSON?.count ?? 0
+<a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a>                                 + merged.maiaTargetEvidenceV1JSON?.count ?? 0
+<a id="__codelineno-24-12" name="__codelineno-24-12" href="#__codelineno-24-12"></a>  5. orderIndex           LOWER
+<a id="__codelineno-24-13" name="__codelineno-24-13" href="#__codelineno-24-13"></a>  6. deleteIndices.count  higher
+<a id="__codelineno-24-14" name="__codelineno-24-14" href="#__codelineno-24-14"></a>  7. survivorIndex        lower
+</code></pre></div>
+<p>The independent <code>userNotes</code> / <code>maiaLogLikesJSON</code> pair is chosen without a
+Cartesian product:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>choices = { (target.note, target.maia) }
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>        ∪ { (target.note ?? s.note, target.maia ?? s.maia) for each observed pair s }
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>        ∪ { (most frequent note-only, most frequent maia-only) }
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>              — only when the target has NEITHER; ties break to the
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>                lexicographically smaller value
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>deletionCount(choice) = freq(nil,  nil)
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>                      + freq(note, nil)   if choice.note != nil
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>                      + freq(nil,  maia)  if choice.maia != nil
+<a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a>                      + freq(note, maia)  if both != nil
+<a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a>
+<a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a>discard deletionCount == 0, then maximize:
+<a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a>  enrichmentRichness, then deletionCount, then choicePrecedes
+<a id="__codelineno-25-14" name="__codelineno-25-14" href="#__codelineno-25-14"></a>  (nil sorts before any value, then lexicographic on note, then on maia)
+<a id="__codelineno-25-15" name="__codelineno-25-15" href="#__codelineno-25-15"></a>
+<a id="__codelineno-25-16" name="__codelineno-25-16" href="#__codelineno-25-16"></a>maiaTargetEvidenceV1JSON folds over the deleted rows through
+<a id="__codelineno-25-17" name="__codelineno-25-17" href="#__codelineno-25-17"></a>MaiaBackfillPolicy.preferredTargetEvidence(live:incoming:)
+</code></pre></div>
+<h2 id="collection-lifecycle">Collection lifecycle<a class="headerlink" href="#collection-lifecycle" title="Permanent link">&para;</a></h2>
+<p><code>CollectionLifecycle</code> encodes soft deletion for a CloudKit-synchronized collection
+in <strong>one signed <code>Int64</code> per parent</strong>, so an existing store adopts the protocol
+without a destructive migration.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>parent scalar:  0        active LEGACY generation (CollectionLifecycle.legacyGeneration)
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>                positive active generation
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>                negative deletion generation (a soft tombstone)
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>child scalar:   the non-negative active generation it was attached to;
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>                a MISSING child value means legacy generation 0
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>parentState(lifecycleVersion: v)
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>    v &gt;= 0 → .active(generation: v)
+<a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a>    v &lt;  0 → .deleted(generation: v == Int64.min ? Int64.max : -v)
+<a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>             — avoids trapping on abs(Int64.min); an extreme value is
+<a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a>               conservatively the largest representable tombstone
+<a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a>
+<a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a>activeGeneration(lifecycleVersion: v) = v &gt;= 0 ? v : nil
+<a id="__codelineno-26-14" name="__codelineno-26-14" href="#__codelineno-26-14"></a>    — nil for a tombstone, so a writer cannot stamp a child into a deleted parent
+<a id="__codelineno-26-15" name="__codelineno-26-15" href="#__codelineno-26-15"></a>
+<a id="__codelineno-26-16" name="__codelineno-26-16" href="#__codelineno-26-16"></a>childDisposition(parentLifecycleVersion: v, childIncarnation: c)
+<a id="__codelineno-26-17" name="__codelineno-26-17" href="#__codelineno-26-17"></a>    g = c ?? 0
+<a id="__codelineno-26-18" name="__codelineno-26-18" href="#__codelineno-26-18"></a>    g &lt; 0                       → .deferred   (outside the wire contract: quarantine,
+<a id="__codelineno-26-19" name="__codelineno-26-19" href="#__codelineno-26-19"></a>                                               never destroy on an invalid value)
+<a id="__codelineno-26-20" name="__codelineno-26-20" href="#__codelineno-26-20"></a>    parent .active(p):  g == p  → .visible
+<a id="__codelineno-26-21" name="__codelineno-26-21" href="#__codelineno-26-21"></a>                        g &lt;  p  → .stale
+<a id="__codelineno-26-22" name="__codelineno-26-22" href="#__codelineno-26-22"></a>                        g &gt;  p  → .deferred
+<a id="__codelineno-26-23" name="__codelineno-26-23" href="#__codelineno-26-23"></a>    parent .deleted(d): g &lt;= d  → .stale      (the tombstone wins at its own
+<a id="__codelineno-26-24" name="__codelineno-26-24" href="#__codelineno-26-24"></a>                                               generation too)
+<a id="__codelineno-26-25" name="__codelineno-26-25" href="#__codelineno-26-25"></a>                        g &gt;  d  → .deferred   (a reactivation parent record has
+<a id="__codelineno-26-26" name="__codelineno-26-26" href="#__codelineno-26-26"></a>                                               not arrived yet)
+<a id="__codelineno-26-27" name="__codelineno-26-27" href="#__codelineno-26-27"></a>
+<a id="__codelineno-26-28" name="__codelineno-26-28" href="#__codelineno-26-28"></a>isSettledActiveRelationship(parentLifecycleVersion:childIncarnations:)
+<a id="__codelineno-26-29" name="__codelineno-26-29" href="#__codelineno-26-29"></a>    requires a non-nil activeGeneration and EVERY child .visible
+<a id="__codelineno-26-30" name="__codelineno-26-30" href="#__codelineno-26-30"></a>
+<a id="__codelineno-26-31" name="__codelineno-26-31" href="#__codelineno-26-31"></a>deletionVersion(after: v)      .deleted        → v          (idempotent on retry)
+<a id="__codelineno-26-32" name="__codelineno-26-32" href="#__codelineno-26-32"></a>                               .active(g)      → -(g + 1)
+<a id="__codelineno-26-33" name="__codelineno-26-33" href="#__codelineno-26-33"></a>                               .active(Int64.max) → -Int64.max
+<a id="__codelineno-26-34" name="__codelineno-26-34" href="#__codelineno-26-34"></a>reactivationVersion(after: v)  generation == Int64.max ? nil : generation + 1
+</code></pre></div>
+<p>Only <code>.visible</code> children belong in user-facing reads. <code>.stale</code> children under a
+deleted parent are what become eligible for physical cleanup; <code>.deferred</code> means
+CloudKit delivered records out of order — retain and retry.</p>
+<h3 id="the-rollout-gate">The rollout gate<a class="headerlink" href="#the-rollout-gate" title="Permanent link">&para;</a></h3>
+<p><code>CollectionLifecycle.SoftDeletionReadiness</code> keeps activation explicit so that
+merely adding lifecycle fields to the local model cannot switch on a wire protocol
+older peers cannot interpret:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>permitsProtocolV1 = productionSchemaReady &amp;&amp; compatibleClientFloorReady
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>.disabled        = (false, false)
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>.protocolV1Ready = (true,  true)
+</code></pre></div>
+<h2 id="resumable-cleanup">Resumable cleanup<a class="headerlink" href="#resumable-cleanup" title="Permanent link">&para;</a></h2>
+<p><code>CleanupSnapshot</code> is the exact parent tombstone plus child-generation set observed
+at an import-idle boundary. Children are canonicalized on init — sorted by token,
+then incarnation with <code>nil</code> ordering before any value — so equality is
+deterministic across fetch order, process launches, and JSON round trips.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>CleanupSnapshot.isStructurallyValid   (fail closed on every count)
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>    parentToken non-empty and &lt;= 8 * 1_024 UTF-8 bytes
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>    tombstoneVersion &lt; 0 and != Int64.min
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>    children.count &lt;= maximumCleanupChildrenPerCollection (250,000)
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>    every child token non-empty, &lt;= 8 * 1_024 UTF-8 bytes, and unique
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>
+<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>isExactSubset(of: authorized)
+<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>    both snapshots structurally valid
+<a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a>    same parentToken and same tombstoneVersion
+<a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a>    children.count &lt;= authorized.children.count
+<a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a>    every child ∈ Set(authorized.children)
+</code></pre></div>
+<p><code>staleChildTokens</code> and <code>deferredChildTokens</code> are derived through
+<code>CollectionLifecycle.childDisposition</code>, so read filtering and cleanup authority
+never drift apart.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>requiredStableCleanupObservations = 2
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>cleanupTransition(previous:current:observationToken:)
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>  current invalid, or observationToken empty / &gt; 8 * 1_024 bytes,
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>  or the retained observation invalid    → .blocked, previous observation preserved
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>  previous == nil                        → .observing, count 1, action .none
+<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>
+<a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>  .observing, SAME lastObservationToken
+<a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a>      identical snapshot                 → no-op (.none)      ← a replayed
+<a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a>                                                                notification never
+<a id="__codelineno-29-12" name="__codelineno-29-12" href="#__codelineno-29-12"></a>                                                                increments stability
+<a id="__codelineno-29-13" name="__codelineno-29-13" href="#__codelineno-29-13"></a>      different snapshot                 → restart .observing
+<a id="__codelineno-29-14" name="__codelineno-29-14" href="#__codelineno-29-14"></a>  .observing, NEW token
+<a id="__codelineno-29-15" name="__codelineno-29-15" href="#__codelineno-29-15"></a>      different snapshot                 → restart .observing
+<a id="__codelineno-29-16" name="__codelineno-29-16" href="#__codelineno-29-16"></a>      identical, no stale children       → .quiescent, .none
+<a id="__codelineno-29-17" name="__codelineno-29-17" href="#__codelineno-29-17"></a>      identical, stale children          → .cleaning,
+<a id="__codelineno-29-18" name="__codelineno-29-18" href="#__codelineno-29-18"></a>                                           .cleanup(authorization: current,
+<a id="__codelineno-29-19" name="__codelineno-29-19" href="#__codelineno-29-19"></a>                                                    eligibleChildTokens:
+<a id="__codelineno-29-20" name="__codelineno-29-20" href="#__codelineno-29-20"></a>                                                        current.staleChildTokens)
+<a id="__codelineno-29-21" name="__codelineno-29-21" href="#__codelineno-29-21"></a>  .cleaning
+<a id="__codelineno-29-22" name="__codelineno-29-22" href="#__codelineno-29-22"></a>      current not an exact subset of the retained authorization
+<a id="__codelineno-29-23" name="__codelineno-29-23" href="#__codelineno-29-23"></a>                                         → restart .observing  ← any ADDITION or
+<a id="__codelineno-29-24" name="__codelineno-29-24" href="#__codelineno-29-24"></a>                                                                 generation change
+<a id="__codelineno-29-25" name="__codelineno-29-25" href="#__codelineno-29-25"></a>      stale set empty                    → .quiescent, .none
+<a id="__codelineno-29-26" name="__codelineno-29-26" href="#__codelineno-29-26"></a>      otherwise                          → re-issue the RETAINED authorization for
+<a id="__codelineno-29-27" name="__codelineno-29-27" href="#__codelineno-29-27"></a>                                           another bounded batch
+<a id="__codelineno-29-28" name="__codelineno-29-28" href="#__codelineno-29-28"></a>  .quiescent
+<a id="__codelineno-29-29" name="__codelineno-29-29" href="#__codelineno-29-29"></a>      snapshot changed                   → restart .observing
+<a id="__codelineno-29-30" name="__codelineno-29-30" href="#__codelineno-29-30"></a>      identical                          → no-op (.none)
+</code></pre></div>
+<p>Missing children while <code>.cleaning</code> are safe: a prior batch or a peer already
+removed them, which is exactly why resumption uses subset containment rather than
+equality.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="kd">let</span> <span class="nv">snapshot</span> <span class="p">=</span> <span class="n">CollectionLifecycle</span><span class="p">.</span><span class="n">CleanupSnapshot</span><span class="p">(</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>    <span class="n">parentToken</span><span class="p">:</span> <span class="n">parentToken</span><span class="p">,</span>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>    <span class="n">tombstoneVersion</span><span class="p">:</span> <span class="n">CollectionLifecycle</span><span class="p">.</span><span class="n">deletionVersion</span><span class="p">(</span><span class="n">after</span><span class="p">:</span> <span class="n">parentVersion</span><span class="p">),</span>
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>    <span class="n">children</span><span class="p">:</span> <span class="n">childRows</span><span class="p">.</span><span class="bp">map</span> <span class="p">{</span>
+<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>        <span class="p">.</span><span class="kd">init</span><span class="p">(</span><span class="n">token</span><span class="p">:</span> <span class="nv">$0</span><span class="p">.</span><span class="n">token</span><span class="p">,</span> <span class="n">incarnation</span><span class="p">:</span> <span class="nv">$0</span><span class="p">.</span><span class="n">incarnation</span><span class="p">)</span>
+<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>    <span class="p">}</span>
+<a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a><span class="p">)</span>
+<a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a>
+<a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a><span class="kd">let</span> <span class="nv">transition</span> <span class="p">=</span> <span class="n">CollectionLifecycle</span><span class="p">.</span><span class="n">cleanupTransition</span><span class="p">(</span>
+<a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a>    <span class="n">previous</span><span class="p">:</span> <span class="n">storedObservation</span><span class="p">,</span>      <span class="c1">// CleanupObservation?</span>
+<a id="__codelineno-30-11" name="__codelineno-30-11" href="#__codelineno-30-11"></a>    <span class="n">current</span><span class="p">:</span> <span class="n">snapshot</span><span class="p">,</span>
+<a id="__codelineno-30-12" name="__codelineno-30-12" href="#__codelineno-30-12"></a>    <span class="n">observationToken</span><span class="p">:</span> <span class="n">completedImportPassID</span>
+<a id="__codelineno-30-13" name="__codelineno-30-13" href="#__codelineno-30-13"></a><span class="p">)</span>
+<a id="__codelineno-30-14" name="__codelineno-30-14" href="#__codelineno-30-14"></a><span class="n">storedObservation</span> <span class="p">=</span> <span class="n">transition</span><span class="p">.</span><span class="n">nextObservation</span>
+<a id="__codelineno-30-15" name="__codelineno-30-15" href="#__codelineno-30-15"></a>
+<a id="__codelineno-30-16" name="__codelineno-30-16" href="#__codelineno-30-16"></a><span class="k">switch</span> <span class="n">transition</span><span class="p">.</span><span class="n">action</span> <span class="p">{</span>
+<a id="__codelineno-30-17" name="__codelineno-30-17" href="#__codelineno-30-17"></a><span class="k">case</span> <span class="p">.</span><span class="kr">none</span><span class="p">:</span>
+<a id="__codelineno-30-18" name="__codelineno-30-18" href="#__codelineno-30-18"></a>    <span class="k">break</span>
+<a id="__codelineno-30-19" name="__codelineno-30-19" href="#__codelineno-30-19"></a><span class="k">case</span> <span class="p">.</span><span class="n">cleanup</span><span class="p">(</span><span class="kd">let</span> <span class="nv">authorization</span><span class="p">,</span> <span class="kd">let</span> <span class="nv">eligibleChildTokens</span><span class="p">):</span>
+<a id="__codelineno-30-20" name="__codelineno-30-20" href="#__codelineno-30-20"></a>    <span class="k">try</span> <span class="n">deleteChildren</span><span class="p">(</span><span class="n">eligibleChildTokens</span><span class="p">,</span> <span class="n">authorizedBy</span><span class="p">:</span> <span class="n">authorization</span><span class="p">)</span>
+<a id="__codelineno-30-21" name="__codelineno-30-21" href="#__codelineno-30-21"></a><span class="k">case</span> <span class="p">.</span><span class="n">blocked</span><span class="p">:</span>
+<a id="__codelineno-30-22" name="__codelineno-30-22" href="#__codelineno-30-22"></a>    <span class="c1">// Fail closed: preserve every row for manual diagnosis.</span>
+<a id="__codelineno-30-23" name="__codelineno-30-23" href="#__codelineno-30-23"></a>    <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;cleanup blocked for </span><span class="si">\(</span><span class="n">parentToken</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+<a id="__codelineno-30-24" name="__codelineno-30-24" href="#__codelineno-30-24"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>CleanupObservation.isStructurallyValid</code> ties the counter to the phase:
+<code>stableObservationCount == 1</code> in <code>.observing</code>, <code>== 2</code> in <code>.cleaning</code>, and <code>== 2</code>
+<em>with an empty stale set</em> in <code>.quiescent</code>.</p>
+<h2 id="owner-resolution">Owner resolution<a class="headerlink" href="#owner-resolution" title="Permanent link">&para;</a></h2>
+<p>Online imports carry an authoritative account username. Ordinary PGN files do not,
+but a typical personal archive has one player in every game and varying opponents.
+<code>CollectionOwnerResolver</code> recognizes only that unambiguous shape.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>normalized(name) = name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>resolve(explicitUsername:games:)
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>    explicit = normalized(explicitUsername)
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>    explicit non-empty                                        → explicit
+<a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>    games.count &lt; 2                                           → nil
+<a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a>    for every game:
+<a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a>        white = normalized(game.white), black = normalized(game.black)
+<a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a>        either empty, either a placeholder, or white == black → nil
+<a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a>        intersection ∩= {white, black}; empty                 → nil   (early bail)
+<a id="__codelineno-31-11" name="__codelineno-31-11" href="#__codelineno-31-11"></a>    intersection.count == 1                                   → that name
+<a id="__codelineno-31-12" name="__codelineno-31-12" href="#__codelineno-31-12"></a>    otherwise                                                 → nil
+<a id="__codelineno-31-13" name="__codelineno-31-13" href="#__codelineno-31-13"></a>
+<a id="__codelineno-31-14" name="__codelineno-31-14" href="#__codelineno-31-14"></a>placeholders (8): &quot;?&quot;, &quot;unknown&quot;, &quot;anonymous&quot;, &quot;anon&quot;,
+<a id="__codelineno-31-15" name="__codelineno-31-15" href="#__codelineno-31-15"></a>                  &quot;white&quot;, &quot;black&quot;, &quot;player&quot;, &quot;computer&quot;
+</code></pre></div>
+<p>Every other shape fails closed, so an opponent, a placeholder, a match collection,
+or a one-off PGN cannot be mistaken for the user.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="kd">let</span> <span class="nv">owner</span> <span class="p">=</span> <span class="n">CollectionOwnerResolver</span><span class="p">.</span><span class="n">resolve</span><span class="p">(</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>    <span class="n">explicitUsername</span><span class="p">:</span> <span class="n">collection</span><span class="p">.</span><span class="n">username</span><span class="p">,</span>      <span class="c1">// &quot;&quot; for a plain PGN import</span>
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>    <span class="n">games</span><span class="p">:</span> <span class="n">parsed</span><span class="p">.</span><span class="bp">map</span> <span class="p">{</span>
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>        <span class="n">CollectionOwnerResolver</span><span class="p">.</span><span class="n">GamePlayers</span><span class="p">(</span><span class="n">white</span><span class="p">:</span> <span class="nv">$0</span><span class="p">.</span><span class="n">white</span><span class="p">,</span> <span class="n">black</span><span class="p">:</span> <span class="nv">$0</span><span class="p">.</span><span class="n">black</span><span class="p">)</span>
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>    <span class="p">}</span>
+<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a><span class="p">)</span>
+</code></pre></div>
+<h2 id="using-it-headlessly">Using it headlessly<a class="headerlink" href="#using-it-headlessly" title="Permanent link">&para;</a></h2>
+<p>A complete validate-and-rehash pass needs nothing but Foundation and ChessCore:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="kd">import</span> <span class="nc">FianchettoKit</span>
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a><span class="kd">let</span> <span class="nv">data</span> <span class="p">=</span> <span class="k">try</span> <span class="n">Data</span><span class="p">(</span><span class="n">contentsOf</span><span class="p">:</span> <span class="n">url</span><span class="p">)</span>
+<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>
+<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a><span class="c1">// Decode + schema gate + resource ceilings + chess semantics + authored plans.</span>
+<a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a><span class="kd">let</span> <span class="nv">validated</span> <span class="p">=</span> <span class="k">try</span> <span class="n">LibraryBackupCodec</span><span class="p">.</span><span class="n">decodeSupportedWithAuthoredProjection</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a><span class="kd">let</span> <span class="nv">backup</span> <span class="p">=</span> <span class="n">validated</span><span class="p">.</span><span class="n">backup</span>
+<a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a>
+<a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a><span class="bp">print</span><span class="p">(</span><span class="s">&quot;schema </span><span class="si">\(</span><span class="n">backup</span><span class="p">.</span><span class="n">schemaVersion</span><span class="si">)</span><span class="s">, exported </span><span class="si">\(</span><span class="n">backup</span><span class="p">.</span><span class="n">exportedAt</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+<a id="__codelineno-33-10" name="__codelineno-33-10" href="#__codelineno-33-10"></a><span class="bp">print</span><span class="p">(</span><span class="s">&quot;</span><span class="si">\(</span><span class="n">backup</span><span class="p">.</span><span class="n">collections</span><span class="p">.</span><span class="bp">count</span><span class="si">)</span><span class="s"> collections, &quot;</span>
+<a id="__codelineno-33-11" name="__codelineno-33-11" href="#__codelineno-33-11"></a>    <span class="o">+</span> <span class="s">&quot;</span><span class="si">\(</span><span class="n">backup</span><span class="p">.</span><span class="n">collections</span><span class="p">.</span><span class="bp">reduce</span><span class="si">(</span><span class="mi">0</span><span class="si">)</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">+</span> <span class="nv">$1</span><span class="p">.</span><span class="n">games</span><span class="p">.</span><span class="bp">count</span> <span class="p">}</span><span class="si">)</span><span class="s"> games&quot;</span><span class="p">)</span>
+<a id="__codelineno-33-12" name="__codelineno-33-12" href="#__codelineno-33-12"></a><span class="bp">print</span><span class="p">(</span><span class="s">&quot;</span><span class="si">\(</span><span class="n">validated</span><span class="p">.</span><span class="n">authoredProjection</span><span class="p">.</span><span class="n">allowedLogicalGameIDs</span><span class="p">.</span><span class="bp">count</span><span class="si">)</span><span class="s"> authored lineages&quot;</span><span class="p">)</span>
+<a id="__codelineno-33-13" name="__codelineno-33-13" href="#__codelineno-33-13"></a>
+<a id="__codelineno-33-14" name="__codelineno-33-14" href="#__codelineno-33-14"></a><span class="c1">// Canonical re-encode: sorted keys make this SHA-256 a content identity.</span>
+<a id="__codelineno-33-15" name="__codelineno-33-15" href="#__codelineno-33-15"></a><span class="kd">let</span> <span class="nv">canonical</span> <span class="p">=</span> <span class="k">try</span> <span class="n">LibraryBackupCodec</span><span class="p">.</span><span class="n">encodeSupported</span><span class="p">(</span><span class="n">backup</span><span class="p">)</span>
+<a id="__codelineno-33-16" name="__codelineno-33-16" href="#__codelineno-33-16"></a><span class="kd">let</span> <span class="nv">identity</span> <span class="p">=</span> <span class="n">ExactByteProof</span><span class="p">(</span><span class="n">bytes</span><span class="p">:</span> <span class="n">canonical</span><span class="p">)</span>
+<a id="__codelineno-33-17" name="__codelineno-33-17" href="#__codelineno-33-17"></a><span class="bp">print</span><span class="p">(</span><span class="n">identity</span><span class="p">.</span><span class="n">sha256</span><span class="p">,</span> <span class="n">identity</span><span class="p">.</span><span class="n">byteCount</span><span class="p">)</span>
+<a id="__codelineno-33-18" name="__codelineno-33-18" href="#__codelineno-33-18"></a>
+<a id="__codelineno-33-19" name="__codelineno-33-19" href="#__codelineno-33-19"></a><span class="c1">// Every logical ID the game rows safely own, aliases included.</span>
+<a id="__codelineno-33-20" name="__codelineno-33-20" href="#__codelineno-33-20"></a><span class="kd">let</span> <span class="nv">owned</span> <span class="p">=</span> <span class="k">try</span> <span class="n">LibraryBackupCodec</span><span class="p">.</span><span class="n">authoredLogicalGameIDs</span><span class="p">(</span><span class="k">in</span><span class="p">:</span> <span class="n">backup</span><span class="p">)</span>
+</code></pre></div>
+<p><code>fianchetto-cli</code> today exposes the engine and estimation seams —
+<code>fianchetto-cli annotate</code>, <code>estimate</code>, <code>maia</code>, <code>accuracy</code>, <code>project</code>, <code>track</code> —
+and none of the backup kernels yet. The natural additions, each one file
+conforming to <code>CLICommand</code> over the APIs above, would be:</p>
+<table>
+<thead>
+<tr>
+<th>Proposed subcommand</th>
+<th>Would wrap</th>
+<th>JSON-lines contract</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>backup-validate</code></td>
+<td><code>decodeSupportedWithAuthoredProjection(_:)</code></td>
+<td>one line per input file: <code>{"path", "ok", "error"}</code> with the <code>ValidationError</code> case name and its associated values</td>
+</tr>
+<tr>
+<td><code>backup-proof</code></td>
+<td><code>streamSupported(_:emit:)</code> into <code>/dev/null</code></td>
+<td><code>{"path", "byte_count", "sha256"}</code> — the publication identity without writing a copy</td>
+</tr>
+<tr>
+<td><code>reconcile</code></td>
+<td><code>LibraryGameReconciliation.plan(games:)</code></td>
+<td>games in, <code>{"survivors": [{"input_index", "delete_indices"}], "delete_indices"}</code> out</td>
+</tr>
+<tr>
+<td><code>settings</code></td>
+<td><code>LibraryBackupSettingPolicy.normalizedPortableRow(_:)</code></td>
+<td>rows in, normalized rows out plus a <code>dropped</code> reason</td>
+</tr>
+<tr>
+<td><code>owner</code></td>
+<td><code>CollectionOwnerResolver.resolve(explicitUsername:games:)</code></td>
+<td><code>{"white", "black"}</code> lines in, one <code>{"owner"}</code> line out</td>
+</tr>
+<tr>
+<td><code>lifecycle</code></td>
+<td><code>CollectionLifecycle.cleanupTransition(previous:current:observationToken:)</code></td>
+<td>a snapshot per line, the transition's phase and action per line</td>
+</tr>
+</tbody>
+</table>
+<p>Those are proposals, not shipped commands. The library APIs they would call are
+the ones documented above, and all of them run without a UI.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      FianchettoKit — chess training logic built on ChessCore.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
