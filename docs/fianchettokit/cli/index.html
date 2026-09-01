@@ -13,7 +13,7 @@
       
       
       
-        <link rel="prev" href="../reconciliation-note/">
+        <link rel="prev" href="../examples/">
       
       
         <link rel="next" href="annotate/">
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -351,6 +351,8 @@
       
         
       
+        
+      
     
     
     
@@ -431,14 +433,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../concepts/storage-and-authored-history/" class="md-nav__link">
+      <a href="../concepts/file-store/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Storage, DTOs & authored history
+    FileJSONBlobStore & persistence
   
 
     
@@ -487,34 +489,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../concepts/engine-annotation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Engine & annotation
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../concepts/analysis/" class="md-nav__link">
         
   
@@ -543,14 +517,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../concepts/strength-and-elo/" class="md-nav__link">
+      <a href="../concepts/elo-estimation/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Strength, Elo & accuracy
+    Elo estimation & strength tracking
   
 
     
@@ -571,154 +545,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../concepts/maia/" class="md-nav__link">
+      <a href="../concepts/engine/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Maia policy model
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../concepts/tactics-and-drills/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Tactics, drills & spaced repetition
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../concepts/repertoire/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Repertoire, openings & traps
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../concepts/endgame-mining/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Endgame mining & the endgame trainer
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../concepts/review-play-voice/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Review, play & voice
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../concepts/network-import/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Network clients & game import
+    Engine, annotation & Maia
   
 
     
@@ -767,14 +601,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../concepts/library-backup/" class="md-nav__link">
+      <a href="../concepts/library-store/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Library backup & collections
+    Library store kernel
   
 
     
@@ -795,7 +629,203 @@
   
   
     <li class="md-nav__item">
-      <a href="../concepts/eboard/" class="md-nav__link">
+      <a href="../concepts/library-backup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library backup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/authored-history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authored history & the mutation journal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/drill-engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Drill flow, SRS & tactics mining
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/puzzle-import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Puzzle import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/endgame-mining/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Endgame mining & the endgame trainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/repertoire-gap-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repertoire gap analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/play-review-voice/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Play, review & voice
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/eboard-integration/" class="md-nav__link">
         
   
   
@@ -854,33 +884,6 @@
       
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../reconciliation-note/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Reconciliation note
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
     
   
   
@@ -919,7 +922,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
           <div class="md-nav__link md-nav__container">
@@ -941,14 +944,14 @@
             </a>
             
               
-              <label class="md-nav__link md-nav__link--active" for="__nav_7" id="__nav_7_label" tabindex="">
+              <label class="md-nav__link md-nav__link--active" for="__nav_6" id="__nav_6_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_7">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1442,7 +1445,7 @@ identically at the stream level.</p>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    read with readLine, one request per line
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    blank / whitespace-only line   -&gt; skipped, no output
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    decodes for this command       -&gt; one response line
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    fails to decode                -&gt; {&quot;error&quot;: &quot;unparseable request line: &lt;underlying&gt;&quot;}
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    fails to decode                -&gt; {"error": "unparseable request line: &lt;underlying&gt;"}
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>                                      and the stream CONTINUES
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>stdout
@@ -1559,61 +1562,61 @@ provider × account × speed stays with the caller, exactly as <code>StatsKernel
 <h2 id="adding-a-subcommand">Adding a subcommand<a class="headerlink" href="#adding-a-subcommand" title="Permanent link">&para;</a></h2>
 <p>The subcommand seam is four requirements and one array. This is the entire
 protocol:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">protocol</span> <span class="nc">CLICommand</span><span class="p">:</span> <span class="n">Sendable</span> <span class="p">{</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="c1">/// The subcommand token, e.g. `&quot;annotate&quot;` in `fianchetto-cli annotate`.</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="kd">static</span> <span class="kd">var</span> <span class="nv">name</span><span class="p">:</span> <span class="nb">String</span> <span class="p">{</span> <span class="kr">get</span> <span class="p">}</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="c1">/// One-line description for `fianchetto-cli --help`.</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="kd">static</span> <span class="kd">var</span> <span class="nv">abstract</span><span class="p">:</span> <span class="nb">String</span> <span class="p">{</span> <span class="kr">get</span> <span class="p">}</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="c1">/// Usage text (flags + stdin/stdout contract) for `&lt;command&gt; --help`.</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="kd">static</span> <span class="kd">var</span> <span class="nv">usage</span><span class="p">:</span> <span class="nb">String</span> <span class="p">{</span> <span class="kr">get</span> <span class="p">}</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="c1">/// Run with the arguments AFTER the subcommand token.</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="kd">static</span> <span class="kd">func</span> <span class="nf">run</span><span class="p">(</span><span class="n">arguments</span><span class="p">:</span> <span class="p">[</span><span class="nb">String</span><span class="p">])</span> <span class="k">async</span> <span class="kr">throws</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">protocol</span><span class="w"> </span><span class="nc">CLICommand</span><span class="p">:</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="c1">/// The subcommand token, e.g. `"annotate"` in `fianchetto-cli annotate`.</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">name</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">get</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="c1">/// One-line description for `fianchetto-cli --help`.</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">abstract</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">get</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="c1">/// Usage text (flags + stdin/stdout contract) for `&lt;command&gt; --help`.</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">usage</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">get</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="c1">/// Run with the arguments AFTER the subcommand token.</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="n">arguments</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">String</span><span class="p">])</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="kr">throws</span>
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">}</span>
 <a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="kd">var</span> <span class="nv">commandRegistry</span><span class="p">:</span> <span class="p">[</span><span class="n">any</span> <span class="n">CLICommand</span><span class="p">.</span><span class="kr">Type</span><span class="p">]</span> <span class="p">{</span>
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>    <span class="p">[</span>
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>        <span class="n">AnnotateCommand</span><span class="p">.</span><span class="kc">self</span><span class="p">,</span>
-<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>        <span class="n">EstimateCommand</span><span class="p">.</span><span class="kc">self</span><span class="p">,</span>
-<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>        <span class="n">MaiaCommand</span><span class="p">.</span><span class="kc">self</span><span class="p">,</span>
-<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>        <span class="n">AccuracyCommand</span><span class="p">.</span><span class="kc">self</span><span class="p">,</span>
-<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>        <span class="n">ProjectCommand</span><span class="p">.</span><span class="kc">self</span><span class="p">,</span>
-<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>        <span class="n">TrackCommand</span><span class="p">.</span><span class="kc">self</span><span class="p">,</span>
-<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>    <span class="p">]</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="kd">var</span><span class="w"> </span><span class="nv">commandRegistry</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">any</span><span class="w"> </span><span class="n">CLICommand</span><span class="p">.</span><span class="kr">Type</span><span class="p">]</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="p">[</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">        </span><span class="n">AnnotateCommand</span><span class="p">.</span><span class="kc">self</span><span class="p">,</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">        </span><span class="n">EstimateCommand</span><span class="p">.</span><span class="kc">self</span><span class="p">,</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">        </span><span class="n">MaiaCommand</span><span class="p">.</span><span class="kc">self</span><span class="p">,</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">        </span><span class="n">AccuracyCommand</span><span class="p">.</span><span class="kc">self</span><span class="p">,</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">        </span><span class="n">ProjectCommand</span><span class="p">.</span><span class="kc">self</span><span class="p">,</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">        </span><span class="n">TrackCommand</span><span class="p">.</span><span class="kc">self</span><span class="p">,</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">    </span><span class="p">]</span>
 <a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="p">}</span>
 </code></pre></div>
 <p>Adding a command is one new file plus one line in <code>commandRegistry</code>. <code>Main</code> needs
 no change: it already handles dispatch, <code>--help</code>, and mapping a thrown error to
 exit code 1.</p>
 <p>The shared I/O helpers are the rest of the skeleton:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">struct</span> <span class="nc">ExampleCommand</span><span class="p">:</span> <span class="n">CLICommand</span> <span class="p">{</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="kd">static</span> <span class="kd">let</span> <span class="nv">name</span> <span class="p">=</span> <span class="s">&quot;example&quot;</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="kd">static</span> <span class="kd">let</span> <span class="nv">abstract</span> <span class="p">=</span> <span class="s">&quot;one line, shown in the global help table&quot;</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="kd">static</span> <span class="kd">let</span> <span class="nv">usage</span> <span class="p">=</span> <span class="s">&quot;USAGE: fianchetto-cli example &lt; in.jsonl &gt; out.jsonl</span><span class="se">\n</span><span class="s">…&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">struct</span><span class="w"> </span><span class="nc">ExampleCommand</span><span class="p">:</span><span class="w"> </span><span class="n">CLICommand</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">name</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">"example"</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">abstract</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">"one line, shown in the global help table"</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">usage</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">"USAGE: fianchetto-cli example &lt; in.jsonl &gt; out.jsonl</span><span class="se">\n</span><span class="s">…"</span>
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="kd">struct</span> <span class="nc">Request</span><span class="p">:</span> <span class="n">Decodable</span> <span class="p">{</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>        <span class="kd">let</span> <span class="nv">id</span><span class="p">:</span> <span class="nb">String</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>        <span class="kd">let</span> <span class="nv">whitePovEvals</span><span class="p">:</span> <span class="p">[</span><span class="nb">Double</span><span class="p">]</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>        <span class="kd">enum</span> <span class="nc">CodingKeys</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">CodingKey</span> <span class="p">{</span>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>            <span class="k">case</span> <span class="n">id</span>
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>            <span class="k">case</span> <span class="n">whitePovEvals</span> <span class="p">=</span> <span class="s">&quot;white_pov_evals&quot;</span>   <span class="c1">// explicit snake_case</span>
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>        <span class="p">}</span>
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    <span class="p">}</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="kd">struct</span><span class="w"> </span><span class="nc">Request</span><span class="p">:</span><span class="w"> </span><span class="n">Decodable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nv">whitePovEvals</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">Double</span><span class="p">]</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">        </span><span class="kd">enum</span><span class="w"> </span><span class="nc">CodingKeys</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">CodingKey</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="n">id</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="n">whitePovEvals</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">"white_pov_evals"</span><span class="w">   </span><span class="c1">// explicit snake_case</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
-<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>    <span class="kd">struct</span> <span class="nc">Response</span><span class="p">:</span> <span class="n">Encodable</span> <span class="p">{</span> <span class="kd">let</span> <span class="nv">id</span><span class="p">:</span> <span class="nb">String</span><span class="p">;</span> <span class="kd">let</span> <span class="nv">value</span><span class="p">:</span> <span class="nb">Double</span> <span class="p">}</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">    </span><span class="kd">struct</span><span class="w"> </span><span class="nc">Response</span><span class="p">:</span><span class="w"> </span><span class="n">Encodable</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">;</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">value</span><span class="p">:</span><span class="w"> </span><span class="nb">Double</span><span class="w"> </span><span class="p">}</span>
 <a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
-<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>    <span class="kd">static</span> <span class="kd">func</span> <span class="nf">run</span><span class="p">(</span><span class="n">arguments</span><span class="p">:</span> <span class="p">[</span><span class="nb">String</span><span class="p">])</span> <span class="k">async</span> <span class="kr">throws</span> <span class="p">{</span>
-<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>        <span class="k">guard</span> <span class="n">arguments</span><span class="p">.</span><span class="bp">isEmpty</span> <span class="k">else</span> <span class="p">{</span>
-<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>            <span class="k">throw</span> <span class="n">CLIError</span><span class="p">(</span><span class="s">&quot;unknown option &#39;</span><span class="si">\(</span><span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">)</span><span class="s">&#39; (see: fianchetto-cli example --help)&quot;</span><span class="p">)</span>
-<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>        <span class="p">}</span>
-<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>        <span class="k">await</span> <span class="n">JSONLines</span><span class="p">.</span><span class="n">forEachRequest</span><span class="p">(</span><span class="n">Request</span><span class="p">.</span><span class="kc">self</span><span class="p">)</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
-<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>            <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
-<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>            <span class="k">case</span> <span class="p">.</span><span class="n">failure</span><span class="p">(</span><span class="kd">let</span> <span class="nv">failure</span><span class="p">):</span>
-<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>                <span class="n">JSONLines</span><span class="p">.</span><span class="n">emitRawError</span><span class="p">(</span><span class="n">id</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="s">&quot;unparseable request line: </span><span class="si">\(</span><span class="n">failure</span><span class="p">.</span><span class="n">underlying</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
-<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>            <span class="k">case</span> <span class="p">.</span><span class="n">success</span><span class="p">(</span><span class="kd">let</span> <span class="nv">request</span><span class="p">):</span>
-<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>                <span class="n">JSONLines</span><span class="p">.</span><span class="n">emit</span><span class="p">(</span><span class="n">Response</span><span class="p">(</span><span class="n">id</span><span class="p">:</span> <span class="n">request</span><span class="p">.</span><span class="n">id</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="mi">0</span><span class="p">))</span>
-<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>            <span class="p">}</span>
-<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>        <span class="p">}</span>
-<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>    <span class="p">}</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="n">arguments</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">String</span><span class="p">])</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="kr">throws</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">        </span><span class="k">guard</span><span class="w"> </span><span class="n">arguments</span><span class="p">.</span><span class="bp">isEmpty</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="n">CLIError</span><span class="p">(</span><span class="s">"unknown option '</span><span class="si">\(</span><span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">)</span><span class="s">' (see: fianchetto-cli example --help)"</span><span class="p">)</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="n">JSONLines</span><span class="p">.</span><span class="n">forEachRequest</span><span class="p">(</span><span class="n">Request</span><span class="p">.</span><span class="kc">self</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="k">in</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">            </span><span class="k">switch</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="p">.</span><span class="n">failure</span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nv">failure</span><span class="p">):</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">                </span><span class="n">JSONLines</span><span class="p">.</span><span class="n">emitRawError</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">:</span><span class="w"> </span><span class="s">"unparseable request line: </span><span class="si">\(</span><span class="n">failure</span><span class="p">.</span><span class="n">underlying</span><span class="si">)</span><span class="s">"</span><span class="p">)</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="p">.</span><span class="n">success</span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nv">request</span><span class="p">):</span>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">                </span><span class="n">JSONLines</span><span class="p">.</span><span class="n">emit</span><span class="p">(</span><span class="n">Response</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="p">}</span>
 </code></pre></div>
 <p>Conventions the six existing commands all follow:</p>
@@ -1631,11 +1634,11 @@ exit code 1.</p>
 </ul>
 <h2 id="related-library-pages">Related library pages<a class="headerlink" href="#related-library-pages" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="../concepts/strength-and-elo/">Strength, Elo &amp; accuracy</a> — the math behind
+<li><a href="../concepts/elo-estimation/">Elo estimation &amp; strength tracking</a> — the math behind
   <code>estimate</code>, <code>accuracy</code>, <code>track</code>, and <code>project</code></li>
-<li><a href="../concepts/engine-annotation/">Engine &amp; Annotation</a> — the sweep <code>annotate</code>
+<li><a href="../concepts/engine/">Engine, annotation &amp; Maia</a> — the sweep <code>annotate</code>
   drives</li>
-<li><a href="../concepts/maia/">Maia policy model</a> — the policy <code>maia</code> serves</li>
+<li><a href="../concepts/engine/">Engine, annotation &amp; Maia</a> — the policy <code>maia</code> serves</li>
 <li><a href="../concepts/analysis/">Analysis math</a> — <code>AccuracyAggregator</code> in the kit</li>
 </ul>
 
@@ -1700,7 +1703,7 @@ exit code 1.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

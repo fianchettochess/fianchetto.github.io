@@ -1,0 +1,2782 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Chess training logic built on ChessCore — engine annotation, strength/Elo estimation, tactics, repertoire and endgame drills, portable persistence, game import, electronic-board handling, and the fianchetto-cli headless tools.">
+      
+      
+        <meta name="author" content="Fianchetto">
+      
+      
+      
+        <link rel="prev" href="../authored-history/">
+      
+      
+        <link rel="next" href="../puzzle-import/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Drill flow, SRS & tactics mining - FianchettoKit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#drill-flow-srs-tactics-mining" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="FianchettoKit" class="md-header__button md-logo" aria-label="FianchettoKit" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FianchettoKit
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Drill flow, SRS & tactics mining
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="FianchettoKit" class="md-nav__button md-logo" aria-label="FianchettoKit" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    FianchettoKit
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stores & the storage seam
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file-store/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FileJSONBlobStore & persistence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dtos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistence DTOs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analysis math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../elo-estimation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Elo estimation & strength tracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine, annotation & Maia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-clients/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network clients
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../library-store/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library store kernel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../library-backup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library backup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authored-history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authored history & the mutation journal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Drill flow, SRS & tactics mining
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Drill flow, SRS & tactics mining
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#drillflowcore-the-drill-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DrillFlowCore: the drill state machine
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DrillFlowCore: the drill state machine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#item-and-goal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Item and Goal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-flow-boardchanged-begingrading-probe-commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The flow: boardChanged → beginGrading → probe → commit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-effect-vocabulary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Effect vocabulary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#probe-seams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Probe seams
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generations-tickets-and-failure-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generations, tickets, and failure handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Generations, tickets, and failure handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opaque-tickets-over-one-monotonic-counter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opaque tickets over one monotonic counter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-v4-rollbackretry-channel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The V4 rollback/retry channel
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pacing-constants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pacing constants
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-driving-a-single-move-drill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage: driving a single-move drill
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grading-primitives-drilltypesswift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grading primitives (DrillTypes.swift)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spaced-repetition-drillsrs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spaced repetition: DrillSRS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-replica-mutation-ledgers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-replica mutation ledgers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tactics-puzzle-mining-tacticsextractor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tactics puzzle mining: TacticsExtractor
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tactics puzzle mining: TacticsExtractor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-four-extraction-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The four extraction modes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ishighquality-and-the-difficulty-ladder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        isHighQuality and the difficulty ladder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cachefingerprint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cacheFingerprint
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tacticsdrillselection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TacticsDrillSelection
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reviewquizkernel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ReviewQuizKernel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ReviewQuizKernel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#annotations-first-eval-derived-fallback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Annotations-first, eval-derived fallback
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#choices-distractor-assembly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        choices() distractor assembly
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#studypuzzlecatalogue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        StudyPuzzleCatalogue
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#combination-puzzles-combinationdrillcore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combination puzzles: CombinationDrillCore
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../puzzle-import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Puzzle import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../endgame-mining/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Endgame mining & the endgame trainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../repertoire-gap-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repertoire gap analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../play-review-voice/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Play, review & voice
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eboard-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Electronic board integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../cli/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command-Line Interface
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Command-Line Interface
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/annotate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    annotate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/estimate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    estimate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/maia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    maia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/accuracy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    accuracy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/project/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    project
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/track/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    track
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/expansion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI expansion (proposed)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#drillflowcore-the-drill-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DrillFlowCore: the drill state machine
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DrillFlowCore: the drill state machine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#item-and-goal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Item and Goal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-flow-boardchanged-begingrading-probe-commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The flow: boardChanged → beginGrading → probe → commit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-effect-vocabulary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Effect vocabulary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#probe-seams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Probe seams
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generations-tickets-and-failure-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generations, tickets, and failure handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Generations, tickets, and failure handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opaque-tickets-over-one-monotonic-counter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Opaque tickets over one monotonic counter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-v4-rollbackretry-channel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The V4 rollback/retry channel
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pacing-constants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pacing constants
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-driving-a-single-move-drill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage: driving a single-move drill
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grading-primitives-drilltypesswift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grading primitives (DrillTypes.swift)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spaced-repetition-drillsrs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spaced repetition: DrillSRS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-replica-mutation-ledgers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-replica mutation ledgers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tactics-puzzle-mining-tacticsextractor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tactics puzzle mining: TacticsExtractor
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tactics puzzle mining: TacticsExtractor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-four-extraction-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The four extraction modes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ishighquality-and-the-difficulty-ladder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        isHighQuality and the difficulty ladder
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cachefingerprint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cacheFingerprint
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tacticsdrillselection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TacticsDrillSelection
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reviewquizkernel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ReviewQuizKernel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ReviewQuizKernel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#annotations-first-eval-derived-fallback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Annotations-first, eval-derived fallback
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#choices-distractor-assembly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        choices() distractor assembly
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#studypuzzlecatalogue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        StudyPuzzleCatalogue
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#combination-puzzles-combinationdrillcore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combination puzzles: CombinationDrillCore
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="drill-flow-srs-tactics-mining">Drill Flow, SRS &amp; Tactics Mining<a class="headerlink" href="#drill-flow-srs-tactics-mining" title="Permanent link">&para;</a></h1>
+<p>How FianchettoKit decides what a drill does next: the shared drill state
+machine, the engine-probe contracts it issues, the spaced-repetition and
+Elo math that scores an answer, and the pure functions that mine and select
+tactics puzzles from a game.</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>The Train module splits along one line: the shell (SwiftUI on Apple,
+Compose on Android) owns the item pool, the board, and the pixels; every
+type documented on this page owns the <em>decision</em> — what counts as an
+answer, when to ask the engine, how strict to be, when a position is due
+again, and which puzzles a drill hands out. Every type here imports only
+<code>Foundation</code> and <code>ChessCore</code> — no <code>SwiftUI</code>, no <code>UIKit</code>, no platform
+concurrency. <code>DrillFlowCore</code> in particular never suspends: it is a pure
+<code>event in → [Effect] out</code> state machine, and every asynchronous step (an
+engine probe, a paced auto-advance, a scripted reply) is <em>requested</em> as an
+effect and reported back later as an event, never awaited inside the core.</p>
+<p>Five drills (Tactics, Traps, Punish, Study, Endgames) and the game-review
+quiz sit on this shared spine. <code>TacticsRatingStore</code>, <code>TacticsPerformanceStore</code>,
+<code>BlunderMasteryStore</code>, <code>TrainProgressCache</code>, and <code>PracticeMode</code> are covered
+from the persistence side in <a href="../stores/">Stores &amp; the storage seam</a>; this
+page covers the algorithms and flow/selection logic layered on top.</p>
+<h2 id="drillflowcore-the-drill-state-machine">DrillFlowCore: the drill state machine<a class="headerlink" href="#drillflowcore-the-drill-state-machine" title="Permanent link">&para;</a></h2>
+<p><code>DrillFlowCore</code> is a <code>Sendable</code> struct that walks a pool of <code>Item</code>s against
+the moves a user plays. It keeps score, owns every generation counter, and
+returns the exact board/engine work the shell must perform as <code>[Effect]</code>.</p>
+<h3 id="item-and-goal">Item and Goal<a class="headerlink" href="#item-and-goal" title="Permanent link">&para;</a></h3>
+<p>An <code>Item</code> is one drill question: a FEN, a board orientation, the ply the
+answer is expected at (<code>answerPly</code>, 0 for a freshly loaded root), and a
+<code>Goal</code> that says what answers it:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="nc">Item</span><span class="p">:</span><span class="w"> </span><span class="nb">Equatable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">Goal</span><span class="p">:</span><span class="w"> </span><span class="nb">Equatable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="n">knownAnswer</span><span class="p">(</span><span class="n">expectedUCI</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">expectedDisplay</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="n">discoveredBestMove</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="n">mateIn</span><span class="p">(</span><span class="nb">Int</span><span class="p">)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="n">keepTheWin</span><span class="p">(</span><span class="n">playOutToMate</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span><span class="p">)</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">}</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Goal</th>
+<th>Used by</th>
+<th>How it grades</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.knownAnswer(expectedUCI:expectedDisplay:)</code></td>
+<td>Tactics, Traps, Punish; Study's replay/find-better drills</td>
+<td>Instant exact-UCI accept; a miss runs the two-FEN leniency probe</td>
+</tr>
+<tr>
+<td><code>.discoveredBestMove</code></td>
+<td>Study's best-move puzzles</td>
+<td>The engine's best move at the item FEN, probed once and cached per item load; a terminal position after the played move is an instant solve</td>
+</tr>
+<tr>
+<td><code>.mateIn(Int)</code></td>
+<td>Study's mate-in-N puzzles</td>
+<td>Mid-line moves are budget-checked against the remaining mover moves; on-track earns a scripted opponent reply and the line continues with no verdict</td>
+</tr>
+<tr>
+<td><code>.keepTheWin(playOutToMate:)</code></td>
+<td>the Endgame trainer</td>
+<td>The composite endgame probe is the whole grade — membership, leniency, and (with <code>playOutToMate</code>) the defense continuation all arrive in one transport hop; only a delivered checkmate is graded by the core alone</td>
+</tr>
+</tbody>
+</table>
+<h3 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h3>
+<p>Sampled once when the core is created for a run:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="nc">Configuration</span><span class="p">:</span><span class="w"> </span><span class="nb">Equatable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">marginBase</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="w">              </span><span class="c1">// base cp margin before DrillStrictness scales it</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">autoAdvance</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">missRetriesSameItem</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span><span class="w">    </span><span class="c1">// default false</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">dynamicItemSupply</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span><span class="w">      </span><span class="c1">// default false</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">endlessSupply</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span><span class="w">          </span><span class="c1">// default false — forces dynamicItemSupply = true</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>marginBase</code> is the drill's unscaled acceptance margin before
+<code>DrillStrictness</code> scales it — 50cp for Tactics/Trap/Punish, 80cp for Study,
+150cp for the Endgame trainer (see <a href="#grading-primitives-drilltypesswift">Grading primitives</a>
+below). <code>endlessSupply</code> implies <code>dynamicItemSupply</code> in <code>init</code> regardless of
+what the caller passes — a custom endgame drill that never exhausts also,
+necessarily, deals each item's FEN itself.</p>
+<h3 id="the-flow-boardchanged-begingrading-probe-commit">The flow: boardChanged → beginGrading → probe → commit<a class="headerlink" href="#the-flow-boardchanged-begingrading-probe-commit" title="Permanent link">&para;</a></h3>
+<p>Every cursor change on the board — including ones the drill caused itself,
+like a scripted reply landing — goes through <code>boardChanged(_:strictness:)</code>.
+Filtering echoes is the core's job, not the caller's: it only reacts when
+<code>board.cursorPly == answerPly</code>, i.e. exactly the ply it is waiting on for a
+user answer.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>boardChanged(board, strictness)
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  ├─ cursorPly != answerPly, or a verdict is already showing → [] (ignored echo)
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  ├─ .knownAnswer &amp;&amp; played == expectedUCI → instant .correct, no engine hop
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  └─ else: capture PendingAttempt (uci, afterFEN, afterSafeFEN, isCheckmate,
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>           isStalemate, marginCp, requiresExact, showsCloseEnough)
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>       → beginGrading(attempt, item, restoreFirst: false)
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>beginGrading dispatches on item.goal:
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>  .knownAnswer         requiresExact ? commitRejected : runProbe (leniency)
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>  .discoveredBestMove  terminal position → commitAccepted (instant)
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>                       cachedBaselineUCI present → gradeAgainstBaseline
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>                       else → runBestMoveProbe, then cache the result
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>  .keepTheWin          isCheckmate ? commitAccepted (instant) : runEndgameProbe
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>  .mateIn(N)           isCheckmate ? commitAccepted (instant)
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>                       isStalemate || remaining &lt;= 0 → runBestMoveProbe
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>                         (hint only — the grade is already .wrong)
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>                       else → runMateProbe
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>*ProbeFinished handlers → commitAccepted / commitRejected / surfaceUnavailable
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>  .onTrack / .continueLine → scheduleLineContinuation → .scheduleReply effect
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>    → scriptedReplyPlayed(_:) commits the line advance (answerPly += 2,
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>      userMovesPlayed += 1, no verdict shown)
+</code></pre></div>
+<p><code>gradeAgainstBaseline</code> is the one place an exact match short-circuits a
+<em>second</em> engine query: matching the cached baseline commits immediately,
+so an unavailable redundant probe can never reject the engine's own best
+move.</p>
+<h3 id="the-effect-vocabulary">The Effect vocabulary<a class="headerlink" href="#the-effect-vocabulary" title="Permanent link">&para;</a></h3>
+<p><code>Effect</code> is <code>Equatable</code> on purpose — golden tests assert the exact array a
+transition returns. Every case is a command the core issues; the shell
+never asks the core anything, it only reports events back
+(<code>boardChanged</code>, <code>probeFinished</code>, <code>bestMoveProbeFinished</code>, <code>mateProbeFinished</code>,
+<code>endgameProbeFinished</code>, <code>scriptedReplyPlayed</code>, <code>itemSupplied</code>, <code>beatElapsed</code>,
+<code>retryProbe</code>, <code>advance</code>, <code>skip</code>, <code>effectFailed</code>, <code>suspend</code>/<code>resume</code>, <code>exit</code>).</p>
+<table>
+<thead>
+<tr>
+<th>Effect</th>
+<th>What the shell must do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.loadItem(index:fen:flipped:ticket:)</code></td>
+<td>Load a fresh drill board. Failable — report <code>ticket</code> via <code>effectFailed</code> on failure</td>
+</tr>
+<tr>
+<td><code>.supplyItem(index:)</code></td>
+<td>Generate the FEN for item <code>index</code> (dynamic supply) and answer with <code>itemSupplied(index:fen:flipped:)</code> synchronously</td>
+</tr>
+<tr>
+<td><code>.restoreAttempt(ply:uci:ticket:)</code></td>
+<td>Put the captured attempt back on the board ahead of a probe verdict. Failable</td>
+</tr>
+<tr>
+<td><code>.runProbe(DrillProbeRequest, ProbeTicket)</code></td>
+<td>Run the leniency probe; report <code>probeFinished(ticket:verdict:)</code></td>
+</tr>
+<tr>
+<td><code>.runBestMoveProbe(fen:ticket:)</code></td>
+<td>Ask the engine's best move at <code>fen</code>; report <code>bestMoveProbeFinished(ticket:uci:)</code></td>
+</tr>
+<tr>
+<td><code>.runMateProbe(DrillMateProbeRequest, ProbeTicket)</code></td>
+<td>Run the composite mate-line check; report <code>mateProbeFinished(ticket:verdict:)</code></td>
+</tr>
+<tr>
+<td><code>.runEndgameProbe(DrillEndgameProbeRequest, ProbeTicket)</code></td>
+<td>Run the composite endgame grade; report <code>endgameProbeFinished(ticket:verdict:)</code></td>
+</tr>
+<tr>
+<td><code>.scheduleReply(attemptPly:attemptUCI:replyUCI:delayNs:ticket:)</code></td>
+<td>After <code>delayNs</code>, restore the attempt, play <code>replyUCI</code>, report <code>scriptedReplyPlayed(ticket:)</code> (or <code>effectFailed</code>)</td>
+</tr>
+<tr>
+<td><code>.cancelReply</code></td>
+<td>Cancel the outstanding scripted-reply task</td>
+</tr>
+<tr>
+<td><code>.presentMissComparison(playedUCI:expectedUCI:)</code></td>
+<td>Draw played-vs-expected arrows (<code>expectedUCI</code> nil when it could not be discovered)</td>
+</tr>
+<tr>
+<td><code>.clearMissComparison</code></td>
+<td>Remove the comparison — emitted explicitly on every transition that leaves one presented</td>
+</tr>
+<tr>
+<td><code>.recordOutcome(DrillOutcome)</code></td>
+<td>Persist the result (SRS / mastery / rating / hub progress)</td>
+</tr>
+<tr>
+<td><code>.scheduleBeat(delayNs:ticket:)</code></td>
+<td>Start the auto-advance timer; report <code>beatElapsed(ticket:)</code></td>
+</tr>
+<tr>
+<td><code>.cancelBeat</code></td>
+<td>Cancel the outstanding beat</td>
+</tr>
+<tr>
+<td><code>.reportUnavailable(message:)</code></td>
+<td>Surface a probe/board failure — an explicit, assertable effect twinned with the <code>.unavailable</code> verdict</td>
+</tr>
+<tr>
+<td><code>.completed(score:attempts:)</code></td>
+<td>The run finished — payload matches the completion card</td>
+</tr>
+</tbody>
+</table>
+<p><code>DrillOutcome</code> is the persisted record: <code>DrillOutcome(kind: .correct \| .wrong \| .skipped, itemIndex: Int)</code>,
+emitted exactly once per completed verdict — and always <em>after</em> that
+verdict's board-work effects (see <a href="#generations-tickets-and-failure-handling">effect ordering</a> below).</p>
+<h2 id="probe-seams">Probe seams<a class="headerlink" href="#probe-seams" title="Permanent link">&para;</a></h2>
+<p>The core mandates only the <em>shape</em> of each engine question; how a shell
+transports it (broker one-shots, resilient retries, movetime vs. depth) is
+its own business.</p>
+<p><strong>Leniency probe</strong> — <code>DrillFlowProbe = @Sendable (DrillProbeRequest) async -&gt; DrillProbeVerdict</code>.
+<code>DrillProbeRequest(puzzleFEN:afterPlayedFEN:marginCp:)</code> is a two-FEN
+question: is <code>afterPlayedFEN</code> within <code>marginCp</code> centipawns of <code>puzzleFEN</code>'s
+best line? <strong>POV contract:</strong> <code>puzzleFEN</code> is evaluated from the side to
+move (the drill mover); <code>afterPlayedFEN</code> is evaluated from the <em>opponent</em>
+of that side, so both scores land oriented to the mover. Both FENs are
+<code>stockfishSafeFEN</code> — the request shape itself forces the sanitization, so
+no transport can forget it at the engine boundary.</p>
+<p><strong>Mate-line probe</strong> (Study's <code>.mateIn</code>) — one composite question per move.
+<code>DrillMateProbeRequest(questionFEN:afterPlayedFEN:remainingMateBudget:)</code>
+asks whether the position still forces mate within <code>remainingMateBudget</code>
+mover moves (always ≥ 1 — the core grades exhausted budgets itself and
+never asks the engine about them). <code>DrillMateProbeVerdict</code> answers with
+<code>.onTrack(replyUCI:)</code> (still forces mate; the scripted reply to play),
+<code>.offTrack(expectedUCI:)</code> (a <code>nil</code> hint degrades the miss copy to <code>"?"</code>,
+never the grade), or <code>.unavailable</code>.</p>
+<p><strong>Endgame probe</strong> (<code>.keepTheWin</code>) — the endgame's "probe" <em>is</em> its grader;
+the shell's transport holds the tablebase/engine evidence and answers the
+whole chess question in one hop:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="nc">DrillEndgameProbeRequest</span><span class="p">:</span><span class="w"> </span><span class="nb">Equatable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">questionFEN</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">playedUCI</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">afterPlayedFEN</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">       </span><span class="c1">// engine-safe</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">isStalemate</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span><span class="w">            </span><span class="c1">// a certain miss, no engine consult needed</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">playOutToMate</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span><span class="w">          </span><span class="c1">// end-to-end: a kept win continues with a defense</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">marginCp</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">requiresExactBestMove</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span><span class="w">  </span><span class="c1">// strict can't short-circuit — the accepted set</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">                                             </span><span class="c1">// itself IS the transport evidence</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">}</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">DrillEndgameProbeVerdict</span><span class="p">:</span><span class="w"> </span><span class="nb">Equatable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">won</span><span class="p">(</span><span class="n">dtm</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">?)</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">wonSuboptimal</span><span class="p">(</span><span class="n">dtm</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">?,</span><span class="w"> </span><span class="n">bestDisplay</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">?)</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">lostWin</span><span class="p">(</span><span class="n">expectedUCI</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">?,</span><span class="w"> </span><span class="n">expectedDisplay</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">?)</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">continueLine</span><span class="p">(</span><span class="n">replyUCI</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">voidItem</span><span class="w">                          </span><span class="c1">// never winnable — withdraw, zero score movement</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">unavailable</span><span class="p">(</span><span class="n">message</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">?)</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>.voidItem</code> is not a grade — the shell supplies a replacement item through
+the same <code>itemSupplied</code> path dynamic supply uses, and score/attempts don't
+move.</p>
+<h2 id="generations-tickets-and-failure-handling">Generations, tickets, and failure handling<a class="headerlink" href="#generations-tickets-and-failure-handling" title="Permanent link">&para;</a></h2>
+<h3 id="opaque-tickets-over-one-monotonic-counter">Opaque tickets over one monotonic counter<a class="headerlink" href="#opaque-tickets-over-one-monotonic-counter" title="Permanent link">&para;</a></h3>
+<p><code>ProbeTicket</code>, <code>AutoAdvanceTicket</code>, and <code>EffectTicket</code> are each a one-field
+wrapper (<code>let generation: UInt64</code>) around a <code>RunGeneration</code> — a small
+<code>Sendable</code> counter (<code>begin() -&gt; UInt64</code>, <code>invalidate()</code>, <code>owns(_:) -&gt; Bool</code>)
+that the core keeps three independent copies of: <code>probeGeneration</code>,
+<code>beatGeneration</code>, <code>effectGeneration</code>. The field isn't <code>public</code>, so a shell
+can never construct or inspect a ticket — it can only hold the one the core
+handed it and pass it back unchanged. Any transition that invalidates
+in-flight work calls <code>invalidate()</code>, so a late-arriving result from a
+retired generation is silently dropped by the <code>owns(_:)</code> check at the top
+of every event handler. <code>probePurpose</code> (<code>.leniency</code>, <code>.baseline</code>,
+<code>.mateCheck</code>, <code>.endgame</code>, <code>.hint</code>) rides alongside <code>probeGeneration</code> so a
+probe launched for one reason can never be misinterpreted as another's
+answer, even while sharing the same counter.</p>
+<div class="admonition note">
+<p class="admonition-title">NO SILENT FALLBACK</p>
+<p>An unavailable probe is never converted into a grade, a failure never
+auto-skips, and <code>.checking</code> is never left unrecoverable. Probe failure,
+probe interruption mid-flight, an unplayable scripted reply, and a
+failed board effect all surface as the typed, retryable
+<code>.unavailable(message:)</code> verdict plus <code>.reportUnavailable</code> — score,
+attempts, and the item cursor move <strong>only</strong> when a completed verdict
+lands.</p>
+</div>
+<h3 id="the-v4-rollbackretry-channel">The V4 rollback/retry channel<a class="headerlink" href="#the-v4-rollbackretry-channel" title="Permanent link">&para;</a></h3>
+<p>Every batch that contains failable board work (<code>.loadItem</code>, <code>.restoreAttempt</code>,
+<code>.scheduleReply</code>) arms an internal <code>Rollback</code>: a captured <code>token</code>, the
+provisional <code>scoreDelta</code>/<code>attemptsDelta</code>, a <code>failureMessage</code>, a
+<code>RetryAction</code> (<code>.grade</code> re-runs the retained attempt; <code>.reload</code> re-issues
+the item load), and the <code>pending</code>/<code>missShown</code> state to restore. Effect
+ordering is load-bearing — <strong>every emitted batch places its failable board
+effects before <code>.recordOutcome</code></strong> — so a shell that applies effects in
+order and calls <code>effectFailed(ticket)</code> on the first failure un-does the
+provisional commit exactly, re-arming the same retry <code>retryProbe()</code>
+triggers. An outcome can therefore never be persisted for a verdict whose
+board presentation never actually landed.</p>
+<h3 id="pacing-constants">Pacing constants<a class="headerlink" href="#pacing-constants" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Constant</th>
+<th>Value</th>
+<th>Where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DrillFlowCore.scriptedReplyDelayNanoseconds</code></td>
+<td>400,000,000 ns (0.4s)</td>
+<td>pause between an accepted mid-line move and the scripted opponent reply</td>
+</tr>
+<tr>
+<td><code>DrillAutoAdvancePolicy.correctDelayNanoseconds</code></td>
+<td>900,000,000 ns (0.9s)</td>
+<td>auto-advance delay after <code>.correct</code></td>
+</tr>
+<tr>
+<td><code>DrillAutoAdvancePolicy.reviewDelayNanoseconds</code></td>
+<td>1,600,000,000 ns (1.6s)</td>
+<td>auto-advance delay after <code>.closeEnough</code> / <code>.wrong</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>DrillAutoAdvancePolicy.delayNanoseconds(for:)</code> returns <code>nil</code> — no
+schedule at all — for <code>.checking</code>, <code>.unavailable</code>, <code>.done</code>, and <code>nil</code>.</p>
+<p><code>DrillAutoAdvanceTicket</code> is the public counterpart to the core's own internal
+<code>AutoAdvanceTicket</code> (above), for a caller that paces its own advance directly
+against <code>DrillAutoAdvancePolicy</code> instead of driving it through <code>DrillFlowCore</code>'s
+effect vocabulary. It carries the same two facts an ownership check needs — an
+<code>itemIndex</code> and a <code>feedbackGeneration</code> <code>UUID</code> — captured before the delay and
+compared after it:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">let</span><span class="w"> </span><span class="nv">ticket</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">DrillAutoAdvanceTicket</span><span class="p">(</span><span class="n">itemIndex</span><span class="p">:</span><span class="w"> </span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">feedbackGeneration</span><span class="p">:</span><span class="w"> </span><span class="n">generation</span><span class="p">)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">guard</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">delay</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">DrillAutoAdvancePolicy</span><span class="p">.</span><span class="n">delayNanoseconds</span><span class="p">(</span><span class="k">for</span><span class="p">:</span><span class="w"> </span><span class="n">verdict</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="k">try</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">Task</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">nanoseconds</span><span class="p">:</span><span class="w"> </span><span class="n">delay</span><span class="p">)</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">guard</span><span class="w"> </span><span class="n">ticket</span><span class="p">.</span><span class="n">isCurrent</span><span class="p">(</span><span class="n">itemIndex</span><span class="p">:</span><span class="w"> </span><span class="n">currentIndex</span><span class="p">,</span><span class="w"> </span><span class="n">feedbackGeneration</span><span class="p">:</span><span class="w"> </span><span class="n">currentGeneration</span><span class="p">)</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Checking cancellation alone is not enough — a cancelled task can already be
+resuming, which is precisely when it would advance past an item the user has
+since moved on from; <code>isCurrent</code> is the check that catches that case.</p>
+<h3 id="usage-driving-a-single-move-drill">Usage: driving a single-move drill<a class="headerlink" href="#usage-driving-a-single-move-drill" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">var</span><span class="w"> </span><span class="nv">core</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">DrillFlowCore</span><span class="p">(</span><span class="n">configuration</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="kd">init</span><span class="p">(</span><span class="n">marginBase</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="n">autoAdvance</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">))</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="kd">let</span><span class="w"> </span><span class="nv">items</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">puzzles</span><span class="p">.</span><span class="bp">map</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="n">DrillFlowCore</span><span class="p">.</span><span class="n">Item</span><span class="p">(</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">        </span><span class="n">fen</span><span class="p">:</span><span class="w"> </span><span class="nv">$0</span><span class="p">.</span><span class="n">fen</span><span class="p">,</span><span class="w"> </span><span class="n">expectedUCI</span><span class="p">:</span><span class="w"> </span><span class="nv">$0</span><span class="p">.</span><span class="n">correctMoveUCI</span><span class="p">,</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">        </span><span class="n">expectedDisplay</span><span class="p">:</span><span class="w"> </span><span class="nv">$0</span><span class="p">.</span><span class="n">correctMoveSAN</span><span class="p">,</span><span class="w"> </span><span class="n">flipped</span><span class="p">:</span><span class="w"> </span><span class="nv">$0</span><span class="p">.</span><span class="n">userColor</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="p">.</span><span class="n">black</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="p">)</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="p">}</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="kd">var</span><span class="w"> </span><span class="nv">effects</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">core</span><span class="p">.</span><span class="n">start</span><span class="p">(</span><span class="n">items</span><span class="p">:</span><span class="w"> </span><span class="n">items</span><span class="p">)</span><span class="w">          </span><span class="c1">// apply(effects): shell loads item 0</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1">// The user plays a move; the shell reports the resulting board facts.</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="n">effects</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">core</span><span class="p">.</span><span class="n">boardChanged</span><span class="p">(</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">    </span><span class="n">DrillFlowCore</span><span class="p">.</span><span class="n">BoardFacts</span><span class="p">(</span><span class="n">cursorUCI</span><span class="p">:</span><span class="w"> </span><span class="n">playedUCI</span><span class="p">,</span><span class="w"> </span><span class="n">cursorSAN</span><span class="p">:</span><span class="w"> </span><span class="n">playedSAN</span><span class="p">,</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">                             </span><span class="n">cursorPly</span><span class="p">:</span><span class="w"> </span><span class="n">core</span><span class="p">.</span><span class="n">answerPly</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">:</span><span class="w"> </span><span class="n">afterMove</span><span class="p">),</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">    </span><span class="n">strictness</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">normal</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="p">)</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="k">for</span><span class="w"> </span><span class="n">effect</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">effects</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="n">effect</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="p">.</span><span class="n">runProbe</span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nv">request</span><span class="p">,</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">ticket</span><span class="p">):</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nv">verdict</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">probeTransport</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="w">              </span><span class="c1">// DrillFlowProbe</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="w">        </span><span class="n">effects</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">core</span><span class="p">.</span><span class="n">probeFinished</span><span class="p">(</span><span class="n">ticket</span><span class="p">,</span><span class="w"> </span><span class="n">verdict</span><span class="p">:</span><span class="w"> </span><span class="n">verdict</span><span class="p">)</span>
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="p">.</span><span class="n">recordOutcome</span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nv">outcome</span><span class="p">):</span>
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="w">        </span><span class="n">persist</span><span class="p">(</span><span class="n">outcome</span><span class="p">)</span><span class="w">                                         </span><span class="c1">// SRS / mastery / rating</span>
+<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="w">    </span><span class="k">default</span><span class="p">:</span>
+<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="w">        </span><span class="n">apply</span><span class="p">(</span><span class="n">effect</span><span class="p">)</span>
+<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="grading-primitives-drilltypesswift">Grading primitives (DrillTypes.swift)<a class="headerlink" href="#grading-primitives-drilltypesswift" title="Permanent link">&para;</a></h2>
+<p><code>DrillTypes.swift</code> is the platform-free grading vocabulary shared by every
+puzzle drill (extracted 2026-06-16 from the app's <code>DrillKit.swift</code>).</p>
+<p><strong><code>DrillVerdict</code></strong> — the per-attempt result:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">DrillVerdict</span><span class="p">:</span><span class="w"> </span><span class="nb">Equatable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">checking</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">correct</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">closeEnough</span><span class="p">(</span><span class="n">expected</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">played</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">wrong</span><span class="p">(</span><span class="n">expected</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">played</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">unavailable</span><span class="p">(</span><span class="n">message</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">done</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong><code>DrillProbeVerdict</code></strong> — the three-state lift of an optional completed
+decision (<code>nil</code> means no reliable chess judgment was made):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">DrillProbeVerdict</span><span class="p">:</span><span class="w"> </span><span class="nb">Equatable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">accepted</span><span class="p">,</span><span class="w"> </span><span class="n">rejected</span><span class="p">,</span><span class="w"> </span><span class="n">unavailable</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">init</span><span class="p">(</span><span class="n">completed</span><span class="w"> </span><span class="n">decision</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span><span class="p">?)</span><span class="w">   </span><span class="c1">// true→.accepted, false→.rejected, nil→.unavailable</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">completedAttemptDelta</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="w">    </span><span class="c1">// 1 for accepted/rejected, 0 for unavailable</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong><code>DrillStrictness</code></strong> — the Settings → Practice knob, <code>@AppStorage</code> key
+<code>"drillStrictness"</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>marginScale:  lenient = 2.0   normal = 1.0   strict = 0.3
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>scaledMargin(base) = max(1, Int((Double(base) * marginScale).rounded()))
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>showsCloseEnough        == (self == .normal)
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>requiresExactBestMove    == (self == .strict)
+</code></pre></div>
+<p>Lenient accepts generously (a winning-but-imperfect move still reads
+"Correct"); Normal is the only strictness with a "Close enough" middle
+ground; Strict demands the engine's exact rank-one move and — critically —
+<code>requiresExactBestMove</code> lets <code>DrillFlowCore.beginGrading</code> reject a miss
+<em>without ever issuing a probe</em>, so a smaller-margin probe can never
+relabel a near-best move as correct under Strict.</p>
+<p><strong><code>DrillMastery</code></strong> — aggregate counts against the shared <code>BlunderMasteryStore</code>
+history map:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">counts</span><span class="p">&lt;</span><span class="n">Item</span><span class="p">&gt;(</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="kc">_</span><span class="w"> </span><span class="n">items</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Item</span><span class="p">],</span><span class="w"> </span><span class="n">history</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">String</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">],</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="n">threshold</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">,</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="n">key</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">Item</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">String</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">total</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">,</span><span class="w"> </span><span class="n">due</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">,</span><span class="w"> </span><span class="n">mastered</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">)</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">distinctCounts</span><span class="p">&lt;</span><span class="n">Item</span><span class="p">&gt;(</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="n">pools</span><span class="p">:</span><span class="w"> </span><span class="p">[[</span><span class="n">Item</span><span class="p">]],</span><span class="w"> </span><span class="n">history</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">String</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">],</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="n">threshold</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">,</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="n">key</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">Item</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">String</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">total</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">,</span><span class="w"> </span><span class="n">due</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">,</span><span class="w"> </span><span class="n">mastered</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">)</span>
+</code></pre></div>
+<p><code>threshold</code> has <strong>no default</strong>, deliberately. It used to be
+<code>= BlunderMasteryStore.masteryThreshold</code>, and that expression was a trap:
+the Apple app separately declares its own enum literally named
+<code>BlunderMasteryStore</code> whose <code>masteryThreshold</code> reads the user's "Mastery
+streak" setting out of <code>UserDefaults</code>, so the character-identical source
+text <code>BlunderMasteryStore.masteryThreshold</code> meant the user's chosen streak
+in <code>Fianchetto/Views</code> and meant the kit's floor of <code>3</code> in
+<code>FianchettoAndroid/Sources/Fianchetto</code> — and, because a Swift default
+argument is evaluated in the module that <em>declares</em> it, any call that
+simply omitted the argument got <code>3</code> on <strong>both</strong> faces regardless of what
+the user had chosen. Nine live defects came out of that one construct
+kit-wide, including two that wrote disagreeing mastered/due counts into the
+synced <code>TrainProgressCache</code>. The floor now lives on <code>MasteryStreak</code>, which
+nothing shadows; a caller without the user's stored preference gets it
+through <code>MasteryStreak.resolve(stored:)</code> so the fallback is visible at the
+call site instead of hidden in a default argument:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kd">let</span><span class="w"> </span><span class="nv">threshold</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">MasteryStreak</span><span class="p">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">stored</span><span class="p">:</span><span class="w"> </span><span class="n">storedMasteryThreshold</span><span class="p">)</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kd">let</span><span class="w"> </span><span class="nv">counts</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">DrillMastery</span><span class="p">.</span><span class="n">counts</span><span class="p">(</span><span class="n">items</span><span class="p">,</span><span class="w"> </span><span class="n">history</span><span class="p">:</span><span class="w"> </span><span class="n">history</span><span class="p">,</span><span class="w"> </span><span class="n">threshold</span><span class="p">:</span><span class="w"> </span><span class="n">threshold</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nv">$0</span><span class="p">.</span><span class="n">masteryKey</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p><code>distinctCounts</code> exists because tactics pools overlap — one position can be
+nominated by several <code>TacticsExtractionMode</code>s (an opponent blunder that is
+also a critical position) — so summing per-mode counts would inflate the
+Train hub's total by however much the modes happen to overlap. It counts
+each distinct mastery key once, regardless of pool iteration order.</p>
+<h2 id="spaced-repetition-drillsrs">Spaced repetition: DrillSRS<a class="headerlink" href="#spaced-repetition-drillsrs" title="Permanent link">&para;</a></h2>
+<p><code>DrillSRS</code> is the repertoire drill's SRS state, a <code>Codable</code>, <code>BlobBackedStore</code>
+keyed by <code>blobKey = "drillSRS"</code>. Per key it tracks <code>nextReview</code>, <code>interval</code>
+(days), and <code>streak</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>correct → streak += 1;  interval = min(interval * 2, 30)   // days, doubling, capped
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>wrong   → streak  = 0;  interval = 1                        // days
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>nextReview = mutation.timestamp + interval days   (UTC Gregorian calendar,
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>                                                     secondsFromGMT: 0)
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>isDue(key) == entries[key] == nil  ||  entry.nextReview &lt;= now
+</code></pre></div>
+<p>A key with no entry at all counts as due — an unseen position is always
+served. There is no partial credit and no separate "ease factor": the
+interval only ever doubles or resets, so the entire schedule is captured by
+<code>interval</code> and <code>streak</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kd">var</span><span class="w"> </span><span class="nv">srs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">DrillSRS</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="n">blobStore</span><span class="p">)</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="k">if</span><span class="w"> </span><span class="n">srs</span><span class="p">.</span><span class="n">isDue</span><span class="p">(</span><span class="n">key</span><span class="p">:</span><span class="w"> </span><span class="n">position</span><span class="p">.</span><span class="n">positionKey</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="c1">// serve this position in today's drill</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="p">}</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="n">srs</span><span class="p">.</span><span class="n">recordCorrect</span><span class="p">(</span><span class="n">key</span><span class="p">:</span><span class="w"> </span><span class="n">position</span><span class="p">.</span><span class="n">positionKey</span><span class="p">,</span><span class="w"> </span><span class="n">to</span><span class="p">:</span><span class="w"> </span><span class="n">blobStore</span><span class="p">)</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="c1">// srs.recordWrong(key: position.positionKey, to: blobStore)</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="kd">let</span><span class="w"> </span><span class="nv">entry</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">srs</span><span class="p">.</span><span class="n">entry</span><span class="p">(</span><span class="k">for</span><span class="p">:</span><span class="w"> </span><span class="n">position</span><span class="p">.</span><span class="n">positionKey</span><span class="p">)</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="n">entry</span><span class="p">?.</span><span class="n">interval</span><span class="w">    </span><span class="c1">// Int, days</span>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="n">entry</span><span class="p">?.</span><span class="n">streak</span><span class="w">      </span><span class="c1">// Int</span>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="n">entry</span><span class="p">?.</span><span class="n">nextReview</span><span class="w">  </span><span class="c1">// Date</span>
+</code></pre></div>
+<p><code>recordCorrect</code>/<code>recordWrong</code> persist through <code>save(to:)</code> themselves — no
+separate save call is needed.</p>
+<div class="admonition note">
+<p class="admonition-title">Android migration</p>
+<p><code>DrillSRS.load(from:migrationStore:)</code> is an Android-only convenience: if
+the canonical <code>"drillSRS"</code> blob decodes with empty <code>entries</code>, it falls
+back to the legacy <code>"repertoireDrillSRS"</code> key, and on a successful
+migration immediately re-saves under the canonical key so every
+subsequent load takes the normal path. The old key and the new key
+share the identical algorithm and JSON shape — this is a rename, not a
+format migration.</p>
+</div>
+<h2 id="cross-replica-mutation-ledgers">Cross-replica mutation ledgers<a class="headerlink" href="#cross-replica-mutation-ledgers" title="Permanent link">&para;</a></h2>
+<p><code>ConsecutiveCorrectProgress</code> (backing <code>BlunderMasteryStore</code>), <code>DrillSRS</code>,
+and <code>TacticsRatingStore</code> all persist through the same pattern, so that two
+devices syncing the same CloudKit-mirrored blob can union their concurrent
+answers instead of one whole-blob write clobbering the other's:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>1. First write:  legacyBaseline := current materialized state
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>                 mutations := []
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>2. Each answer:  append an immutable Mutation { id: UUID, timestamp, key, correct }
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>3. Rebuild:      state := legacyBaseline
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>                 replay mutations where timestamp &gt; mutationCompactedAt
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>                   ordered by (timestamp asc, then id.uuidString asc)
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>4. Compaction:   once mutations.count &gt;= 1,000 (maxRetainedMutations):
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>                   legacyBaseline := current materialized state
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>                   mutations := []
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>                   mutationCompactedAt := now
+</code></pre></div>
+<p>A wrong answer is therefore an ordinary <em>ordered operation</em> — one more
+<code>Mutation</code> — not a destructive whole-blob reset. <code>record(key:correct:)</code> /
+<code>recordCorrect</code>/<code>recordWrong</code> / <code>recordAttempt</code> all follow the same four
+steps: <code>prepareMutationLedgerIfNeeded()</code>, <code>compactMutationLedgerIfNeeded()</code>,
+append, <code>rebuildFromMutationLedger()</code>. Two replicas that both append a
+mutation and later merge just get a longer, still-deterministically-sorted
+list — timestamp order, with the UUID string as a tiebreaker for
+same-instant concurrent writes.</p>
+<p><code>ConsecutiveCorrectProgress.decode(_:)</code> also accepts a <em>pre-ledger</em> legacy
+shape directly — a raw <code>[String: Int]</code> — and lifts it into
+<code>legacyBaseline</code> with an empty <code>mutations</code> array, so an older build's blob
+decodes exactly like a freshly-compacted one.</p>
+<div class="admonition warning">
+<p class="admonition-title">reset() only tombstones the future</p>
+<p><code>TacticsRatingStore.reset(in:)</code> does not just wipe the ledger: it
+tombstones only mutations with a <em>future</em> timestamp into
+<code>discardedMutationIDs</code> — a defense against a replica whose wall clock
+runs ahead — then sets <code>clearsLegacyBaseline = true</code> and <code>resetAt = now</code>.
+The replay lower fence becomes <code>max(mutationCompactedAt, resetAt)</code>, so a
+concurrent mutation with a badly skewed <em>earlier</em> clock can still land
+on the wrong side of it — the ledger is a bounded, best-effort merge
+window, not an unbounded event log. <code>TacticsPerformanceStore.reset(in:)</code>
+guards its own capped attempt array the same way, tombstoning only
+future-timestamped attempts into <code>discardedAttemptIDs</code>.</p>
+</div>
+<h2 id="tactics-puzzle-mining-tacticsextractor">Tactics puzzle mining: TacticsExtractor<a class="headerlink" href="#tactics-puzzle-mining-tacticsextractor" title="Permanent link">&para;</a></h2>
+<p><code>TacticsExtractor</code> is a pure <code>PGN + eval arrays → [TacticsPuzzle]</code> function
+over <code>Sendable</code> value types — no <code>Game</code>/<code>MoveNode</code> traversal, so extraction
+can run from a <code>Task.detached</code> without blocking the main actor.</p>
+<h3 id="the-four-extraction-modes">The four extraction modes<a class="headerlink" href="#the-four-extraction-modes" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">TacticsExtractionMode</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="p">,</span><span class="w"> </span><span class="n">CaseIterable</span><span class="p">,</span><span class="w"> </span><span class="n">Codable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">opponentBlunders</span><span class="w">   </span><span class="c1">// "Punish"   — the opponent erred; find the punishing reply</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">userBlunders</span><span class="w">       </span><span class="c1">// "Improve"  — you erred; find what you should have played</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">criticalPositions</span><span class="w">  </span><span class="c1">// "Critical" — either side; any sharp eval swing</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">missedMate</span><span class="w">         </span><span class="c1">// "Mates"    — you had a forced mate and let it slip</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>extract(from:mode:mateMaxN:swingThreshold:)</code> requires <code>mainline.count &gt;= 4</code>
+and <code>evals.count == moves.count + 1</code>; anything short of that yields <code>[]</code>.
+Neither <code>mateMaxN</code> nor <code>swingThreshold</code> has a default — each used to
+(<code>mateMaxN: Int = 5</code>, <code>swingThreshold: Int = 150</code>), and Android's Tactics
+view called this exact overload with the arguments left off, so it silently
+graded every account at the kit's floor no matter what the user had chosen
+in Settings (<code>mateMaxN</code>) or a value that had never actually been correct at
+extraction time in the first place (<code>swingThreshold</code> — see
+<code>TacticsSensitivity</code>). A caller without the user's mate-cap preference
+reaches the floor through <code>MissedMateCap.resolve(stored:)</code>; both shipping
+Tactics views extract at <code>TacticsSensitivity.minimum</code> — the kit's loosest
+offered sensitivity — and apply the person's actual preference afterward
+with <code>TacticsSensitivity.filteredPools</code>, rather than varying
+<code>swingThreshold</code> per call.
+<code>extractAll(from:modes:mateMaxN:swingThreshold:)</code> parses the PGN and
+decodes the three eval JSON arrays exactly once and fans them out across
+every requested mode — the dominant cost (the PGN token walk plus three
+JSON decodes) is paid once regardless of how many modes are requested.
+Every mode's result list is sorted descending by <code>|evalAfter - evalBefore|</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>swingForUser = white user:  evalAfterCp - evalBeforeCp
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>               black user:  evalBeforeCp - evalAfterCp
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>.opponentBlunders  qualifies:  !isUserMove  &amp;&amp;  swingForUser &gt;= swingThreshold
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>.userBlunders      qualifies:   isUserMove  &amp;&amp;  swingForUser &lt;= -swingThreshold
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>.criticalPositions qualifies:  |swingForUser| &gt;= swingThreshold
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>.missedMate        qualifies:   isUserMove
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>                    &amp;&amp; a forced mate favoring the user existed before the move
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>                       (|mateDistance| &lt;= mateMaxN)
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>                    &amp;&amp; that forced mate is gone after the move
+</code></pre></div>
+<p><code>.opponentBlunders</code> poses the puzzle <em>after</em> the blunder (find the
+punishing reply, taken from the engine's recommendation at the next node);
+the other three modes pose it <em>before</em> the erring move (find what should
+have been played there).</p>
+<h3 id="ishighquality-and-the-difficulty-ladder">isHighQuality and the difficulty ladder<a class="headerlink" href="#ishighquality-and-the-difficulty-ladder" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>puzzleEvalCp = mode == .opponentBlunders ? evalAfter : evalBefore
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>contested    = |puzzleEvalCp| &lt;= 600                    // contestedBandCp
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>isHighQuality = contested &amp;&amp; (bestVsSecondGapCp ?? nil) &gt;= 100   // uniquenessThresholdCp
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>                                                          // nil gap =&gt; false
+</code></pre></div>
+<p>A decisively-won or decisively-lost position makes a poor puzzle — many
+moves "win" and the recorded best is arbitrary — so <code>isHighQuality</code>
+requires the position to still be genuinely contested (within ±600cp) <em>and</em>
+to have a clear best move (at least 100cp ahead of the second-best
+alternative). A <code>nil</code> gap — a legacy game annotated before second-best
+tracking shipped — is never high-quality, but stays eligible at lower
+priority rather than being dropped.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>swing = |evalAfter - evalBefore|
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>isSharp = (bestVsSecondGapCp ?? nil) &gt;= 100, or true when the gap is nil (legacy fallback)
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>swing &gt;= 500  →  isSharp ? .easy   : .medium
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>swing &gt;= 250  →  isSharp ? .medium : .hard
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>otherwise     →  .hard
+</code></pre></div>
+<h3 id="cachefingerprint">cacheFingerprint<a class="headerlink" href="#cachefingerprint" title="Permanent link">&para;</a></h3>
+<p><code>TacticsInput.cacheFingerprint</code> is a 64-bit FNV-1a-style hash — offset
+basis <code>14_695_981_039_346_656_037</code>, prime <code>1_099_511_628_211</code> — folded
+over <code>["tactics-cache-v4", white, black, username, moveText,
+startingPositionFEN, annotationEvalsJSON, secondBestEvalsJSON,
+mateDistancesJSON]</code>. Swift's built-in <code>Hasher</code> is process-randomized and
+unsuitable for a persisted cache key, so each component is explicitly
+length-framed (its UTF-8 byte count folded in 8 bytes at a time) before its
+own bytes are mixed in — without that framing, <code>["ab", "c"]</code> and <code>["a",
+"bc"]</code> would hash identically at the component boundary.</p>
+<div class="admonition note">
+<p class="admonition-title">annotate feeds this directly</p>
+<p><code>fianchetto-cli</code>'s <code>annotate</code> subcommand emits exactly the per-ply,
+white-POV centipawn array (<code>white_pov_evals</code>, forced mates flattened to
+the ±100000 sentinel) that <code>TacticsInput.annotationEvalsJSON</code> expects
+and that <code>MissedMateCandidate</code>'s offline scan checks against
+(<code>mateMarker = 100_000.0</code>). Puzzle mining over an arbitrary PGN can
+therefore run entirely headless downstream of <code>annotate</code>, with no app
+involved.</p>
+</div>
+<h2 id="tacticsdrillselection">TacticsDrillSelection<a class="headerlink" href="#tacticsdrillselection" title="Permanent link">&para;</a></h2>
+<p>Which puzzles a tactics drill serves, and in what order — extracted
+because both shells had independently written the same ranking and
+disagreed on exactly one edge case.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>ranked(subset):
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>  unmastered = subset.filter { history[key] &lt; masteryThreshold }
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>  source = unmastered.isEmpty ? subset : unmastered   // fallback, not a filter
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>  sort source by:
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>    1. mastery count ascending      (fewest attempts first)
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>    2. |evalAfter - evalBefore| descending
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>prioritized(from: pool, count):
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>  high = ranked(pool.filter { $0.isHighQuality })
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>  low  = ranked(pool.filter { !$0.isHighQuality })
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>  return (high + low).prefix(max(1, count))
+</code></pre></div>
+<p>The mastered-drop in <code>ranked</code> is a fallback, not a filter: a player who has
+mastered every puzzle in a tier still gets that tier back, rather than an
+empty pool. <code>prioritized</code>'s <code>max(1, count)</code> is the same never-empty
+discipline one level up — Settings' "puzzles per drill" picker defaults to
+20, but if it were ever read as 0 (a fresh key, a bad restore, a foreign
+value), a naive <code>prefix(count)</code> would start a drill with <strong>no</strong> puzzles.
+<code>max(1, count)</code> guarantees a user who asked to drill always gets at least
+one.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kd">let</span><span class="w"> </span><span class="nv">byMode</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">TacticsExtractor</span><span class="p">.</span><span class="n">extractAll</span><span class="p">(</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">    </span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="n">input</span><span class="p">,</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">    </span><span class="n">modes</span><span class="p">:</span><span class="w"> </span><span class="p">[.</span><span class="n">opponentBlunders</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">criticalPositions</span><span class="p">,</span><span class="w"> </span><span class="p">.</span><span class="n">missedMate</span><span class="p">],</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">    </span><span class="n">mateMaxN</span><span class="p">:</span><span class="w"> </span><span class="n">MissedMateCap</span><span class="p">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">stored</span><span class="p">:</span><span class="w"> </span><span class="n">storedMateMaxN</span><span class="p">),</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="w">    </span><span class="n">swingThreshold</span><span class="p">:</span><span class="w"> </span><span class="n">TacticsSensitivity</span><span class="p">.</span><span class="n">minimum</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="p">)</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="kd">let</span><span class="w"> </span><span class="nv">pool</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">byMode</span><span class="p">[.</span><span class="n">opponentBlunders</span><span class="p">]</span><span class="w"> </span><span class="p">??</span><span class="w"> </span><span class="p">[]</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="kd">let</span><span class="w"> </span><span class="nv">drill</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">TacticsDrillSelection</span><span class="p">.</span><span class="n">prioritized</span><span class="p">(</span>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="w">    </span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="n">pool</span><span class="p">,</span>
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="w">    </span><span class="bp">count</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
+<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="w">    </span><span class="n">masteryHistory</span><span class="p">:</span><span class="w"> </span><span class="n">BlunderMasteryStore</span><span class="p">.</span><span class="n">history</span><span class="p">(</span><span class="k">in</span><span class="p">:</span><span class="w"> </span><span class="n">blobStore</span><span class="p">),</span>
+<a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a><span class="w">    </span><span class="n">masteryThreshold</span><span class="p">:</span><span class="w"> </span><span class="n">MasteryStreak</span><span class="p">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">stored</span><span class="p">:</span><span class="w"> </span><span class="n">storedMasteryThreshold</span><span class="p">)</span>
+<a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a><span class="p">)</span>
+</code></pre></div>
+<h2 id="reviewquizkernel">ReviewQuizKernel<a class="headerlink" href="#reviewquizkernel" title="Permanent link">&para;</a></h2>
+<p>The shared review-quiz <em>selection</em> engine: which mainline plies become
+quiz questions, and what answer choices each one offers. Lifted from
+Android's <code>ReviewQuizView</code>, which handled a case iOS's pre-set
+<code>node.moveQuality</code> check missed entirely — batch-annotated library games
+that carry evals but no per-node quality labels.</p>
+<h3 id="annotations-first-eval-derived-fallback">Annotations-first, eval-derived fallback<a class="headerlink" href="#annotations-first-eval-derived-fallback" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">quizMoveQuality</span><span class="p">(</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">    </span><span class="n">plyIndex</span><span class="w"> </span><span class="n">k</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">,</span><span class="w"> </span><span class="n">evalCps</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">Double</span><span class="p">],</span><span class="w"> </span><span class="n">mainLineCount</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">,</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">    </span><span class="n">annotations</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">Int</span><span class="p">:</span><span class="w"> </span><span class="n">MoveAnnotation</span><span class="p">],</span><span class="w"> </span><span class="n">startIsWhite</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="n">MoveQuality</span><span class="p">?</span>
+</code></pre></div>
+<p><code>startIsWhite</code> reflects who moves first — a FEN-setup / black-to-move game
+flips ply parity, and therefore flips <em>who the quiz is about</em>. It carried
+<code>= true</code> until 2026-08-08, and that default is exactly what let the
+Android quiz view drop the argument entirely: for a black-to-move game
+Android inverted the mover on every ply and quizzed the user on the
+opponent's mistakes, while its own entry-button count — which did pass the
+flag — advertised a different set of questions than the quiz actually
+asked (divergence register C8). A defaulted correctness argument makes
+"forgot to pass it" indistinguishable from "meant true", so the only
+durable fix was to make the compiler ask every caller.</p>
+<p>A <strong>non-empty</strong> <code>annotations</code> dictionary means the caller has authoritative
+per-ply labels: the eval path is disabled entirely, and only a stored
+<code>.blunder</code> or <code>.mistake</code> at ply <code>k</code> qualifies (this is what reproduces the
+interactive-review behavior exactly). When <code>annotations</code> is empty — the
+batch-annotated library path — quality is derived instead from the
+win-probability drop across <code>evalCps</code> (both before/after probabilities
+oriented to the mover via <code>AccuracyAggregator.winProbability</code>, then
+classified with <code>AccuracyAggregator.classifyMoveQuality(wpDrop:playedBestMove:)</code>);
+only a resulting <code>.blunder</code>/<code>.mistake</code> qualifies.</p>
+<p><code>quizablePlies(mainLine:evalCps:annotations:moveText:startIsWhite:)</code> walks
+every mainline ply, keeps the ones <code>quizMoveQuality</code> accepts, and resolves
+each one's best move — <code>engineBestMoveUCI</code> first, else a PGN-embedded
+snapshot built lazily (at most once, only on the first miss, and only kept
+if it aligns 1:1 with the mainline) — dropping any ply whose best move
+still can't be resolved. <code>QuizablePly { index, quality, bestUCI }</code> is the
+result element.</p>
+<h3 id="choices-distractor-assembly">choices() distractor assembly<a class="headerlink" href="#choices-distractor-assembly" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">choices</span><span class="p">(</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">    </span><span class="n">bestUCI</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">bestSAN</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">    </span><span class="n">actualUCI</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">actualSAN</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="w">    </span><span class="n">legalMoves</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Move</span><span class="p">],</span><span class="w"> </span><span class="n">positionBefore</span><span class="p">:</span><span class="w"> </span><span class="n">Position</span><span class="p">,</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="w">    </span><span class="n">limit</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">4</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">Choice</span><span class="p">]</span>
+</code></pre></div>
+<p>The engine's best move always appears first. The move actually played is
+added only when it differs from best — the whole point of the question is
+to contrast the two, so a quiz that omits the played move teaches nothing.
+Remaining slots up to <code>limit</code> are filled with legal-move distractors,
+shuffled and deduplicated by UCI. The result is returned <strong>unshuffled</strong> —
+best (and maybe played) first, then the distractors in their shuffled
+order — so the <em>caller</em> decides presentation order; both shells shuffle
+again themselves before display, which keeps this function deterministic
+and directly testable:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="kd">let</span><span class="w"> </span><span class="nv">plies</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ReviewQuizKernel</span><span class="p">.</span><span class="n">quizablePlies</span><span class="p">(</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">    </span><span class="n">mainLine</span><span class="p">:</span><span class="w"> </span><span class="n">game</span><span class="p">.</span><span class="n">mainLine</span><span class="p">,</span><span class="w"> </span><span class="n">evalCps</span><span class="p">:</span><span class="w"> </span><span class="n">evalCps</span><span class="p">,</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">    </span><span class="n">annotations</span><span class="p">:</span><span class="w"> </span><span class="n">perPlyAnnotations</span><span class="p">,</span><span class="w"> </span><span class="n">moveText</span><span class="p">:</span><span class="w"> </span><span class="n">pgn</span><span class="p">.</span><span class="n">moveText</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="p">)</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="kd">let</span><span class="w"> </span><span class="nv">options</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ReviewQuizKernel</span><span class="p">.</span><span class="n">choices</span><span class="p">(</span>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="w">    </span><span class="n">bestUCI</span><span class="p">:</span><span class="w"> </span><span class="n">plies</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">bestUCI</span><span class="p">,</span><span class="w"> </span><span class="n">bestSAN</span><span class="p">:</span><span class="w"> </span><span class="n">bestSAN</span><span class="p">,</span>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="w">    </span><span class="n">actualUCI</span><span class="p">:</span><span class="w"> </span><span class="n">actualUCI</span><span class="p">,</span><span class="w"> </span><span class="n">actualSAN</span><span class="p">:</span><span class="w"> </span><span class="n">actualSAN</span><span class="p">,</span>
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="w">    </span><span class="n">legalMoves</span><span class="p">:</span><span class="w"> </span><span class="n">legalMoves</span><span class="p">,</span><span class="w"> </span><span class="n">positionBefore</span><span class="p">:</span><span class="w"> </span><span class="n">positionBefore</span>
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a><span class="p">).</span><span class="n">shuffled</span><span class="p">()</span><span class="w">   </span><span class="c1">// caller owns presentation order</span>
+</code></pre></div>
+<h2 id="studypuzzlecatalogue">StudyPuzzleCatalogue<a class="headerlink" href="#studypuzzlecatalogue" title="Permanent link">&para;</a></h2>
+<p>A fixed, data-only, 51-position reference set shared verbatim by both
+shells — extracted because the FEN sets had been hand-maintained in two
+files with no test to notice a divergence, and at extraction time they
+were still, in fact, identical.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">Goal</span><span class="p">:</span><span class="w"> </span><span class="nb">Equatable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">mateIn</span><span class="p">(</span><span class="nb">Int</span><span class="p">)</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">bestMove</span>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="p">}</span>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="kd">public</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="nc">Spec</span><span class="p">:</span><span class="w"> </span><span class="nb">Equatable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">fen</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span>
+<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">goal</span><span class="p">:</span><span class="w"> </span><span class="n">Goal</span>
+<a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a><span class="p">}</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Count</th>
+<th>Goal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pieceCheckmates</code></td>
+<td>10</td>
+<td>K+Q, K+R, K+2B, K+B+N basic mates, <code>.mateIn(1...4)</code></td>
+</tr>
+<tr>
+<td><code>checkmatePatterns</code></td>
+<td>17</td>
+<td>named patterns — back-rank, hook, Anastasia's, smothered, Boden's, Arabian, Morphy's, Pillsbury's, Damiano's, Lolli's, and more — all <code>.mateIn(1)</code></td>
+</tr>
+<tr>
+<td><code>mateInTwo</code></td>
+<td>6</td>
+<td>combinational mates, <code>.mateIn(2)</code> or <code>.mateIn(3)</code></td>
+</tr>
+<tr>
+<td><code>forks</code></td>
+<td>6</td>
+<td><code>.bestMove</code></td>
+</tr>
+<tr>
+<td><code>pins</code></td>
+<td>6</td>
+<td><code>.bestMove</code></td>
+</tr>
+<tr>
+<td><code>pawnEndgames</code></td>
+<td>6</td>
+<td>key squares and opposition, <code>.bestMove</code></td>
+</tr>
+</tbody>
+</table>
+<p>10 + 17 + 6 + 6 + 6 + 6 = <strong>51</strong>. The opening traps Study also drills are
+<em>not</em> here — those load from a bundled resource, and bundle lookup is
+shell-specific.</p>
+<h2 id="combination-puzzles-combinationdrillcore">Combination puzzles: CombinationDrillCore<a class="headerlink" href="#combination-puzzles-combinationdrillcore" title="Permanent link">&para;</a></h2>
+<p>A combination — a multi-move tactic with a scripted opponent reply after
+each solver move — cannot be graded against a single expected UCI the way
+<code>DrillFlowCore</code> grades a puzzle, because the "answer" is a tree: several
+solver moves can be equally correct, and the opponent's reply differs by
+branch. <code>CombinationDrillCore</code> is that tree's own <code>Sendable</code> state machine,
+lifted out of <code>CombinationDrillView</code> for the same reason <code>DrillFlowCore</code>
+was extracted from the shells — every bug it had shipped was an ordering
+bug (an undo re-triggering the check it was undoing from; a move scored
+before its consequence was known playable; a completion written one line
+before another assignment overwrote it), and none of the three was
+reachable by any test that had to go through a SwiftUI view to exercise
+them. It owns no board: every board mutation comes back as an <code>Effect</code>
+the shell applies, and every board fact it needs arrives as a
+<code>BoardSnapshot</code> — the same input/output split this page's other cores use.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="kd">var</span><span class="w"> </span><span class="nv">core</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">CombinationDrillCore</span><span class="p">(</span><span class="n">puzzle</span><span class="p">:</span><span class="w"> </span><span class="n">puzzle</span><span class="p">)</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="n">apply</span><span class="p">(</span><span class="n">core</span><span class="p">.</span><span class="n">start</span><span class="p">())</span><span class="w">                       </span><span class="c1">// [.loadPosition(fen:), .setBoardFlipped(_)]</span>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1">// On EVERY cursor change — including the ones the drill caused itself.</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="kd">let</span><span class="w"> </span><span class="nv">effects</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">core</span><span class="p">.</span><span class="n">boardChanged</span><span class="p">(</span><span class="n">CombinationDrillCore</span><span class="p">.</span><span class="n">BoardSnapshot</span><span class="p">(</span>
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="w">    </span><span class="n">cursorUCI</span><span class="p">:</span><span class="w"> </span><span class="n">cursorUCI</span><span class="p">,</span><span class="w">     </span><span class="c1">// the move under the cursor; nil at the start position</span>
+<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="w">    </span><span class="n">cursorPly</span><span class="p">:</span><span class="w"> </span><span class="n">cursorPly</span><span class="p">,</span><span class="w">     </span><span class="c1">// its ply index; -1 at the start position</span>
+<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a><span class="w">    </span><span class="n">position</span><span class="p">:</span><span class="w"> </span><span class="n">livePosition</span><span class="w">    </span><span class="c1">// WITH cursorUCI already on the board</span>
+<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="p">))</span>
+<a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a><span class="n">apply</span><span class="p">(</span><span class="n">effects</span><span class="p">)</span>
+<a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a>
+<a id="__codelineno-24-12" name="__codelineno-24-12" href="#__codelineno-24-12"></a><span class="n">core</span><span class="p">.</span><span class="n">solved</span><span class="p">;</span><span class="w"> </span><span class="n">core</span><span class="p">.</span><span class="n">wrongAttempts</span><span class="p">;</span><span class="w"> </span><span class="n">core</span><span class="p">.</span><span class="n">attempts</span><span class="p">;</span><span class="w"> </span><span class="n">core</span><span class="p">.</span><span class="n">totalSolverMoves</span><span class="p">;</span><span class="w"> </span><span class="n">core</span><span class="p">.</span><span class="n">isFinished</span>
+</code></pre></div>
+<p>Its re-entrancy guard is the same shape as <code>DrillFlowCore</code>'s: a board change
+only counts as an answer when <code>board.cursorPly == waitingPly + 1</code>, a value
+recorded when the core <em>decides</em>, before the shell has applied anything — so
+the scripted reply landing at <code>waitingPly</code>, a take-back returning the cursor
+there, or the user browsing the move list all grade nothing, regardless of
+what order the shell delivers them in. <code>Effect</code> is <code>loadPosition(fen:)</code>,
+<code>setBoardFlipped(Bool)</code>, <code>takeBack(TakeBackReason)</code>, <code>playReply(uci:move:)</code>,
+and <code>completed(solved:attempts:)</code>; <code>TakeBackReason</code> distinguishes a scored
+<code>.wrongMove</code> from an unscored <code>.replyUnplayable</code> (a malformed or exhausted
+tree), so a shell can eventually word the two differently without the core
+tracking anything more than it already does.</p>
+<p>The tree <code>CombinationDrillCore</code> walks is built by <code>CombinationPuzzleKernel</code>
+from engine lines, fed by two small value types:</p>
+<ul>
+<li><strong><code>NodeEvaluation</code></strong> — engine evaluations for the legal moves at one
+  position, mover-POV centipawns: <code>moveEvals: [String: Int]</code> plus a
+  computed <code>bestCp</code> (the max). <code>buildPuzzle</code>'s <code>evaluations</code> parameter is
+  keyed by FEN; a solver node accepts every move within
+  <code>dualSolutionToleranceCp</code> (50cp) of <code>bestCp</code>, not only the engine's top
+  pick, because a drill that accepted just one of two winning moves would
+  reject a correct dual solution. A position with no entry falls back to
+  accepting only the move the supplied line actually played — conservative
+  rather than wrong.</li>
+<li><strong><code>UnresolvedBranch</code></strong> — an opponent reply a real player might choose
+  that the tree has no scripted continuation for: the FEN, the
+  solver-relative UCI path to it, the reply itself, <code>lossVsBestCp</code>, an
+  optional <code>humanProbability</code> from a Maia policy, and <code>reachProbability</code>
+  (the product of the opponent choices above it in the tree). Its
+  <code>expectedFrequency</code> (<code>(humanProbability ?? 1) * reachProbability</code>), not
+  <code>lossVsBestCp</code> alone, is what decides whether a gap is worth scripting —
+  a reply nobody plays costs nothing to leave unresolved. A non-empty
+  <code>unresolvedBranches</code> list does not block drilling: <code>CombinationDrillCore</code>
+  always plays a <em>scripted</em> reply, so the walk can never strand on one;
+  it is reported so the miner can go probe the gap, not so the solver
+  refuses to start.</li>
+</ul>
+<h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../stores/">Stores &amp; the storage seam</a> — <code>TacticsRatingStore</code>,
+  <code>TacticsPerformanceStore</code>, <code>BlunderMasteryStore</code>, <code>TrainProgressCache</code>,
+  and <code>PracticeMode</code> from the persistence/seam side: blob keys, capacity
+  limits, and the query surface each store exposes. This page covers the
+  algorithms and the flow/selection logic layered on top of that storage —
+  the two pages are complementary, not overlapping.</li>
+<li><a href="../analysis/">Analysis math</a> — <code>AccuracyAggregator.winProbability</code> and
+  <code>classifyMoveQuality</code>, which <code>ReviewQuizKernel</code>'s eval-derived path calls
+  directly.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      FianchettoKit — chess training logic built on ChessCore.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

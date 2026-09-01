@@ -16,14 +16,14 @@
         <link rel="prev" href="../../getting-started/">
       
       
-        <link rel="next" href="../storage-and-authored-history/">
+        <link rel="next" href="../file-store/">
       
       
         
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -353,6 +353,8 @@
       
         
       
+        
+      
     
     
     
@@ -568,14 +570,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../storage-and-authored-history/" class="md-nav__link">
+      <a href="../file-store/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Storage, DTOs & authored history
+    FileJSONBlobStore & persistence
   
 
     
@@ -624,34 +626,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../engine-annotation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Engine & annotation
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../analysis/" class="md-nav__link">
         
   
@@ -680,14 +654,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../strength-and-elo/" class="md-nav__link">
+      <a href="../elo-estimation/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Strength, Elo & accuracy
+    Elo estimation & strength tracking
   
 
     
@@ -708,154 +682,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../maia/" class="md-nav__link">
+      <a href="../engine/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Maia policy model
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../tactics-and-drills/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Tactics, drills & spaced repetition
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../repertoire/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Repertoire, openings & traps
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../endgame-mining/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Endgame mining & the endgame trainer
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../review-play-voice/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Review, play & voice
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../network-import/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Network clients & game import
+    Engine, annotation & Maia
   
 
     
@@ -904,14 +738,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../library-backup/" class="md-nav__link">
+      <a href="../library-store/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Library backup & collections
+    Library store kernel
   
 
     
@@ -932,7 +766,203 @@
   
   
     <li class="md-nav__item">
-      <a href="../eboard/" class="md-nav__link">
+      <a href="../library-backup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library backup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authored-history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authored history & the mutation journal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../drill-engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Drill flow, SRS & tactics mining
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../puzzle-import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Puzzle import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../endgame-mining/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Endgame mining & the endgame trainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../repertoire-gap-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repertoire gap analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../play-review-voice/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Play, review & voice
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eboard-integration/" class="md-nav__link">
         
   
   
@@ -993,33 +1023,6 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../reconciliation-note/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Reconciliation note
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
     
     
       
@@ -1054,7 +1057,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -1076,14 +1079,14 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="">
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1486,19 +1489,19 @@ equal-and-opposite amount.</p>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>userRating   += delta
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>puzzleRating −= delta                       // zero-sum
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">var</span> <span class="nv">ratings</span> <span class="p">=</span> <span class="n">TacticsRatingStore</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">from</span><span class="p">:</span> <span class="n">blobStore</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">var</span><span class="w"> </span><span class="nv">ratings</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">TacticsRatingStore</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="n">blobStore</span><span class="p">)</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kd">let</span> <span class="nv">delta</span> <span class="p">=</span> <span class="n">ratings</span><span class="p">.</span><span class="n">recordAttempt</span><span class="p">(</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">puzzleKey</span><span class="p">:</span> <span class="n">key</span><span class="p">,</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">difficulty</span><span class="p">:</span> <span class="p">.</span><span class="n">medium</span><span class="p">,</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">outcome</span><span class="p">:</span> <span class="p">.</span><span class="n">correct</span><span class="p">,</span>         <span class="c1">// .skipped is a no-op and returns 0</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="k">in</span><span class="p">:</span> <span class="n">blobStore</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kd">let</span><span class="w"> </span><span class="nv">delta</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ratings</span><span class="p">.</span><span class="n">recordAttempt</span><span class="p">(</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="n">puzzleKey</span><span class="p">:</span><span class="w"> </span><span class="n">key</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="n">difficulty</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">medium</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="n">outcome</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">correct</span><span class="p">,</span><span class="w">         </span><span class="c1">// .skipped is a no-op and returns 0</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="k">in</span><span class="p">:</span><span class="w"> </span><span class="n">blobStore</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">)</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1">// `delta` is the user-rating change — use it for the &quot;+12&quot; / &quot;−9&quot; flash.</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1">// `delta` is the user-rating change — use it for the "+12" / "−9" flash.</span>
 <a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="n">ratings</span><span class="p">.</span><span class="n">displayUserRating</span>       <span class="c1">// rounded current rating</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="n">ratings</span><span class="p">.</span><span class="n">peakUserRating</span>          <span class="c1">// best ever — the &quot;personal best&quot; badge</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="n">ratings</span><span class="p">.</span><span class="n">relativeDifficulty</span><span class="p">(</span><span class="k">for</span><span class="p">:</span> <span class="n">key</span><span class="p">)</span>   <span class="c1">// .veryEasy ... .veryHard, by the rating gap</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="n">ratings</span><span class="p">.</span><span class="n">displayUserRating</span><span class="w">       </span><span class="c1">// rounded current rating</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="n">ratings</span><span class="p">.</span><span class="n">peakUserRating</span><span class="w">          </span><span class="c1">// best ever — the "personal best" badge</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="n">ratings</span><span class="p">.</span><span class="n">relativeDifficulty</span><span class="p">(</span><span class="k">for</span><span class="p">:</span><span class="w"> </span><span class="n">key</span><span class="p">)</span><span class="w">   </span><span class="c1">// .veryEasy ... .veryHard, by the rating gap</span>
 </code></pre></div>
 <p>History is capped at 200 points; <code>recordRepertoireAttempt(...)</code> rolls up
 repertoire performance separately.</p>
@@ -1507,87 +1510,80 @@ repertoire performance separately.</p>
 <code>StreakMath</code>), median solve time, and per-difficulty / per-mode
 breakdowns. Capped at <strong>3,000 attempts</strong> to stay under CloudKit's ~1 MB record
 limit.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">var</span> <span class="nv">perf</span> <span class="p">=</span> <span class="n">TacticsPerformanceStore</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">from</span><span class="p">:</span> <span class="n">blobStore</span><span class="p">)</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">perf</span><span class="p">.</span><span class="n">record</span><span class="p">(</span><span class="n">attempt</span><span class="p">,</span> <span class="k">in</span><span class="p">:</span> <span class="n">blobStore</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">var</span><span class="w"> </span><span class="nv">perf</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">TacticsPerformanceStore</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="n">blobStore</span><span class="p">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">perf</span><span class="p">.</span><span class="n">record</span><span class="p">(</span><span class="n">attempt</span><span class="p">,</span><span class="w"> </span><span class="k">in</span><span class="p">:</span><span class="w"> </span><span class="n">blobStore</span><span class="p">)</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">perf</span><span class="p">.</span><span class="n">accuracy</span>                       <span class="c1">// correct / (correct + wrong)</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">perf</span><span class="p">.</span><span class="n">currentStreak</span>                  <span class="c1">// StreakMath.current over the outcomes</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">perf</span><span class="p">.</span><span class="n">bestStreak</span>                     <span class="c1">// StreakMath.best</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">perf</span><span class="p">.</span><span class="n">medianSolveSeconds</span>             <span class="c1">// median over correct attempts (capped 300s)</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">perf</span><span class="p">.</span><span class="n">recentAccuracy</span><span class="p">(</span><span class="n">over</span><span class="p">:</span> <span class="mi">20</span><span class="p">)</span>       <span class="c1">// rolling window</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="n">perf</span><span class="p">.</span><span class="n">attempts</span><span class="p">(</span><span class="n">since</span><span class="p">:</span> <span class="n">lastWeek</span><span class="p">)</span>      <span class="c1">// oldest first</span>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="n">perf</span><span class="p">.</span><span class="n">difficultyBreakdown</span><span class="p">()</span>          <span class="c1">// [&quot;hard&quot;: (correct: 12, wrong: 3), ...]</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="n">perf</span><span class="p">.</span><span class="n">modeBreakdown</span><span class="p">()</span>                <span class="c1">// by extraction mode (punish / blunders / ...)</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">perf</span><span class="p">.</span><span class="n">accuracy</span><span class="w">                       </span><span class="c1">// correct / (correct + wrong)</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">perf</span><span class="p">.</span><span class="n">currentStreak</span><span class="w">                  </span><span class="c1">// StreakMath.current over the outcomes</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">perf</span><span class="p">.</span><span class="n">bestStreak</span><span class="w">                     </span><span class="c1">// StreakMath.best</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">perf</span><span class="p">.</span><span class="n">medianSolveSeconds</span><span class="w">             </span><span class="c1">// median over correct attempts (capped 300s)</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">perf</span><span class="p">.</span><span class="n">recentAccuracy</span><span class="p">(</span><span class="n">over</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span><span class="w">       </span><span class="c1">// rolling window</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="n">perf</span><span class="p">.</span><span class="n">attempts</span><span class="p">(</span><span class="n">since</span><span class="p">:</span><span class="w"> </span><span class="n">lastWeek</span><span class="p">)</span><span class="w">      </span><span class="c1">// oldest first</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="n">perf</span><span class="p">.</span><span class="n">difficultyBreakdown</span><span class="p">()</span><span class="w">          </span><span class="c1">// ["hard": (correct: 12, wrong: 3), ...]</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="n">perf</span><span class="p">.</span><span class="n">modeBreakdown</span><span class="p">()</span><span class="w">                </span><span class="c1">// by extraction mode (punish / blunders / ...)</span>
 </code></pre></div>
 <p>A <code>TacticsAttempt</code> records one puzzle attempt:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">public</span> <span class="kd">struct</span> <span class="nc">TacticsAttempt</span><span class="p">:</span> <span class="n">Codable</span><span class="p">,</span> <span class="n">Identifiable</span><span class="p">,</span> <span class="n">Sendable</span><span class="p">,</span> <span class="nb">Hashable</span> <span class="p">{</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="kd">public</span> <span class="kd">var</span> <span class="nv">id</span><span class="p">:</span> <span class="n">UUID</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="kd">public</span> <span class="kd">var</span> <span class="nv">puzzleKey</span><span class="p">:</span> <span class="nb">String</span>        <span class="c1">// &quot;&lt;fen&gt;:&lt;correctSAN&gt;&quot;</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="kd">public</span> <span class="kd">var</span> <span class="nv">outcome</span><span class="p">:</span> <span class="n">Outcome</span>         <span class="c1">// .correct | .wrong | .skipped</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="kd">public</span> <span class="kd">var</span> <span class="nv">elapsedSeconds</span><span class="p">:</span> <span class="nb">Double</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="kd">public</span> <span class="kd">var</span> <span class="nv">attemptOrdinal</span><span class="p">:</span> <span class="nb">Int</span>      <span class="c1">// 1 = first this session</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="kd">public</span> <span class="kd">var</span> <span class="nv">timestamp</span><span class="p">:</span> <span class="n">Date</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="kd">public</span> <span class="kd">var</span> <span class="nv">extractionMode</span><span class="p">:</span> <span class="nb">String</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="kd">public</span> <span class="kd">var</span> <span class="nv">difficulty</span><span class="p">:</span> <span class="nb">String</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="nc">TacticsAttempt</span><span class="p">:</span><span class="w"> </span><span class="n">Codable</span><span class="p">,</span><span class="w"> </span><span class="n">Identifiable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="p">,</span><span class="w"> </span><span class="nb">Hashable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="n">UUID</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">puzzleKey</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">        </span><span class="c1">// "&lt;fen&gt;:&lt;correctSAN&gt;"</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">outcome</span><span class="p">:</span><span class="w"> </span><span class="n">Outcome</span><span class="w">         </span><span class="c1">// .correct | .wrong | .skipped</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">elapsedSeconds</span><span class="p">:</span><span class="w"> </span><span class="nb">Double</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">attemptOrdinal</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="w">      </span><span class="c1">// 1 = first this session</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">timestamp</span><span class="p">:</span><span class="w"> </span><span class="n">Date</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">extractionMode</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">difficulty</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span>
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">}</span>
 </code></pre></div>
 <h2 id="blundermasterystore-spaced-repetition">BlunderMasteryStore — spaced repetition<a class="headerlink" href="#blundermasterystore-spaced-repetition" title="Permanent link">&para;</a></h2>
 <p>A <code>[String: Int]</code> of consecutive-correct counts keyed by <code>"&lt;fen&gt;:&lt;correctSAN&gt;"</code>,
 for quizzing the user to find the correct move from a flagged position. A correct
 answer bumps the counter; a wrong answer <strong>resets it to 0</strong> so the position
-resurfaces.</p>
-<p>How many consecutive correct answers count as mastered is the caller's to
-supply: <code>isMastered</code> takes <code>threshold</code> with <strong>no default</strong>, so the store never
-invents a number on the user's behalf. Where the user has expressed no
-preference, resolve one through <code>MasteryStreak.resolve(stored:)</code>, whose floor
-is <code>3</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">let</span> <span class="nv">key</span> <span class="p">=</span> <span class="n">BlunderMasteryStore</span><span class="p">.</span><span class="n">key</span><span class="p">(</span><span class="n">fen</span><span class="p">:</span> <span class="n">fen</span><span class="p">,</span> <span class="n">correctSAN</span><span class="p">:</span> <span class="s">&quot;Qxh7#&quot;</span><span class="p">)</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kd">let</span> <span class="nv">threshold</span> <span class="p">=</span> <span class="n">MasteryStreak</span><span class="p">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">stored</span><span class="p">:</span> <span class="n">userPreference</span><span class="p">)</span>   <span class="c1">// or MasteryStreak.floor</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">BlunderMasteryStore</span><span class="p">.</span><span class="n">record</span><span class="p">(</span><span class="n">fen</span><span class="p">:</span> <span class="n">fen</span><span class="p">,</span> <span class="n">correctSAN</span><span class="p">:</span> <span class="s">&quot;Qxh7#&quot;</span><span class="p">,</span> <span class="n">correct</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="k">in</span><span class="p">:</span> <span class="n">blobStore</span><span class="p">)</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="kd">let</span> <span class="nv">count</span> <span class="p">=</span> <span class="n">BlunderMasteryStore</span><span class="p">.</span><span class="n">mastery</span><span class="p">(</span><span class="n">fen</span><span class="p">:</span> <span class="n">fen</span><span class="p">,</span> <span class="n">correctSAN</span><span class="p">:</span> <span class="s">&quot;Qxh7#&quot;</span><span class="p">,</span> <span class="k">in</span><span class="p">:</span> <span class="n">blobStore</span><span class="p">)</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="k">if</span> <span class="n">BlunderMasteryStore</span><span class="p">.</span><span class="n">isMastered</span><span class="p">(</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="n">fen</span><span class="p">:</span> <span class="n">fen</span><span class="p">,</span> <span class="n">correctSAN</span><span class="p">:</span> <span class="s">&quot;Qxh7#&quot;</span><span class="p">,</span> <span class="k">in</span><span class="p">:</span> <span class="n">blobStore</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="n">threshold</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="p">)</span> <span class="p">{</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="c1">// drop from the due queue</span>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p">}</span>
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="kd">let</span> <span class="nv">all</span> <span class="p">=</span> <span class="n">BlunderMasteryStore</span><span class="p">.</span><span class="n">history</span><span class="p">(</span><span class="k">in</span><span class="p">:</span> <span class="n">blobStore</span><span class="p">)</span>   <span class="c1">// [String: Int]</span>
+resurfaces. A position is mastered — and leaves the due queue — at
+<code>masteryThreshold</code> (<strong>3</strong>) consecutive correct.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">let</span><span class="w"> </span><span class="nv">key</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">BlunderMasteryStore</span><span class="p">.</span><span class="n">key</span><span class="p">(</span><span class="n">fen</span><span class="p">:</span><span class="w"> </span><span class="n">fen</span><span class="p">,</span><span class="w"> </span><span class="n">correctSAN</span><span class="p">:</span><span class="w"> </span><span class="s">"Qxh7#"</span><span class="p">)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">BlunderMasteryStore</span><span class="p">.</span><span class="n">record</span><span class="p">(</span><span class="n">fen</span><span class="p">:</span><span class="w"> </span><span class="n">fen</span><span class="p">,</span><span class="w"> </span><span class="n">correctSAN</span><span class="p">:</span><span class="w"> </span><span class="s">"Qxh7#"</span><span class="p">,</span><span class="w"> </span><span class="n">correct</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="k">in</span><span class="p">:</span><span class="w"> </span><span class="n">blobStore</span><span class="p">)</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="kd">let</span><span class="w"> </span><span class="nv">count</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">BlunderMasteryStore</span><span class="p">.</span><span class="n">mastery</span><span class="p">(</span><span class="n">fen</span><span class="p">:</span><span class="w"> </span><span class="n">fen</span><span class="p">,</span><span class="w"> </span><span class="n">correctSAN</span><span class="p">:</span><span class="w"> </span><span class="s">"Qxh7#"</span><span class="p">,</span><span class="w"> </span><span class="k">in</span><span class="p">:</span><span class="w"> </span><span class="n">blobStore</span><span class="p">)</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="k">if</span><span class="w"> </span><span class="n">BlunderMasteryStore</span><span class="p">.</span><span class="n">isMastered</span><span class="p">(</span><span class="n">fen</span><span class="p">:</span><span class="w"> </span><span class="n">fen</span><span class="p">,</span><span class="w"> </span><span class="n">correctSAN</span><span class="p">:</span><span class="w"> </span><span class="s">"Qxh7#"</span><span class="p">,</span><span class="w"> </span><span class="k">in</span><span class="p">:</span><span class="w"> </span><span class="n">blobStore</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="c1">// drop from the due queue</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">}</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="kd">let</span><span class="w"> </span><span class="nv">all</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">BlunderMasteryStore</span><span class="p">.</span><span class="n">history</span><span class="p">(</span><span class="k">in</span><span class="p">:</span><span class="w"> </span><span class="n">blobStore</span><span class="p">)</span><span class="w">   </span><span class="c1">// [String: Int]</span>
 </code></pre></div>
 <h2 id="repertoiredrillstats-per-repertoire-history">RepertoireDrillStats — per-repertoire history<a class="headerlink" href="#repertoiredrillstats-per-repertoire-history" title="Permanent link">&para;</a></h2>
 <p>Aggregates <code>DrillAttempt</code> records per repertoire <code>UUID</code>: accuracy, current/best
 streak (again via <code>StreakMath</code>), and a last-N sparkline.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">var</span> <span class="nv">drills</span> <span class="p">=</span> <span class="n">RepertoireDrillStats</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">from</span><span class="p">:</span> <span class="n">blobStore</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">var</span><span class="w"> </span><span class="nv">drills</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">RepertoireDrillStats</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="n">blobStore</span><span class="p">)</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">drills</span><span class="p">.</span><span class="n">record</span><span class="p">(</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="p">.</span><span class="kd">init</span><span class="p">(</span><span class="n">correct</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="n">positionKey</span><span class="p">:</span> <span class="n">position</span><span class="p">.</span><span class="n">positionKey</span><span class="p">),</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="k">in</span><span class="p">:</span> <span class="n">repertoireID</span><span class="p">,</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">store</span><span class="p">:</span> <span class="n">blobStore</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="p">.</span><span class="kd">init</span><span class="p">(</span><span class="n">correct</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="n">positionKey</span><span class="p">:</span><span class="w"> </span><span class="n">position</span><span class="p">.</span><span class="n">positionKey</span><span class="p">),</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="k">in</span><span class="p">:</span><span class="w"> </span><span class="n">repertoireID</span><span class="p">,</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="n">store</span><span class="p">:</span><span class="w"> </span><span class="n">blobStore</span>
 <a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="p">)</span>
 <a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="n">drills</span><span class="p">.</span><span class="n">accuracy</span><span class="p">(</span><span class="k">for</span><span class="p">:</span> <span class="n">repertoireID</span><span class="p">)</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="n">drills</span><span class="p">.</span><span class="n">currentStreak</span><span class="p">(</span><span class="k">for</span><span class="p">:</span> <span class="n">repertoireID</span><span class="p">)</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="n">drills</span><span class="p">.</span><span class="n">bestStreak</span><span class="p">(</span><span class="k">for</span><span class="p">:</span> <span class="n">repertoireID</span><span class="p">)</span>
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="n">drills</span><span class="p">.</span><span class="n">recentOutcomes</span><span class="p">(</span><span class="k">for</span><span class="p">:</span> <span class="n">repertoireID</span><span class="p">,</span> <span class="bp">last</span><span class="p">:</span> <span class="mi">10</span><span class="p">)</span>   <span class="c1">// [Bool], newest last</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="n">drills</span><span class="p">.</span><span class="n">accuracy</span><span class="p">(</span><span class="k">for</span><span class="p">:</span><span class="w"> </span><span class="n">repertoireID</span><span class="p">)</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="n">drills</span><span class="p">.</span><span class="n">currentStreak</span><span class="p">(</span><span class="k">for</span><span class="p">:</span><span class="w"> </span><span class="n">repertoireID</span><span class="p">)</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="n">drills</span><span class="p">.</span><span class="n">bestStreak</span><span class="p">(</span><span class="k">for</span><span class="p">:</span><span class="w"> </span><span class="n">repertoireID</span><span class="p">)</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="n">drills</span><span class="p">.</span><span class="n">recentOutcomes</span><span class="p">(</span><span class="k">for</span><span class="p">:</span><span class="w"> </span><span class="n">repertoireID</span><span class="p">,</span><span class="w"> </span><span class="bp">last</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w">   </span><span class="c1">// [Bool], newest last</span>
 </code></pre></div>
 <h2 id="trainprogresscache-a-display-hint">TrainProgressCache — a display hint<a class="headerlink" href="#trainprogresscache-a-display-hint" title="Permanent link">&para;</a></h2>
 <p>A per-<code>PracticeMode</code> snapshot (<code>total</code>, <code>due</code>, <code>mastered</code>) so a drill hub can show
 meaningful counts on a cold launch without recomputing each drill's pool. It is a
 device-local display hint — the authoritative mastery history is
 <code>BlunderMasteryStore</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">TrainProgressCache</span><span class="p">.</span><span class="n">record</span><span class="p">(.</span><span class="kd">init</span><span class="p">(</span><span class="n">total</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span> <span class="n">due</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="n">mastered</span><span class="p">:</span> <span class="mi">28</span><span class="p">),</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>                          <span class="k">for</span><span class="p">:</span> <span class="p">.</span><span class="n">tactics</span><span class="p">,</span> <span class="n">into</span><span class="p">:</span> <span class="n">blobStore</span><span class="p">)</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kd">let</span> <span class="nv">snap</span> <span class="p">=</span> <span class="n">TrainProgressCache</span><span class="p">.</span><span class="n">snapshot</span><span class="p">(</span><span class="k">for</span><span class="p">:</span> <span class="p">.</span><span class="n">tactics</span><span class="p">,</span> <span class="n">from</span><span class="p">:</span> <span class="n">blobStore</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">TrainProgressCache</span><span class="p">.</span><span class="n">record</span><span class="p">(.</span><span class="kd">init</span><span class="p">(</span><span class="n">total</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span><span class="w"> </span><span class="n">due</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="n">mastered</span><span class="p">:</span><span class="w"> </span><span class="mi">28</span><span class="p">),</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">                          </span><span class="k">for</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">tactics</span><span class="p">,</span><span class="w"> </span><span class="n">into</span><span class="p">:</span><span class="w"> </span><span class="n">blobStore</span><span class="p">)</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kd">let</span><span class="w"> </span><span class="nv">snap</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">TrainProgressCache</span><span class="p">.</span><span class="n">snapshot</span><span class="p">(</span><span class="k">for</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">tactics</span><span class="p">,</span><span class="w"> </span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="n">blobStore</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="training-modes">Training modes<a class="headerlink" href="#training-modes" title="Permanent link">&para;</a></h2>
 <p><code>PracticeMode</code> keys the Train drills with stable raw values used for routing,
 deep links, and per-drill progress keys:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kd">public</span> <span class="n">nonisolated</span> <span class="kd">enum</span> <span class="nc">PracticeMode</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">Sendable</span><span class="p">,</span> <span class="n">CaseIterable</span><span class="p">,</span> <span class="n">Codable</span> <span class="p">{</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="k">case</span> <span class="n">study</span> <span class="p">=</span> <span class="s">&quot;Study&quot;</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="k">case</span> <span class="n">repertoire</span> <span class="p">=</span> <span class="s">&quot;Repertoire&quot;</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="k">case</span> <span class="n">tactics</span> <span class="p">=</span> <span class="s">&quot;Tactics&quot;</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="k">case</span> <span class="n">combinations</span> <span class="p">=</span> <span class="s">&quot;Combinations&quot;</span>   <span class="c1">// multi-move sacrifices from annotated games</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="k">case</span> <span class="n">traps</span> <span class="p">=</span> <span class="s">&quot;Traps&quot;</span>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    <span class="k">case</span> <span class="n">endgame</span> <span class="p">=</span> <span class="s">&quot;Endgames&quot;</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    <span class="k">case</span> <span class="n">punish</span> <span class="p">=</span> <span class="s">&quot;Punish&quot;</span>               <span class="c1">// refute opponents&#39; unsound repertoire replies</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">PracticeMode</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="p">,</span><span class="w"> </span><span class="n">CaseIterable</span><span class="p">,</span><span class="w"> </span><span class="n">Codable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">study</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">"Study"</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">repertoire</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">"Repertoire"</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">tactics</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">"Tactics"</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">combinations</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">"Combinations"</span><span class="w">   </span><span class="c1">// multi-move sacrifices mined from annotated personal games</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">traps</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">"Traps"</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">endgame</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">"Endgames"</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">punish</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">"Punish"</span><span class="w">   </span><span class="c1">// refute opponents' unsound replies from the repertoire</span>
 <a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="p">}</span>
 </code></pre></div>
 <h2 id="pure-logic-helpers">Pure-logic helpers<a class="headerlink" href="#pure-logic-helpers" title="Permanent link">&para;</a></h2>
@@ -1663,7 +1659,7 @@ deep links, and per-drill progress keys:</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

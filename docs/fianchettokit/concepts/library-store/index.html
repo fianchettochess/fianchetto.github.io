@@ -1,0 +1,2365 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Chess training logic built on ChessCore — engine annotation, strength/Elo estimation, tactics, repertoire and endgame drills, portable persistence, game import, electronic-board handling, and the fianchetto-cli headless tools.">
+      
+      
+        <meta name="author" content="Fianchetto">
+      
+      
+      
+        <link rel="prev" href="../network-clients/">
+      
+      
+        <link rel="next" href="../library-backup/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Library store kernel - FianchettoKit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#library-store-kernel" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="FianchettoKit" class="md-header__button md-logo" aria-label="FianchettoKit" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FianchettoKit
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Library store kernel
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="FianchettoKit" class="md-nav__button md-logo" aria-label="FianchettoKit" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    FianchettoKit
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stores & the storage seam
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file-store/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FileJSONBlobStore & persistence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dtos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistence DTOs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analysis math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../elo-estimation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Elo estimation & strength tracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine, annotation & Maia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-clients/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network clients
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library store kernel
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library store kernel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#kernel-context-and-ownership" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kernel, context, and ownership
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-data-model-librarydata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The data model — LibraryData
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#game-and-collection-identity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Game and collection identity
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Game and collection identity">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recovering-identity-from-a-persisted-row" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recovering identity from a persisted row
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#durable-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Durable persistence
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#capability-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capability tokens
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mining-admission" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mining admission
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backup-and-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup and restore
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preparedgamedata-and-the-legacy-best-san-rewrite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PreparedGameData and the legacy "; best &lt;SAN&gt;" rewrite
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#import-pipelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Import pipelines
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reconciliation-and-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reconciliation and lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#derived-projections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Derived projections
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filename-and-result-code-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filename and result-code helpers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-gameviewcache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix: GameViewCache
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#headless-surface-and-cli-opportunities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Headless surface and CLI opportunities
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../library-backup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library backup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authored-history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authored history & the mutation journal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../drill-engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Drill flow, SRS & tactics mining
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../puzzle-import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Puzzle import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../endgame-mining/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Endgame mining & the endgame trainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../repertoire-gap-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repertoire gap analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../play-review-voice/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Play, review & voice
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eboard-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Electronic board integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../cli/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command-Line Interface
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Command-Line Interface
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/annotate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    annotate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/estimate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    estimate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/maia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    maia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/accuracy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    accuracy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/project/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    project
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/track/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    track
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/expansion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI expansion (proposed)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#kernel-context-and-ownership" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kernel, context, and ownership
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-data-model-librarydata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The data model — LibraryData
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#game-and-collection-identity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Game and collection identity
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Game and collection identity">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#recovering-identity-from-a-persisted-row" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recovering identity from a persisted row
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#durable-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Durable persistence
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#capability-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capability tokens
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mining-admission" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mining admission
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backup-and-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup and restore
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preparedgamedata-and-the-legacy-best-san-rewrite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PreparedGameData and the legacy "; best &lt;SAN&gt;" rewrite
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#import-pipelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Import pipelines
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reconciliation-and-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reconciliation and lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#derived-projections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Derived projections
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filename-and-result-code-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filename and result-code helpers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix-gameviewcache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Appendix: GameViewCache
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#headless-surface-and-cli-opportunities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Headless surface and CLI opportunities
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="library-store-kernel">Library Store Kernel<a class="headerlink" href="#library-store-kernel" title="Permanent link">&para;</a></h1>
+<p>The persistence and transaction core for the whole game library: one
+<code>LibraryStoreKernel</code> owns load/save lifecycle, mining admission, chunked
+import, backup/restore, and every dedup/reconciliation pass, all driven off
+one JSON aggregate (<code>LibraryData</code>). It was hoisted out of the Android shell's
+<code>LibraryFileStore</code> class (the "T4 class move") so both platforms — and a
+headless CLI — share the exact same transaction logic instead of maintaining
+parallel copies that drift.</p>
+<h2 id="kernel-context-and-ownership">Kernel, context, and ownership<a class="headerlink" href="#kernel-context-and-ownership" title="Permanent link">&para;</a></h2>
+<p><code>LibraryStoreKernel</code> is <code>@MainActor</code> and imports only <code>Foundation</code> and
+<code>ChessCore</code> — no SwiftUI, no UIKit, no app-lifecycle dependency anywhere in
+this subsystem. It publishes UI-visible state through a small protocol seam
+rather than owning <code>@Observable</code> state itself:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">@</span><span class="n">MainActor</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kd">public</span><span class="w"> </span><span class="kd">protocol</span><span class="w"> </span><span class="nc">LibraryStoreContext</span><span class="p">:</span><span class="w"> </span><span class="nb">AnyObject</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">data</span><span class="p">:</span><span class="w"> </span><span class="n">LibraryData</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">get</span><span class="w"> </span><span class="kr">set</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">isLoaded</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">get</span><span class="w"> </span><span class="kr">set</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">saveErrorMessage</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">?</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">get</span><span class="w"> </span><span class="kr">set</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">minedEndgameRepairMessage</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">?</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">get</span><span class="w"> </span><span class="kr">set</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">semanticCollectionMigrationNotice</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">?</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">get</span><span class="w"> </span><span class="kr">set</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">}</span>
+</code></pre></div>
+<p>A platform shell's <code>@Observable</code> store conforms automatically (its stored
+properties are named to match), then wires itself in with
+<code>kernel.attach(context: myObservableStore)</code>, which starts the deferred
+off-main decode. The ownership direction is deliberate: <code>attach(context:)</code>
+stores the context <strong>weakly</strong> and the facade that created the kernel holds
+the kernel <strong>strongly</strong>, so the kernel can never keep a platform shell
+alive. <code>LibraryStorePlatformAdapter(settingsRestorer:settingsSnapshot:
+repertoireExportDirectory:repertoirePieceArt:)</code> carries the four things the
+kernel is not allowed to hard-code; a <code>nil</code> <code>settingsRestorer</code> just means
+platform settings are disabled for that store instance — no JVM-backed
+<code>UserDefaults</code> bridge required. <code>repertoirePieceArt</code> is a <code>(() -&gt; [String:
+String])?</code> closure from canonical piece-set key to raw SVG text, wired by
+whichever shell owns the current piece art and used by the repertoire HTML
+export's board diagrams; <code>nil</code> selects the exporter's Unicode fallback. It is
+a seam rather than a defaulted kernel argument for a concrete reason: the
+piece-set choice is the shell's to make, and the choice of whether it is
+honored has to stay visible. Apple once honored the user's piece set in an
+exported repertoire while the store-kernel export path silently fell back to
+Unicode glyphs — one account, one repertoire, no error anywhere (M11).</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LibraryStoreKernel.swift</code></td>
+<td>load lifecycle, stats/mining admission bookkeeping, incarnation tokens, persistence batches</td>
+</tr>
+<tr>
+<td><code>LibraryStoreKernel+Mutations.swift</code></td>
+<td>collection/game CRUD, chunked online import, dedup, repertoire builder, PGN/HTML export</td>
+</tr>
+<tr>
+<td><code>LibraryStoreKernel+PGNImport.swift</code></td>
+<td>pasted/bulk PGN import with a crash-recovery journal</td>
+</tr>
+<tr>
+<td><code>LibraryStoreKernel+LichessImport.swift</code></td>
+<td>page-spanning Lichess complete-history import</td>
+</tr>
+<tr>
+<td><code>LibraryStoreKernel+Mining.swift</code></td>
+<td>mined trap/endgame storage, endgame projection CAS</td>
+</tr>
+<tr>
+<td><code>LibraryStoreKernel+Restore.swift</code></td>
+<td>backup restore transaction, additive merge, authored two-phase mutation</td>
+</tr>
+<tr>
+<td><code>LibraryStoreKernel+BackupProjection.swift</code></td>
+<td>live library → exportable <code>LibraryBackup</code> blob</td>
+</tr>
+<tr>
+<td><code>LibraryStoreKernel+Queries.swift</code></td>
+<td>repertoire gap analysis, totals</td>
+</tr>
+<tr>
+<td><code>LibraryStoreOutcomes.swift</code></td>
+<td>every typed outcome/capability value the kernel returns or accepts</td>
+</tr>
+<tr>
+<td><code>LibraryData.swift</code></td>
+<td>the one persisted aggregate value graph</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-data-model-librarydata">The data model — <code>LibraryData</code><a class="headerlink" href="#the-data-model-librarydata" title="Permanent link">&para;</a></h2>
+<p>The entire library is <strong>one</strong> <code>Codable, Sendable, Equatable</code> struct persisted
+as a single JSON blob under the reserved key <code>"library"</code>. Cascade is
+structural, not referential: <code>Game</code> rows live inside <code>Collection.games</code>, and
+<code>RepMove</code> rows live inside <code>Repertoire.moves</code>. Deleting a <code>Collection</code> drops
+every game it contains — there is no foreign-key layer to keep in sync.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="nc">LibraryData</span><span class="p">:</span><span class="w"> </span><span class="n">Codable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="p">,</span><span class="w"> </span><span class="nb">Equatable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">collections</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Collection</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">repertoires</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Repertoire</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="c1">// installation-local: never projected into a portable LibraryBackup</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">localCollectionIncarnations</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">LocalCollectionIncarnation</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">localGameIncarnations</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">LocalGameIncarnation</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">pendingPGNImport</span><span class="p">:</span><span class="w"> </span><span class="n">PendingPGNImport</span><span class="p">?</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">nil</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">pendingAuthoredMutation</span><span class="p">:</span><span class="w"> </span><span class="n">PendingAuthoredMutation</span><span class="p">?</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">nil</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="c1">// locally mined content — coexists with anything imported via LibraryBackup</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">minedTraps</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">PersonalTrapData</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">minedScanRecords</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">PersonalTrapScanRecordData</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">minedEndgames</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">PersonalEndgamePositionData</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p">}</span>
+</code></pre></div>
+<p>Every nested type (<code>Collection</code>, <code>Game</code>, <code>Repertoire</code>, <code>RepMove</code>) hand-writes
+its own <code>init(from:)</code> instead of using the synthesized decoder, and every
+field goes through <code>decodeIfPresent(...) ?? default</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">init</span><span class="p">(</span><span class="n">from</span><span class="w"> </span><span class="n">decoder</span><span class="p">:</span><span class="w"> </span><span class="n">Decoder</span><span class="p">)</span><span class="w"> </span><span class="kr">throws</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nv">c</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">try</span><span class="w"> </span><span class="n">decoder</span><span class="p">.</span><span class="n">container</span><span class="p">(</span><span class="n">keyedBy</span><span class="p">:</span><span class="w"> </span><span class="n">CodingKeys</span><span class="p">.</span><span class="kc">self</span><span class="p">)</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="n">id</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="k">try</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">decodeIfPresent</span><span class="p">(</span><span class="n">UUID</span><span class="p">.</span><span class="kc">self</span><span class="p">,</span><span class="w">   </span><span class="n">forKey</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">id</span><span class="p">)</span><span class="w">     </span><span class="p">??</span><span class="w"> </span><span class="n">UUID</span><span class="p">()</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="n">white</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="k">try</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">decodeIfPresent</span><span class="p">(</span><span class="nb">String</span><span class="p">.</span><span class="kc">self</span><span class="p">,</span><span class="w"> </span><span class="n">forKey</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">white</span><span class="p">)</span><span class="w">  </span><span class="p">??</span><span class="w"> </span><span class="s">""</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="c1">// ...</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="n">orderIndex</span><span class="w">  </span><span class="p">=</span><span class="w"> </span><span class="k">try</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">decodeIfPresent</span><span class="p">(</span><span class="nb">Int</span><span class="p">.</span><span class="kc">self</span><span class="p">,</span><span class="w">  </span><span class="n">forKey</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">orderIndex</span><span class="p">)</span><span class="w">  </span><span class="p">??</span><span class="w"> </span><span class="mi">0</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="n">dateCreated</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">try</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">decodeIfPresent</span><span class="p">(</span><span class="n">Date</span><span class="p">.</span><span class="kc">self</span><span class="p">,</span><span class="w"> </span><span class="n">forKey</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">dateCreated</span><span class="p">)</span><span class="w"> </span><span class="p">??</span><span class="w"> </span><span class="n">Date</span><span class="p">(</span><span class="n">timeIntervalSince1970</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="p">}</span>
+</code></pre></div>
+<p>The synthesized <code>JSONDecoder</code> throws <code>keyNotFound</code> for a non-optional
+property even when a default value is declared, so a naive struct would make
+a library blob written before some new field shipped fail to decode entirely
+— silently losing the whole library on the next app update.
+<code>decodeIfPresent ?? default</code> is the back-compat pattern every schema addition
+in this subsystem must follow.</p>
+<div class="admonition note">
+<p class="admonition-title">Some fields are decode-lenient in a stronger sense</p>
+<p><code>minedEndgameProjectionSelection</code> fails toward the conservative state on
+any decode error: a malformed or unrecognized schema version sets
+<code>minedEndgameRestoredLegacyAuthoritySelected = true</code> and clears the
+derived projection, rather than aborting the whole library decode.
+<code>MinedEndgameProjectionSelection.currentSchemaVersion</code> is <code>1</code>; the type is
+a tagged <code>.v1(EndgameMiningProjectionReceipt)</code> /
+<code>.v2(EndgameMiningV2ProjectionReceipt)</code> enum so exactly one receipt
+format is authoritative at a time.</p>
+</div>
+<h2 id="game-and-collection-identity">Game and collection identity<a class="headerlink" href="#game-and-collection-identity" title="Permanent link">&para;</a></h2>
+<p><code>GameIdentity</code> decides whether a game has a real remote reference or needs a
+deterministic content ID, and <code>GameDedup</code> turns that decision into a
+fingerprint every import, backup-merge, and reconciliation path shares.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>contentPrefix       = "content:v2:"
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>legacyContentPrefix = "content:v1:"
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>legacyReferenceTag  = "FianchettoLegacyGameID"
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>canonicalProviderID(raw):
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>  lichess:  8–12 ASCII alphanumeric chars, from "lichess:&lt;id&gt;" or a
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>            lichess.org/www.lichess.org URL's first path segment — excluding
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>            reserved words (analysis, broadcast, calendar, editor, features,
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>            insights, password, practice, streamer, study, timeline, training)
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>            → canonicalized to "lichess:&lt;first 8 chars&gt;"
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>  chesscom: all-ASCII-digit, from "chesscom:"/"chess.com:" or a chess.com /
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>            www.chess.com URL matching .../game/{live,daily,arena}/&lt;id&gt; or
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>            .../{live,daily,arena}/game/&lt;id&gt; (an optional leading "analysis"
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>            segment is stripped first)
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>            → canonicalized to "chesscom:&lt;digits&gt;"
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>  else → nil (Site is just a venue, not an ID)
+</code></pre></div>
+<p>Lichess's stable component is explicitly the first eight <strong>case-sensitive</strong>
+characters, which is why a 12-character URL slug and its 8-character
+canonical form resolve to one identity.</p>
+<div class="admonition warning">
+<p class="admonition-title">Degenerate URLs must not trap</p>
+<p>A raw PGN <code>Site</code>/<code>Link</code> tag or a deep-link token reaches this parser
+unvalidated. A bare <code>"https://"</code> splits to an empty component array; the
+internal host/path split used to subscript that array directly, which
+trapped — and turned one poisoned row into a crash-on-launch loop, because
+<code>stableGameID</code> re-evaluates identity on every read and re-hit the same
+trap every time (perf/stability audit, 2026-07-19). <code>canonicalProviderID</code>'s
+host/path split now uses a guarded <code>.first</code> instead of a subscript, so a
+value with no usable host simply yields <code>nil</code>.</p>
+</div>
+<h3 id="recovering-identity-from-a-persisted-row">Recovering identity from a persisted row<a class="headerlink" href="#recovering-identity-from-a-persisted-row" title="Permanent link">&para;</a></h3>
+<p><code>canonicalProviderID</code> alone only tells you whether a <em>given string</em> is a
+provider ID. Reading back a persisted row needs more: older builds sometimes
+copied <code>Site</code> into <code>gameID</code> outright, and rows promoted from content identity
+to a real remote ID must not orphan the history keyed on the old identity.
+Three functions carry that weight.</p>
+<p><code>persistedRemoteID(gameID:link:site:)</code> recovers the semantic remote ID
+without rewriting anything, applying four fallbacks in order:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>1. remoteID(link:site:) is non-empty            → that canonical value
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>2. gameID is a content ID                       → ""
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>3. gameID canonicalizes as a provider ID        → its canonical form
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>4. gameID == Link, or gameID == Site            → ""      (see below)
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>   otherwise                                    → gameID  (backup compatibility)
+</code></pre></div>
+<p>Rule 4 exists because many PGN producers reuse a single archive, event, or
+article <code>Link</code> across every game in a file, and older Fianchetto builds
+persisted any non-empty <code>Link</code> as a per-game ID. Those rows project to
+content identity at runtime instead of continuing to collapse distinct games
+together. <code>stableID(gameID:link:site:contentID:)</code> layers on top: the
+persisted remote ID, else the explicit ID when it is already a content ID,
+else the lazily evaluated <code>contentID()</code> — the <code>@autoclosure</code> means an
+ID-bearing row never pays for content hashing.</p>
+<p><code>promotingIdentity(_:gameID:tagsJSON:)</code> records an authoritative remote
+identity without discarding the durable reference already in <code>gameID</code>. A
+<strong>recognized</strong> provider ID is written into the <code>Link</code> tag and <code>gameID</code> is
+left untouched; an unrecognized external ID replaces <code>gameID</code> instead, and
+the previous value is stashed under the internal <code>FianchettoLegacyGameID</code> tag
+(<code>legacyReferenceTag</code>) for later reference repair.</p>
+<p><code>UnambiguousAliasAccumulator</code> is the streaming form of <code>unambiguousAliasMap</code>
+for auxiliary records (trap and scan rows, which reference a game by an alias
+rather than owning its identity directly). <code>record(alias:stableID:)</code>
+normalizes both sides and ignores empties; the first contradicting
+<code>stableID</code> for an alias removes it from the map and marks it permanently
+ambiguous. <code>stableID(forAlias:)</code> therefore returns non-nil only when <em>every</em>
+recorded occurrence named the same game, and <code>canonicalIdentifier(_:)</code> falls
+back to the normalized spelling when no unambiguous mapping exists. A shared
+<code>Site</code> value — two different games played at the same tournament, say — ends
+up attached to no game rather than to an arbitrary one.</p>
+<p><code>GameDedup.compositeKey</code> is the SHA-256 (via <code>PortableSHA256</code>) content
+fingerprint used when a game has no recognized remote ID:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>payload = length-prefixed(white) ++ length-prefixed(black) ++ length-prefixed(date)
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>        ++ length-prefixed(result) ++ length-prefixed(event) ++ length-prefixed(opening)
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>        ++ canonical-move-tree ++ sorted-non-mirror-PGN-tags
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>canonical-move-tree: each PGN token tagged
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>  0 = move (SAN, optionally suffix-stripped of trailing !/? if
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>      strippingDerivedAnnotations and at variation depth 0)
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>  1 = variationStart   2 = variationEnd
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>  3 = comment (dropped if it reduces to nothing but an engine eval/best-move)
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>  4 = nag
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>compositeKey        = "content:v2:" + SHA256(payload)
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>authoredIdentityKey = "authored-content:v1:" + SHA256(payload, excluding Link + legacy migration tag)
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>legacyPromotionKey  = "promotion:v1:" + SHA256(main-line-only payload, excluding Link)
+</code></pre></div>
+<p><code>authoredIdentityKey</code> additionally excludes the <code>Link</code> tag, so promoting a
+row from content identity to a real remote ID never orphans its authored
+history. <code>legacyPromotionKey</code> is deliberately looser (no comments, NAGs, or
+variations) and is used <strong>only</strong> to promote one unambiguous legacy local row
+when a fetch later supplies its recognized remote ID — ordinary import and
+destructive dedup always use <code>compositeKey</code>.</p>
+<p><code>GameDedup.MatchIndex&lt;Value&gt;</code> is the generic lookup every import/merge/
+reconciliation path builds over a collection, and its <code>Resolution</code> is the
+one vocabulary every one of those paths switches on:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">Resolution</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="kr">none</span><span class="w">                     </span><span class="c1">// insert a new row</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">unique</span><span class="p">(</span><span class="n">Value</span><span class="p">)</span><span class="w">            </span><span class="c1">// merge into the existing row</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">ambiguous</span><span class="w">                </span><span class="c1">// multiple strong-key matches — skip, never guess</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="c1">/// Strong key had no match, but the relaxed legacy-promotion fingerprint</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="c1">/// named multiple local rows. Callers must not pick one.</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">ambiguousLegacyPromotion</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="p">}</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="kd">let</span><span class="w"> </span><span class="nv">resolution</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">matchIndex</span><span class="p">.</span><span class="n">resolution</span><span class="p">(</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">    </span><span class="k">for</span><span class="p">:</span><span class="w"> </span><span class="n">GameDedup</span><span class="p">.</span><span class="n">Identity</span><span class="p">(</span><span class="n">preparedGame</span><span class="p">),</span><span class="w">   </span><span class="c1">// GameDedup.Identity(_: PreparedGameData)</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">    </span><span class="n">allowLegacyCompositeFallback</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="p">)</span>
+</code></pre></div>
+<h2 id="durable-persistence">Durable persistence<a class="headerlink" href="#durable-persistence" title="Permanent link">&para;</a></h2>
+<p><code>LibraryAggregatePersistenceWriter</code> is one serial <code>DispatchQueue</code> lane per
+physical aggregate-library file path. Synchronous edits call
+<code>writeSynchronously</code>, off-main imports/maintenance call
+<code>writeAsynchronously</code>, and restore installs pre-encoded JSON via
+<code>installEncodedJSONSynchronously</code> — all three funnel through the same queue,
+so an older async snapshot can never install after a newer synchronous save
+or restore. A private <code>AsyncCompletionGate</code> actor additionally leases the
+<em>entire</em> prepare→write→publish sequence for async callers, not just the
+physical write, so a failed async write finishes its MainActor rollback
+before a second async caller can snapshot or publish.
+<code>LibraryAggregatePersistenceWriterRegistry</code> hands out one weakly-held writer
+per standardized file path (capped at 256, GC-swept on overflow).</p>
+<p>Bulk import writes the whole library repeatedly, so the chunk size adapts to
+the import size instead of using a fixed page:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>minimumGameImportChunkSize = 1_000
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>maximumGameImportSaveCount = 4
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>gameImportChunkSize(for: incomingGameCount):
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>  quotient  = incomingGameCount / 4
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>  remainder = incomingGameCount % 4
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>  size      = quotient + (remainder == 0 ? 0 : 1)
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>  return max(1_000, size)
+</code></pre></div>
+<p>A 50,000-game import therefore chunks at 12,500 games/write (4 whole-library
+replacements); a 400-game import stays at one 1,000-game chunk (1 write) —
+the floor exists so a small import never chunks into several tiny writes.
+<code>kernel.saveNewCollectionInChunks(_:)</code> drives this: each chunk boundary is
+its own atomic aggregate replacement with a closure-based rollback if that
+specific write fails, and the returned <code>ChunkedGameWriteResult.inserted</code>
+count reflects only chunks that actually became durable.</p>
+<h2 id="capability-tokens">Capability tokens<a class="headerlink" href="#capability-tokens" title="Permanent link">&para;</a></h2>
+<p>Every collection and game carries an opaque <strong>incarnation</strong> token
+(<code>CollectionIncarnation</code> / <code>GameIncarnation</code>) that changes only when the row
+is durably deleted and recreated — even if its public <code>UUID</code> is reused. A
+retained editor presents its incarnation back to the kernel; if the token no
+longer matches, the mutation is rejected as <code>.staleOwner</code> instead of quietly
+overwriting an unrelated row that happens to share a UUID:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">guard</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">incarnation</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">kernel</span><span class="p">.</span><span class="n">gameIncarnation</span><span class="p">(</span><span class="k">for</span><span class="p">:</span><span class="w"> </span><span class="n">gameID</span><span class="p">,</span><span class="w"> </span><span class="k">in</span><span class="p">:</span><span class="w"> </span><span class="n">collectionID</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="k">return</span><span class="w">   </span><span class="c1">// row no longer exists, or is ambiguous</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="p">}</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="kd">let</span><span class="w"> </span><span class="nv">result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">kernel</span><span class="p">.</span><span class="n">updateGame</span><span class="p">(</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="n">incarnation</span><span class="p">,</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="n">expecting</span><span class="p">:</span><span class="w"> </span><span class="n">GameEditableProjection</span><span class="p">(</span><span class="n">game</span><span class="p">:</span><span class="w"> </span><span class="n">originalSnapshot</span><span class="p">),</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="n">white</span><span class="p">:</span><span class="w"> </span><span class="s">"Carlsen, M"</span><span class="p">,</span><span class="w"> </span><span class="n">black</span><span class="p">:</span><span class="w"> </span><span class="s">"Nakamura, H"</span><span class="p">,</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="n">event</span><span class="p">:</span><span class="w"> </span><span class="n">newEvent</span><span class="p">,</span><span class="w"> </span><span class="n">date</span><span class="p">:</span><span class="w"> </span><span class="n">newDate</span><span class="p">,</span><span class="w"> </span><span class="n">site</span><span class="p">:</span><span class="w"> </span><span class="n">newSite</span><span class="p">,</span><span class="w"> </span><span class="n">userNotes</span><span class="p">:</span><span class="w"> </span><span class="n">notes</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="p">)</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="k">switch</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">outcome</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="k">case</span><span class="w"> </span><span class="p">.</span><span class="n">saved</span><span class="p">:</span><span class="w">             </span><span class="n">dismissEditor</span><span class="p">()</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="k">case</span><span class="w"> </span><span class="p">.</span><span class="n">conflict</span><span class="p">:</span><span class="w">          </span><span class="n">showConflictBanner</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">failureDescription</span><span class="p">)</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="k">case</span><span class="w"> </span><span class="p">.</span><span class="n">staleOwner</span><span class="p">:</span><span class="w">        </span><span class="n">showReplacedBanner</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">failureDescription</span><span class="p">)</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="k">case</span><span class="w"> </span><span class="p">.</span><span class="n">persistenceFailed</span><span class="p">:</span><span class="w"> </span><span class="n">retry</span><span class="p">()</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>updateGame</code> acquires its own internal <code>ChunkedMutationLease</code> — chunked
+mutations and semantic-collection migrations use that same lease type as an
+exclusive, <strong>fail-closed</strong> guard, not a queued lock: <code>beginChunkedMutation()</code>
+returns <code>nil</code> immediately to a concurrent caller instead of waiting, so a
+cancelled task can never strand ownership. <code>PersistenceBatch</code> is the
+caller-owned counterpart for <em>deferred</em> writes — <code>beginPersistenceBatch()</code>
+opens a stream, <code>markPersistenceBatchDirty</code> records uncommitted work, and
+<code>flushPersistenceBatch</code>/<code>finishPersistenceBatch</code> commit it — while ordinary
+mutation APIs called without a batch token still save immediately, so a long
+batch can never suppress an unrelated user edit.</p>
+<table>
+<thead>
+<tr>
+<th>Reserved blob key</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>library</code></td>
+<td>the aggregate <code>LibraryData</code></td>
+</tr>
+<tr>
+<td><code>library.preRestoreRecovery.v1</code></td>
+<td>pre-restore undo snapshot</td>
+</tr>
+<tr>
+<td><code>library.corruptRecovery.v1</code></td>
+<td>preserved bytes when the aggregate fails to decode</td>
+</tr>
+<tr>
+<td><code>minedEndgames</code></td>
+<td>legacy flat mined-endgame projection key</td>
+</tr>
+<tr>
+<td><code>local.authoredReplicaID.v1</code></td>
+<td>this installation's authored-mutation replica identity</td>
+</tr>
+</tbody>
+</table>
+<h2 id="mining-admission">Mining admission<a class="headerlink" href="#mining-admission" title="Permanent link">&para;</a></h2>
+<p>Trap, endgame, and combination-puzzle mining share one admission model with
+three independent purposes:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">MiningAdmissionPurpose</span><span class="p">:</span><span class="w"> </span><span class="n">Sendable</span><span class="p">,</span><span class="w"> </span><span class="nb">Equatable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">traps</span><span class="p">,</span><span class="w"> </span><span class="n">endgames</span><span class="p">,</span><span class="w"> </span><span class="n">combinations</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="p">}</span>
+</code></pre></div>
+<p>Three separate monotonic counters gate them: <code>miningSourceCoverageEpoch</code>
+(advances only after a durable source-changing mutation — an unrelated
+annotation/cache write does not bump it), <code>trapMiningEligibilityEpoch</code>
+(advances only when trap scan witnesses are deliberately cleared), and
+<code>aggregatePersistenceRevision</code> (consulted only for <code>.combinations</code>, since
+combination inputs include annotation payloads that fall outside the
+narrower trap/endgame source epoch). Trap mining additionally holds <strong>one</strong>
+exclusive session (<code>activeTrapMiningSessionID: UUID?</code>) so two trap miners can
+never publish scan witnesses concurrently — endgame results are positive FEN
+rows and stay safely additive, so no equivalent session exists for that
+purpose.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kd">let</span><span class="w"> </span><span class="nv">decision</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">kernel</span><span class="p">.</span><span class="n">miningAdmissionSnapshot</span><span class="p">(</span><span class="k">for</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">traps</span><span class="p">)</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">guard</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">snapshot</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">decision</span><span class="p">.</span><span class="n">snapshot</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="n">showBanner</span><span class="p">(</span><span class="n">decision</span><span class="p">.</span><span class="n">failureMessage</span><span class="p">!)</span><span class="w">   </span><span class="c1">// e.g. "another mining run is active"</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="k">return</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="p">}</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="k">defer</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">kernel</span><span class="p">.</span><span class="n">releaseMiningAdmission</span><span class="p">(</span><span class="n">snapshot</span><span class="p">.</span><span class="n">token</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="kd">let</span><span class="w"> </span><span class="nv">manifests</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">mineTraps</span><span class="p">(</span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="n">snapshot</span><span class="p">.</span><span class="n">library</span><span class="p">)</span><span class="w">   </span><span class="c1">// pure, off-main</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="kc">_</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">kernel</span><span class="p">.</span><span class="n">replaceMinedTrapProjections</span><span class="p">(</span><span class="n">manifests</span><span class="p">,</span><span class="w"> </span><span class="n">admissionToken</span><span class="p">:</span><span class="w"> </span><span class="n">snapshot</span><span class="p">.</span><span class="n">token</span><span class="p">)</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="c1">// if validateMiningAdmission(snapshot.token, for: .traps) is no longer</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="c1">// .isCurrent, the library changed mid-run: results already saved were</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="c1">// kept, but coverage may be incomplete — mine again</span>
+</code></pre></div>
+<p>Mined traps dedup on insert by <code>"\(trap.fen):\(trap.correctMoveUCI)"</code>, so a
+re-run that crosses a cancelled boundary never inserts the same trap twice.
+The materialized endgame projection uses a UUID-keyed compare-and-swap
+instead — <code>MinedEndgameProjectionAuthority.mutationID</code> changes on <strong>every</strong>
+mutation (never reused, so no ABA), and
+<code>replaceMinedEndgameProjection(...)</code> returns:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">MinedEndgameProjectionInstallOutcome</span><span class="p">:</span><span class="w"> </span><span class="n">Sendable</span><span class="p">,</span><span class="w"> </span><span class="nb">Equatable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">installed</span><span class="p">(</span><span class="n">changed</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span><span class="p">)</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">superseded</span><span class="w">      </span><span class="c1">// a newer local authority already replaced this one</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">sourceChanged</span><span class="w">   </span><span class="c1">// the admitted library source universe moved</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">failed</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="backup-and-restore">Backup and restore<a class="headerlink" href="#backup-and-restore" title="Permanent link">&para;</a></h2>
+<p>A full backup restore is one all-or-nothing transaction with exactly seven
+ordered, idempotent phases:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">LibraryRestoreInterruptionPoint</span><span class="p">:</span><span class="w"> </span><span class="n">CaseIterable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="p">,</span><span class="w"> </span><span class="nb">Equatable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">afterJournalAdmission</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">afterRecoverySnapshot</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">afterAuthoredPublication</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">afterAggregateCommit</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">afterAuxiliaryState</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">afterBackupEnvelope</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">afterJournalRetirement</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>rollForwardRestore</code> is the sole executor for both an interactive restore and
+startup crash recovery — each phase is re-derivable from journal bytes
+alone, so resuming after a crash replays exactly the same code path a live
+restore would take. It writes the pre-restore undo snapshot first
+(<code>library.preRestoreRecovery.v1</code>), then joins the same serial
+<code>LibraryAggregatePersistenceWriter</code> lane used by ordinary saves before
+touching the live <code>library</code> key.</p>
+<p><code>mergeBackupData</code> applies an imported <code>LibraryBackup</code> <strong>additively</strong>, never
+destructively:</p>
+<ul>
+<li><strong>Games</strong> — matched via <code>GameDedup.MatchIndex&lt;Int&gt;</code>
+  (<code>allowLegacyCompositeFallback: true</code>); a <code>.unique</code> match enriches the
+  existing row through <code>mergePortableFields(from:)</code> (blank fields fill from
+  the backup, non-empty analysis/notes fields are backup-authoritative,
+  existing non-empty scalars are never overwritten); <code>.none</code> inserts a new
+  row; <code>.ambiguous</code> is skipped rather than guessed.</li>
+<li><strong>Traps</strong> — deduped on <code>(sourceGameID, fen, correctMoveUCI,
+  userActualMoveUCI, halfMoveIndex)</code>, since two different mining sources can
+  legitimately surface the same position.</li>
+<li><strong>Trap scan records</strong> — deduped on <code>(sourceGameID, manifest identity)</code>,
+  keeping whichever incoming/existing record has the newer <code>scannedAt</code>.</li>
+<li><strong>Endgame positions</strong> — unioned by FEN, then the projection selection is
+  reset to the legacy generation-zero authority (<code>minedEndgames</code> stays
+  authoritative until a fresh complete scan republishes its own successor)
+  because a portable backup never carries the local immutable proof graph a
+  typed receipt depends on.</li>
+</ul>
+<p>Authored notes and board-mark edits go through a separate <strong>four-phase</strong>
+write-ahead protocol (<code>LibraryAuthoredMutationInterruptionPoint</code>) so a crash
+mid-edit can never leave the aggregate and the causal proof graph
+disagreeing: <code>afterIntent</code> (the write-ahead intent lands in a durable
+sidecar) → <code>afterImmutableFacts</code> (append-only causal rows written
+idempotently) → <code>afterCompactHead</code> (the compact replica head written) →
+<code>afterAggregateCommit</code> (one aggregate replacement applies <code>desired</code> and
+installs the identity marker; only then may the sidecar be retired).
+<code>PendingAuthoredMutation.currentSchemaVersion</code> is <code>1</code>, and
+<code>maximumImmutableRows</code> is <code>AuthoredVectorClock.maximumReplicaEntries</code> (32)
+<code>+ 1</code>. <code>kernel.beginAuthoredMutation(incarnation:field:expected:desired:
+identitySource:)</code> drains any earlier pending intent first, writes this one,
+then drains again — it never returns with unflushed intent state.</p>
+<h2 id="preparedgamedata-and-the-legacy-best-san-rewrite"><code>PreparedGameData</code> and the legacy <code>"; best &lt;SAN&gt;"</code> rewrite<a class="headerlink" href="#preparedgamedata-and-the-legacy-best-san-rewrite" title="Permanent link">&para;</a></h2>
+<p><code>PreparedGameData</code> is the off-main import DTO every parsed game becomes
+before it reaches the kernel — <code>init(from:orderIndex:)</code> does the expensive
+tokenization, tag encoding, and identity resolution once, on whatever task
+built the batch, instead of paying that cost again on every subsequent read.</p>
+<p>Legacy Fianchetto games stored the engine's best move as a bare inline
+marker directly after the annotated move: <code>"… Nf3 ; best Bc4 …"</code>. Standard
+PGN treats <code>;</code> as a comment running to end-of-line, but Fianchetto move text
+is a single line — so ChessCore's tokenizer reads the bare <code>;</code> as an illegal
+SAN and drops the entire main line. Making <code>;</code> run to end-of-line the way
+standard PGN does is equally wrong here: it would swallow every following
+move as comment text.</p>
+<p><code>PreparedGameData.normalizeForParsing(_:)</code> is the public entry point to the
+kernel-local rewrite (<code>normalizingLegacyBestMoveMarkers</code>) that <code>toPGNGame</code>
+also applies before tokenizing. It turns each bare marker into a bounded
+brace comment so the surrounding moves still parse and no content is lost:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>"… Nf3 ; best Bc4 …"          →   "… Nf3 {; best Bc4} …"
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>"… {+0.2; best e4} …"         →   unchanged, byte for byte
+</code></pre></div>
+<p>The SAN is the single whitespace-delimited token after the marker. A
+<code>"; best"</code> that already sits inside a <code>{...}</code> brace comment is a structured
+engine annotation and must stay intact — rewriting it there would shift
+content digests and dedup keys. The literal <code>"; best "</code> text survives inside
+the new comment, so <code>computeIsAnnotated</code> keeps recognizing these games
+unchanged after the rewrite. The scan itself uses only character comparison
+and <code>firstIndex(where:)</code>, deliberately avoiding Foundation range search, so
+it transpiles cleanly to Android via Skip.</p>
+<h2 id="import-pipelines">Import pipelines<a class="headerlink" href="#import-pipelines" title="Permanent link">&para;</a></h2>
+<p><code>importPGN</code> is the single-shot synchronous path for one paste/autosave.
+<code>importPGNInChunks</code> parses off a detached task, then delegates to
+<code>saveNewCollectionInChunks</code>. <code>importPreparedPGNCollection(_:fingerprint:)</code>
+is the durable, crash-recoverable path: it records a <code>PendingPGNImport</code>
+journal (<code>collectionID</code>, <code>fingerprint</code>, <code>collectionName</code>) in the aggregate
+itself before writing the first chunk. A retry with the <strong>same</strong> fingerprint
+reuses the recorded <code>collectionID</code> and lets ordinary live dedup skip chunks
+that already made it to disk; a <strong>different</strong> fingerprint is rejected until
+the user explicitly keeps or abandons the partial import. The journal and
+every game chunk it protects live in one atomic <code>FileJSONBlobStore</code> write, so
+there is no separate preference file that could disagree with the games
+actually on disk after a crash.</p>
+<p>Lichess's complete-history import pages through
+<code>fetchLichessHistoryPages</code>, and each page commit needs an O(1) proof that the
+destination collection's identity multiset hasn't silently drifted since the
+last page. <code>LichessIdentityAccumulator</code> provides that proof without
+rehashing the whole collection on every page:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>rowDigest(gameID, identity) = SHA-256(
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>    "fianchetto.android.lichess-destination-row.v1"
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>    ++ lowercased(gameID.uuidString)
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>    ++ (identity.remoteID.isEmpty
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>          ? "content" ++ identity.composite ++ identity.legacyPromotion
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>          : "remote" ++ identity.remoteID)
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>)
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>// split the 256-bit digest into 4 big-endian UInt64 limbs (a, b, c, d)
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>insert(row): accumulator += rowDigest   // 256-bit add, mod 2^256, with carry
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>remove(row): accumulator -= rowDigest   // 256-bit subtract, with borrow
+</code></pre></div>
+<p>Insertion and removal are each O(1); the accumulator's final <code>hexDigest</code>
+proves the exact multiset of rows durable at that page boundary, so a
+promoted (content → remote ID) row updates the witness in place instead of
+forcing a full collection rewalk.</p>
+<h2 id="reconciliation-and-lifecycle">Reconciliation and lifecycle<a class="headerlink" href="#reconciliation-and-lifecycle" title="Permanent link">&para;</a></h2>
+<p><code>LibraryGameReconciliation.plan(games:)</code> is a pure, persistence-agnostic
+static function — <code>[LibraryBackup.Game] -&gt; Plan</code> — shared by the dedup
+preview UI, dedup execution, and <code>LibrarySemanticCollectionReconciler</code>'s
+merges. Rows are grouped by a <code>BaseProof</code> (normalized persisted ID, logical
+dedup key, core PGN fingerprint, and position-sequence proof); within a
+duplicate group the survivor is chosen by this exact preference order:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>1. isAnnotated            (prefer an annotated row)
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>2. positionRichness        (more populated derived-analysis fields wins)
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>3. enrichmentRichness       (richer note/Maia enrichment wins)
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>4. derivedDepth             (more bytes of regenerable analysis wins, on a tie)
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>5. orderIndex ascending      (earlier input wins remaining ties)
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>6. deleteIndices.count descending  (prefer the survivor that absorbs more)
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>7. survivorIndex ascending    (final deterministic tiebreak)
+</code></pre></div>
+<p>Complexity is <code>O(total input + Σ group reconciliation costs)</code> — projection
+and exact-base grouping are linear, and only actual duplicate groups pay the
+(at most cubic) candidate-selection cost. Board arrows are user-authored and
+are never dropped; a survivor may only <em>absorb</em> a source's redundant engine
+analysis when the group key is a recognized remote ID (proof the rows are
+literally the same online game).</p>
+<p><code>LibrarySemanticCollectionReconciler.migrate(role:collections:)</code> canonicalizes
+the app-generated collections (<code>.otb</code>, <code>.vsEngine</code>, <code>.boardImports</code> roles)
+into one collection per role, using the planner above for the merge. A
+destructive merge is permitted only when every candidate collection and game
+matches the <em>exact</em> generated shape — tag roster exactly <code>{Event, Date,
+White, Black, Result}</code> (optionally <code>+{SetUp, FEN}</code>), and for <code>.vsEngine</code> an
+opponent label prefixed with a known engine tag (<code>"Maia "</code>, <code>"Reckless d"</code>,
+<code>"Stockfish d"</code>). Anything customized is left alone and reported through
+<code>notice(for:)</code> for manual review instead of merged.</p>
+<p><code>CollectionLifecycle</code> gives CloudKit-synchronized collections a signed
+soft-tombstone protocol:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>legacyGeneration = 0
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>lifecycleVersion &gt;= 0  → active, generation = lifecycleVersion
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>lifecycleVersion &lt;  0  → deleted, tombstone generation = -lifecycleVersion
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>                          (Int64.min maps defensively to Int64.max, not a trap)
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>childDisposition(parent, child):
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>  active parent:   child == parent → visible
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>                   child &lt;  parent → stale
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>                   child &gt;  parent → deferred (out-of-order CloudKit delivery)
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>  deleted parent:  child &lt;= tombstone → stale
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>                   child &gt;  tombstone → deferred
+</code></pre></div>
+<p><code>CollectionLifecycle</code>'s cleanup extension (<code>CollectionCleanupPolicy.swift</code>)
+adds the durable two-observation state machine that authorizes actually
+deleting stale children:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>maximumCleanupChildrenPerCollection  = 250_000
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>requiredStableCleanupObservations    = 2
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>observing  → first import-idle snapshot recorded
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>cleaning   → a second DISTINCT snapshot matched → this snapshot is now
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>             authorization; every batch re-verifies isExactSubset(of:)
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>             before deleting, so cleanup can only shrink toward it
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>quiescent  → the authorized snapshot has no stale children left
+</code></pre></div>
+<p>Any structurally invalid snapshot or token (duplicate child tokens, an
+oversized token, <code>tombstoneVersion &gt;= 0</code>, <code>tombstoneVersion == Int64.min</code>)
+routes to <code>.blocked</code> — the caller must fail closed and keep every row rather
+than guess.</p>
+<h2 id="derived-projections">Derived projections<a class="headerlink" href="#derived-projections" title="Permanent link">&para;</a></h2>
+<p><code>LibraryStatsCache</code> is a <code>@MainActor</code> process-local cache shared by Stats and
+Review. It coalesces identical in-flight requests (keyed by
+<code>persistenceRevision</code> + <code>includeEloEstimate</code>) into one shared
+<code>Task.detached(priority: .userInitiated)</code> computation, and a monotonic
+generation counter means only the <em>last-started</em> request for a given Elo
+mode may publish. <code>lastGoodValue(includeEloEstimate:)</code> keeps returning the
+previous good <code>AggregateStats</code> while a refresh is in flight or fails, so
+views never flash empty.</p>
+<p><code>LibraryStatsProjection.snapshot(from:)</code> maps <code>LibraryData</code> onto the shared
+<code>GameStatsSnapshot</code> that <code>StatsKernel</code> consumes. <code>cachedMoveCount</code> is always
+projected as <code>-1</code> (recomputed downstream, never trusted from storage), and
+repertoire coverage keys go through <code>OpeningBook.epNormalizedKey</code> so
+transposed lines still register.</p>
+<p><code>LibrarySortKernel.moveCount(fromMoveText:)</code> fixed a real cross-platform bug
+— counting whitespace-split PGN tokens counts move-number tokens as moves:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>moveCount(moveText):
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>  for each whitespace-split token:
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>    skip if first char is a digit       (move numbers: "1." / "12...")
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>    skip if first char is '*'           (result token)
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>    skip if first char in "{}();$"      (comments / NAGs / structure)
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>    else: plies += 1
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>  return (plies + 1) / 2
+</code></pre></div>
+<p>Name ordering (<code>namePrecedes</code>) deliberately uses
+<code>String.compare(_:options:[.caseInsensitive, .numeric])</code> rather than
+<code>localizedStandardCompare</code>, with a byte-order <code>lhs &lt; rhs</code> fallback on an
+<code>.orderedSame</code> result — locale-dependent collation would make the same
+library sort differently on two devices set to different regions, and
+without the fallback <code>sorted(by:)</code>'s non-stable order would let two devices
+holding the same games in different arrival order display them differently.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>sortsBefore(lhs, rhs, by: key):
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>  "date-asc" → lhs.date &lt; rhs.date
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>  "white"    → namePrecedes(lhs.white, rhs.white)
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>  "black"    → namePrecedes(lhs.black, rhs.black)
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>  "event"    → namePrecedes(lhs.event, rhs.event)
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>  "moves"    → lhs.moveCount &gt; rhs.moveCount
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>  default    → lhs.date &gt; rhs.date          // newest-first
+</code></pre></div>
+<p><code>CollectionOwnerResolver.resolve(explicitUsername:games:)</code> infers whose
+library an unlabeled PGN import belongs to: it requires at least two games,
+exactly one name common to every game's <code>{white, black}</code> pair, and rejects
+placeholder names (<code>?</code>, <code>unknown</code>, <code>anonymous</code>, <code>anon</code>, <code>white</code>, <code>black</code>,
+<code>player</code>, <code>computer</code>) — anything less unambiguous fails closed (<code>nil</code>)
+rather than guessing, so an opponent or a one-off match PGN is never
+mistaken for the account owner.</p>
+<h2 id="filename-and-result-code-helpers">Filename and result-code helpers<a class="headerlink" href="#filename-and-result-code-helpers" title="Permanent link">&para;</a></h2>
+<p><code>PgnFilename.make(white:black:date:)</code> builds the sanitized <code>.pgn</code> filename
+shared by both platforms' export paths:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>PgnFilename.make(white:black:date:)
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>  keep only isLetter || isNumber || "-" || "_" || "."
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>  PGN date dots → hyphens BEFORE cleaning       "2024.01.15" → "2024-01-15"
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>  drop a side whose cleaned name is empty       (the "?" placeholder)
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>  join surviving players with "-vs-", then join to the date with "-"
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>  stem = raw.prefix(50); empty stem → "game"; append ".pgn"
+</code></pre></div>
+<p>Dropping the empty side is what stops <code>"White-vs--2024-01-15"</code> — a double
+hyphen — when one player tag is the PGN placeholder <code>"?"</code>.</p>
+<p><code>PGNResultCode.from(_ humanResult: String?)</code> maps a human-readable
+end-of-game sentence to a PGN result token by ordered substring <code>contains</code>
+checks:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>"White wins" → "1-0" · "Black wins" → "0-1" · "Draw" → "1/2-1/2"
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>nil or unrecognized → "*"
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Prefer <code>PGNResultCode.from(_ outcome: GameOutcome)</code> where a <code>GameOutcome</code> exists</p>
+<p>The string-matching overload substring-matches "White wins" out of prose
+a view composed elsewhere, so it discards the <em>reason</em> for the result
+entirely (no <code>Termination</code> tag was ever written from it), and it is one
+re-worded sentence away from silently answering <code>"*"</code> for a decisive
+game. It stays only because the import paths genuinely have nothing but
+prose to work from. The <code>GameOutcome</code>-based overload derives the token
+from the outcome directly and should be used everywhere else.</p>
+</div>
+<h2 id="appendix-gameviewcache">Appendix: <code>GameViewCache</code><a class="headerlink" href="#appendix-gameviewcache" title="Permanent link">&para;</a></h2>
+<p>The one presentation-adjacent type in this subsystem. <code>GameViewCache</code>
+memoizes <code>EBoardSession.buildGameView()</code> because <code>MoveGenerator.legalMoves</code>
+ran on every call at BLE notification cadence — measured at <strong>~700ms of
+main-actor block per event</strong> on a Samsung Galaxy A17 (Helio G85, debug
+build), the dominant OTB-view jank source.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>cache key   (ObjectIdentifier(game), game.position.fen, game.currentNode?.move.uci)
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>    FEN covers position, active color, castling rights, en-passant target, clocks
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>    currentNodeUCI invalidates the ancestor walk on retraction/take-back
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>    object identity stops a multi-session switch between two games sharing
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>      FEN + lastUCI from serving a stale ancestor chain
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>initial lastNodeUCI = "__INVALID__"      (distinct from the legitimate nil)
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>on a miss   walk the parent chain for at most 6 plies (take-back detection bound)
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>            castling rook homes from MoveGenerator.legalCastlingUCIs(for:) mapped
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>            through {"h1": "e1g1", "a1": "e1c1", "h8": "e8g8", "a8": "e8c8"}
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>            — measured ~3.6x faster than full legal-move generation
+</code></pre></div>
+<p><code>GameViewSource</code> is the minimal surface (<code>position</code>, <code>currentNode</code>) that lets
+the two platforms' distinct <code>Game</code> classes share one cache; ChessCore's
+<code>Game</code> conforms in this file.</p>
+<div class="admonition warning">
+<p class="admonition-title">Main-actor only</p>
+<p><code>GameViewCache</code> is non-<code>Sendable</code> by design — it holds game-tree
+references without a concurrency penalty — and must only be called from
+the main actor, the same requirement as the <code>EBoardSession</code> that owns it.
+It compiles headless (Foundation + ChessCore, no SwiftUI/UIKit), but its
+output drives an interactive board session, so unlike the rest of this
+page it has essentially no CLI value — it is not part of the
+<code>nonisolated</code> pure-value surface below.</p>
+</div>
+<h2 id="headless-surface-and-cli-opportunities">Headless surface and CLI opportunities<a class="headerlink" href="#headless-surface-and-cli-opportunities" title="Permanent link">&para;</a></h2>
+<p>Every file in this directory imports only <code>Foundation</code> (plus <code>Dispatch</code> in
+the persistence writer) and, where chess logic is needed, <code>ChessCore</code>.
+<code>@MainActor</code> isolation on <code>LibraryStoreKernel</code> itself is not a UI dependency
+— it is fine to run inside a CLI process's main-actor context — and a large
+fraction of the subsystem is <code>nonisolated</code> pure value logic that needs no
+actor at all: <code>GameIdentity</code>, <code>GameDedup</code>,
+<code>LibraryGameReconciliation.plan(games:)</code>, <code>LibrarySemanticCollectionReconciler</code>,
+<code>LibrarySortKernel</code>, <code>CollectionLifecycle</code> (including its cleanup extension),
+<code>CollectionOwnerResolver</code>, <code>PgnFilename</code>, and <code>PGNResultCode</code> are all static
+functions over plain values with no store attached.</p>
+<p>That makes several pieces natural fianchetto-cli subcommand targets beyond
+the estimate/annotate/maia/accuracy/project/track surface already wired to
+<code>EloEstimator</code> and <code>StatsKernel</code>:</p>
+<ul>
+<li>A library <code>import</code>/<code>dedupe</code> pair could drive
+  <code>LibraryGameReconciliation.plan(games:)</code> directly for a preview-then-apply
+  flow, with no store instance needed at all — just an array of
+  <code>LibraryBackup.Game</code>.</li>
+<li>A <code>stats</code> subcommand reusing <code>LibraryStatsProjection.snapshot(from:)</code> +
+  <code>StatsKernel.compute</code> is the same code path fianchetto-cli's <code>project</code> and
+  <code>track</code> subcommands already exercise for headless Elo estimation, so a
+  library-backed <code>stats</code> command would need no new math — only a
+  <code>LibraryData</code> loaded from a JSON file.</li>
+<li><code>GameIdentity</code>'s full identity surface — <code>canonicalProviderID</code>,
+  <code>persistedRemoteID</code>, <code>promotingIdentity</code>, <code>stableID</code> — is not the one-line
+  helper <code>canonicalProviderID</code> alone might suggest; see <a href="#game-and-collection-identity">Game and collection
+  identity</a>. Paired with <code>PgnFilename.make</code>,
+  it is well suited to a small <code>identify</code>/<code>export-filename</code> utility
+  subcommand for scripting around PGN archives.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      FianchettoKit — chess training logic built on ChessCore.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

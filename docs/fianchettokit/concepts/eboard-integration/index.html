@@ -1,0 +1,2639 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Chess training logic built on ChessCore — engine annotation, strength/Elo estimation, tactics, repertoire and endgame drills, portable persistence, game import, electronic-board handling, and the fianchetto-cli headless tools.">
+      
+      
+        <meta name="author" content="Fianchetto">
+      
+      
+      
+        <link rel="prev" href="../play-review-voice/">
+      
+      
+        <link rel="next" href="../../examples/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Electronic board integration - FianchettoKit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#e-board-integration-session-core-diff-resolution-and-diagnostics" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="FianchettoKit" class="md-header__button md-logo" aria-label="FianchettoKit" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FianchettoKit
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Electronic board integration
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="FianchettoKit" class="md-nav__button md-logo" aria-label="FianchettoKit" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    FianchettoKit
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stores & the storage seam
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file-store/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FileJSONBlobStore & persistence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dtos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistence DTOs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analysis math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../elo-estimation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Elo estimation & strength tracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine, annotation & Maia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-clients/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network clients
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../library-store/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library store kernel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../library-backup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library backup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authored-history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authored history & the mutation journal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../drill-engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Drill flow, SRS & tactics mining
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../puzzle-import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Puzzle import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../endgame-mining/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Endgame mining & the endgame trainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../repertoire-gap-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repertoire gap analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../play-review-voice/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Play, review & voice
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Electronic board integration
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Electronic board integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview-boardkits-primitives-vs-what-fianchettokits-boards-layer-adds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview: BoardKit's primitives vs. what FianchettoKit's Boards layer adds
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#board-identity-and-the-catalog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Board identity and the catalog
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Board identity and the catalog">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gatt-identity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GATT identity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name-and-scan-matching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Name and scan matching
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transport-lifecycle-policy-and-connection-ownership" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transport lifecycle policy and connection ownership
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Transport lifecycle policy and connection ownership">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connection-ownership" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection ownership
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#write-pacing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Write pacing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-session-state-machine-eboardsessioncore-eboardeffect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The session state machine (EBoardSessionCore, EBoardEffect)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The session state machine (EBoardSessionCore, EBoardEffect)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#execution-gate-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution-gate routing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#liftplace-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lift/place inference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#promotion-disambiguation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Promotion disambiguation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#auto-orientation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auto-orientation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diff-resolution-and-correction-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diff resolution and correction flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diff resolution and correction flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#resolving-and-applying" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resolving and applying
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#correction-instruction-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correction-instruction text
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-platform-shell-glue-eboardshellkernel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-platform shell glue: EBoardShellKernel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cross-platform shell glue: EBoardShellKernel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#orientation-re-feed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Orientation re-feed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#field-diagnostics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Field diagnostics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Field diagnostics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#eboarddiagnosticcapture-always-on-ring-buffer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EBoardDiagnosticCapture — always-on ring buffer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#desync-deduplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desync deduplication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eboarddiagnosticpersistencecoordinator-debounced-writes-off-main" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EBoardDiagnosticPersistenceCoordinator — debounced writes off-main
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#headless-surfaces-and-cli-opportunities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Headless surfaces and CLI opportunities
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../cli/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command-Line Interface
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Command-Line Interface
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/annotate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    annotate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/estimate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    estimate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/maia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    maia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/accuracy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    accuracy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/project/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    project
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/track/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    track
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/expansion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI expansion (proposed)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview-boardkits-primitives-vs-what-fianchettokits-boards-layer-adds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview: BoardKit's primitives vs. what FianchettoKit's Boards layer adds
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#board-identity-and-the-catalog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Board identity and the catalog
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Board identity and the catalog">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gatt-identity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GATT identity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#name-and-scan-matching" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Name and scan matching
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transport-lifecycle-policy-and-connection-ownership" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transport lifecycle policy and connection ownership
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Transport lifecycle policy and connection ownership">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connection-ownership" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection ownership
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#write-pacing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Write pacing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-session-state-machine-eboardsessioncore-eboardeffect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The session state machine (EBoardSessionCore, EBoardEffect)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The session state machine (EBoardSessionCore, EBoardEffect)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#execution-gate-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Execution-gate routing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#liftplace-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lift/place inference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#promotion-disambiguation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Promotion disambiguation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#auto-orientation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auto-orientation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diff-resolution-and-correction-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diff resolution and correction flow
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diff resolution and correction flow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#resolving-and-applying" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resolving and applying
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#correction-instruction-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correction-instruction text
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-platform-shell-glue-eboardshellkernel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-platform shell glue: EBoardShellKernel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cross-platform shell glue: EBoardShellKernel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#orientation-re-feed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Orientation re-feed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#field-diagnostics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Field diagnostics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Field diagnostics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#eboarddiagnosticcapture-always-on-ring-buffer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EBoardDiagnosticCapture — always-on ring buffer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#desync-deduplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Desync deduplication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eboarddiagnosticpersistencecoordinator-debounced-writes-off-main" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        EBoardDiagnosticPersistenceCoordinator — debounced writes off-main
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#headless-surfaces-and-cli-opportunities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Headless surfaces and CLI opportunities
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="e-board-integration-session-core-diff-resolution-and-diagnostics">E-Board Integration: Session Core, Diff Resolution, and Diagnostics<a class="headerlink" href="#e-board-integration-session-core-diff-resolution-and-diagnostics" title="Permanent link">&para;</a></h1>
+<p><code>Sources/FianchettoKit/Boards/</code> (17 files) turns a raw physical-board event
+stream into game state, shared by the iOS/macOS app and the Android
+(Skip/SkipFuse) port from one decision core. Every type here except
+<code>EBoardSessionCore</code> — a plain class that deliberately holds non-Sendable
+stored state and is never sent across an actor boundary — is <code>Sendable</code>,
+and all but three files carry no <code>@MainActor</code> — the whole desync-resolution
+and promotion-disambiguation state machine is a plain value/reference-type
+decision core a unit test (or a future CLI) can drive with zero UI and zero
+Bluetooth.</p>
+<h2 id="overview-boardkits-primitives-vs-what-fianchettokits-boards-layer-adds">Overview: BoardKit's primitives vs. what FianchettoKit's Boards layer adds<a class="headerlink" href="#overview-boardkits-primitives-vs-what-fianchettokits-boards-layer-adds" title="Permanent link">&para;</a></h2>
+<p><code>BoardKit</code> (extracted from FianchettoKit 2026-07-03, a sibling package) owns
+the wire-level kernel — <code>BoardEvent</code>, <code>BoardCommand</code>, <code>BoardTransport</code>,
+<code>BoardTransportState</code>, <code>BoardAdapter</code>, <code>BoardCapabilities</code>,
+<code>BoardExecutionGate</code>, <code>OccupancyMoveInference</code>, <code>BoardDiffResolver</code>,
+<code>BoardCorrectionPlanner</code>, <code>BoardTakebackDetector</code>, <code>ChessBoardGeometry</code>,
+<code>BoardReconnectPolicy</code>, <code>BoardSyncGate</code> — plus the four brand codecs
+(<code>SquareOffAdapter</code>, <code>ChessnutAdapter</code>, <code>ChessUpAdapter</code>, <code>MillenniumAdapter</code>).
+FianchettoKit re-exports <code>BoardKit</code> and <code>SquareOffAdapter</code> (<code>@_exported
+import</code>), so <code>import FianchettoKit</code> alone resolves every board kernel type.
+FianchettoKit's <code>Boards/</code> layer adds the product decisions BoardKit
+deliberately doesn't own:</p>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>Type(s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Which physical brand is this, and how do I find/name it</td>
+<td><code>BoardCatalogKey</code>, <code>BoardCatalog</code>, <code>BoardGATTSpec</code>, <code>BoardBrand</code></td>
+</tr>
+<tr>
+<td>Is it safe to scan / swap adapters right now</td>
+<td><code>BoardTransportLifecyclePolicy</code></td>
+</tr>
+<tr>
+<td>Who owns this async BLE callback</td>
+<td><code>BoardConnectionGeneration</code></td>
+</tr>
+<tr>
+<td>Deterministic write pacing</td>
+<td><code>BoardWriteQueue&lt;Owner&gt;</code></td>
+</tr>
+<tr>
+<td>Turning <code>BoardEvent</code> into game effects</td>
+<td><code>EBoardSessionCore</code>, <code>EBoardEffect</code></td>
+</tr>
+<tr>
+<td>Running the diff search off-main, applying its result</td>
+<td><code>EBoardDiffResolutionCoordinator</code></td>
+</tr>
+<tr>
+<td>One shared effect-application + orientation re-feed</td>
+<td><code>EBoardShellKernel</code>, <code>EBoardShellKernelContext</code></td>
+</tr>
+<tr>
+<td>UCI (re-)validation, takeback log lines</td>
+<td><code>EBoardMoveResolution</code></td>
+</tr>
+<tr>
+<td>App-to-board write-back move search</td>
+<td><code>EBoardPositionTransition</code></td>
+</tr>
+<tr>
+<td>Sync-sheet/OTB copy</td>
+<td><code>BoardSyncPresentation</code></td>
+</tr>
+<tr>
+<td>Field-bug capture and replay</td>
+<td><code>EBoardDiagnosticCapture</code>, <code>EBoardDiagnosticPersistenceCoordinator</code></td>
+</tr>
+</tbody>
+</table>
+<p>The iOS and Android <code>EBoardSession</code> shells used to hand-mirror this logic in
+Swift and Kotlin/Skip separately; every type here exists because that
+mirroring drifted.</p>
+<h2 id="board-identity-and-the-catalog">Board identity and the catalog<a class="headerlink" href="#board-identity-and-the-catalog" title="Permanent link">&para;</a></h2>
+<p><code>BoardCatalogKey</code> is the closed identity every board is keyed by, shared by
+both platforms' local <code>BoardType</code> enums (a FianchettoKit type can't be a
+Compose <code>@State</code> on Android, so each app maps its own thin <code>BoardType</code> to
+this key with an exhaustive switch):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">BoardCatalogKey</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">CaseIterable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">squareOffPro</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">chessnutAir</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">chessUp2</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">millenniumEONE</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>BoardBrand.displayName(rawValue:)</code> is the single source of truth for what a
+board is called: <code>squareOffPro</code> → "Square Off Pro", <code>chessnutAir</code> →
+"Chessnut", <code>chessUp2</code> → "ChessUp 2", <code>millenniumEONE</code> → "Millennium eONE"
+(<code>BoardBrand.pgnEventTag(rawValue:)</code> currently mirrors this).</p>
+<h3 id="gatt-identity">GATT identity<a class="headerlink" href="#gatt-identity" title="Permanent link">&para;</a></h3>
+<p><code>BoardGATTSpec</code> is the platform-neutral BLE contract for one brand — plain
+<code>String</code> UUIDs, no <code>CoreBluetooth</code> import, so it stays Linux/Android-compilable.
+<code>BoardCatalog.gattSpec(key:)</code> returns the real values:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>scan filter</th>
+<th>TX service / char</th>
+<th>RX service / char</th>
+<th>dual-service</th>
+<th>aux notify</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>squareOffPro</code></td>
+<td><code>D804B643-…</code>, NUS <code>6e400001-…</code></td>
+<td><code>6e400001…</code>/<code>6e400003…</code></td>
+<td><code>6e400001…</code>/<code>6e400002…</code></td>
+<td>false</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>chessnutAir</code></td>
+<td><code>boardStateService</code>, <code>commandService</code></td>
+<td>boardStateService/boardStateChar</td>
+<td>commandService/commandWriteChar</td>
+<td>true</td>
+<td><code>commandResponseChar</code>, <code>fileChar</code></td>
+</tr>
+<tr>
+<td><code>chessUp2</code></td>
+<td>NUS <code>6e400001-…</code>, Device Info <code>0000180a-…</code></td>
+<td><code>6e400001…</code>/<code>6e400003…</code></td>
+<td><code>6e400001…</code>/<code>6e400002…</code></td>
+<td>false</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>millenniumEONE</code></td>
+<td><code>MillenniumGATT.serviceUUID</code></td>
+<td>serviceUUID/notifyCharUUID</td>
+<td>serviceUUID/writeCharUUID</td>
+<td>false</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code>ChessnutGATT.*</code>/<code>MillenniumGATT.*</code> resolve to literal UUIDs inside
+<code>BoardKit</code>, not FianchettoKit — cited here by symbolic name, not hex this
+package can't verify.</p>
+</div>
+<p><code>BoardGATTSpec.auxiliaryNotifyEndpoints</code> subscription is best-effort: a
+missing auxiliary endpoint never fails the connection. Chessnut is the only
+brand that populates it — <code>commandResponseChar</code> (stored-game download replies)
+and <code>fileChar</code> (the archive itself) — and neither is the primary board-state
+notify channel, so losing one costs a feature (stored-game import), not the
+connection.</p>
+<p><code>serviceUUIDs</code> — a computed property, distinct from <code>scanServiceUUIDs</code> — is
+the narrower set of services the transport discovers <em>characteristics</em> on: a
+case-insensitively de-duped <code>[txServiceUUID, rxServiceUUID,
+advertisedServiceUUID].compactMap { $0 }</code>. It deliberately <strong>excludes</strong>
+ChessUp's <code>0000180a</code> Device Information service even though that UUID is in
+<code>scanServiceUUIDs</code> (an advertising filter only) — discovering characteristics
+there costs a round trip for a service the protocol never touches.</p>
+<h3 id="name-and-scan-matching">Name and scan matching<a class="headerlink" href="#name-and-scan-matching" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>BoardCatalog.matchesScan(key:name:advertisedServiceMatches:) =
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    !excludes &amp;&amp; (serviceMatch || includes)
+</code></pre></div>
+<p>Exclusion wins. For <code>.chessnutAir</code>, <code>excludes = ChessnutGATT.isMoveProfile(name:)</code>
+— the Chessnut Move shares every GATT UUID with the Air/classic profile, so a
+service-UUID match alone must never pull a Move into <code>.chessnutAir</code>. The
+other three keys have no shared-UUID sibling: <code>advertisedServiceMatches ||
+matchesName(key:name:)</code>.</p>
+<p><code>scansByName(key:)</code> is <code>false</code> for <code>squareOffPro</code>/<code>chessUp2</code> (they advertise
+their service UUID directly) and <code>true</code> for <code>chessnutAir</code> (two 128-bit
+service UUIDs don't fit a 31-byte advertising packet) and <code>millenniumEONE</code>
+(advertises only the Local Name "MILLENNIUM CHESS", no service UUID). A
+<code>scansByName == true</code> board must run a broad <code>withServices: nil</code> scan and
+filter every discovered peripheral through <code>matchesScan</code> in the callback.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">import</span><span class="w"> </span><span class="nc">FianchettoKit</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kd">import</span><span class="w"> </span><span class="nc">BoardKit</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="kd">let</span><span class="w"> </span><span class="nv">key</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">BoardCatalogKey</span><span class="p">.</span><span class="n">chessnutAir</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="kd">let</span><span class="w"> </span><span class="nv">adapter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">key</span><span class="p">.</span><span class="n">makeAdapter</span><span class="p">()</span><span class="w">          </span><span class="c1">// ChessnutAdapter()</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="kd">let</span><span class="w"> </span><span class="nv">spec</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">key</span><span class="p">.</span><span class="n">gattSpec</span><span class="w">                  </span><span class="c1">// BoardGATTSpec</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="k">if</span><span class="w"> </span><span class="n">key</span><span class="p">.</span><span class="n">scansByName</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nv">belongsHere</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">key</span><span class="p">.</span><span class="n">matchesScan</span><span class="p">(</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">        </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="n">advertisedLocalName</span><span class="p">,</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">        </span><span class="n">advertisedServiceMatches</span><span class="p">:</span><span class="w"> </span><span class="n">sawOneOf</span><span class="p">(</span><span class="n">spec</span><span class="p">.</span><span class="n">scanServiceUUIDs</span><span class="p">)</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="p">)</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="p">}</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="n">key</span><span class="p">.</span><span class="n">displayName</span><span class="w">            </span><span class="c1">// "Chessnut"</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="n">key</span><span class="p">.</span><span class="n">kotlinManagerClass</span><span class="w">     </span><span class="c1">// "fianchetto/module/ChessnutBleManager"</span>
+</code></pre></div>
+<p><code>BoardCatalog.chessnutBeepData(frequency:durationMs:)</code> forwards to
+<code>ChessnutAdapter.beepData(frequency:duration:)</code> so the app can drive the one
+beeper in the fleet without importing <code>ChessnutAdapter</code> directly.</p>
+<h2 id="transport-lifecycle-policy-and-connection-ownership">Transport lifecycle policy and connection ownership<a class="headerlink" href="#transport-lifecycle-policy-and-connection-ownership" title="Permanent link">&para;</a></h2>
+<p><code>BoardTransportLifecyclePolicy</code> centralizes "is it safe to touch the
+transport right now" so the iOS and Android radios can't drift into one
+platform tearing down an adapter the other is still using:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>allowsScan(from:) / allowsBoardTypeChange(from:) — true only for:
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    .idle, .disconnected, .poweredOff, .unauthorized
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>                                        — false for:
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    .scanning, .connecting, .connected, .reconnecting
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>isTerminalConnectionAvailabilityState(_:) — true only for:
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    .poweredOff, .unauthorized
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>statePoweredOn(reconnectIsRunning:attempt:) =
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    reconnectIsRunning ? .reconnecting(attempt: attempt) : .idle
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>resolvesDeferredScanOnPowerOn(reconnectIsRunning:) = true   // always
+</code></pre></div>
+<p><code>.poweredOff</code>/<code>.unauthorized</code> are deliberately <em>allowed</em> for scan/type-change
+so the platform can still run its native retry/permission flow; any state
+with a connection attempt in flight blocks both. <code>statePoweredOn</code> keys off
+whether a reconnect <em>task</em> is alive rather than the last-written state value
+— a radio bounce during a reconnect loop can otherwise write <code>.poweredOff</code>
+over <code>.reconnecting</code>, and "don't clobber <code>.reconnecting</code>" can't fire on the
+way back up if it's reading a state the bounce already overwrote.</p>
+<h3 id="connection-ownership">Connection ownership<a class="headerlink" href="#connection-ownership" title="Permanent link">&para;</a></h3>
+<p><code>BoardConnectionGeneration</code> is the monotonic token guarding a <em>delayed</em> async
+BLE callback against mutating state after its connection attempt is obsolete:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>begin():            current &amp;+= 1; isActive = true      // returns the new token
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>activate(token):     current  = token; isActive = true   // process-wide token (Android JNI)
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>invalidate():        isActive = false
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>accepts(g):          isActive &amp;&amp; g == current
+</code></pre></div>
+<p><code>activate(_:)</code> exists because Android's singleton JNI bridge can outlive and
+retarget multiple transport instances — a per-instance <code>begin()</code> counter
+starting at 1 isn't sufficient there, since two transports would both start
+at the same value.</p>
+<h3 id="write-pacing">Write pacing<a class="headerlink" href="#write-pacing" title="Permanent link">&para;</a></h3>
+<p><code>BoardWriteQueue&lt;Owner: Equatable &amp; Sendable&gt;</code> is a deterministic FIFO for
+physical writes, combining a per-command delay with the adapter's minimum
+write interval:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>nextAction(activeOwner:now:):
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    drop every queued entry whose owner != activeOwner
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    if queue empty: .none
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    if first write since reset():  required = delayBefore;                          anchor = enqueuedAt
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    else:                          required = max(delayBefore, minimumWriteInterval); anchor = lastWriteAt
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    if (now - anchor) &lt; required: .wait(required - elapsed)
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    else: dequeue; .write(payload, owner)
+</code></pre></div>
+<p>The caller performs the write, then calls <code>didWrite(at:)</code> to record the
+timestamp <code>nextAction</code> paces off next. <code>reset()</code> drops queued entries and
+forgets <code>lastWriteAt</code>, for when the transport swaps links.</p>
+<h2 id="the-session-state-machine-eboardsessioncore-eboardeffect">The session state machine (<code>EBoardSessionCore</code>, <code>EBoardEffect</code>)<a class="headerlink" href="#the-session-state-machine-eboardsessioncore-eboardeffect" title="Permanent link">&para;</a></h2>
+<p><code>EBoardSessionCore</code> is a <code>final class</code>, not <code>@Observable</code>, never crossing an
+actor boundary — called synchronously from whichever <code>@MainActor</code> shell owns
+it:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kd">public</span><span class="w"> </span><span class="kr">final</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">EBoardSessionCore</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">init</span><span class="p">()</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">private</span><span class="p">(</span><span class="kr">set</span><span class="p">)</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">pendingOutbound</span><span class="p">:</span><span class="w"> </span><span class="n">BoardExecutionGate</span><span class="p">?</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">private</span><span class="p">(</span><span class="kr">set</span><span class="p">)</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">awaitingPromotionFromUCI</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">?</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">private</span><span class="p">(</span><span class="kr">set</span><span class="p">)</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">lastReportedOccupancy</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">Bool</span><span class="p">]?</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">private</span><span class="p">(</span><span class="kr">set</span><span class="p">)</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">boardPromotionPick</span><span class="p">:</span><span class="w"> </span><span class="n">PieceType</span><span class="p">?</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">private</span><span class="p">(</span><span class="kr">set</span><span class="p">)</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">lastReportedIdentity</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Piece</span><span class="p">?]?</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">clearPendingOutbound</span><span class="p">()</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="n">event</span><span class="p">:</span><span class="w"> </span><span class="n">BoardEvent</span><span class="p">,</span><span class="w"> </span><span class="n">game</span><span class="p">:</span><span class="w"> </span><span class="n">GameView</span><span class="p">,</span><span class="w"> </span><span class="n">orientationFlipped</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">EBoardEffect</span><span class="p">]</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">completeBoardDiffResolution</span><span class="p">(</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">        </span><span class="kc">_</span><span class="w"> </span><span class="n">resolutions</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">BoardDiffResolver</span><span class="p">.</span><span class="n">Resolution</span><span class="p">],</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">request</span><span class="p">:</span><span class="w"> </span><span class="n">EBoardDiffRequest</span><span class="p">,</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">        </span><span class="n">game</span><span class="p">:</span><span class="w"> </span><span class="n">GameView</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">EBoardEffect</span><span class="p">]</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">present</span><span class="p">(</span><span class="n">move</span><span class="p">:</span><span class="w"> </span><span class="n">Move</span><span class="p">,</span><span class="w"> </span><span class="n">positionBefore</span><span class="p">:</span><span class="w"> </span><span class="n">Position</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">EBoardEffect</span><span class="p">]</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">forceApply</span><span class="p">(</span><span class="n">uci</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">game</span><span class="p">:</span><span class="w"> </span><span class="n">GameView</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">EBoardEffect</span><span class="p">]</span>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">applyResolution</span><span class="p">(</span><span class="kc">_</span><span class="w"> </span><span class="n">resolution</span><span class="p">:</span><span class="w"> </span><span class="n">BoardDiffResolver</span><span class="p">.</span><span class="n">Resolution</span><span class="p">,</span><span class="w"> </span><span class="n">game</span><span class="p">:</span><span class="w"> </span><span class="n">GameView</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">EBoardEffect</span><span class="p">]</span>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">syncAfterPromotion</span><span class="p">(</span><span class="n">game</span><span class="p">:</span><span class="w"> </span><span class="n">GameView</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">EBoardEffect</span><span class="p">]</span>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">completePromotion</span><span class="p">(</span><span class="n">pieceType</span><span class="p">:</span><span class="w"> </span><span class="n">PieceType</span><span class="p">,</span><span class="w"> </span><span class="n">game</span><span class="p">:</span><span class="w"> </span><span class="n">GameView</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">EBoardEffect</span><span class="p">]</span>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">cancelPromotion</span><span class="p">(</span><span class="n">game</span><span class="p">:</span><span class="w"> </span><span class="n">GameView</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">EBoardEffect</span><span class="p">]</span>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="w">    </span><span class="p">@</span><span class="n">discardableResult</span><span class="w"> </span><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">resetInference</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">EBoardEffect</span><span class="p">]</span>
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">occupancyMismatches</span><span class="p">(</span><span class="n">game</span><span class="p">:</span><span class="w"> </span><span class="n">GameView</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">[</span><span class="nb">String</span><span class="p">]</span>
+<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">corrections</span><span class="p">(</span><span class="n">game</span><span class="p">:</span><span class="w"> </span><span class="n">GameView</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">BoardCorrectionPlanner</span><span class="p">.</span><span class="n">Correction</span><span class="p">]</span>
+<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="p">}</span>
+</code></pre></div>
+<p>Every call takes a <code>GameView</code> — a closure-free value snapshot the shell
+builds fresh each cycle, which keeps the core testable without a live <code>Game</code>
+or a SwiftUI host:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="nc">GameView</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">position</span><span class="p">:</span><span class="w"> </span><span class="n">Position</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">currentNodeUCI</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">?</span><span class="w">             </span><span class="c1">// for promotion-completion detection</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">ancestorPositions</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Position</span><span class="p">]</span><span class="w">        </span><span class="c1">// up to 6 plies back, shell-precomputed</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">legalCastlingRookHomes</span><span class="p">:</span><span class="w"> </span><span class="n">Set</span><span class="p">&lt;</span><span class="nb">String</span><span class="p">&gt;</span><span class="w">  </span><span class="c1">// e.g. ["a1", "h1"]</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">init</span><span class="p">(</span><span class="n">position</span><span class="p">:</span><span class="n">currentNodeUCI</span><span class="p">:</span><span class="n">ancestorPositions</span><span class="p">:</span><span class="n">legalCastlingRookHomes</span><span class="p">:)</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>EBoardEffect</code> is the closed, <code>Equatable</code> vocabulary of everything the core
+can decide — the shell iterates the returned array and applies each case,
+which is what lets a golden test assert the <em>exact</em> effect sequence a
+<code>BoardEvent</code> produces:</p>
+<table>
+<thead>
+<tr>
+<th>Group</th>
+<th>Cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Observable mirrors</td>
+<td><code>setLiftedSquare</code>, <code>setLastAppliedMove</code>, <code>setLastReportedOccupancy</code>, <code>setPendingResolutions</code>, <code>setPendingOutbound</code>, <code>setAwaitingPromotionFromUCI</code>, <code>adoptOrientationFlip</code></td>
+</tr>
+<tr>
+<td>Deferred reconciliation</td>
+<td><code>resolveBoardDiff</code>, <code>scheduleStateConfirmation(afterMilliseconds:)</code></td>
+</tr>
+<tr>
+<td>Game mutations</td>
+<td><code>applyMove(uci:)</code>, <code>applyResolution(moves:)</code>, <code>retractPlies(_:)</code></td>
+</tr>
+<tr>
+<td>Physical counters</td>
+<td><code>bumpPhysicalMoveApplied</code>, <code>bumpTakeback</code></td>
+</tr>
+<tr>
+<td>Promotion picker</td>
+<td><code>showPromotionPicker(from:to:legalUCIs:)</code>, <code>dismissPromotionPicker</code></td>
+</tr>
+<tr>
+<td>Board hardware</td>
+<td><code>indicateSquares(_:)</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>handle(event:game:orientationFlipped:)</code> is the single entry point; each call
+re-binds <code>OccupancyMoveInference.isCastlingStillLegal</code> from
+<code>game.legalCastlingRookHomes</code>, then switches on <code>BoardEvent</code>. The cases the
+core acts on: <code>.squareSensed</code>, <code>.occupancySnapshot</code>, <code>.disconnected</code>,
+<code>.promotionPick</code>, <code>.identitySnapshot</code>. <code>.ready</code>, <code>.connected</code>, <code>.raw</code>,
+<code>.battery</code>, <code>.storedGameImported</code> are no-ops here — the last is a
+side-channel import result the app session handles before it reaches the
+move-inference core at all.</p>
+<h3 id="execution-gate-routing">Execution-gate routing<a class="headerlink" href="#execution-gate-routing" title="Permanent link">&para;</a></h3>
+<p>While an app-dictated move (an engine reply, a tap-move) awaits physical
+execution, <code>pendingOutbound: BoardExecutionGate?</code> reroutes field events away
+from <code>OccupancyMoveInference</code> entirely:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">gate</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">pendingOutbound</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="n">gate</span><span class="p">.</span><span class="n">feed</span><span class="p">(</span><span class="n">square</span><span class="p">:</span><span class="w"> </span><span class="n">square</span><span class="p">,</span><span class="w"> </span><span class="n">isLift</span><span class="p">:</span><span class="w"> </span><span class="n">isLift</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="p">.</span><span class="n">inProgress</span><span class="p">:</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">[]</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="p">.</span><span class="n">executed</span><span class="p">:</span><span class="w">   </span><span class="cm">/* clear gate, reset inference, clear LEDs */</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="p">.</span><span class="n">deviated</span><span class="p">:</span><span class="w">   </span><span class="cm">/* clear gate, LEDs, fall into the diff resolver */</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>present(move:positionBefore:)</code> arms the gate — the shell must guard
+<code>transport.state == .connected</code> first, or arming while disconnected blocks
+inference forever. It snapshots pre-move occupancy into
+<code>pendingOutboundPreOccupancy</code>; <code>tryResolveAgainstSnapshot</code> treats the board
+still showing that exact pre-move state as the expected <em>wait</em> state rather
+than a desync (the "Go auto-takeback fix" — without it, a streaming board's
+heartbeat frame kept re-running stash/confirm/BFS and eventually retracted
+the app's own move).</p>
+<h3 id="liftplace-inference">Lift/place inference<a class="headerlink" href="#liftplace-inference" title="Permanent link">&para;</a></h3>
+<p>Outside a gated move, field events go to
+<code>OccupancyMoveInference.handle(square:isLift:)</code>, returning
+<code>.pieceLifted(square)</code>, <code>.moveCandidates([String])</code>, or <code>.noChange</code>.
+<code>.moveCandidates</code> is matched against <code>MoveGenerator.legalMoves(for:)</code> in
+<code>tryApply</code>; <code>.noChange</code> (a lift returned to its own square) still re-runs the
+diff resolver so a stale <code>pendingResolutions</code> clears the instant the board
+re-agrees. A committed move that doesn't consume the triggering lift square
+gets that lift re-fed, so the opponent's next pickup isn't swallowed.</p>
+<h3 id="promotion-disambiguation">Promotion disambiguation<a class="headerlink" href="#promotion-disambiguation" title="Permanent link">&para;</a></h3>
+<p><code>tryApply</code> collects the inference candidates that resolve to a legal
+promotion move, deduplicated by promotion piece type:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>2+ distinct legal promotion pieces:
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>  1. boardPromotionPick already reported (BoardEvent.promotionPick, e.g. a
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>     ChessUp 0x97 frame) -&gt; auto-commit to that piece, no picker
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>  2. else, an identity-sensing board's latest identitySnapshot shows a piece
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>     on the promotion square whose type ∈ {queen, rook, bishop, knight} AND
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>     whose color equals the promoting side's game.position.activeColor
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>     -&gt; auto-commit to that piece, no picker
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>     (a still-standing pawn, a king, or a wrong-color spare piece falls
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>     through — those are the player's own captured pieces set aside)
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>  3. else -&gt; .showPromotionPicker(from:to:legalUCIs:), awaitingPromotionFromUCI = from+to
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>Exactly 1 legal promotion piece survives the candidate filter:
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>  -&gt; auto-promote directly, no picker
+</code></pre></div>
+<p>The identity-consult branch runs <em>after</em> the <code>boardPromotionPick</code> check — a
+hardware-reported pick always wins. A <code>.promotionPick</code> arriving while the
+picker is already open (the 0x97 frame can race the pawn-placement events
+either way) auto-completes the promotion and emits <code>.dismissPromotionPicker</code>
+so the shell closes its UI without a tap.</p>
+<h3 id="auto-orientation">Auto-orientation<a class="headerlink" href="#auto-orientation" title="Permanent link">&para;</a></h3>
+<p>An <code>.identitySnapshot</code> on a 64-square identity-sensing board (Chessnut Air
+family) can prove the board is physically rotated relative to the app's
+<code>orientationFlipped</code> flag:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>on .identitySnapshot(pieces) where pieces.count == 64:
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    expected = identityArray(for: game.position)
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    adjusted = orientationFlipped ? pieces.reversed() : pieces
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    reversed = adjusted.reversed()
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    if adjusted != expected &amp;&amp; reversed == expected:
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>        adopt `reversed`; emit .adoptOrientationFlip(!orientationFlipped)
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>identityArray(for: position):
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>    out[file * 8 + rank] = position.board[rank * 8 + file]   // rank-major -&gt; file-major, a1..h8
+</code></pre></div>
+<p>A position can never equal its own 180°-reversal (the two kings alone forbid
+it), so "matches un-reversed" and "matches reversed" are mutually exclusive —
+once adopted, every following frame matches directly and the flip cannot
+re-fire, closing the "stale persisted flip" class where a leftover flip
+silently misread every move 180° with no UI surface to discover it.</p>
+<div class="admonition warning">
+<p class="admonition-title"><code>.adoptOrientationFlip</code> must not trigger a re-feed</p>
+<p>The core has already stored the corrected arrays for the frame that
+produced <code>.adoptOrientationFlip</code>. The shell must persist the new flag
+<em>without</em> running its normal orientation-change re-feed
+(<code>EBoardShellKernel.orientationRefeed</code>, below) — re-feeding would reverse
+an already-reversed array a second time.</p>
+</div>
+<h2 id="diff-resolution-and-correction-flow">Diff resolution and correction flow<a class="headerlink" href="#diff-resolution-and-correction-flow" title="Permanent link">&para;</a></h2>
+<p><code>tryResolveAgainstSnapshot(game:fromSnapshot:)</code> is the core's desync
+classifier, run on every <code>.squareSensed</code>, <code>.occupancySnapshot</code>, and
+<code>.identitySnapshot</code>, in order:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>1. pendingOutbound != nil &amp;&amp; occupancy == pendingOutboundPreOccupancy
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>       -&gt; expected pre-move wait state; clear stash; []
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>2. gameOccupancy == occupancy
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>       -&gt; in sync; clear stash; [.setPendingResolutions([])]
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>3. lift-in-progress guard (occupancy is a strict subset of gameOccupancy —
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>   squares only vacated, none newly filled)
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>       -&gt; pure lift; clear stash; [.setPendingResolutions([])]
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>       (defer to OccupancyMoveInference, fed by the same frame's deltas)
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>4. stability gate: occupancy != unconfirmedMismatch
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>       -&gt; stash it; [.scheduleStateConfirmation(afterMilliseconds: 500)]
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>
+<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>5. occupancy == unconfirmedMismatch but !fromSnapshot
+<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>       -&gt; still waiting; [.scheduleStateConfirmation(afterMilliseconds: 500)]
+<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>
+<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a>6. occupancy == unconfirmedMismatch &amp;&amp; fromSnapshot
+<a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>       -&gt; clear stash; [.resolveBoardDiff(EBoardDiffRequest(position, occupancy))]
+</code></pre></div>
+<p><strong>The stability gate</strong> (4–6) exists because continuously-streaming boards
+(Chessnut Go) emit frames <em>during</em> a move — a piece slid across the board, or
+resting off-centre and crosstalking an adjacent square — producing a
+one-frame mismatch that is neither in-sync nor a pure lift. It requires the
+<em>same</em> mismatched occupancy on two consecutive <strong>snapshot-originated</strong>
+observations before the depth-3 BFS runs.</p>
+<div class="admonition warning">
+<p class="admonition-title">A delta-path re-entry cannot self-confirm</p>
+<p><code>fromSnapshot</code> distinguishes a full snapshot from a delta-path re-entry
+(a deviation, a no-change, a failed-candidate fallback) — both observe
+<code>lastReportedOccupancy</code>, so without this gate a delta-path call
+re-observing the <em>same</em> physical frame would confirm the stash against
+itself. This happened once: hand-shadowing crosstalk during <code>1...e6</code>
+self-confirmed and the resolver fabricated <code>[e7e5, d4e5]</code>, silently
+corrupting the game.</p>
+</div>
+<p><strong>The lift-in-progress guard</strong> (3) exists separately because occupancy-only
+boards (Millennium eONE) auto-report a full frame on <em>every</em> sensor change,
+including the transient "lifted, not yet placed" instant at the start of a
+move — occupancy-indistinguishable from a completed capture. Without it, the
+BFS can fabricate a spurious multi-ply capture chain and auto-apply it: a c7
+lift mid <code>1.d4 d5 2.c4 c6</code> once resolved to the unique <code>[c7c5, c4d5, c5c4]</code>,
+leaving white pawns on both d4 and d5.</p>
+<h3 id="resolving-and-applying">Resolving and applying<a class="headerlink" href="#resolving-and-applying" title="Permanent link">&para;</a></h3>
+<p><code>EBoardDiffResolutionCoordinator</code> moves the BFS off <code>@MainActor</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">init</span><span class="p">(</span><span class="n">resolver</span><span class="p">:</span><span class="w"> </span><span class="p">@</span><span class="n">escaping</span><span class="w"> </span><span class="n">Resolver</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="k">in</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="n">BoardDiffResolver</span><span class="p">.</span><span class="n">resolve</span><span class="p">(</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">        </span><span class="n">from</span><span class="p">:</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="n">position</span><span class="p">,</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">        </span><span class="n">targetOccupancy</span><span class="p">:</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="n">targetOccupancy</span><span class="p">,</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">        </span><span class="n">maxDepth</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">        </span><span class="n">limit</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="p">)</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="p">})</span>
+</code></pre></div>
+<p>It runs the search on a <code>Task.detached</code>, keeps a one-entry
+<code>(cachedRequest, cachedResolutions)</code> memo so an identical request served
+twice is free, and tags every request with a <code>generation</code> counter
+(<code>generation &amp;+= 1</code> on every invalidation) so a completed-but-stale search
+can never publish over newer game state. <code>completeBoardDiffResolution</code>
+re-validates the request against the <em>current</em> position and occupancy first
+— defense-in-depth layer one, independent of the coordinator's own
+generation check:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>resolutions.count == 1:
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    if first.moves.count &gt; 1 &amp;&amp; resolutionContainsCapture(first, from: request.position):
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>        -&gt; [.setPendingResolutions(resolutions)]     // demoted for user confirmation
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    else:
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>        -&gt; applyResolutionEffects(first)             // auto-applied
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>resolutions.count &gt; 1:
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>    -&gt; [.setPendingResolutions(resolutions)]
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>resolutions.isEmpty:
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>    if pendingOutbound == nil: try BoardTakebackDetector.pliesToUndo(boardOccupancy:ancestorPositions:)
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>    else:                      -&gt; [.setPendingResolutions([])]   // gate still armed; not a takeback
+</code></pre></div>
+<p><code>resolutionContainsCapture</code> walks the resolution's UCI moves against a
+scratch position; a move counts as a capture if its destination is occupied
+before the move, or it is en passant. An unparseable UCI counts as a capture
+too, failing toward the safer, user-confirmed path.</p>
+<div class="admonition note">
+<p class="admonition-title">Multi-ply capture chains are demoted, not blocked</p>
+<p>A single-resolution <em>quiet</em> multi-ply catch-up (moves played while the
+app looked away) still auto-applies. Only a multi-ply resolution
+containing a capture is demoted — a capture is the only way the BFS can
+"explain away" a sensor-dropout-vacated square, so a fabricated chain and
+a genuine quiet catch-up need different defaults.</p>
+</div>
+<p>Takeback detection only runs when <code>pendingOutbound == nil</code> — while a gate is
+armed, the board showing an ancestor position is the <em>expected</em>
+pre-execution state, not proof of a physical takeback.</p>
+<h3 id="correction-instruction-text">Correction-instruction text<a class="headerlink" href="#correction-instruction-text" title="Permanent link">&para;</a></h3>
+<p><code>BoardSyncPresentation</code> supplies the shared strings both platforms' sync
+sheet and OTB status strip render:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">SummaryState</span><span class="p">:</span><span class="w"> </span><span class="nb">Equatable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">noSnapshot</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">inSync</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">outOfSync</span><span class="p">(</span><span class="bp">count</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">)</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">init</span><span class="p">(</span><span class="n">hasSnapshot</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span><span class="p">,</span><span class="w"> </span><span class="n">mismatchCount</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">)</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">    </span><span class="c1">// !hasSnapshot -&gt; .noSnapshot; mismatchCount == 0 -&gt; .inSync; else .outOfSync(count:)</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="p">}</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">syncStripMessage</span><span class="p">(</span><span class="n">hasPendingResolutions</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span><span class="p">,</span><span class="w"> </span><span class="n">mismatchCount</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">String</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">otbResult</span><span class="p">(</span><span class="k">for</span><span class="w"> </span><span class="n">state</span><span class="p">:</span><span class="w"> </span><span class="n">GameState</span><span class="p">,</span><span class="w"> </span><span class="n">activeColor</span><span class="p">:</span><span class="w"> </span><span class="n">PieceColor</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">String</span><span class="p">?</span>
+</code></pre></div>
+<p><code>SummaryState</code>'s title/subtitle are the sync sheet's summary card copy:</p>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Title</th>
+<th>Subtitle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.noSnapshot</code></td>
+<td>"No board snapshot yet"</td>
+<td>"Tap Refresh to fetch the board's current occupancy."</td>
+</tr>
+<tr>
+<td><code>.inSync</code></td>
+<td>"In sync"</td>
+<td>"The app and the physical board agree on every square."</td>
+</tr>
+<tr>
+<td><code>.outOfSync(n)</code></td>
+<td>"<code>n</code> square(s) out of sync"</td>
+<td>"Highlighted squares disagree between the app's game and the physical board."</td>
+</tr>
+</tbody>
+</table>
+<p><code>syncStripMessage</code> is the OTB status strip's tap-to-fix line: "Choose how to
+apply the board's move" while <code>hasPendingResolutions</code>, else "<code>n</code> square(s) out
+of sync — tap to fix".</p>
+<p><code>otbResult(for:activeColor:)</code> is deliberately distinct copy from
+<code>GameResultPresentation.text(for:activeColor:)</code> — that serves the analysis
+surfaces ("Checkmate — Black wins"); this serves both platforms' OTB views
+("Black wins by checkmate"). Nil while the game is still live:</p>
+<table>
+<thead>
+<tr>
+<th><code>GameState</code></th>
+<th><code>otbResult</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.checkmate</code></td>
+<td>"White wins by checkmate" / "Black wins by checkmate"</td>
+</tr>
+<tr>
+<td><code>.stalemate</code></td>
+<td>"Draw by stalemate"</td>
+</tr>
+<tr>
+<td><code>.draw</code></td>
+<td>"Draw"</td>
+</tr>
+<tr>
+<td><code>.insufficientMaterial</code></td>
+<td>"Draw — insufficient material"</td>
+</tr>
+<tr>
+<td><code>.repetition</code></td>
+<td>"Draw by threefold repetition"</td>
+</tr>
+<tr>
+<td><code>.playing</code>, <code>.check</code></td>
+<td><code>nil</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>BoardCorrectionPlanner.Correction.instruction</code> (an extension added here)
+formats one physical-correction step using FianchettoKit's own
+<code>Piece.descriptiveName</code> — defined in <code>Voice/AccessibilityPhrasing.swift</code> for
+VoiceOver/TalkBack labels, not ChessCore, and reused here so the wording
+matches what a sighted user sees and what a screen-reader user hears:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">for</span><span class="w"> </span><span class="n">correction</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">core</span><span class="p">.</span><span class="n">corrections</span><span class="p">(</span><span class="n">game</span><span class="p">:</span><span class="w"> </span><span class="n">gameView</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span><span class="bp">print</span><span class="p">(</span><span class="n">correction</span><span class="p">.</span><span class="n">instruction</span><span class="p">)</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span><span class="c1">// "Move the piece on e2 to e4 (White Pawn)"</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span><span class="c1">// "Place the White Queen on d1"</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">    </span><span class="c1">// "Remove the piece on h5"</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="p">}</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="n">corrections</span><span class="p">.</span><span class="n">placeSquares</span><span class="w">    </span><span class="c1">// expected occupied, board empty</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="n">corrections</span><span class="p">.</span><span class="n">removeSquares</span><span class="w">   </span><span class="c1">// board occupied, expected empty</span>
+</code></pre></div>
+<h2 id="cross-platform-shell-glue-eboardshellkernel">Cross-platform shell glue: <code>EBoardShellKernel</code><a class="headerlink" href="#cross-platform-shell-glue-eboardshellkernel" title="Permanent link">&para;</a></h2>
+<p><code>EBoardShellKernelContext</code> is the <code>@MainActor</code> protocol both platform
+<code>EBoardSession</code> shells conform to — observable mirrors named to match each
+shell's <code>@Observable</code> stored properties (conformance is automatic), bridged
+internals (<code>sessionCore</code>, <code>diffResolution</code>, <code>suppressRefeedFlag</code>, …), and
+platform services (<code>sendBoardCommand</code>, <code>kernelLogNotice</code>,
+<code>persistDiagnostics</code>, …).</p>
+<p><code>EBoardShellKernel.apply(_:context:)</code> is an <strong>exhaustive</strong> switch over
+<code>EBoardEffect</code> — a new case fails compilation here, in exactly one place,
+preserving the parity the shells' hand-mirrored switches used to provide
+only by discipline. Nine cases are applied directly (<code>setLiftedSquare</code>,
+<code>setLastReportedOccupancy</code>, <code>setPendingResolutions</code>, <code>resolveBoardDiff</code>,
+<code>scheduleStateConfirmation</code>, <code>setPendingOutbound</code>,
+<code>setAwaitingPromotionFromUCI</code>, <code>adoptOrientationFlip</code>, <code>indicateSquares</code>);
+eight are platform-divergent and return <code>false</code>: <code>setLastAppliedMove</code>,
+<code>applyMove</code>, <code>applyResolution</code>, <code>retractPlies</code>, <code>bumpPhysicalMoveApplied</code>,
+<code>bumpTakeback</code>, <code>showPromotionPicker</code>, <code>dismissPromotionPicker</code>.</p>
+<p><code>.setLastReportedOccupancy</code> and <code>.setPendingResolutions</code> are
+<strong>equality-gated</strong> before the <code>@Observable</code> write — streaming boards emit
+identical heartbeat frames continuously, and an ungated assignment fired
+<code>Observation</code> per BLE frame (the resolver bookkeeping underneath still runs
+unconditionally). A non-empty <code>.setPendingResolutions</code> only logs/annotates
+when <code>EBoardDiagnosticDeduplication.desyncKey(positionFEN:occupancyHex:resolutions:)</code>
+differs from the last-logged key — the same content-key mechanism the
+diagnostic capture uses to collapse repeated frames.</p>
+<h3 id="orientation-re-feed">Orientation re-feed<a class="headerlink" href="#orientation-re-feed" title="Permanent link">&para;</a></h3>
+<p><code>EBoardShellKernel.orientationRefeed(context:)</code> replaces ~56 hand-mirrored
+lines per shell. On an orientation flag change it reverses the shell's
+<code>lastReportedOccupancy</code>/<code>liftedSquare</code> mirrors (via
+<code>ChessBoardGeometry.flippedSquare(_:)</code>), then re-feeds the core a synthetic,
+already-corrected snapshot — <code>.identitySnapshot</code> if
+<code>core.lastReportedIdentity</code> is non-nil, else <code>.occupancySnapshot</code> — with
+<code>orientationFlipped: false</code> since the arrays are pre-corrected. Any
+<code>.adoptOrientationFlip</code> the core would compute on that synthetic feed carries
+wrong flag semantics, so it (and the fed-back <code>.setLastReportedOccupancy</code>) is
+filtered from the applied effects: a manual toggle stays manual, and the next
+<em>real</em> frame still auto-corrects.</p>
+<h2 id="field-diagnostics">Field diagnostics<a class="headerlink" href="#field-diagnostics" title="Permanent link">&para;</a></h2>
+<h3 id="eboarddiagnosticcapture-always-on-ring-buffer"><code>EBoardDiagnosticCapture</code> — always-on ring buffer<a class="headerlink" href="#eboarddiagnosticcapture-always-on-ring-buffer" title="Permanent link">&para;</a></h3>
+<p><code>EBoardDiagnosticCapture</code> is a <code>BlobBackedStore</code> (<code>blobKey =
+"eBoardDiagnosticCapture"</code>) that starts recording as soon as a board session
+exists — no opt-in toggle, since its content is board-protocol data only (no
+player names, no device UUID), so always-on is safe by construction.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>cap = 500 entries
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>appendRaw(bytes:):
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>    hex = space-separated lowercase hex of the bytes
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>    if last entry is .rx AND sameState(last.data, hex, keyByteCount: stateKeyByteCount):
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>        merge: repeatCount += 1; lastOffsetMs = now      // collapse the run in place
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>    else: append a new EBoardDiagnosticEntry(kind: .rx)
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>stateKeyByteCount(forBrand:):
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>    "chessnutAir" -&gt; 34
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>    everything else -&gt; nil    // compares the WHOLE frame (always safe, never over-merges)
+</code></pre></div>
+<p>An entry is a <strong>run</strong> of identical frames, not one slot per frame. The 34
+came from a field capture: a Chessnut Air frame changed only at bytes 21 and
+25, byte 34 was a free-running counter cycling through 55 distinct values,
+and every other trailing byte was static — collapsing on the full 38-byte
+frame yielded 57 ring entries for 500 raw frames; collapsing on the leading
+34 yielded 3. The ring buys state <em>changes</em>, which is what a desync
+investigation actually reads.</p>
+<p><code>EBoardDiagnosticEntry.Kind</code> is <code>rx | lifecycle | comment</code>; <code>appendLifecycle(_:)</code>
+records <code>"connected"</code>/<code>"disconnected"</code>, <code>annotate(_:)</code> records free text (FEN,
+UCI, desync notes — never player names). <code>asReplayText()</code> renders <code>.replay</code>
+format text, valid input for <code>ReplayScript.parse(text:)</code> and replayable with
+zero live hardware:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kd">var</span><span class="w"> </span><span class="nv">capture</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">EBoardDiagnosticCapture</span><span class="p">()</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="n">capture</span><span class="p">.</span><span class="n">startSession</span><span class="p">(</span><span class="n">boardBrandRawValue</span><span class="p">:</span><span class="w"> </span><span class="s">"chessnutAir"</span><span class="p">)</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="n">capture</span><span class="p">.</span><span class="n">appendRaw</span><span class="p">(</span><span class="n">bytes</span><span class="p">:</span><span class="w"> </span><span class="n">frame</span><span class="p">)</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="n">capture</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"desync fen=</span><span class="si">\(</span><span class="n">fen</span><span class="si">)</span><span class="s"> choices=</span><span class="si">\(</span><span class="n">resolutions</span><span class="p">.</span><span class="bp">count</span><span class="si">)</span><span class="s">"</span><span class="p">)</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="kd">let</span><span class="w"> </span><span class="nv">text</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">capture</span><span class="p">.</span><span class="n">asReplayText</span><span class="p">()</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="c1">// "# board: chessnutAir"</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="c1">// "# privacy: content-only (board frames + moves; no player names, no device ID, relative timestamps)"</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="c1">// "rx 4d 43 ..."</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="c1">// "# repeated x12 over 1100ms"</span>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="kd">let</span><span class="w"> </span><span class="nv">steps</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">try</span><span class="w"> </span><span class="n">ReplayScript</span><span class="p">.</span><span class="n">parse</span><span class="p">(</span><span class="n">text</span><span class="p">:</span><span class="w"> </span><span class="n">text</span><span class="p">)</span>
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="kd">let</span><span class="w"> </span><span class="nv">replay</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ReplayTransport</span><span class="p">(</span><span class="n">adapter</span><span class="p">:</span><span class="w"> </span><span class="n">SquareOffAdapter</span><span class="p">(),</span><span class="w"> </span><span class="n">parsedScript</span><span class="p">:</span><span class="w"> </span><span class="n">steps</span><span class="p">)</span>
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="kd">let</span><span class="w"> </span><span class="nv">events</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">replay</span><span class="p">.</span><span class="n">runSync</span><span class="p">()</span>
+<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a><span class="c1">// Feed `events` through EBoardSessionCore.handle(event:game:orientationFlipped:)</span>
+<a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a><span class="c1">// for deterministic decision replay of a field bug.</span>
+</code></pre></div>
+<h3 id="desync-deduplication">Desync deduplication<a class="headerlink" href="#desync-deduplication" title="Permanent link">&para;</a></h3>
+<p>A board parked in one persistently-mismatched state would otherwise fill the
+ring with the same annotation on every frame. <code>EBoardDiagnosticDeduplication</code>
+keys on content, not time, so re-observing the same mismatch is a no-op:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">EBoardDiagnosticDeduplication</span><span class="p">.</span><span class="n">desyncKey</span><span class="p">(</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">    </span><span class="n">positionFEN</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">occupancyHex</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">    </span><span class="n">resolutions</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">BoardDiffResolver</span><span class="p">.</span><span class="n">Resolution</span><span class="p">]</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">String</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="c1">// "\(positionFEN)|\(occupancyHex)|" + resolutions</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="c1">//     .map { $0.moves.joined(separator: ",") }</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1">//     .joined(separator: ";")</span>
+</code></pre></div>
+<p><code>EBoardShellKernel</code> compares this key against <code>context.desyncDedupKey</code> on
+every non-empty <code>.setPendingResolutions</code> and, only when it differs, logs</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>squareoff desync: fen=&lt;fen&gt; choices=&lt;n&gt; board=&lt;hex&gt;
+</code></pre></div>
+<p>via <code>context.kernelLogNotice(_:)</code> and annotates <code>desync fen=&lt;fen&gt;
+choices=&lt;n&gt;</code> into the diagnostic capture — so a board stuck in one
+mismatched state produces one ring entry, not five hundred.</p>
+<h3 id="eboarddiagnosticpersistencecoordinator-debounced-writes-off-main"><code>EBoardDiagnosticPersistenceCoordinator</code> — debounced writes off-main<a class="headerlink" href="#eboarddiagnosticpersistencecoordinator-debounced-writes-off-main" title="Permanent link">&para;</a></h3>
+<p>Encoding a 500-entry capture and atomically replacing its file is delegated
+to this <code>@MainActor</code> coordinator plus a private, non-<code>MainActor</code> <code>Worker</code>
+actor:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">init</span><span class="p">(</span><span class="n">debounceNanoseconds</span><span class="p">:</span><span class="w"> </span><span class="nb">UInt64</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">250_000_000</span><span class="p">)</span><span class="w">   </span><span class="c1">// 250ms</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">schedule</span><span class="p">(</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">    </span><span class="kc">_</span><span class="w"> </span><span class="n">capture</span><span class="p">:</span><span class="w"> </span><span class="n">EBoardDiagnosticCapture</span><span class="p">,</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">    </span><span class="n">immediate</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">    </span><span class="n">writer</span><span class="p">:</span><span class="w"> </span><span class="p">@</span><span class="n">escaping</span><span class="w"> </span><span class="p">@</span><span class="n">Sendable</span><span class="w"> </span><span class="p">(</span><span class="nb">String</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Bool</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="kd">let</span><span class="w"> </span><span class="nv">persistence</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">EBoardDiagnosticPersistenceCoordinator</span><span class="p">()</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="n">persistence</span><span class="p">.</span><span class="n">schedule</span><span class="p">(</span><span class="n">capture</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">json</span><span class="w"> </span><span class="k">in</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">    </span><span class="p">(</span><span class="k">try</span><span class="p">?</span><span class="w"> </span><span class="n">json</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">toFile</span><span class="p">:</span><span class="w"> </span><span class="n">diagnosticsPath</span><span class="p">,</span><span class="w"> </span><span class="n">atomically</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="n">encoding</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">utf8</span><span class="p">))</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="p">}</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="n">persistence</span><span class="p">.</span><span class="n">schedule</span><span class="p">(</span><span class="n">capture</span><span class="p">,</span><span class="w"> </span><span class="n">immediate</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="n">writer</span><span class="p">:</span><span class="w"> </span><span class="n">writeToDisk</span><span class="p">)</span><span class="w">   </span><span class="c1">// lifecycle/takeback boundaries</span>
+</code></pre></div>
+<p>Each call bumps a <code>revision</code> counter; the <code>Worker</code> actor only acts on a call
+whose <code>revision</code> is still the newest it has seen, and skips re-encoding
+entirely when <code>capture == lastPersisted</code> — an unchanged snapshot never
+touches <code>JSONEncoder</code>. <code>immediate: true</code> still performs the encode/write on
+the worker actor; it only collapses the coalescing delay to zero, for
+boundaries that should survive an abrupt app exit.</p>
+<h2 id="headless-surfaces-and-cli-opportunities">Headless surfaces and CLI opportunities<a class="headerlink" href="#headless-surfaces-and-cli-opportunities" title="Permanent link">&para;</a></h2>
+<p>Everything through "Diff resolution and correction flow" — <code>BoardBrand</code>,
+<code>BoardGATTSpec</code>, <code>BoardCatalogKey</code>/<code>BoardCatalog</code>, <code>BoardConnectionGeneration</code>,
+<code>BoardTransportLifecyclePolicy</code>, <code>BoardWriteQueue</code>, <code>EBoardEffect</code>,
+<code>EBoardSessionCore</code>, <code>EBoardMoveResolution</code>, <code>EBoardPositionTransition</code>,
+<code>BoardSyncPresentation</code>, <code>EBoardDiagnosticCapture</code> — is headless: no
+<code>@MainActor</code>, no SwiftUI, no Compose. Only <code>EBoardShellKernelContext</code>/
+<code>EBoardShellKernel</code>, <code>EBoardDiffResolutionCoordinator</code>, and the outer
+<code>EBoardDiagnosticPersistenceCoordinator</code> class are <code>@MainActor</code>-bound (its
+nested <code>Worker</code> actor is not) — they exist specifically to bridge into each
+shell's <code>@Observable</code> view state.</p>
+<p><code>fianchetto-cli</code>'s existing subcommands (<code>annotate</code>, <code>estimate</code>, <code>maia</code>,
+<code>accuracy</code>, <code>project</code>, <code>track</code>) all operate on completed games — PGN, FEN,
+engine analysis — rather than a live BLE session, so none of them currently
+drive this subsystem. But <code>EBoardDiagnosticCapture</code>'s <code>.replay</code> export plus
+BoardKit's <code>ReplayScript</code>/<code>ReplayTransport</code> already form a complete,
+deterministic, hardware-free path from a captured field session back through
+<code>EBoardSessionCore</code>'s exact decision code — the same
+<code>handle(event:game:orientationFlipped:)</code> entry point a live shell calls. A
+<code>.replay</code> file captured in the field is a natural fit for a future headless
+CLI regression command: parse the script, replay it through a fresh
+<code>EBoardSessionCore</code>, and assert the resulting <code>[EBoardEffect]</code> sequence
+against a golden file — reproducing (and guarding against a regression of) a
+desync bug without a phone, a physical board, or a UI in the loop.</p>
+<p>See also the storage seam's <code>BoardSyncGate</code> (the board-agnostic
+clock-pause/haptic kernel, covered in <a href="../stores/">Stores &amp; the storage seam</a>)
+for the smaller, adjacent state machine that reacts to a desync once
+<code>EBoardSessionCore</code> has already reported one.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      FianchettoKit — chess training logic built on ChessCore.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

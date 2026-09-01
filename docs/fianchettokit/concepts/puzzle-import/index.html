@@ -13,10 +13,10 @@
       
       
       
-        <link rel="prev" href="../maia/">
+        <link rel="prev" href="../drill-engine/">
       
       
-        <link rel="next" href="../project/">
+        <link rel="next" href="../endgame-mining/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>accuracy - FianchettoKit</title>
+        <title>Puzzle import - FianchettoKit</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#accuracy" class="md-skip">
+        <a href="#importing-user-supplied-puzzles" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              accuracy
+              Puzzle import
             
           </span>
         </div>
@@ -316,8 +316,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -362,11 +364,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
@@ -387,7 +389,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -405,7 +407,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/stores/" class="md-nav__link">
+      <a href="../stores/" class="md-nav__link">
         
   
   
@@ -433,7 +435,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/file-store/" class="md-nav__link">
+      <a href="../file-store/" class="md-nav__link">
         
   
   
@@ -461,7 +463,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/dtos/" class="md-nav__link">
+      <a href="../dtos/" class="md-nav__link">
         
   
   
@@ -489,7 +491,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/analysis/" class="md-nav__link">
+      <a href="../analysis/" class="md-nav__link">
         
   
   
@@ -517,7 +519,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/elo-estimation/" class="md-nav__link">
+      <a href="../elo-estimation/" class="md-nav__link">
         
   
   
@@ -545,7 +547,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/engine/" class="md-nav__link">
+      <a href="../engine/" class="md-nav__link">
         
   
   
@@ -573,7 +575,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/network-clients/" class="md-nav__link">
+      <a href="../network-clients/" class="md-nav__link">
         
   
   
@@ -601,7 +603,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/library-store/" class="md-nav__link">
+      <a href="../library-store/" class="md-nav__link">
         
   
   
@@ -629,7 +631,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/library-backup/" class="md-nav__link">
+      <a href="../library-backup/" class="md-nav__link">
         
   
   
@@ -657,7 +659,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/authored-history/" class="md-nav__link">
+      <a href="../authored-history/" class="md-nav__link">
         
   
   
@@ -685,7 +687,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/drill-engine/" class="md-nav__link">
+      <a href="../drill-engine/" class="md-nav__link">
         
   
   
@@ -710,10 +712,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../concepts/puzzle-import/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Puzzle import
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -729,6 +758,120 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-gap-is-not-the-file-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The gap is not the file format
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-each-source-actually-carries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What each source actually carries
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What each source actually carries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pgn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PGN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-lichess-puzzle-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Lichess puzzle database
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recommendation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommendation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#imported-puzzles-join-the-existing-vendored-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Imported puzzles join the existing vendored set
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scope-by-link-or-by-file-never-a-bundled-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scope: by link or by file, never a bundled database
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-questions-for-the-owner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open questions for the owner
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -741,7 +884,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/endgame-mining/" class="md-nav__link">
+      <a href="../endgame-mining/" class="md-nav__link">
         
   
   
@@ -769,7 +912,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/repertoire-gap-analysis/" class="md-nav__link">
+      <a href="../repertoire-gap-analysis/" class="md-nav__link">
         
   
   
@@ -797,7 +940,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/play-review-voice/" class="md-nav__link">
+      <a href="../play-review-voice/" class="md-nav__link">
         
   
   
@@ -825,7 +968,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/eboard-integration/" class="md-nav__link">
+      <a href="../eboard-integration/" class="md-nav__link">
         
   
   
@@ -884,8 +1027,6 @@
       
   
   
-    
-  
   
   
     
@@ -918,15 +1059,15 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../cli/" class="md-nav__link ">
               
   
   
@@ -950,7 +1091,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
@@ -970,7 +1111,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../annotate/" class="md-nav__link">
+      <a href="../../cli/annotate/" class="md-nav__link">
         
   
   
@@ -998,7 +1139,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../estimate/" class="md-nav__link">
+      <a href="../../cli/estimate/" class="md-nav__link">
         
   
   
@@ -1026,7 +1167,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../maia/" class="md-nav__link">
+      <a href="../../cli/maia/" class="md-nav__link">
         
   
   
@@ -1051,37 +1192,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    accuracy
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../cli/accuracy/" class="md-nav__link">
         
   
   
@@ -1097,114 +1211,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#stdin" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        stdin
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#stdout" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        stdout
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#flags" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Flags
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#the-formulas" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The formulas
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#errors" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Errors
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#worked-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Worked example
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#seam-provenance" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Seam provenance
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#related" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Related
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1217,7 +1223,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../project/" class="md-nav__link">
+      <a href="../../cli/project/" class="md-nav__link">
         
   
   
@@ -1245,7 +1251,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../track/" class="md-nav__link">
+      <a href="../../cli/track/" class="md-nav__link">
         
   
   
@@ -1273,7 +1279,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../expansion/" class="md-nav__link">
+      <a href="../../cli/expansion/" class="md-nav__link">
         
   
   
@@ -1328,10 +1334,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#stdin" class="md-nav__link">
+  <a href="#the-gap-is-not-the-file-format" class="md-nav__link">
     <span class="md-ellipsis">
       
-        stdin
+        The gap is not the file format
       
     </span>
   </a>
@@ -1339,10 +1345,49 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#stdout" class="md-nav__link">
+  <a href="#what-each-source-actually-carries" class="md-nav__link">
     <span class="md-ellipsis">
       
-        stdout
+        What each source actually carries
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What each source actually carries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pgn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PGN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-lichess-puzzle-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Lichess puzzle database
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recommendation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommendation
       
     </span>
   </a>
@@ -1350,10 +1395,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#flags" class="md-nav__link">
+  <a href="#imported-puzzles-join-the-existing-vendored-set" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Flags
+        Imported puzzles join the existing vendored set
       
     </span>
   </a>
@@ -1361,10 +1406,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-formulas" class="md-nav__link">
+  <a href="#scope-by-link-or-by-file-never-a-bundled-database" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The formulas
+        Scope: by link or by file, never a bundled database
       
     </span>
   </a>
@@ -1372,43 +1417,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#errors" class="md-nav__link">
+  <a href="#open-questions-for-the-owner" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Errors
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#worked-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Worked example
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#seam-provenance" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Seam provenance
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#related" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Related
+        Open questions for the owner
       
     </span>
   </a>
@@ -1432,250 +1444,170 @@
 
 
 
-<h1 id="accuracy">accuracy<a class="headerlink" href="#accuracy" title="Permanent link">&para;</a></h1>
-<p>Per-move win-probability losses, per-move accuracies, quality labels, band counts
-with their ply indices, phase splits, and <strong>both</strong> game-accuracy aggregates — for
-one side, from a White-POV eval array. Every formula is a linked
-<code>AccuracyAggregator</code> call; the command only shapes JSON.</p>
-<h2 id="stdin">stdin<a class="headerlink" href="#stdin" title="Permanent link">&para;</a></h2>
-<p>One JSON object per line.</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Required</th>
-<th>Default</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>String</td>
-<td>yes</td>
-<td>—</td>
-<td>echoed on the response line</td>
-</tr>
-<tr>
-<td><code>white_pov_evals</code></td>
-<td><code>[Double]</code></td>
-<td>yes</td>
-<td>—</td>
-<td>the <code>annotate</code> output array; needs at least 2 entries</td>
-</tr>
-<tr>
-<td><code>start_is_white</code></td>
-<td>Bool</td>
-<td>yes</td>
-<td>—</td>
-<td>which color moved at ply 0</td>
-</tr>
-<tr>
-<td><code>color</code></td>
-<td>String</td>
-<td>yes</td>
-<td>—</td>
-<td><code>"white"</code> or <code>"black"</code>, case-insensitive; whose moves are graded</td>
-</tr>
-</tbody>
-</table>
-<p>There are no optional fields.</p>
-<h2 id="stdout">stdout<a class="headerlink" href="#stdout" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>id</code></td>
-<td>String</td>
-<td>the request id</td>
-</tr>
-<tr>
-<td><code>accuracy</code></td>
-<td>Double</td>
-<td>per-move-average accuracy — the number the app's Review pane shows</td>
-</tr>
-<tr>
-<td><code>accuracy_mean_loss</code></td>
-<td>Double</td>
-<td>mean-loss aggregate — what calibration and <code>EloEstimator</code> use</td>
-</tr>
-<tr>
-<td><code>sample_moves</code></td>
-<td>Int</td>
-<td>how many moves this side made</td>
-</tr>
-<tr>
-<td><code>move_plies</code></td>
-<td><code>[Int]</code></td>
-<td>0-based ply index of each of this side's moves</td>
-</tr>
-<tr>
-<td><code>move_wp_losses</code></td>
-<td><code>[Double]</code></td>
-<td>per-move win-probability drop, mover POV, on the 0…1 scale</td>
-</tr>
-<tr>
-<td><code>move_accuracies</code></td>
-<td><code>[Double]</code></td>
-<td>per-move accuracy, 0…100</td>
-</tr>
-<tr>
-<td><code>move_qualities</code></td>
-<td><code>[String]</code></td>
-<td><code>"best"</code> / <code>"excellent"</code> / <code>"good"</code> / <code>"inaccuracy"</code> / <code>"mistake"</code> / <code>"blunder"</code></td>
-</tr>
-<tr>
-<td><code>blunders</code>, <code>mistakes</code>, <code>inaccuracies</code></td>
-<td>Int</td>
-<td><strong>band-exclusive</strong> counts, not cumulative</td>
-</tr>
-<tr>
-<td><code>blunder_plies</code>, <code>mistake_plies</code>, <code>inaccuracy_plies</code></td>
-<td><code>[Int]</code></td>
-<td>the plies behind those counts</td>
-</tr>
-<tr>
-<td><code>phase_accuracy</code></td>
-<td><code>[String: Double]</code></td>
-<td>keyed <code>opening</code> / <code>middlegame</code> / <code>endgame</code>, over the phases this side actually played</td>
-</tr>
-</tbody>
-</table>
-<p>The four parallel arrays (<code>move_plies</code>, <code>move_wp_losses</code>, <code>move_accuracies</code>,
-<code>move_qualities</code>) are index-aligned and always have <code>sample_moves</code> entries.</p>
-<h2 id="flags">Flags<a class="headerlink" href="#flags" title="Permanent link">&para;</a></h2>
-<p>None at all. Any argument is an error, including an unrecognized one — <code>--help</code>
-and <code>-h</code> are intercepted by the dispatcher before the command runs.</p>
-<h2 id="the-formulas">The formulas<a class="headerlink" href="#the-formulas" title="Permanent link">&para;</a></h2>
-<p>All constants live in <code>AccuracyAggregator</code> and appear nowhere else in the
-codebase:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>winProbability(cp) = 1 / (1 + exp(-0.00368208 * cp))
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>mover POV        wp        for white
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>                 1 - wp    for black
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>wpDrop_i         = max(0, wpBefore_i - wpAfter_i)              // 0…1
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>moveAccuracy_i   = clamp(103.1668 * exp(-0.04354 * (wpDrop_i * 100)) - 3.1668, 0, 100)
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>accuracy             = mean(moveAccuracy_i)                    // per-move average
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>accuracy_mean_loss   = clamp(103.1668 * exp(-0.04354 * meanLoss) - 3.1668, 0, 100)
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    where meanLoss   = mean(min(100, wpDrop_i * 100))
+<h1 id="importing-user-supplied-puzzles">Importing user-supplied puzzles<a class="headerlink" href="#importing-user-supplied-puzzles" title="Permanent link">&para;</a></h1>
+<p>BUILT — the design record, not a recommendation. Raised 2026-08-19 (users should
+be able to bring puzzles from Lichess or other public sources) and shipped: this
+package carries <code>PuzzleLink</code>, <code>PuzzleLinkImport</code>, <code>LichessPuzzleLinkDecoder</code>,
+<code>LichessPuzzleCSVParser</code>, <code>ImportedPuzzleRecord</code>, <code>ImportedPuzzleWidening</code> and
+<code>PuzzleImportCopy</code>, and the Apple app drives them through its
+<code>Fianchetto/Engine/PuzzleLinkImportService.swift</code>. Both the recommendation below
+and the by-link/by-file scope are what the code does.</p>
+<p>This page lived in the Apple app repository as <code>docs/PUZZLE_IMPORT.md</code> until
+2026-08-22. Six files in this package cited it and none of them could resolve
+it, because the design it records governs code that is here, not there.</p>
+<p>The reasoning is kept because it is why the import is shaped this way — the set
+-versus-line problem in particular does not stop being true. The open questions
+at the end stand as written; they were never blocking.</p>
+<h2 id="the-gap-is-not-the-file-format">The gap is not the file format<a class="headerlink" href="#the-gap-is-not-the-file-format" title="Permanent link">&para;</a></h2>
+<p>The instinct is to ask "PGN or something else?". That is the second question.</p>
+<p><strong>A puzzle's answer is a SET; every interchange format stores a LINE.</strong></p>
+<p>Fianchetto already knows this. <code>PuzzleNode</code> in
+<code>FianchettoKit/Sources/FianchettoKit/Train/Combinations/CombinationPuzzleKernel.swift</code>
+models a solver node as:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">case</span><span class="w"> </span><span class="n">solverToMove</span><span class="p">(</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="n">accepted</span><span class="p">:</span><span class="w"> </span><span class="n">Set</span><span class="p">&lt;</span><span class="nb">String</span><span class="p">&gt;,</span><span class="w">      </span><span class="c1">// every move that keeps the win within tolerance</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">expected</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w">           </span><span class="c1">// the one used for hints and length display</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="n">continuations</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">String</span><span class="p">:</span><span class="w"> </span><span class="n">PuzzleNode</span><span class="p">]</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="k">case</span><span class="w"> </span><span class="n">opponentToMove</span><span class="p">(</span><span class="n">replies</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">String</span><span class="p">:</span><span class="w"> </span><span class="n">PuzzleNode</span><span class="p">],</span><span class="w"> </span><span class="n">mainReply</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span>
 </code></pre></div>
-<p>The two aggregates differ by more than rounding. Applying a convex curve to each
-move and then averaging is not the same as averaging the losses and applying the
-curve once — by Jensen's inequality the per-move average is always the higher of
-the two. Both are emitted because both are load-bearing: the Review pane shows the
-first, and every calibration row was labeled with the second, so mixing them would
-silently bias every Elo estimate.</p>
-<p>Labels come from the same win-probability drop:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>classifyMoveQuality(wpDrop:playedBestMove:)
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    playedBestMove   -&gt; .best        // never fires here
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    wpDrop &gt;= 0.20   -&gt; .blunder
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    wpDrop &gt;= 0.10   -&gt; .mistake
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    wpDrop &gt;= 0.05   -&gt; .inaccuracy
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    wpDrop &gt;= 0.02   -&gt; .good
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    else             -&gt; .excellent
-</code></pre></div>
-<p><code>playedBestMove</code> is hardwired <code>false</code> in this command. An eval array carries no
-best-move identity — knowing the position was worth +43 before and +35 after says
-nothing about <em>which</em> move the engine preferred — so the <code>.best</code> override cannot be
-evaluated here. The app applies it only where best-move UCIs are stored alongside
-the evals. A move labeled <code>"best"</code> therefore never appears in this command's
-output.</p>
-<p>Counting is band-exclusive: a blunder is not also counted as a mistake and an
-inaccuracy. Sum the three fields to get "moves worse than <code>good</code>".</p>
-<p>Phases split by full move number, derived as <code>(ply / 2) + 1</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>moves  1–10  -&gt; opening
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>moves 11–30  -&gt; middlegame
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>moves 31+    -&gt; endgame
-</code></pre></div>
-<p>A phase key is absent when this side made no moves in it — callers should skip it
-rather than read it as 0.</p>
-<h2 id="errors">Errors<a class="headerlink" href="#errors" title="Permanent link">&para;</a></h2>
-<p>An unknown <code>color</code>, an array with fewer than 2 entries, a side that made no moves
-in the array, or a <code>nil</code> return from <code>AccuracyAggregator.accuracy(evalsJSON:…)</code>
-each emit <code>{"id", "error"}</code> and continue.</p>
-<h2 id="worked-example">Worked example<a class="headerlink" href="#worked-example" title="Permanent link">&para;</a></h2>
-<p>Taking the Scholar's-mate eval array straight from <a href="../annotate/"><code>annotate</code></a> and
-grading Black:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">printf</span><span class="w"> </span><span class="s1">'%s\n'</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="s1">'{"id":"scholars-mate","white_pov_evals":[43,35,35,-59,-40,-46,100000,100000],"start_is_white":true,"color":"black"}'</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="p">|</span><span class="w"> </span>.build/debug/fianchetto-cli<span class="w"> </span>accuracy
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span><span class="nt">"accuracy"</span><span class="p">:</span><span class="mf">66.3538</span><span class="p">,</span><span class="nt">"accuracy_mean_loss"</span><span class="p">:</span><span class="mf">42.6294</span><span class="p">,</span><span class="nt">"blunder_plies"</span><span class="p">:[</span><span class="mi">5</span><span class="p">],</span><span class="nt">"blunders"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="s2">"scholars-mate"</span><span class="p">,</span><span class="nt">"inaccuracies"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">"inaccuracy_plies"</span><span class="p">:[],</span><span class="nt">"mistake_plies"</span><span class="p">:[],</span><span class="nt">"mistakes"</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w"> </span><span class="nt">"move_accuracies"</span><span class="p">:[</span><span class="mi">100</span><span class="p">,</span><span class="mf">92.4963</span><span class="p">,</span><span class="mf">6.5652</span><span class="p">],</span><span class="nt">"move_plies"</span><span class="p">:[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w"> </span><span class="nt">"move_qualities"</span><span class="p">:[</span><span class="s2">"excellent"</span><span class="p">,</span><span class="s2">"excellent"</span><span class="p">,</span><span class="s2">"blunder"</span><span class="p">],</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w"> </span><span class="nt">"move_wp_losses"</span><span class="p">:[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.0173437</span><span class="p">,</span><span class="mf">0.5422430</span><span class="p">],</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w"> </span><span class="nt">"phase_accuracy"</span><span class="p">:{</span><span class="nt">"opening"</span><span class="p">:</span><span class="mf">66.3538</span><span class="p">},</span><span class="nt">"sample_moves"</span><span class="p">:</span><span class="mi">3</span><span class="p">}</span>
-</code></pre></div>
-<p>(Floats are rounded here for width; the real line carries full double precision and
-is emitted as a single line.) Ply 5 is <code>Nf6??</code>, allowing mate: the win-probability
-drop of 0.54 is well past the 0.20 blunder threshold and drives the per-move
-accuracy to 6.6. Note how far the two aggregates separate on a short game with one
-catastrophe — 66.35 per-move-average against 42.63 mean-loss. Grading White on the
-same array instead reports one <code>inaccuracy</code> at ply 2 and an overall 90.50.</p>
-<h2 id="seam-provenance">Seam provenance<a class="headerlink" href="#seam-provenance" title="Permanent link">&para;</a></h2>
-<p>Fully <strong>linked</strong> to <code>AccuracyAggregator</code>:</p>
-<table>
-<thead>
-<tr>
-<th>Behavior</th>
-<th>Kit surface</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>the logistic</td>
-<td><code>AccuracyAggregator.winProbability(cp:)</code></td>
-</tr>
-<tr>
-<td>per-move accuracy</td>
-<td><code>AccuracyAggregator.moveAccuracy(wpBefore:wpAfter:)</code></td>
-</tr>
-<tr>
-<td>per-move-average accuracy, phases, sample counts</td>
-<td><code>AccuracyAggregator.accuracy(evalsJSON:startIsWhite:color:)</code></td>
-</tr>
-<tr>
-<td>mean-loss aggregate</td>
-<td><code>AccuracyAggregator.accuracy(fromMeanLoss:)</code></td>
-</tr>
-<tr>
-<td>labels</td>
-<td><code>AccuracyAggregator.classifyMoveQuality(wpDrop:playedBestMove:)</code></td>
-</tr>
-<tr>
-<td>the label strings themselves</td>
-<td>ChessCore <code>MoveQuality</code> raw values</td>
-</tr>
-</tbody>
-</table>
-<p>Nothing is mirrored. The per-move sweep the command runs to build the parallel
-arrays uses the identical mover-POV flip and <code>wpDrop</code> convention as the kit's own
-<code>accuracy(evalsJSON:)</code> walk, and the game-level number is taken from that kit call
-rather than recomputed — the arrays and the scalar cannot disagree.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">guard</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">gameAccuracy</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">AccuracyAggregator</span><span class="p">.</span><span class="n">accuracy</span><span class="p">(</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="n">evalsJSON</span><span class="p">:</span><span class="w"> </span><span class="n">evalsJSON</span><span class="p">,</span><span class="w">          </span><span class="c1">// white-POV centipawns, plies + 1 entries</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="n">startIsWhite</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="n">color</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">black</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">),</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">overall</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">gameAccuracy</span><span class="p">.</span><span class="n">overall</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">}</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="n">gameAccuracy</span><span class="p">.</span><span class="n">phases</span><span class="p">[.</span><span class="n">opening</span><span class="p">]</span><span class="w">      </span><span class="c1">// nil when the side made no moves in that phase</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="n">gameAccuracy</span><span class="p">.</span><span class="n">overallSampleCount</span>
-</code></pre></div>
-<h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
+<p>That is a richer representation than any public puzzle source publishes. It
+carries several equally-correct solver moves, scripted opponent replies, and —
+via <code>unresolvedBranches</code> — an explicit record of where the tree does <strong>not</strong> yet
+answer. The mined-combination pipeline builds these by probing an engine.</p>
+<p>So the import problem is not "parse a file". It is: <strong>a source gives us one
+line, and a drillable puzzle needs a tree.</strong> Everything below follows from that.</p>
+<h2 id="what-each-source-actually-carries">What each source actually carries<a class="headerlink" href="#what-each-source-actually-carries" title="Permanent link">&para;</a></h2>
+<h3 id="pgn">PGN<a class="headerlink" href="#pgn" title="Permanent link">&para;</a></h3>
+<p>Carries: the position (<code>FEN</code> + <code>SetUp</code> tags), a mainline, variations (RAVs),
+comments, NAGs.</p>
+<p>Does <strong>not</strong> carry, under any convention a parser can rely on:</p>
 <ul>
-<li><a href="../../concepts/elo-estimation/">Elo estimation &amp; strength tracking</a> — why two aggregation
-  orders exist and which consumer uses which</li>
-<li><a href="../../concepts/analysis/">Analysis math</a> — <code>AccuracyAggregator</code> in the kit</li>
-<li><a href="../annotate/"><code>annotate</code></a> — produces the input array</li>
+<li><strong>Which line is the answer.</strong> A RAV is "another line". Nothing distinguishes
+  <em>an equally good solution</em> from <em>a plausible try that loses</em>. Treating RAVs as
+  accepted answers would teach users that inferior moves are correct.</li>
+<li><strong>Who solves.</strong> Puzzle sources conventionally start the position <em>before</em> an
+  opponent move, which is then played for you. PGN has no tag for that.</li>
+<li><strong>Where the puzzle ends.</strong> A game's PGN continues past the tactic.</li>
+<li>Rating, themes, provenance, licence.</li>
+</ul>
+<p>PGN is a <strong>game</strong> format. A puzzle is a game fragment plus a claim about it, and
+the claim is the part PGN has nowhere to put.</p>
+<h3 id="the-lichess-puzzle-database">The Lichess puzzle database<a class="headerlink" href="#the-lichess-puzzle-database" title="Permanent link">&para;</a></h3>
+<p>A CSV export, published CC0. Columns are approximately
+<code>PuzzleId, FEN, Moves, Rating, RatingDeviation, Popularity, NbPlays, Themes,
+GameUrl, OpeningTags</code>.</p>
+<blockquote>
+<p><strong>Verify before building.</strong> The column list and the licence above are from
+memory and must be confirmed against the current export before any parser is
+written. Getting the licence wrong is the expensive mistake here, not getting
+a column wrong.</p>
+</blockquote>
+<p>Its convention is explicit and machine-readable, which PGN's is not: the FEN is
+the position <em>before</em> the opponent's move, the first entry in <code>Moves</code> is played
+for the user, and the rest alternate. It also carries the metadata we have no
+source for today — a <strong>rating</strong> and <strong>themes</strong>.</p>
+<p>Its limitation is the mirror of PGN's: exactly <strong>one</strong> accepted move per solver
+node and one scripted opponent reply. High fidelity about <em>a</em> solution, silent
+about alternatives.</p>
+<p>We already hold a Lichess personal-access token
+(<code>Fianchetto/Models/LichessTokenStore.swift</code>), so the account plumbing exists;
+the puzzle database itself is a public file and needs no token.</p>
+<h2 id="recommendation">Recommendation<a class="headerlink" href="#recommendation" title="Permanent link">&para;</a></h2>
+<p><strong>1. Do not invent a third puzzle model.</strong> Import targets the existing
+<code>CombinationPuzzle</code> tree. Endgames keep their own archetype model
+(<code>FianchettoKit/Sources/FianchettoKit/Train/Endgames/EndgameTrainerKernel.swift</code>)
+because they are generated, not authored — imported puzzles are authored, and
+that is the combination shape.</p>
+<p><strong>2. Accept the Lichess CSV as the first-class source.</strong> Its conventions are
+stated rather than inferred, and its metadata is real. Map one line into the
+tree as <code>accepted = [theMove]</code>, with every solver node past the first recorded
+in <code>unresolvedBranches</code> — because we genuinely have not probed the alternatives.
+That field already means exactly this, and using it keeps the honesty automatic.</p>
+<p><strong>3. Support PGN, but only with a declared convention.</strong> Ask the user which
+side solves and where the puzzle starts, rather than guessing. Treat RAVs as
+<strong>candidates</strong>, never as accepted answers.</p>
+<p><strong>4. Widen <code>accepted</code> with the engine, reusing the miner's tolerance rule.</strong>
+This is the step that converts a lossy single-line import into a real puzzle,
+and it is the reason not to write a second grading path: if imported puzzles
+graded answers differently from mined ones, the same move would be correct in
+one drill and wrong in another. One rule, one place.</p>
+<p><strong>5. Make provenance and licence required fields</strong>, not optional metadata. CC0
+for the Lichess database, unknown for a user's own PGN. A puzzle whose licence
+we cannot state is one we must not redistribute in a backup, a shared
+repertoire, or anything else that leaves the device.</p>
+<p><strong>6. Put the whole thing in FianchettoKit</strong>, so the Apple, CMP desktop, Android
+and CLI faces import identically. A per-face importer is four subtly different
+answers to "is this move correct?".</p>
+<h2 id="imported-puzzles-join-the-existing-vendored-set">Imported puzzles join the existing vendored set<a class="headerlink" href="#imported-puzzles-join-the-existing-vendored-set" title="Permanent link">&para;</a></h2>
+<p>Owner decision, 2026-08-19. They are not a separate pool and not a separate row.</p>
+<p><strong>A first draft of this document called the imported rating "a rating we cannot
+compare to ours". That was wrong, and backwards.</strong>
+<code>TacticsRatingStore</code> is a PAIRED Elo: every puzzle carries its own rating, and a
+scored attempt moves the user rating and the puzzle rating by equal-and-opposite
+amounts. A puzzle rating is not decoration — it is the input that decides how
+much a solve is worth.</p>
+<p>Our seeds are a three-bucket heuristic:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">case</span><span class="w"> </span><span class="p">.</span><span class="n">easy</span><span class="p">:</span><span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="mi">1200</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">case</span><span class="w"> </span><span class="p">.</span><span class="n">medium</span><span class="p">:</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">1500</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">case</span><span class="w"> </span><span class="p">.</span><span class="n">hard</span><span class="p">:</span><span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="mi">1800</span>
+</code></pre></div>
+<p>A Lichess puzzle rating is on the same Elo scale and is derived from millions of
+real attempts. So an imported puzzle should seed its rating from the imported
+value, and it will be <strong>better calibrated than the puzzles we mined ourselves</strong>.
+Importing is a rating upgrade, not a rating hazard.</p>
+<p>Three consequences worth stating before anyone builds this:</p>
+<ul>
+<li><strong>The pool becomes mixed-precision</strong>, and that is fine. Both numbers are only
+  priors; the Elo update corrects them from real attempts either way. An
+  imported puzzle simply starts closer to the truth.</li>
+<li><strong>Filter on rating deviation, not just rating.</strong> Lichess publishes Glicko-2
+  with an RD, and our model has no RD field. Dropping it means treating a
+  barely-attempted puzzle's shaky rating as confidently as a settled one.
+  Importing only puzzles below an RD threshold is a cheap quality gate and the
+  cheapest place to get this right.</li>
+<li><strong>An imported puzzle's rating will drift away from Lichess's</strong>, because our
+  attempts move it. That is correct and wanted: it becomes our rating, for our
+  users. It also means the imported value is a SEED and must never be
+  re-synced from source later, which would silently discard real evidence.</li>
+</ul>
+<h2 id="scope-by-link-or-by-file-never-a-bundled-database">Scope: by link or by file, never a bundled database<a class="headerlink" href="#scope-by-link-or-by-file-never-a-bundled-database" title="Permanent link">&para;</a></h2>
+<p>Owner decision, 2026-08-20, and it narrows the feature considerably.</p>
+<p><strong>We do not ship any of the Lichess database, and we do not offer it.</strong> No bulk
+import, no themed subset, no rating band. The earlier framing in this document —
+"how much of the database?" — asked the wrong question. What users get is the
+ability to bring puzzles THEY have:</p>
+<ul>
+<li><strong>By link.</strong> A user shares a puzzle URL into the app. This is the natural
+  companion to the existing Share Extension, and it is the primary path.</li>
+<li><strong>By file.</strong> A user opens a file they already hold.</li>
+</ul>
+<p>WHY THIS IS THE BETTER SHAPE, beyond scope. A bundled database would make every
+licence and provenance question OURS to answer for content we redistribute; a
+link or a file the user supplies keeps us a reader of what they already have.
+It also removes the "how much" question entirely, and with it the RD-threshold
+quality filter this document previously recommended — a filter only matters when
+you are choosing puzzles on the user's behalf, and now we never are.</p>
+<p>WHAT SURVIVES from the CSV work: the parser is still how a supplied FILE is read,
+and <code>ImportedPuzzleRecord</code>'s required provenance/licence fields matter MORE under
+this model, not less — a puzzle arriving by link carries whatever the source
+says, and "unknown" must stay an explicit, auditable answer rather than an
+absence.</p>
+<p><strong>Engine probing is REQUIRED, and it is affordable.</strong> Owner decision: modest
+probing, which is fast because the position is fixed and the solution is typical.
+This is what widens <code>accepted</code> from the source's single line into the set a
+drill can fairly grade — see recommendation 4 above. One line imported and never
+probed is a puzzle that marks a correct alternative wrong.</p>
+<h2 id="open-questions-for-the-owner">Open questions for the owner<a class="headerlink" href="#open-questions-for-the-owner" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>What does a link import do when the source is unreachable or the URL is not
+  a puzzle?</strong> It must fail visibly rather than importing an empty puzzle.</li>
+<li><strong>Does a link import require network at drill time, or is the puzzle
+  materialised once and stored?</strong> Materialised once is the offline-first answer
+  and matches the rest of the app.</li>
+<li><strong>Do imported puzzles show their provenance in the drill?</strong> They are now
+  indistinguishable from ours in the pool, which is the point — but a user who
+  hits a puzzle they dislike may reasonably want to know where it came from.</li>
 </ul>
 
 

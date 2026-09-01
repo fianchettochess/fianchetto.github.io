@@ -13,17 +13,17 @@
       
       
       
-        <link rel="prev" href="../engine-annotation/">
+        <link rel="prev" href="../dtos/">
       
       
-        <link rel="next" href="../strength-and-elo/">
+        <link rel="next" href="../elo-estimation/">
       
       
         
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -353,6 +353,8 @@
       
         
       
+        
+      
     
     
     
@@ -433,14 +435,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../storage-and-authored-history/" class="md-nav__link">
+      <a href="../file-store/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Storage, DTOs & authored history
+    FileJSONBlobStore & persistence
   
 
     
@@ -469,34 +471,6 @@
     
   
     Persistence DTOs
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../engine-annotation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Engine & annotation
   
 
     
@@ -653,14 +627,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../strength-and-elo/" class="md-nav__link">
+      <a href="../elo-estimation/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Strength, Elo & accuracy
+    Elo estimation & strength tracking
   
 
     
@@ -681,154 +655,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../maia/" class="md-nav__link">
+      <a href="../engine/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Maia policy model
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../tactics-and-drills/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Tactics, drills & spaced repetition
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../repertoire/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Repertoire, openings & traps
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../endgame-mining/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Endgame mining & the endgame trainer
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../review-play-voice/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Review, play & voice
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../network-import/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Network clients & game import
+    Engine, annotation & Maia
   
 
     
@@ -877,14 +711,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../library-backup/" class="md-nav__link">
+      <a href="../library-store/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Library backup & collections
+    Library store kernel
   
 
     
@@ -905,7 +739,203 @@
   
   
     <li class="md-nav__item">
-      <a href="../eboard/" class="md-nav__link">
+      <a href="../library-backup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library backup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authored-history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authored history & the mutation journal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../drill-engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Drill flow, SRS & tactics mining
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../puzzle-import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Puzzle import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../endgame-mining/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Endgame mining & the endgame trainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../repertoire-gap-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repertoire gap analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../play-review-voice/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Play, review & voice
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eboard-integration/" class="md-nav__link">
         
   
   
@@ -966,33 +996,6 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../reconciliation-note/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Reconciliation note
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
     
     
       
@@ -1027,7 +1030,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -1049,14 +1052,14 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="">
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1382,27 +1385,30 @@ generation, and streak math.</p>
 <p><code>AccuracyAggregator</code> computes per-side, per-phase accuracy from a white-POV
 centipawn array. It is a set of pure functions, so accuracy can be aggregated
 across many games off the main actor.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">public</span> <span class="kd">enum</span> <span class="nc">AccuracyAggregator</span> <span class="p">{</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="kd">public</span> <span class="kd">enum</span> <span class="nc">Phase</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">CaseIterable</span><span class="p">,</span> <span class="n">Sendable</span> <span class="p">{</span> <span class="k">case</span> <span class="n">opening</span><span class="p">,</span> <span class="n">middlegame</span><span class="p">,</span> <span class="n">endgame</span> <span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">AccuracyAggregator</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">Phase</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">CaseIterable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="n">opening</span><span class="p">,</span><span class="w"> </span><span class="n">middlegame</span><span class="p">,</span><span class="w"> </span><span class="n">endgame</span><span class="w"> </span><span class="p">}</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="kd">public</span> <span class="kd">struct</span> <span class="nc">GameAccuracy</span><span class="p">:</span> <span class="n">Sendable</span> <span class="p">{</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>        <span class="kd">public</span> <span class="kd">let</span> <span class="nv">overall</span><span class="p">:</span> <span class="nb">Double</span><span class="p">?</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        <span class="kd">public</span> <span class="kd">let</span> <span class="nv">phases</span><span class="p">:</span> <span class="p">[</span><span class="n">Phase</span><span class="p">:</span> <span class="nb">Double</span><span class="p">]</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="kd">public</span> <span class="kd">let</span> <span class="nv">moveBuckets</span><span class="p">:</span> <span class="p">[</span><span class="nb">Int</span><span class="p">:</span> <span class="nb">Double</span><span class="p">]</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="p">}</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">let</span> <span class="nv">moveBucketSize</span><span class="p">:</span> <span class="nb">Int</span>   <span class="c1">// 5</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">bucketStart</span><span class="p">(</span><span class="n">forMoveNumber</span><span class="p">:</span> <span class="nb">Int</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">Int</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">bucketLabel</span><span class="p">(</span><span class="n">start</span><span class="p">:</span> <span class="nb">Int</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">String</span>      <span class="c1">// &quot;6–10&quot;</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">accuracy</span><span class="p">(</span><span class="n">evalsJSON</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="n">startIsWhite</span><span class="p">:</span> <span class="nb">Bool</span><span class="p">,</span> <span class="n">color</span><span class="p">:</span> <span class="n">PieceColor</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="n">GameAccuracy</span><span class="p">?</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">winProbability</span><span class="p">(</span><span class="n">cp</span><span class="p">:</span> <span class="nb">Double</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">Double</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">moveAccuracy</span><span class="p">(</span><span class="n">wpBefore</span><span class="p">:</span> <span class="nb">Double</span><span class="p">,</span> <span class="n">wpAfter</span><span class="p">:</span> <span class="nb">Double</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">Double</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="p">}</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="nc">GameAccuracy</span><span class="p">:</span><span class="w"> </span><span class="n">Sendable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">overall</span><span class="p">:</span><span class="w"> </span><span class="nb">Double</span><span class="p">?</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">overallSampleCount</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="w">          </span><span class="c1">// moves represented by `overall`</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">phases</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Phase</span><span class="p">:</span><span class="w"> </span><span class="nb">Double</span><span class="p">]</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">phaseSampleCounts</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Phase</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">]</span><span class="w">   </span><span class="c1">// moves represented by each phase average</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">moveBuckets</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">Int</span><span class="p">:</span><span class="w"> </span><span class="nb">Double</span><span class="p">]</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">moveBucketSampleCounts</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">Int</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">]</span><span class="w">   </span><span class="c1">// moves represented by each bucket average</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">moveBucketSize</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="w">   </span><span class="c1">// 5</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">bucketStart</span><span class="p">(</span><span class="n">forMoveNumber</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Int</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">bucketLabel</span><span class="p">(</span><span class="n">start</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">String</span><span class="w">      </span><span class="c1">// "6–10"</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">accuracy</span><span class="p">(</span><span class="n">evalsJSON</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">startIsWhite</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">:</span><span class="w"> </span><span class="n">PieceColor</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="n">GameAccuracy</span><span class="p">?</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">winProbability</span><span class="p">(</span><span class="n">cp</span><span class="p">:</span><span class="w"> </span><span class="nb">Double</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Double</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">moveAccuracy</span><span class="p">(</span><span class="n">wpBefore</span><span class="p">:</span><span class="w"> </span><span class="nb">Double</span><span class="p">,</span><span class="w"> </span><span class="n">wpAfter</span><span class="p">:</span><span class="w"> </span><span class="nb">Double</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Double</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="p">}</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">let</span> <span class="nv">acc</span> <span class="p">=</span> <span class="n">AccuracyAggregator</span><span class="p">.</span><span class="n">accuracy</span><span class="p">(</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="n">evalsJSON</span><span class="p">:</span> <span class="n">game</span><span class="p">.</span><span class="n">evalsJSON</span><span class="p">,</span>    <span class="c1">// a JSON array of white-POV centipawns</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="n">startIsWhite</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>           <span class="c1">// active color at move 1</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">color</span><span class="p">:</span> <span class="p">.</span><span class="n">white</span>                 <span class="c1">// the side you want accuracy for</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">let</span><span class="w"> </span><span class="nv">acc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">AccuracyAggregator</span><span class="p">.</span><span class="n">accuracy</span><span class="p">(</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="n">evalsJSON</span><span class="p">:</span><span class="w"> </span><span class="n">game</span><span class="p">.</span><span class="n">evalsJSON</span><span class="p">,</span><span class="w">    </span><span class="c1">// a JSON array of white-POV centipawns</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">startIsWhite</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">           </span><span class="c1">// active color at move 1</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="n">color</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">white</span><span class="w">                 </span><span class="c1">// the side you want accuracy for</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">)</span>
 </code></pre></div>
 <p>The two formulas are shared across FianchettoKit (the same constants ChessCore
@@ -1417,38 +1423,40 @@ uses for engine evaluations):</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code>GameAccuracy</code> is a <code>public</code> type with directly readable <code>public let</code> fields —
-<code>overall</code>, <code>phases</code>, and <code>moveBuckets</code>. Obtain a value from <code>accuracy(...)</code> and
-read the fields directly. The standalone <code>winProbability(cp:)</code> and
-<code>moveAccuracy(...)</code> helpers are also fully public.</p>
+<code>overall</code>, <code>phases</code>, and <code>moveBuckets</code>, each paired with a sample-count
+field (<code>overallSampleCount</code>, <code>phaseSampleCounts</code>, <code>moveBucketSampleCounts</code>)
+giving the actual move count behind that average. Obtain a value from
+<code>accuracy(...)</code> and read the fields directly. The standalone
+<code>winProbability(cp:)</code> and <code>moveAccuracy(...)</code> helpers are also fully public.</p>
 </div>
 <h2 id="endgamearchetype">EndgameArchetype<a class="headerlink" href="#endgamearchetype" title="Permanent link">&para;</a></h2>
 <p><code>EndgameArchetype</code> generates random legal endgame FENs for a trainer — each case
 produces a fresh position matching its theme, for unlimited replay value.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">public</span> <span class="kd">enum</span> <span class="nc">EndgameArchetype</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="nb">Hashable</span><span class="p">,</span> <span class="n">Codable</span><span class="p">,</span> <span class="n">Sendable</span><span class="p">,</span> <span class="n">CaseIterable</span> <span class="p">{</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="k">case</span> <span class="n">kqVsK</span><span class="p">,</span> <span class="n">krVsK</span><span class="p">,</span> <span class="n">k2bVsK</span><span class="p">,</span> <span class="n">kbnVsK</span><span class="p">,</span> <span class="n">kpVsK</span><span class="p">,</span> <span class="n">kqVsKp</span><span class="p">,</span> <span class="n">lucena</span><span class="p">,</span> <span class="n">philidor</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">EndgameArchetype</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="nb">Hashable</span><span class="p">,</span><span class="w"> </span><span class="n">Codable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="p">,</span><span class="w"> </span><span class="n">CaseIterable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="n">kqVsK</span><span class="p">,</span><span class="w"> </span><span class="n">krVsK</span><span class="p">,</span><span class="w"> </span><span class="n">k2bVsK</span><span class="p">,</span><span class="w"> </span><span class="n">kbnVsK</span><span class="p">,</span><span class="w"> </span><span class="n">kpVsK</span><span class="p">,</span><span class="w"> </span><span class="n">kqVsKp</span><span class="p">,</span><span class="w"> </span><span class="n">lucena</span><span class="p">,</span><span class="w"> </span><span class="n">philidor</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="kd">public</span> <span class="kd">var</span> <span class="nv">displayCategory</span><span class="p">:</span> <span class="nb">String</span>   <span class="c1">// &quot;K+Q vs K&quot;, &quot;Lucena&quot;, ...</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="kd">public</span> <span class="kd">func</span> <span class="nf">randomFEN</span><span class="p">()</span> <span class="p">-&gt;</span> <span class="nb">String</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="kd">public</span> <span class="kd">var</span> <span class="nv">fallbackFEN</span><span class="p">:</span> <span class="nb">String</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">displayCategory</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">   </span><span class="c1">// "K+Q vs K", "Lucena", ...</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">randomFEN</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">String</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">fallbackFEN</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">}</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">let</span> <span class="nv">fen</span> <span class="p">=</span> <span class="n">EndgameArchetype</span><span class="p">.</span><span class="n">kbnVsK</span><span class="p">.</span><span class="n">randomFEN</span><span class="p">()</span>   <span class="c1">// a fresh, legal K+B+N vs K</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">let</span><span class="w"> </span><span class="nv">fen</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">EndgameArchetype</span><span class="p">.</span><span class="n">kbnVsK</span><span class="p">.</span><span class="n">randomFEN</span><span class="p">()</span><span class="w">   </span><span class="c1">// a fresh, legal K+B+N vs K</span>
 </code></pre></div>
 <p>"Legal" means playable: the side not to move isn't in check, the side to move has
 a legal move, the kings aren't adjacent, and so on. The position uses
-<code>consistentFEN</code>; if random generation can't satisfy the constraints after
+<code>stockfishSafeFEN</code>; if random generation can't satisfy the constraints after
 ~200 attempts, it falls back to a known-good static FEN.</p>
 <h3 id="custom-endgames">Custom endgames<a class="headerlink" href="#custom-endgames" title="Permanent link">&para;</a></h3>
 <p><code>CustomEndgameConfig</code> lets a user pick how many of each non-king piece each side
 has:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">public</span> <span class="kd">struct</span> <span class="nc">CustomEndgameConfig</span><span class="p">:</span> <span class="nb">Hashable</span><span class="p">,</span> <span class="n">Sendable</span><span class="p">,</span> <span class="n">Codable</span> <span class="p">{</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="kd">public</span> <span class="kd">var</span> <span class="nv">white</span><span class="p">:</span> <span class="n">PieceCounts</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="kd">public</span> <span class="kd">var</span> <span class="nv">black</span><span class="p">:</span> <span class="n">PieceCounts</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="kd">public</span> <span class="kd">var</span> <span class="nv">totalPieces</span><span class="p">:</span> <span class="nb">Int</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="kd">public</span> <span class="kd">var</span> <span class="nv">summary</span><span class="p">:</span> <span class="nb">String</span>           <span class="c1">// &quot;K+R+P vs K+B+N&quot;</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="kd">public</span> <span class="kd">var</span> <span class="nv">isValid</span><span class="p">:</span> <span class="nb">Bool</span>             <span class="c1">// totalPieces &lt;= 32</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="kd">public</span> <span class="kd">func</span> <span class="nf">randomFEN</span><span class="p">()</span> <span class="p">-&gt;</span> <span class="nb">String</span><span class="p">?</span>   <span class="c1">// nil if 200 retries can&#39;t satisfy it</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="kd">public</span> <span class="kd">var</span> <span class="nv">fallbackFEN</span><span class="p">:</span> <span class="nb">String</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="nc">CustomEndgameConfig</span><span class="p">:</span><span class="w"> </span><span class="nb">Hashable</span><span class="p">,</span><span class="w"> </span><span class="n">Sendable</span><span class="p">,</span><span class="w"> </span><span class="n">Codable</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">white</span><span class="p">:</span><span class="w"> </span><span class="n">PieceCounts</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">black</span><span class="p">:</span><span class="w"> </span><span class="n">PieceCounts</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">totalPieces</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">summary</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">           </span><span class="c1">// "K+R+P vs K+B+N"</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">isValid</span><span class="p">:</span><span class="w"> </span><span class="nb">Bool</span><span class="w">             </span><span class="c1">// totalPieces &lt;= 32</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">randomFEN</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">String</span><span class="p">?</span><span class="w">   </span><span class="c1">// nil if 200 retries can't satisfy it</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">fallbackFEN</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span>
 <a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="p">}</span>
 </code></pre></div>
 <p>Positions with more than 7 pieces fall outside the Lichess tablebase, so the
@@ -1456,20 +1464,20 @@ trainer skips win verification for them.</p>
 <h2 id="streakmath">StreakMath<a class="headerlink" href="#streakmath" title="Permanent link">&para;</a></h2>
 <p>Consecutive-correct streak math, shared by the drill stat stores. Callers map
 attempts to <code>[Bool]</code> (most-recent last):</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">public</span> <span class="kd">enum</span> <span class="nc">StreakMath</span> <span class="p">{</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">current</span><span class="p">(</span><span class="kc">_</span> <span class="n">flags</span><span class="p">:</span> <span class="p">[</span><span class="nb">Bool</span><span class="p">])</span> <span class="p">-&gt;</span> <span class="nb">Int</span>   <span class="c1">// trailing run of `true`</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">best</span><span class="p">(</span><span class="kc">_</span> <span class="n">flags</span><span class="p">:</span> <span class="p">[</span><span class="nb">Bool</span><span class="p">])</span> <span class="p">-&gt;</span> <span class="nb">Int</span>      <span class="c1">// longest run anywhere</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="nc">StreakMath</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">current</span><span class="p">(</span><span class="kc">_</span><span class="w"> </span><span class="n">flags</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">Bool</span><span class="p">])</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Int</span><span class="w">   </span><span class="c1">// trailing run of `true`</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">best</span><span class="p">(</span><span class="kc">_</span><span class="w"> </span><span class="n">flags</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">Bool</span><span class="p">])</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Int</span><span class="w">      </span><span class="c1">// longest run anywhere</span>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="p">}</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kd">let</span> <span class="nv">outcomes</span> <span class="p">=</span> <span class="p">[</span><span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">]</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">StreakMath</span><span class="p">.</span><span class="n">current</span><span class="p">(</span><span class="n">outcomes</span><span class="p">)</span>   <span class="c1">// 3</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">StreakMath</span><span class="p">.</span><span class="n">best</span><span class="p">(</span><span class="n">outcomes</span><span class="p">)</span>      <span class="c1">// 3</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kd">let</span><span class="w"> </span><span class="nv">outcomes</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">]</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">StreakMath</span><span class="p">.</span><span class="n">current</span><span class="p">(</span><span class="n">outcomes</span><span class="p">)</span><span class="w">   </span><span class="c1">// 3</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">StreakMath</span><span class="p">.</span><span class="n">best</span><span class="p">(</span><span class="n">outcomes</span><span class="p">)</span><span class="w">      </span><span class="c1">// 3</span>
 </code></pre></div>
 <h2 id="utility-helpers">Utility helpers<a class="headerlink" href="#utility-helpers" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">PercentFormat</span><span class="p">.</span><span class="n">whole</span><span class="p">(</span><span class="mf">0.73</span><span class="p">)</span>                 <span class="c1">// &quot;73%&quot;  (&quot;—&quot; for non-finite)</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">EvalJSON</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">jsonString</span><span class="p">)</span>               <span class="c1">// [Double]   white-POV centipawns</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">PieceColor</span><span class="p">.</span><span class="n">mover</span><span class="p">(</span><span class="n">ply</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="n">startIsWhite</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>   <span class="c1">// .white</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">TimeInterval</span><span class="p">(</span><span class="mi">95</span><span class="p">).</span><span class="n">clockString</span><span class="p">(</span><span class="n">showHours</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="n">showTenths</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span>   <span class="c1">// &quot;1:35&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">PercentFormat</span><span class="p">.</span><span class="n">whole</span><span class="p">(</span><span class="mf">0.73</span><span class="p">)</span><span class="w">                 </span><span class="c1">// "73%"  ("—" for non-finite)</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">EvalJSON</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">jsonString</span><span class="p">)</span><span class="w">               </span><span class="c1">// [Double]   white-POV centipawns</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">PieceColor</span><span class="p">.</span><span class="n">mover</span><span class="p">(</span><span class="n">ply</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">startIsWhite</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w">   </span><span class="c1">// .white</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">TimeInterval</span><span class="p">(</span><span class="mi">95</span><span class="p">).</span><span class="n">clockString</span><span class="p">(</span><span class="n">showHours</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="n">showTenths</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w">   </span><span class="c1">// "1:35"</span>
 </code></pre></div>
 
 
@@ -1533,7 +1541,7 @@ attempts to <code>[Bool]</code> (most-recent last):</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

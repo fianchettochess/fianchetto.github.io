@@ -1,0 +1,2650 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Chess training logic built on ChessCore — engine annotation, strength/Elo estimation, tactics, repertoire and endgame drills, portable persistence, game import, electronic-board handling, and the fianchetto-cli headless tools.">
+      
+      
+        <meta name="author" content="Fianchetto">
+      
+      
+      
+        <link rel="prev" href="../repertoire-gap-analysis/">
+      
+      
+        <link rel="next" href="../eboard-integration/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Play, review & voice - FianchettoKit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#play-review-voice" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="FianchettoKit" class="md-header__button md-logo" aria-label="FianchettoKit" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FianchettoKit
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Play, review & voice
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="FianchettoKit" class="md-nav__button md-logo" aria-label="FianchettoKit" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    FianchettoKit
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../stores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stores & the storage seam
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../file-store/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FileJSONBlobStore & persistence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dtos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistence DTOs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analysis math
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../elo-estimation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Elo estimation & strength tracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Engine, annotation & Maia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-clients/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network clients
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../library-store/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library store kernel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../library-backup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library backup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authored-history/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authored history & the mutation journal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../drill-engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Drill flow, SRS & tactics mining
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../puzzle-import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Puzzle import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../endgame-mining/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Endgame mining & the endgame trainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../repertoire-gap-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repertoire gap analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Play, review & voice
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Play, review & voice
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#play" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Play
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Play">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clockcore-the-clock-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ClockCore — the clock state machine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timepreset-timecontrolselection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TimePreset &amp; TimeControlSelection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checkmatecelebrationpolicy-checkmatecelebrationstate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CheckmateCelebrationPolicy &amp; CheckmateCelebrationState
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gameresultpresentation-terminal-state-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GameResultPresentation — terminal-state text
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Review
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Review">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reviewsnapshotbuilder-the-review-panes-derived-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ReviewSnapshotBuilder — the Review pane's derived state
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boardmarkdocument-the-board-mark-wire-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BoardMarkDocument — the board-mark wire format
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#voice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Voice
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Voice">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spokenmoveparser-spoken-utterance-to-legal-move" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SpokenMoveParser — spoken utterance to legal move
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#voiceattemptownership-async-recognition-race-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VoiceAttemptOwnership — async recognition race safety
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#voicetranscriptlog-privacy-minimal-tuning-ring-buffer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VoiceTranscriptLog — privacy-minimal tuning ring buffer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#accessibilityphrasing-spoken-labels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AccessibilityPhrasing — spoken labels
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Support
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Support">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#portablesha256-dependency-free-sha-256" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PortableSHA256 — dependency-free SHA-256
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rungeneration-the-epoch-counter-idiom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RunGeneration — the epoch-counter idiom
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#durationformatting-the-rounding-fix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DurationFormatting — the rounding fix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pieceset-the-piece-set-picker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PieceSet — the piece-set picker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sharedutilities-the-grab-bag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SharedUtilities — the grab-bag
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aboutcontent-licensing-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AboutContent — licensing data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#headless-by-construction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Headless-by-construction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eboard-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Electronic board integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../cli/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Command-Line Interface
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Command-Line Interface
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/annotate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    annotate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/estimate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    estimate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/maia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    maia
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/accuracy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    accuracy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/project/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    project
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/track/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    track
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/expansion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI expansion (proposed)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#play" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Play
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Play">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clockcore-the-clock-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ClockCore — the clock state machine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timepreset-timecontrolselection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TimePreset &amp; TimeControlSelection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checkmatecelebrationpolicy-checkmatecelebrationstate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CheckmateCelebrationPolicy &amp; CheckmateCelebrationState
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gameresultpresentation-terminal-state-text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GameResultPresentation — terminal-state text
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Review
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Review">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reviewsnapshotbuilder-the-review-panes-derived-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ReviewSnapshotBuilder — the Review pane's derived state
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boardmarkdocument-the-board-mark-wire-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BoardMarkDocument — the board-mark wire format
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#voice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Voice
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Voice">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spokenmoveparser-spoken-utterance-to-legal-move" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SpokenMoveParser — spoken utterance to legal move
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#voiceattemptownership-async-recognition-race-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VoiceAttemptOwnership — async recognition race safety
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#voicetranscriptlog-privacy-minimal-tuning-ring-buffer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VoiceTranscriptLog — privacy-minimal tuning ring buffer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#accessibilityphrasing-spoken-labels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AccessibilityPhrasing — spoken labels
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Support
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Support">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#portablesha256-dependency-free-sha-256" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PortableSHA256 — dependency-free SHA-256
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rungeneration-the-epoch-counter-idiom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RunGeneration — the epoch-counter idiom
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#durationformatting-the-rounding-fix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DurationFormatting — the rounding fix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pieceset-the-piece-set-picker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PieceSet — the piece-set picker
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sharedutilities-the-grab-bag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SharedUtilities — the grab-bag
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aboutcontent-licensing-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AboutContent — licensing data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#headless-by-construction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Headless-by-construction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="play-review-voice">Play, Review &amp; Voice<a class="headerlink" href="#play-review-voice" title="Permanent link">&para;</a></h1>
+<p>The Play clock/result flow, the Review pane's derived stats, spoken-move
+input, and cross-platform leaf utilities (hashing, formatting, licensing
+data). Everything here is Foundation + ChessCore only — no SwiftUI,
+<code>@Observable</code>, <code>Timer</code>, or app-lifecycle types — so it runs the same in a
+unit test, in the iOS/Android apps, or headlessly from a CLI. See
+<a href="#headless-by-construction">Headless-by-construction</a> for the import table.</p>
+<h2 id="play">Play<a class="headerlink" href="#play" title="Permanent link">&para;</a></h2>
+<h3 id="clockcore-the-clock-state-machine">ClockCore — the clock state machine<a class="headerlink" href="#clockcore-the-clock-state-machine" title="Permanent link">&para;</a></h3>
+<p>Deadline-based, not per-tick. <code>ClockCore</code> banks each side's remaining time
+privately (<code>whiteBanked</code>/<code>blackBanked</code>) plus one optional
+<code>activeSince: ContinuousClock.Instant?</code> marking when the side to move started
+thinking. Every read computes <code>banked − (now − activeSince)</code> against
+<code>ContinuousClock</code>; nothing ticks the clock, and a read that arrives 40 seconds
+late (backgrounding, a paused compositor, a headless test with no frame
+clock) still comes back correct with no recovery code anywhere. <code>whiteRemaining</code>,
+<code>blackRemaining</code>, <code>isRunning</code>, <code>isExpired</code>, and <code>loser</code> are <strong>retained
+spellings</strong> — kept for the eleven Apple call sites that already read them —
+but they are now computed projections over the banked state, not independent
+mutable fields that could drift out of sync with it. <code>ClockCore</code> itself
+imports only Foundation and ChessCore: no <code>Timer</code>, no <code>@Observable</code>. A shell's
+own display loop decides how often to look; the clock doesn't care.</p>
+<p><code>RunState</code> replaces a single <code>isRunning</code> Bool, because the old <code>stop()</code>
+conflated three situations that resume differently: <code>.idle</code> (never started),
+<code>.running</code>, <code>.pausedByPlayer</code> (a person pressed pause — the only state
+<code>resume()</code> accepts), and <code>.stopped(StopReason)</code>, terminal. <code>StopReason</code> is
+<code>.flagged(PieceColor)</code> (latched at the deadline, never un-latches on its own)
+or <code>.gameEnded</code> (an outcome — checkmate, resignation, an agreed draw —
+after which no flag can fall, even if <code>resume()</code> is called).</p>
+<p>The mutating surface:</p>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>start(color:at:)</code></td>
+<td>Begins the clock with <code>color</code> to move; refuses if a side is already flagged.</td>
+</tr>
+<tr>
+<td><code>pause(at:)</code></td>
+<td>A person paused: banks the elapsed time, moves to <code>.pausedByPlayer</code>. Returns <code>false</code> if nothing was running.</td>
+</tr>
+<tr>
+<td><code>resume(at:)</code></td>
+<td>Resumes from <code>.pausedByPlayer</code> or <code>.idle</code> only — refuses a clock stopped by a flag or an outcome.</td>
+</tr>
+<tr>
+<td><code>stop()</code></td>
+<td>Retained spelling; maps to <code>pause()</code> (its legacy call sites all meant "a person paused").</td>
+</tr>
+<tr>
+<td><code>stopForOutcome(at:)</code></td>
+<td>Terminal stop for a chess/adjudication reason. <code>resume()</code> will not undo it.</td>
+</tr>
+<tr>
+<td><code>switchTurn(at:)</code></td>
+<td>Banks the mover's elapsed time, pays the increment, hands the turn over, and records a per-ply history frame. No-op unless running.</td>
+</tr>
+<tr>
+<td><code>tapAdvance(side:at:)</code></td>
+<td>The OTB button rule: the first tap starts the <strong>opponent's</strong> clock; thereafter only the side to move may press; a tap from the wrong side changes nothing. Returns whether the tap did anything.</td>
+</tr>
+<tr>
+<td><code>rewind(plies:at:)</code></td>
+<td>Undoes a takeback: restores banked time and the side to move from history. The increment is revoked; the thinking time is <strong>not</strong> refunded.</td>
+</tr>
+<tr>
+<td><code>poll(at:)</code></td>
+<td>Latches a flag that has fallen, attributed and banked at the deadline rather than at the read instant. Idempotent; call before any read that must not see a clock "still running" past its deadline.</td>
+</tr>
+<tr>
+<td><code>reset()</code></td>
+<td>Restores both sides to the initial time, white to move, not running, history discarded.</td>
+</tr>
+</tbody>
+</table>
+<p>And the reads:</p>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>deadline()</code></td>
+<td>The instant the active side's flag falls, or <code>nil</code> if nothing is running — lets a shell schedule one wakeup instead of polling.</td>
+</tr>
+<tr>
+<td><code>flagged(at:)</code></td>
+<td>The side whose flag has fallen, derived from the deadline while running, read off the latch once <code>poll</code> has fired.</td>
+</tr>
+<tr>
+<td><code>renderRevision(at:)</code></td>
+<td>A value that changes exactly when a rendered clock string <em>could</em> look different — packs a structural counter with each side's display bucket (tenths below <code>TimeInterval.clockTenthsThreshold</code>, whole seconds above it), so a shell redraws on real state changes and not on every frame.</td>
+</tr>
+<tr>
+<td><code>text(_:at:)</code></td>
+<td>The rendered string for a side, via the kit's one clock formatter (<code>TimeInterval.clockString</code>), using the same threshold <code>renderRevision</code> buckets against — so the two cannot drift apart the way two hand-rolled per-face computations once did.</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">var</span><span class="w"> </span><span class="nv">clock</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ClockCore</span><span class="p">(</span><span class="n">minutes</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">increment</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w">   </span><span class="c1">// 5+3 blitz</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">clock</span><span class="p">.</span><span class="n">tapAdvance</span><span class="p">(</span><span class="n">side</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">black</span><span class="p">)</span><span class="w">   </span><span class="c1">// black's first tap starts WHITE's clock</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">clock</span><span class="p">.</span><span class="n">tapAdvance</span><span class="p">(</span><span class="n">side</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">white</span><span class="p">)</span><span class="w">   </span><span class="c1">// white moved: elapsed time banked, +3s paid, black to move</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kc">_</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">clock</span><span class="p">.</span><span class="n">poll</span><span class="p">()</span><span class="w">                 </span><span class="c1">// latch a flag if the deadline has already passed</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">loser</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">clock</span><span class="p">.</span><span class="n">flagged</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="bp">print</span><span class="p">(</span><span class="s">"</span><span class="si">\(</span><span class="n">loser</span><span class="si">)</span><span class="s"> flagged"</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="bp">print</span><span class="p">(</span><span class="n">clock</span><span class="p">.</span><span class="n">text</span><span class="p">(.</span><span class="n">white</span><span class="p">))</span><span class="w">        </span><span class="c1">// e.g. "4:58"</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Three siblings, not one type</p>
+<p><code>ClockSnapshot</code> is the packed <code>[Int64]</code> wire shape a shell polls
+(<code>fields</code>, <code>flags</code>, <code>whiteMillis</code>, <code>blackMillis</code>, <code>activeSide</code>,
+<code>incrementMillis</code>, <code>flaggedSide</code>, <code>plyCount</code>, <code>renderRevision</code>) — a
+primitive array rather than JSON because a clock is read roughly ten
+times a second and crossing JNI as primitives costs ~11.7 ns against
+JSON's ~98 µs. <code>ClockDefaults.defaultBaseSeconds</code> (600) is the base time
+control assumed when a game carries no clock at all — an untimed replay
+still needs <em>something</em> to classify pressure against. <code>ClockPressureBand</code>
+is that classification: <code>.healthy</code>/<code>.low</code>/<code>.critical</code> via
+<code>band(remainingSeconds:baseSeconds:)</code>, with the low/critical thresholds
+themselves relative to the base control — controls under
+<code>quickControlSeconds</code> (180s) go critical under 10s and low under 30s;
+longer controls go critical under 30s and low under 60s.</p>
+</div>
+<h3 id="timepreset-timecontrolselection">TimePreset &amp; TimeControlSelection<a class="headerlink" href="#timepreset-timecontrolselection" title="Permanent link">&para;</a></h3>
+<p><code>TimePreset</code>'s raw value <strong>is</strong> the <code>"&lt;minutes&gt;+&lt;increment&gt;"</code> notation:</p>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Cases (raw value)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bullet</td>
+<td><code>bullet1_0</code> (<code>1+0</code>), <code>bullet2_1</code> (<code>2+1</code>)</td>
+</tr>
+<tr>
+<td>Blitz</td>
+<td><code>blitz3_0</code> (<code>3+0</code>), <code>blitz3_2</code> (<code>3+2</code>), <code>blitz5_0</code> (<code>5+0</code>), <code>blitz5_3</code> (<code>5+3</code>)</td>
+</tr>
+<tr>
+<td>Rapid</td>
+<td><code>rapid10_0</code> (<code>10+0</code>), <code>rapid15_10</code> (<code>15+10</code>)</td>
+</tr>
+<tr>
+<td>Classical</td>
+<td><code>classical30_0</code> (<code>30+0</code>)</td>
+</tr>
+</tbody>
+</table>
+<p><code>TimeControlSelection</code> (<code>.noClock</code> / <code>.preset(TimePreset)</code> /
+<code>.custom(minutes:increment:)</code>) codecs the persisted <code>@AppStorage</code> value.
+Apple and Android once wrote <strong>different strings</strong> for the same choice —
+Apple <code>"preset:5+0"</code>, Android the bare rawValue <code>"5+0"</code> — so a preference
+saved on one platform silently read as "nothing saved" on the other (no
+crash or log; the picker just falls back to default). Canonical form is
+Apple's now, since Apple had already shipped those strings; the decoder
+accepts both:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>encoded:  .noClock -&gt; "none"   .preset(p) -&gt; "preset:&lt;p.rawValue&gt;"   .custom(m,i) -&gt; "custom:&lt;m&gt;:&lt;i&gt;"
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>decode(raw): ""                  -&gt; nil       (no stored preference)
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>             "none"               -&gt; .noClock
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>             "custom:&lt;m&gt;:&lt;i&gt;"     -&gt; parsed as Double then truncated to Int
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>                                     (old Apple entries can read "5.0:3.0")
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>             "preset:&lt;rawValue&gt;"  -&gt; .preset(TimePreset(rawValue:))
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>             "&lt;rawValue&gt;" (bare)  -&gt; .preset(TimePreset(rawValue:))   // legacy Android
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>             anything else        -&gt; nil
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">UserDefaults</span><span class="p">.</span><span class="n">standard</span><span class="p">.</span><span class="kr">set</span><span class="p">(</span><span class="n">TimeControlSelection</span><span class="p">.</span><span class="n">preset</span><span class="p">(.</span><span class="n">blitz5_3</span><span class="p">).</span><span class="n">encoded</span><span class="p">,</span><span class="w"> </span><span class="n">forKey</span><span class="p">:</span><span class="w"> </span><span class="s">"timeControl"</span><span class="p">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">switch</span><span class="w"> </span><span class="n">TimeControlSelection</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">stored</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">case</span><span class="w"> </span><span class="p">.</span><span class="n">preset</span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nv">p</span><span class="p">):</span><span class="w">          </span><span class="n">ClockCore</span><span class="p">(</span><span class="n">minutes</span><span class="p">:</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">minutes</span><span class="p">,</span><span class="w"> </span><span class="n">increment</span><span class="p">:</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">increment</span><span class="p">)</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="k">case</span><span class="w"> </span><span class="p">.</span><span class="n">custom</span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nv">m</span><span class="p">,</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">i</span><span class="p">):</span><span class="w">   </span><span class="n">ClockCore</span><span class="p">(</span><span class="n">minutes</span><span class="p">:</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">increment</span><span class="p">:</span><span class="w"> </span><span class="n">i</span><span class="p">)</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">case</span><span class="w"> </span><span class="p">.</span><span class="n">noClock</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">:</span><span class="w">           </span><span class="k">break</span><span class="w">   </span><span class="c1">// untimed, or no stored preference</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="checkmatecelebrationpolicy-checkmatecelebrationstate">CheckmateCelebrationPolicy &amp; CheckmateCelebrationState<a class="headerlink" href="#checkmatecelebrationpolicy-checkmatecelebrationstate" title="Permanent link">&para;</a></h3>
+<p>A pure decision function from a stored <code>Intensity</code> (<code>off</code>=0, <code>subtle</code>=1,
+<code>standard</code>=2, <code>festive</code>=3 — <code>Intensity(storedValue:)</code> falls back to
+<code>.standard</code>, not <code>.off</code>, for any unrecognized integer) plus two accessibility
+flags, to a <code>Decision</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>decision(storedIntensity, reduceMotion, hapticsEnabled):
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    intensity = Intensity(storedValue: storedIntensity)
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    showsConfetti      = intensity.rawValue &gt;= Intensity.standard.rawValue(2) &amp;&amp; !reduceMotion
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    playsFestiveHaptic = intensity == .festive &amp;&amp; hapticsEnabled
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    showsGrandFanfare  = intensity == .festive &amp;&amp; !reduceMotion
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    playsGrandFinale   = intensity == .festive     // NOT gated on reduceMotion or haptics
+</code></pre></div>
+<p><code>playsGrandFinale</code> is the non-screen finale (sound gated separately by the
+view's sound preference, plus a connected e-board LED/beep) — independent of
+Reduced Motion because it isn't screen motion.</p>
+<p><code>CheckmateCelebrationState</code> keeps <code>hasCelebrated</code> plus three monotonic
+trigger counters (<code>confettiTrigger</code>, <code>festiveHapticTrigger</code>,
+<code>grandFanfareTrigger</code>). <code>celebrateOnce(storedIntensity:reduceMotion:hapticsEnabled:) -&gt; Decision?</code>
+is a no-op (<code>nil</code>) once <code>hasCelebrated</code>; on first call it flips
+<code>hasCelebrated</code>, computes the <code>Decision</code>, and bumps whichever counters that
+decision calls for via <code>&amp;+= 1</code> (wrapping, never rolled back —
+<code>resetForNewGame()</code> clears only <code>hasCelebrated</code>, since resetting a trigger to
+zero can itself re-fire the platform API bound to it).</p>
+<div class="admonition note">
+<p class="admonition-title"><code>playsGrandFinale</code> has no trigger counter</p>
+<p><code>grandFanfareTrigger</code> tracks <code>showsGrandFanfare</code> (festive <strong>and</strong> not
+Reduced Motion), not <code>playsGrandFinale</code> (festive, full stop). A caller
+wanting the finale effect must read <code>decision.playsGrandFinale</code> directly
+off <code>celebrateOnce</code>'s return value — no counter observes it later.</p>
+</div>
+<h3 id="gameresultpresentation-terminal-state-text">GameResultPresentation — terminal-state text<a class="headerlink" href="#gameresultpresentation-terminal-state-text" title="Permanent link">&para;</a></h3>
+<p><code>text(for state: GameState, activeColor: PieceColor) -&gt; String?</code>,
+<code>isDraw(_ state: GameState) -&gt; Bool</code>:</p>
+<table>
+<thead>
+<tr>
+<th><code>GameState</code></th>
+<th><code>text(for:activeColor:)</code></th>
+<th><code>isDraw</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.checkmate</code></td>
+<td><code>"Checkmate — White wins"</code> / <code>"...Black wins"</code></td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>.stalemate</code></td>
+<td><code>"Stalemate — Draw"</code></td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>.draw</code></td>
+<td><code>"Draw by 50-move rule"</code></td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>.insufficientMaterial</code></td>
+<td><code>"Draw — insufficient material"</code></td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>.repetition</code></td>
+<td><code>"Draw by threefold repetition"</code></td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>.playing</code>, <code>.check</code></td>
+<td><code>nil</code></td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<p>The checkmate winner is <strong>who is not to move</strong>: <code>activeColor == .white ?
+"Black" : "White"</code> — at checkmate <code>activeColor</code> is the side with no reply.</p>
+<h2 id="review">Review<a class="headerlink" href="#review" title="Permanent link">&para;</a></h2>
+<h3 id="reviewsnapshotbuilder-the-review-panes-derived-state">ReviewSnapshotBuilder — the Review pane's derived state<a class="headerlink" href="#reviewsnapshotbuilder-the-review-panes-derived-state" title="Permanent link">&para;</a></h3>
+<p>The off-view computer for every stat the Review pane shows, carved out of
+what were <code>@MainActor</code> computed properties re-evaluated on every body
+invalidation (including scroll). <code>nonisolated</code>; every function is a pure
+static transform over a mainline, an eval array, and PGN tags.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">func</span><span class="w"> </span><span class="nf">build</span><span class="p">(</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="n">mainLine</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">MoveNode</span><span class="p">],</span><span class="w"> </span><span class="n">annotationEvals</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">Double</span><span class="p">],</span><span class="w"> </span><span class="n">loadedTags</span><span class="p">:</span><span class="w"> </span><span class="n">PGNGame</span><span class="p">.</span><span class="n">OrderedTags</span><span class="p">?,</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="n">whiteMoves</span><span class="p">:</span><span class="w"> </span><span class="n">RepertoireBookKernel</span><span class="p">.</span><span class="n">RepertoireMoves</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[:],</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="n">blackMoves</span><span class="p">:</span><span class="w"> </span><span class="n">RepertoireBookKernel</span><span class="p">.</span><span class="n">RepertoireMoves</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[:]</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="p">)</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="n">ReviewSnapshot</span>
+</code></pre></div>
+<p><code>ReviewSnapshot</code> carries <code>perGameAccuracy</code>, <code>criticalMoments</code>,
+<code>brilliantMoments</code>, <code>topSwings</code>, <code>tablebaseEntryNode</code>, <code>openingExitNode</code> +
+<code>openingExitName</code>, <code>missedWinMoment</code>, <code>repertoireFit</code>. <code>build(...)</code> fills it
+in a fixed order, calling <code>await Task.yield()</code> after each of the first seven
+assignments (not the eighth — the function returns right after):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>1 criticalMoments-&gt;yield  2 brilliantMoments-&gt;yield  3 tablebaseEntryNode-&gt;yield
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>4 missedWinMoment-&gt;yield  5 topSwings-&gt;yield          6 perGameAccuracy-&gt;yield
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>7 openingExit(node+name)-&gt;yield   8 repertoireFit (no yield — return)
+</code></pre></div>
+<p>Only <code>TablebaseService.pieceCount(for:)</code> is touched — synchronous and local,
+never <a href="../network-clients/"><code>TablebaseService</code></a>'s network <code>probe(fen:)</code>.</p>
+<ul>
+<li><strong>Critical/brilliant</strong> — <code>criticalMoments</code> filters <code>.mistake</code>/<code>.blunder</code>,
+  sorts blunders before mistakes then by ascending <code>plyIndex</code>, <code>prefix(6)</code>.
+  <code>brilliantMoments</code> filters <code>annotation == .brilliant || .great</code>, keeps
+  mainline order, <code>prefix(6)</code>.</li>
+<li><strong>Tablebase entry</strong> — first mainline node whose <code>positionAfter</code> has
+  <code>pieceCount(for:) &lt;= 7</code>.</li>
+<li><strong>Opening exit</strong> — walks from move 1 through <code>OpeningBook.shared</code>,
+  stopping at the first non-book position; <code>nil</code> if move 1 is already
+  out of book (a contiguous-prefix walk, not "any book move anywhere").</li>
+<li><strong>Win-probability swings</strong> — needs ≥2 evals. Converts before/after
+  White-POV eval via <code>AccuracyAggregator.winProbability(cp:)</code> (see
+  <a href="../analysis/">Analysis math</a>), flips for a Black mover:
+  <code>delta = (wpAfter - wpBefore) * 100</code> (mover-relative points).
+  <code>swing.delta = abs(delta)</code>; <code>directionForMover</code> keeps the sign. Top 6 by
+  magnitude.</li>
+<li><strong>Missed-win moment</strong> — needs ≥20 evals and a <code>Result</code> tag. Scans plies
+  <code>[20, count)</code> (skips the first 10 full moves), tracking White's and
+  Black's peak eval <strong>independently</strong> so one side's early missed chance
+  isn't hidden behind the other's later, larger, converted advantage:
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>white qualifies iff result != "1-0"  and  200 &lt;= whitePeak.cp      &lt; 5000
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>black qualifies iff result != "0-1"  and  200 &lt;= abs(blackPeak.cp) &lt; 5000
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>pick the qualifying side with larger abs(cp);  movedAt = (index / 2) + 1
+</code></pre></div></li>
+<li><strong>Per-game accuracy</strong> — combines White's and Black's independent
+  <code>AccuracyAggregator.GameAccuracy</code> <strong>sample-count-weighted</strong>, not a flat
+  50/50 average (an odd-ply game gives one side an extra move, which a flat
+  average silently dropped):
+  <code>weightedMean = (lhs·lhsCount + rhs·rhsCount) / (lhsCount+rhsCount)</code>,
+  applied independently to <code>overall</code>, every <code>Phase</code>, and every move-number
+  bucket, each with its own paired sample counts.</li>
+<li><strong>Repertoire fit</strong> — examines <code>min(mainLine.count, 20)</code> plies (≈10 full
+  moves each side), counting <code>RepertoireBookKernel.isRepertoireMove</code> hits per
+  color. "The user's side" is whichever color has <code>hits &gt;=</code> the other's
+  (ties favor White); <code>nil</code> when both sides have 0 hits.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kd">let</span><span class="w"> </span><span class="nv">snapshot</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">ReviewSnapshotBuilder</span><span class="p">.</span><span class="n">build</span><span class="p">(</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="n">mainLine</span><span class="p">:</span><span class="w"> </span><span class="n">game</span><span class="p">.</span><span class="n">mainLine</span><span class="p">,</span><span class="w"> </span><span class="n">annotationEvals</span><span class="p">:</span><span class="w"> </span><span class="n">EvalJSON</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">game</span><span class="p">.</span><span class="n">evalsJSON</span><span class="p">),</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="n">loadedTags</span><span class="p">:</span><span class="w"> </span><span class="n">game</span><span class="p">.</span><span class="n">tags</span><span class="p">,</span><span class="w"> </span><span class="n">whiteMoves</span><span class="p">:</span><span class="w"> </span><span class="n">book</span><span class="p">.</span><span class="n">whiteMoves</span><span class="p">,</span><span class="w"> </span><span class="n">blackMoves</span><span class="p">:</span><span class="w"> </span><span class="n">book</span><span class="p">.</span><span class="n">blackMoves</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="p">)</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">mw</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">snapshot</span><span class="p">.</span><span class="n">missedWinMoment</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="bp">print</span><span class="p">(</span><span class="s">"missed win at move </span><span class="si">\(</span><span class="n">mw</span><span class="p">.</span><span class="n">movedAt</span><span class="si">)</span><span class="s">: </span><span class="si">\(</span><span class="n">mw</span><span class="p">.</span><span class="n">asWhite</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="s">"White"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">"Black"</span><span class="si">)</span><span class="s"> had +</span><span class="si">\(</span><span class="nb">Int</span><span class="si">(</span><span class="n">mw</span><span class="p">.</span><span class="n">evalCp</span><span class="si">))</span><span class="s">cp"</span><span class="p">)</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="boardmarkdocument-the-board-mark-wire-format">BoardMarkDocument — the board-mark wire format<a class="headerlink" href="#boardmarkdocument-the-board-mark-wire-format" title="Permanent link">&para;</a></h3>
+<p>Canonical, size-bounded JSON for user-drawn arrows/circles, shared by both
+platforms.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>currentVersion = 1                        maximumTotalMarks = 16_384
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>maximumEncodedBytes = 1_048_576 (1 MiB)   maximumPositionKeyBytes = 512
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>maximumPositions = 4_096                  maximumMarksPerPosition = 128
+</code></pre></div>
+<p><code>decodeStrict(_:)</code>'s validity gate: <code>version == 1</code>, <code>byPosition.count &lt;=
+4_096</code>; per position key, non-empty and <code>&lt;= 512</code> UTF-8 bytes with <code>&lt;= 128</code>
+marks, a running total <code>&lt;= 16_384</code> marks, and no duplicate <code>(kind,from,to)</code>
+id; every mark's <code>fromIndex</code>/<code>toIndex</code> in <code>0..&lt;64</code>, with <code>kind == .arrow</code>
+requiring <code>fromIndex != toIndex</code> and <code>kind == .circle</code> requiring
+<code>fromIndex == toIndex</code>. A missing <code>kind</code> on decode (legacy Apple documents)
+defaults to <code>.arrow</code>.</p>
+<p>The interesting design decision is what happens on failure: a document this
+build doesn't recognize (future version, or a failed bound) is not discarded
+or normalized to empty. <code>decodePreserving(_:)</code> keeps its <strong>exact original
+source bytes</strong> as an opaque payload, and <code>encoded()</code> returns those bytes back
+byte-for-byte — a recognized <em>empty</em> drawing still encodes to <code>""</code> (the
+historical blank sentinel), but only an <em>unrecognized</em> document round-trips
+verbatim.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kd">var</span><span class="w"> </span><span class="nv">doc</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">BoardMarkDocument</span><span class="p">.</span><span class="n">decodePreserving</span><span class="p">(</span><span class="n">storedJSON</span><span class="p">)</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">if</span><span class="w"> </span><span class="n">doc</span><span class="p">.</span><span class="n">isRecognized</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="n">doc</span><span class="p">.</span><span class="n">byPosition</span><span class="p">[</span><span class="n">position</span><span class="p">.</span><span class="n">positionKey</span><span class="p">,</span><span class="w"> </span><span class="k">default</span><span class="p">:</span><span class="w"> </span><span class="p">[]]</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">        </span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">BoardMark</span><span class="p">(</span><span class="n">fromIndex</span><span class="p">:</span><span class="w"> </span><span class="n">e2</span><span class="p">,</span><span class="w"> </span><span class="n">toIndex</span><span class="p">:</span><span class="w"> </span><span class="n">e4</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">green</span><span class="p">,</span><span class="w"> </span><span class="n">kind</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">arrow</span><span class="p">))</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="p">}</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="kd">let</span><span class="w"> </span><span class="nv">roundTripped</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">doc</span><span class="p">.</span><span class="n">encoded</span><span class="p">()</span><span class="w">   </span><span class="c1">// unrecognized storedJSON comes back byte-identical</span>
+</code></pre></div>
+<p><code>encoded()</code> sorts keys and doesn't escape slashes
+(<code>[.sortedKeys, .withoutEscapingSlashes]</code>) so two builds of the same drawing
+are byte-identical — usable as digest input into
+<a href="#portablesha256-dependency-free-sha-256"><code>PortableSHA256</code></a>.</p>
+<h2 id="voice">Voice<a class="headerlink" href="#voice" title="Permanent link">&para;</a></h2>
+<h3 id="spokenmoveparser-spoken-utterance-to-legal-move">SpokenMoveParser — spoken utterance to legal move<a class="headerlink" href="#spokenmoveparser-spoken-utterance-to-legal-move" title="Permanent link">&para;</a></h3>
+<p>Two entry points are public — <code>normalize(_:profile:) -&gt; [String]</code> and
+<code>match(_:position:profile:) -&gt; [VoiceMoveCandidate]</code> — the normalization
+pipeline behind them is internal. <code>match</code> generates candidate strings, tries
+each against the position's legal moves, dedupes by resulting SAN: <strong>0</strong>
+candidates = no match, <strong>1</strong> = clear match, <strong>&gt;1</strong> = disambiguation. <code>normalize</code>
+runs the candidate through nine sequential stages, accumulating everything it
+produces (not stopping at the first plausible one):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>1 Whole-phrase rewrites   — lexicon.rawPhraseRewrites applied in order to raw lowercased text
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>2 Collapsed literal        — the phrase with all spaces removed, as-is
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>3 Piece-name prefix         — "knight c3": strip piece word, apply capture verbs (-&gt; "x") + fillers inline
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>4 Castle phrases              — substring match; bare "castle"/"castles" emits BOTH "O-O" and "O-O-O"
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>5 Capture-verb split            — "e takes d5" -&gt; split on verb into &lt;piece&gt;&lt;file&gt;x&lt;dest&gt;
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>6 Filler-word removal             — " to " removed mid-phrase: "e2 to e4" -&gt; "e2e4"
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>7 File/rank homophone substitution — fileHomophones then rankHomophones over the whole string
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>8 Promotion suffix                  — trailing "queen"/"rook"/"bishop"/"knight" -&gt; "=Q"/"=R"/"=B"/"=N"
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>9 Confusable-letter variants          — file/piece swaps, only for 2–5 char SAN-length candidates
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kd">let</span><span class="w"> </span><span class="nv">candidates</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">SpokenMoveParser</span><span class="p">.</span><span class="n">match</span><span class="p">(</span><span class="s">"knight to f3"</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">:</span><span class="w"> </span><span class="n">position</span><span class="p">,</span><span class="w"> </span><span class="n">profile</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">apple</span><span class="p">)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="k">switch</span><span class="w"> </span><span class="n">candidates</span><span class="p">.</span><span class="bp">count</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="k">case</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span><span class="w"> </span><span class="n">showNoMatchToast</span><span class="p">()</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="k">case</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="w"> </span><span class="n">apply</span><span class="p">(</span><span class="n">candidates</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">move</span><span class="p">)</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="k">default</span><span class="p">:</span><span class="w"> </span><span class="n">presentDisambiguation</span><span class="p">(</span><span class="n">candidates</span><span class="p">)</span><span class="w">   </span><span class="c1">// e.g. Nf3 vs Ngf3</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong>Lexicon &amp; profiles.</strong> Every recognizer quirk is a data row, not a code
+branch: <code>RecognizerProfile.lexicon = .core.merged(with: overlay)</code>. <code>.apple</code>'s
+overlay is empty (on-device, well-trained on chess vocabulary); <code>.google</code>'s
+is <code>rawPhraseRewrites: [("before","b4"), ("84","e4")]</code>,
+<code>pieceWords: [("brook","R")]</code>. <code>merged(with:)</code> appends overlay rows <strong>after</strong>
+core's, so core stays higher-priority in ordered matching. Two orderings
+inside <code>.core</code> are load-bearing:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>fileHomophones: "gee " MUST precede "ee " — "gee" contains "ee"; rows apply
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>    sequentially, so "ee " first would turn "gee six" into "ge six"
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>rankHomophones: " fore" (leading space) MUST precede "for" — without the
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    guard, "before" -&gt; "be4" (a spurious b4 the PGN parser accepts); with
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    it, " fore" isn't a substring of "before" at all, so "before" is left
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>    alone and the later "for" rule turns it into unparseable "be4e"
+</code></pre></div>
+<h3 id="voiceattemptownership-async-recognition-race-safety">VoiceAttemptOwnership — async recognition race safety<a class="headerlink" href="#voiceattemptownership-async-recognition-race-safety" title="Permanent link">&para;</a></h3>
+<p>A generic ownership/provenance state machine so only the <strong>newest</strong> in-flight
+recognition attempt can publish state or run cleanup, since platform
+recognizers shut down asynchronously and a stale one can call back after a
+newer attempt has started. <code>VoiceAttemptOwnership&lt;SessionID, PositionProof,
+Confirmation&gt;</code> tracks one <code>activeAttempt: VoiceAttemptProvenance?</code> through
+four private phases (<code>recognizing</code> → <code>awaitingConfirmation</code> → <code>consumed</code>,
+with <code>invalidationRequested</code> reachable from either of the first two on a
+session/position mismatch):</p>
+<p><code>registerConfirmation</code> and <code>consumeConfirmation</code> traffic in
+<code>VoiceAttemptResult&lt;SessionID, PositionProof, Confirmation&gt;</code> — the matched
+payload welded permanently to the <code>VoiceAttemptProvenance</code> that produced it.
+It exists so a UI can hold and present a match without smuggling in a
+different attempt's context: <code>consumeConfirmation</code> compares the <em>presented</em>
+result's provenance against the owner's own stored result and, on a match,
+returns the owner's copy rather than trusting whatever payload the caller
+handed back.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>begin(token, sessionID, positionProof): accepted only if token.processSequence
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    STRICTLY EXCEEDS every token this owner has ever accepted (monotonic); a
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    newer attempt immediately makes the prior attempt's provenance stale.
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>acceptsCallback: true only if activeAttempt == provenance AND phase == .recognizing.
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>    A session/position mismatch marks the attempt invalidationRequested
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>    PERMANENTLY, so a later return to an equal FEN can't revive it.
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>registerConfirmation: first match wins — freezes phase to .awaitingConfirmation
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>    so a second matched result from the same attempt can't overwrite the first.
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>consumeConfirmation: compares the presented result's provenance against the
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>    OWNER-HELD pendingConfirmation (not the caller-supplied payload) and
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>    returns the owner's copy — compare-and-consume, exactly once.
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>clear(ifOwnedBy: p): compare-and-clear — only clears if activeAttempt == p, so
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>    stale cleanup from an old attempt can't clear a newer one's state.
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kd">var</span><span class="w"> </span><span class="nv">ownership</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">VoiceAttemptOwnership</span><span class="p">&lt;</span><span class="n">UUID</span><span class="p">,</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">VoiceMoveCandidate</span><span class="p">&gt;()</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="k">guard</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nv">provenance</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ownership</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="n">token</span><span class="p">:</span><span class="w"> </span><span class="n">VoiceAttemptToken</span><span class="p">(</span><span class="n">processSequence</span><span class="p">:</span><span class="w"> </span><span class="n">nextSequence</span><span class="p">()),</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="n">sessionID</span><span class="p">:</span><span class="w"> </span><span class="n">sessionID</span><span class="p">,</span><span class="w"> </span><span class="n">positionProof</span><span class="p">:</span><span class="w"> </span><span class="n">position</span><span class="p">.</span><span class="n">fen</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// a newer attempt already started; this one is stale</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="n">recognizer</span><span class="p">.</span><span class="n">recognize</span><span class="p">(</span><span class="n">utterance</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">candidate</span><span class="w"> </span><span class="k">in</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">    </span><span class="k">guard</span><span class="w"> </span><span class="n">ownership</span><span class="p">.</span><span class="n">acceptsCallback</span><span class="p">(</span><span class="k">for</span><span class="p">:</span><span class="w"> </span><span class="n">provenance</span><span class="p">,</span><span class="w"> </span><span class="n">currentSessionID</span><span class="p">:</span><span class="w"> </span><span class="n">sessionID</span><span class="p">,</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">                                     </span><span class="n">currentPositionProof</span><span class="p">:</span><span class="w"> </span><span class="n">position</span><span class="p">.</span><span class="n">fen</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">    </span><span class="kc">_</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ownership</span><span class="p">.</span><span class="n">registerConfirmation</span><span class="p">(</span><span class="n">candidate</span><span class="p">,</span><span class="w"> </span><span class="k">for</span><span class="p">:</span><span class="w"> </span><span class="n">provenance</span><span class="p">,</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="w">                                        </span><span class="n">currentSessionID</span><span class="p">:</span><span class="w"> </span><span class="n">sessionID</span><span class="p">,</span><span class="w"> </span><span class="n">currentPositionProof</span><span class="p">:</span><span class="w"> </span><span class="n">position</span><span class="p">.</span><span class="n">fen</span><span class="p">)</span>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="voicetranscriptlog-privacy-minimal-tuning-ring-buffer">VoiceTranscriptLog — privacy-minimal tuning ring buffer<a class="headerlink" href="#voicetranscriptlog-privacy-minimal-tuning-ring-buffer" title="Permanent link">&para;</a></h3>
+<p><code>BlobBackedStore</code> (see <a href="../stores/">the storage seam</a>), <code>blobKey =
+"voiceTranscriptLog"</code>, <code>cap = 200</code> (oldest dropped on <code>append(_:)</code>). Each
+<code>VoiceTranscriptEntry</code> carries a timestamp, transcript, alternatives, FEN, a
+<code>VoiceOutcome</code> (<code>.matched(san:)</code> / <code>.disambiguation(candidates:)</code> /
+<code>.noMatch</code>), and the recognizer profile string.</p>
+<p><code>append(_:)</code> itself doesn't filter by outcome — it just appends and trims.
+"Log only <code>.noMatch</code>/<code>.disambiguation</code> by default, treat <code>.matched</code> as
+opt-in" is a <strong>call-site convention</strong> documented on the type to keep the
+persisted log's privacy surface small, not something the ring buffer
+enforces. <code>VoiceOutcome</code> hand-writes its own <code>Codable</code> with a <code>kind</code>
+discriminator field instead of Swift's default enum-with-payload encoding,
+so the on-disk shape is stable and explicit. The tuning loop this exists
+for: speak on device → collect misses from the log → add one
+<code>SpokenMoveLexicon</code> overlay row + one corpus test case → rebuild — no engine
+code changes.</p>
+<h3 id="accessibilityphrasing-spoken-labels">AccessibilityPhrasing — spoken labels<a class="headerlink" href="#accessibilityphrasing-spoken-labels" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>material(captured:advantage:sideName:)</code></td>
+<td>e.g. <code>"White: captured queen, 2 pawns, plus 3"</code>; empty capture → <code>"White: "</code> (kept for parity)</td>
+</tr>
+<tr>
+<td><code>spokenDuration(_ seconds:)</code></td>
+<td><code>"3 minutes 42 seconds"</code> / <code>"42 seconds"</code> (minutes omitted under 60s)</td>
+</tr>
+<tr>
+<td><code>squareHint(isSelected:isLegalTarget:isOwnPiece:)</code></td>
+<td>priority: selected &gt; legal target &gt; own piece &gt; <code>""</code></td>
+</tr>
+<tr>
+<td><code>signalBarCount(rssi:)</code></td>
+<td>BLE bars, 1–4</td>
+</tr>
+<tr>
+<td><code>evalAdvantageWord(whiteProbability:)</code></td>
+<td><code>"White"</code> / <code>"Black"</code> / <code>"Even"</code></td>
+</tr>
+<tr>
+<td><code>selectedLabel(_:isSelected:)</code></td>
+<td>appends <code>", selected"</code> — Android's <code>.isSelected</code> trait crashes the a11y tree walk, so selection is spoken via the label</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>signalBarCount(rssi):  &lt; -85 -&gt; 1   [-85,-75) -&gt; 2   [-75,-60) -&gt; 3   else -&gt; 4
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>evalAdvantageWord(p):  p &gt; 0.52 -&gt; "White"   p &lt; 0.48 -&gt; "Black"   else -&gt; "Even"   (dead band)
+</code></pre></div>
+<h2 id="support">Support<a class="headerlink" href="#support" title="Permanent link">&para;</a></h2>
+<h3 id="portablesha256-dependency-free-sha-256">PortableSHA256 — dependency-free SHA-256<a class="headerlink" href="#portablesha256-dependency-free-sha-256" title="Permanent link">&para;</a></h3>
+<p>A from-scratch FIPS 180-4 SHA-256, because CryptoKit is unavailable on native
+Android and Swift's <code>Hasher</code> is intentionally process-randomized. 64 round
+constants (<code>0x428a2f98 ... 0xc67178f2</code>), the 8-word IV (<code>0x6a09e667,
+0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab,
+0x5be0cd19</code>), 64-byte blocks, standard Merkle–Damgård padding (<code>0x80</code> then
+zero-pad to 56 mod 64, then an 8-byte big-endian bit length), 32-byte digest.
+<code>Hasher</code> is incremental (<code>update(_:)</code>/<code>update(byte:)</code>/<code>update(utf8:)</code>,
+<code>finalize() -&gt; [UInt8]</code>, <code>hexDigest() -&gt; String</code>); <code>hexDigest(utf8:)</code> is the
+one-shot form.</p>
+<p><code>update(lengthPrefixedUTF8:)</code> prepends an 8-byte big-endian <strong>byte count</strong> (of
+the UTF-8 encoding) before the string's own bytes — "the shared canonical
+framing used by authored causal and frontier proofs," per its doc comment —
+so a hash commits to a string's exact length rather than leaving where one
+field ends and the next begins ambiguous:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kd">var</span><span class="w"> </span><span class="nv">hasher</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">PortableSHA256</span><span class="p">.</span><span class="n">Hasher</span><span class="p">()</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="n">hasher</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">lengthPrefixedUTF8</span><span class="p">:</span><span class="w"> </span><span class="n">fen</span><span class="p">)</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="n">hasher</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">lengthPrefixedUTF8</span><span class="p">:</span><span class="w"> </span><span class="n">san</span><span class="p">)</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="kd">let</span><span class="w"> </span><span class="nv">digest</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">hasher</span><span class="p">.</span><span class="n">hexDigest</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="rungeneration-the-epoch-counter-idiom">RunGeneration — the epoch-counter idiom<a class="headerlink" href="#rungeneration-the-epoch-counter-idiom" title="Permanent link">&para;</a></h3>
+<p><code>begin() -&gt; UInt64</code> and <code>invalidate()</code> both do <code>current &amp;+= 1</code> (wrapping);
+<code>owns(_ token:) -&gt; Bool</code> is <code>current == token</code>. <code>begin()</code> hands the new value
+back as a token to own; <code>invalidate()</code> discards it — no token satisfies
+<code>owns(_:)</code> again until <code>begin()</code> is called.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kd">var</span><span class="w"> </span><span class="nv">generation</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">RunGeneration</span><span class="p">()</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="kd">func</span><span class="w"> </span><span class="nf">startAnalysis</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nv">token</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">generation</span><span class="p">.</span><span class="n">begin</span><span class="p">()</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">    </span><span class="n">Task</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="nv">result</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">try</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">engine</span><span class="p">.</span><span class="n">analyze</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">        </span><span class="k">guard</span><span class="w"> </span><span class="n">generation</span><span class="p">.</span><span class="n">owns</span><span class="p">(</span><span class="n">token</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// stale — a newer run started</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">        </span><span class="kc">self</span><span class="p">.</span><span class="n">evaluation</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">result</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="p">}</span>
+</code></pre></div>
+<p>The same "reject stale async work" shape as <code>VoiceAttemptOwnership</code>, stripped
+to a single counter for call sites that don't need provenance.</p>
+<h3 id="durationformatting-the-rounding-fix">DurationFormatting — the rounding fix<a class="headerlink" href="#durationformatting-the-rounding-fix" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>drillDuration(seconds):
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>    totalTenths = Int((seconds * 10).rounded())          // ONE rounding, up front
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>    totalTenths &lt; 600 (&lt; 60s):  "\(totalTenths/10).\(totalTenths%10)s"      // "9.4s"
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>    else: totalSeconds = Int(seconds.rounded())           // rounded again, not truncated
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>          "\(totalSeconds/60)m \(zero-padded totalSeconds%60)s"             // "1m 05s"
+</code></pre></div>
+<p>The bug this replaced: Apple used <code>String(format: "%.1fs")</code> (rounds); Android
+hand-rolled the idea (SkipFoundation doesn't reliably support
+<code>String(format:)</code>) but mixed a <strong>truncating</strong> <code>Int(seconds)</code> with a
+separately rounded tenths digit — at <code>9.97s</code> that produced <code>"9.0s"</code>, a whole
+second wrong, invisible except right at a rounding boundary. Rounding once,
+up front, in tenths, lets a value that carries into the next second or
+minute do so correctly. The shells also disagreed on padding above a minute
+(<code>"3m 5s"</code> vs <code>"3m 05s"</code>); the shared formatter always zero-pads.</p>
+<h3 id="pieceset-the-piece-set-picker">PieceSet — the piece-set picker<a class="headerlink" href="#pieceset-the-piece-set-picker" title="Permanent link">&para;</a></h3>
+<p>10 cases: <code>cburnett, merida, inkwell, crownline, scandi, minimal, leipzig,
+mpchess, staunty, maestro</code> — the raw values are the literal <code>@AppStorage</code> keys
+both apps write (<code>"pieceSet"</code> on iOS, <code>"pref.pieceSet"</code> on Android) and must
+never change.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>assetName(for: piece):  cburnett      -&gt; "{w|b}{K|Q|R|B|N|P}"          // "wK", "bP"
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>                         other 9 sets -&gt; "{rawValue}_{w|b}{K|Q|R|B|N|P}" // "merida_wK"
+</code></pre></div>
+<p><code>selectableCases</code> is a curated 7-set picker subset, in owner-curated order —
+<code>[.cburnett, .merida, .staunty, .maestro, .leipzig, .mpchess, .inkwell]</code> —
+filtered against <code>pendingPermission</code> (currently empty, so a no-op filter as
+of the 2026-07-20 sadsnake1 grant). Crownline, Scandi, and Minimal stay fully
+wired (assets, export switch, persisted selections) but are hidden to keep
+the list short; <code>pickerCases(including:)</code> adds a <code>current</code> selection back in
+even when it isn't in <code>selectableCases</code>, so an existing choice never renders
+as empty.</p>
+<h3 id="sharedutilities-the-grab-bag">SharedUtilities — the grab-bag<a class="headerlink" href="#sharedutilities-the-grab-bag" title="Permanent link">&para;</a></h3>
+<p>Small pure helpers deduplicated out of code reimplemented identically in
+several places.</p>
+<table>
+<thead>
+<tr>
+<th>Type / extension</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PercentFormat.whole(_:)</code></td>
+<td><code>Double</code> (0...1) → <code>"73%"</code>, <code>"—"</code> for non-finite</td>
+</tr>
+<tr>
+<td><code>Array.capLast(_:)</code></td>
+<td>trims to the most recent <code>max</code> elements</td>
+</tr>
+<tr>
+<td><code>Position.fenStartsWithWhite(_:)</code></td>
+<td>parses FEN side-to-move; defaults <code>true</code> on malformed input</td>
+</tr>
+<tr>
+<td><code>EvalJSON</code></td>
+<td>codec for the eval-array JSON blob (below)</td>
+</tr>
+<tr>
+<td><code>PieceColor.mover(ply:startIsWhite:)</code></td>
+<td><code>((i%2==0)==startIsWhite) ? .white : .black</code></td>
+</tr>
+<tr>
+<td><code>TimeInterval.clockString(showHours:showTenths:)</code></td>
+<td>countdown display, e.g. <code>"1:35"</code>, <code>"0:09.7"</code></td>
+</tr>
+<tr>
+<td><code>TimeInterval.moveTimeString()</code></td>
+<td>move-timing display: <code>"5.3s"</code> / <code>"45s"</code> / <code>"2:05"</code> / <code>"1:02:05"</code></td>
+</tr>
+<tr>
+<td><code>PieceType.materialSummary(_:)</code></td>
+<td><code>"K+Q+R+P"</code> / <code>"K+2N+P"</code> from a piece-count map</td>
+</tr>
+<tr>
+<td><code>EvalFormat</code></td>
+<td>centipawn/mate display formatting (below)</td>
+</tr>
+<tr>
+<td><code>GameResultParser</code></td>
+<td>PGN result string → <code>.win</code>/<code>.draw</code>/<code>.loss</code>/<code>.unknown</code></td>
+</tr>
+<tr>
+<td><code>DrillLeniency</code></td>
+<td>"close enough to best" grading for drills (below)</td>
+</tr>
+<tr>
+<td><code>OnlineGameSourceIdentity.canonical(_:)</code></td>
+<td>normalizes <code>"lichess"</code>/<code>"chesscom"</code>/<code>"chess.com"</code>; else <code>nil</code></td>
+</tr>
+<tr>
+<td><code>GameCollectionName</code></td>
+<td>parses <code>"Online: lichess/&lt;user&gt;"</code> / <code>"&lt;user&gt; (Lichess)"</code> names</td>
+</tr>
+<tr>
+<td><code>Piece.unicodeSymbol</code></td>
+<td>Unicode chess glyph, e.g. <code>"♞"</code></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>EvalJSON mate sentinel is exactly ±100_000 cp. Downstream mate detection is
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>abs(cp) &gt;= 100_000 — callers must NOT pre-clamp a mate score smaller before
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>it reaches this array.
+</code></pre></div>
+<p><code>EvalFormat.formatCentipawns(cp:isMate:)</code> renders <code>"+1.34"</code>/<code>"-0.21"</code> or
+<code>"M5"</code>/<code>"-M3"</code>; <code>formatEvalDisplay(cp:mateIn:style:)</code>'s <code>"winprob"</code> style
+converts through <code>AccuracyAggregator.winProbability(cp:)</code> and rounds
+<code>.toNearestOrAwayFromZero</code> (<code>0.505</code> → <code>51%</code>).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>DrillLeniency.leniencyAccept(bestCp,bestIsMate,playedCp,playedIsMate,marginCp):
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>  if bestIsMate:
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>      guard bestCp &gt; 0 else return false          // best move that's mate AGAINST mover shouldn't occur
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>      return playedIsMate ? (playedCp &gt; 0) : (playedCp &gt;= 500)
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>  else:
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>      if playedIsMate:  return playedCp &gt; 0        // upgraded to / kept a real mate
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>      if bestCp &gt;= 500: return playedCp &gt;= 200      // best already decisive -&gt; any clear win
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>      else:              return playedCp &gt;= bestCp - marginCp   // within margin (typically 50-150cp)
+</code></pre></div>
+<p>A played move that hands the <em>opponent</em> a mate (<code>playedIsMate &amp;&amp; playedCp &lt;
+0</code>) is correctly rejected by the <code>playedCp &gt; 0</code> check — an earlier kernel
+version accepted any <code>playedIsMate</code>, mis-grading a blunder-into-mate as a
+solve. <code>GameResultParser.parseGameResult(_:userColor:)</code> recognizes <strong>only</strong>
+<code>"1-0"</code>, <code>"0-1"</code>, <code>"1/2-1/2"</code>; everything else (<code>"*"</code>, <code>"½-½"</code>, malformed, or
+a decisive result with <code>nil</code> <code>userColor</code>) is <code>.unknown</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="n">PercentFormat</span><span class="p">.</span><span class="n">whole</span><span class="p">(</span><span class="mf">0.734</span><span class="p">)</span><span class="w">                                          </span><span class="c1">// "73%"</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="n">GameResultParser</span><span class="p">.</span><span class="n">parseGameResult</span><span class="p">(</span><span class="n">tags</span><span class="p">[</span><span class="s">"Result"</span><span class="p">]</span><span class="w"> </span><span class="p">??</span><span class="w"> </span><span class="s">"*"</span><span class="p">,</span><span class="w"> </span><span class="n">userColor</span><span class="p">:</span><span class="w"> </span><span class="p">.</span><span class="n">white</span><span class="p">)</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="n">DrillLeniency</span><span class="p">.</span><span class="n">leniencyAccept</span><span class="p">(</span><span class="n">bestCp</span><span class="p">:</span><span class="w"> </span><span class="mi">620</span><span class="p">,</span><span class="w"> </span><span class="n">bestIsMate</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="w">                              </span><span class="n">playedCp</span><span class="p">:</span><span class="w"> </span><span class="mi">410</span><span class="p">,</span><span class="w"> </span><span class="n">playedIsMate</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="n">marginCp</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="w">  </span><span class="c1">// true: bestCp &gt;= 500, playedCp(410) &gt;= 200</span>
+</code></pre></div>
+<h3 id="aboutcontent-licensing-data">AboutContent — licensing data<a class="headerlink" href="#aboutcontent-licensing-data" title="Permanent link">&para;</a></h3>
+<p><code>@_spi(FianchettoApp)</code> — this whole type compiles into FianchettoKit's public
+interface but stays invisible unless a consumer writes <code>@_spi(FianchettoApp)
+import FianchettoKit</code>, same as an internal symbol otherwise. That boundary
+exists because it's release-compliance copy owned by the app target (license
+text, corresponding-source pointers), not a general FianchettoKit API.</p>
+<p><code>acknowledgements: [Acknowledgement]</code> (17 entries, each <code>{title, detail,
+license, url}</code>) covers the three bundled engines (Stockfish — GPLv3, Maia 3 —
+AGPLv3 used with author permission, Reckless — AGPLv3), all 10 <code>PieceSet</code>
+credits (license varies by set: GPLv2+ for Cburnett/Merida, CC BY-NC 4.0 for
+Inkwell/Crownline/Scandi/Minimal, Freeware for Leipzig, GPLv3+ for MPChess,
+CC BY-NC-SA 4.0 for Staunty/Maestro), the
+opening book (CC0), Lichess Practice puzzles (AGPLv3), a design-inspiration
+credit for En-Croissant, and a trademark/no-affiliation notice for the Square
+Off Pro BLE integration. <code>androidAcknowledgements</code> adds one row for ONNX
+Runtime (MIT), since Android ships Microsoft's runtime for on-device Maia
+inference. <code>correspondingSourceNotice</code>, <code>gplV3Fallback</code>, and
+<code>onnxRuntimeMITLicense</code> are the full license/notice strings shown alongside.</p>
+<h2 id="headless-by-construction">Headless-by-construction<a class="headerlink" href="#headless-by-construction" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>File</th>
+<th>Imports</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ClockCore</code></td>
+<td><code>Play/ClockCore.swift</code></td>
+<td>Foundation, ChessCore</td>
+</tr>
+<tr>
+<td><code>TimePreset</code>, <code>TimeControlSelection</code></td>
+<td><code>Play/TimePreset.swift</code></td>
+<td><em>(none)</em></td>
+</tr>
+<tr>
+<td><code>CheckmateCelebrationPolicy</code>, <code>CheckmateCelebrationState</code></td>
+<td><code>Play/CheckmateCelebrationPolicy.swift</code></td>
+<td><em>(none)</em></td>
+</tr>
+<tr>
+<td><code>GameResultPresentation</code></td>
+<td><code>Play/GameResultPresentation.swift</code></td>
+<td>ChessCore</td>
+</tr>
+<tr>
+<td><code>ReviewSnapshotBuilder</code></td>
+<td><code>Review/ReviewSnapshotBuilder.swift</code></td>
+<td>Foundation, ChessCore</td>
+</tr>
+<tr>
+<td><code>BoardMarkDocument</code>, <code>BoardMark</code>, <code>BoardMarkKind</code>, <code>BoardMarkColor</code></td>
+<td><code>Review/BoardMarkDocument.swift</code></td>
+<td>Foundation</td>
+</tr>
+<tr>
+<td><code>SpokenMoveParser</code>, <code>SpokenMoveLexicon</code>, <code>RecognizerProfile</code></td>
+<td><code>Voice/SpokenMoveParser.swift</code></td>
+<td>Foundation, ChessCore</td>
+</tr>
+<tr>
+<td><code>VoiceAttemptOwnership</code> + tokens</td>
+<td><code>Voice/VoiceAttemptOwnership.swift</code></td>
+<td><em>(none)</em></td>
+</tr>
+<tr>
+<td><code>VoiceTranscriptLog</code>, <code>VoiceOutcome</code></td>
+<td><code>Voice/VoiceTranscriptLog.swift</code></td>
+<td>Foundation</td>
+</tr>
+<tr>
+<td><code>AccessibilityPhrasing</code></td>
+<td><code>Voice/AccessibilityPhrasing.swift</code></td>
+<td>Foundation, ChessCore</td>
+</tr>
+<tr>
+<td><code>PortableSHA256</code></td>
+<td><code>Support/PortableSHA256.swift</code></td>
+<td><em>(none)</em></td>
+</tr>
+<tr>
+<td><code>RunGeneration</code></td>
+<td><code>Support/RunGeneration.swift</code></td>
+<td><em>(none)</em></td>
+</tr>
+<tr>
+<td><code>DurationFormatting</code></td>
+<td><code>Support/DurationFormatting.swift</code></td>
+<td>Foundation</td>
+</tr>
+<tr>
+<td><code>PieceSet</code></td>
+<td><code>Support/PieceSet.swift</code></td>
+<td>ChessCore</td>
+</tr>
+<tr>
+<td><code>SharedUtilities</code> types</td>
+<td><code>Support/SharedUtilities.swift</code></td>
+<td>Foundation, ChessCore</td>
+</tr>
+<tr>
+<td><code>AboutContent</code></td>
+<td><code>Support/AboutContent.swift</code></td>
+<td><em>(none, <code>@_spi</code>)</em></td>
+</tr>
+</tbody>
+</table>
+<p>No type here reads a file, touches the network, or depends on a UI framework
+— <code>ReviewSnapshotBuilder</code> and <code>VoiceAttemptOwnership</code> are the only two with
+<code>async</code>/isolation-shaped API, and both are pure value transforms underneath.</p>
+<h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
+<p><code>ReviewSnapshotBuilder</code> and <code>SpokenMoveParser</code> are natural fits for two
+subcommands fianchetto-cli doesn't have yet: a <code>review</code> command running
+<code>build(...)</code> over a parsed PGN mainline and printing critical moments,
+swings, accuracy, and repertoire fit as JSON; and a <code>voice-parse</code> command
+feeding a transcript plus a FEN through <code>SpokenMoveParser.match(_:position:profile:)</code>
+and printing the resulting SAN candidates — the same shape fianchetto-cli's
+existing six subcommands (<code>annotate</code>, <code>estimate</code>, <code>maia</code>, <code>accuracy</code>,
+<code>project</code>, <code>track</code>) already use to run ChessCore analysis and FianchettoKit's
+stat stores headlessly.</p>
+<ul>
+<li><a href="../stores/">Stores &amp; the storage seam</a> — the <code>BlobBackedStore</code>/<code>JSONBlobStore</code>
+  seam <code>VoiceTranscriptLog</code> persists through.</li>
+<li><a href="../analysis/">Analysis math</a> — <code>AccuracyAggregator.winProbability(cp:)</code> and
+  <code>moveAccuracy(...)</code>, which <code>ReviewSnapshotBuilder</code> and <code>EvalFormat</code> build on.</li>
+<li><a href="../network-clients/">Network clients</a> — <code>TablebaseService.pieceCount(for:)</code>,
+  the one network-client call <code>ReviewSnapshotBuilder</code> touches.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      FianchettoKit — chess training logic built on ChessCore.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.top", "navigation.indexes", "content.code.copy", "content.code.annotate", "toc.follow", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
