@@ -592,6 +592,28 @@ nav.site-nav {
   font-weight: 400;
   color: var(--study-text-sec);
 }
+/* Upstream link on each engine entry. Sits on parchment, so it takes the dark
+   green rather than the gold used on the forest sections. */
+.study-engine-link {
+  display: inline-block;
+  margin-top: 1.1rem;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--study-green-dk);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(30,92,58,0.35);
+  padding-bottom: 2px;
+  word-break: break-word;
+  transition: color 0.15s, border-color 0.15s;
+}
+.study-engine-link:hover,
+.study-engine-link:focus-visible {
+  color: var(--study-forest);
+  border-color: var(--study-forest);
+}
+
 .study-engine-new {
   font-family: 'Source Code Pro', monospace;
   font-size: 0.62rem;
@@ -823,19 +845,24 @@ nav.site-nav {
   color: var(--study-text-sec);
   margin-bottom: 1.2em;
 }
+ /* Rules are drawn as 1px GRID GAPS over the container's background, not as
+    per-card borders. The old version was borders plus :last-child and
+    :nth-child() corrections tuned for exactly four cards; adding Windows and
+    Linux made six, and every one of those corrections landed on the wrong
+    card. The gap approach has no card count in it. */
 .study-platform-cards {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--study-rule);
   border: 1px solid var(--study-rule);
   margin-top: 1.5rem;
 }
 .study-platform-card {
   padding: 1.75rem 1.5rem;
-  border-right: 1px solid var(--study-rule);
+  background: var(--study-parchment);
   text-align: center;
 }
-.study-platform-card:last-child { border-right: none; }
 .study-platform-card-name {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.1rem;
@@ -1083,8 +1110,6 @@ footer {
   .study-stat-entry:nth-child(2n) { border-right: none; }
 
   .study-platform-cards { grid-template-columns: 1fr 1fr; }
-  .study-platform-card:nth-child(2n) { border-right: none; }
-  .study-platform-card:nth-child(3) { border-bottom: 1px solid var(--study-rule); }
 
   .study-oss-band { grid-template-columns: 1fr; gap: 1rem; }
 
@@ -1104,8 +1129,6 @@ footer {
   .study-stat-entry { border-right: none !important; }
 
   .study-platform-cards { grid-template-columns: 1fr; }
-  .study-platform-card { border-right: none; border-bottom: 1px solid var(--study-rule); }
-  .study-platform-card:last-child { border-bottom: none; }
 }
 
 /* ═══════════════════════════════════════════════════════

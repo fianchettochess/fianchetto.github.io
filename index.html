@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Fianchetto is a free, open-source chess study tool for iPhone, iPad, and Mac, with an Android version in development. Analyze with Stockfish, Maia, and Reckless, build your opening repertoire, drill tactics from your own games — all on-device." />
+  <meta name="description" content="Fianchetto is a free, open-source chess study tool for iPhone, iPad, and Mac, with Android, Windows and Linux versions in development. Analyze with Stockfish, Maia, and Reckless, build your opening repertoire, drill tactics from your own games — all on-device." />
   <meta name="theme-color" content="#0F2E1D" />
   <meta property="og:title" content="Fianchetto — Chess study tool for iPhone, iPad &amp; Mac" />
   <meta property="og:description" content="Three engines. Six piece sets. All on device." />
@@ -184,10 +184,12 @@
 <!-- ─── Platform Strip ────────────────────────────────────────────── -->
 <div class="study-platform-strip">
   <div class="study-platform-strip-inner">
-    <span class="study-platform-item">macOS <strong>Shipping</strong></span>
-    <span class="study-platform-item">iPadOS <strong>Shipping</strong></span>
-    <span class="study-platform-item">iOS <strong>Shipping</strong></span>
+    <span class="study-platform-item">macOS <strong>Pre-release</strong></span>
+    <span class="study-platform-item">iPadOS <strong>Pre-release</strong></span>
+    <span class="study-platform-item">iOS <strong>Pre-release</strong></span>
     <span class="study-platform-item">Android <strong>In development</strong></span>
+    <span class="study-platform-item">Windows <strong>In development</strong></span>
+    <span class="study-platform-item">Linux <strong>In development</strong></span>
     <span class="study-platform-item">iCloud Sync</span>
     <span class="study-platform-item">All analysis on‑device</span>
     <span class="study-platform-item">Version 0.19.x · Pre‑release</span>
@@ -222,9 +224,10 @@
             <p class="study-engine-body">The strongest open-source chess engine in the world, running locally. Find every tactic, refutation, and resource your opponents might find — before they do.</p>
             <ul class="study-engine-specs">
               <li><strong>Depth:</strong> 1 – 40, configurable</li>
-              <li><strong>Network:</strong> Stockfish NNUE (~107 MB)</li>
+              <li><strong>Network:</strong> Stockfish NNUE (~94 MB)</li>
               <li><strong>Role:</strong> Primary analysis engine</li>
             </ul>
+            <a class="study-engine-link" href="https://stockfishchess.org" rel="external">stockfishchess.org &rarr;</a>
           </div>
           <div class="study-engine-entry">
             <span class="study-engine-badge badge-maia">Maia</span>
@@ -235,6 +238,7 @@
               <li><strong>Model:</strong> Maia 3 CoreML (~44 MB)</li>
               <li><strong>Role:</strong> Human-style prediction &amp; play</li>
             </ul>
+            <a class="study-engine-link" href="https://maiachess.com" rel="external">maiachess.com &rarr;</a>
           </div>
           <div class="study-engine-entry">
             <span class="study-engine-badge badge-reck">Reckless</span><span class="study-engine-new">New in beta</span>
@@ -244,6 +248,7 @@
               <li><strong>Network:</strong> Reckless NNUE (~60 MB)</li>
               <li><strong>Role:</strong> Sharp lines, second opinion &amp; play</li>
             </ul>
+            <a class="study-engine-link" href="https://github.com/codedeliveryservice/Reckless" rel="external">codedeliveryservice/Reckless &rarr;</a>
           </div>
         </div>
       </div>
@@ -393,32 +398,41 @@
         <span class="study-section-num">§V</span>
         <div class="study-sidebar-title">Platforms</div>
         <div class="study-sidebar-rule"></div>
-        <p class="study-sidebar-meta">Native on Apple platforms, Android in active development at broad feature parity.</p>
+        <p class="study-sidebar-meta">Native on Apple platforms, with Android, Windows and Linux in active development.</p>
       </div>
       <div class="study-platforms-body">
-        <h2 class="study-section-title">macOS, iPadOS, iOS —<br>and Android on the way.</h2>
+        <h2 class="study-section-title">macOS, iPadOS, iOS —<br>with Android, Windows<br>and Linux on the way.</h2>
 
         <div class="study-platform-cards">
           <div class="study-platform-card">
             <div class="study-platform-card-name">macOS</div>
-            <div class="study-platform-card-status">Open beta</div>
+            <div class="study-platform-card-status">Pre-release</div>
           </div>
           <div class="study-platform-card">
             <div class="study-platform-card-name">iPadOS</div>
-            <div class="study-platform-card-status">Open beta</div>
+            <div class="study-platform-card-status">Pre-release</div>
           </div>
           <div class="study-platform-card">
             <div class="study-platform-card-name">iOS</div>
-            <div class="study-platform-card-status">Open beta</div>
+            <div class="study-platform-card-status">Pre-release</div>
           </div>
           <div class="study-platform-card">
             <div class="study-platform-card-name">Android</div>
+            <div class="study-platform-card-status pending">In development</div>
+          </div>
+          <div class="study-platform-card">
+            <div class="study-platform-card-name">Windows</div>
+            <div class="study-platform-card-status pending">In development</div>
+          </div>
+          <div class="study-platform-card">
+            <div class="study-platform-card-name">Linux</div>
             <div class="study-platform-card-status pending">In development</div>
           </div>
         </div>
 
         <p style="margin-top:2rem;">Fianchetto is built as a native app for Apple platforms, with an Android version under active development at broad feature parity — the three engines, consensus annotation, repertoire, tactics, endgame, opening explorer, stats, voice move input, and the Square Off Pro, Chessnut, ChessUp 2, and Millennium boards all work on Android too.</p>
         <p>A few things stay Apple-only today: iCloud sync (Android uses file backups instead), Game Center online play, repertoire PDF export, and the macOS auxiliary windows / iPad multitasking layouts.</p>
+        <p>Windows and Linux are earlier work. The engines already build and run natively on both — Stockfish and Reckless compile from source there rather than shipping as Apple frameworks — and the desktop app is being brought up on top of that.</p>
         <p>The app is in pre-release development and not yet on the App Store or Google Play.</p>
 
         <div class="study-oss-band" id="beta">
@@ -473,8 +487,8 @@
             <div class="study-stat-label">Piece sets &amp; board themes</div>
           </div>
           <div class="study-stat-entry">
-            <div class="study-stat-num">3<sup>+1</sup></div>
-            <div class="study-stat-label">Apple platforms, plus Android in development</div>
+            <div class="study-stat-num">3<sup>+3</sup></div>
+            <div class="study-stat-label">Apple platforms, plus Android, Windows and Linux in development</div>
           </div>
           <div class="study-stat-entry">
             <div class="study-stat-num">0</div>
