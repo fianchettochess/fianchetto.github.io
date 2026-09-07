@@ -1,7 +1,9 @@
 # Docs build & publish
 
 `fianchettochess.app` is served by **GitHub Pages "Deploy from a branch"** (this
-repo is private, so Pages-from-Actions isn't available on the current plan). The
+repo was private when this was set up, so Pages-from-Actions wasn't available;
+it went public on 2026-09-07, so that constraint is gone — see the note in
+rebuild-docs.yml before changing the pipeline). The
 site's own HTML/CSS is committed directly. The four package docs under `docs/`
 are built from each package's `docs-site/` (the source of truth) and committed
 here; branch-serving then publishes them.
@@ -33,7 +35,8 @@ here; branch-serving then publishes them.
    with the default `GITHUB_TOKEN` (`contents: write`).
 2. **Pages source** — Settings → Pages → **Deploy from a branch** (the default).
    If you switched it to "GitHub Actions" earlier, switch it back — that mode
-   can't deploy from a private repo on this plan.
+   couldn't deploy from a private repo on this plan. The repo is public as of
+   2026-09-07, so `actions/deploy-pages` is now an option.
 
 ## If you later make this repo public
 

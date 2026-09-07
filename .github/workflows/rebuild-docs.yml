@@ -1,10 +1,18 @@
 name: Rebuild package docs (commit-back)
 
-# fianchetto.github.io is a PRIVATE repo, so Pages-from-Actions deploy isn't
-# available on this plan. Instead the site is served by Pages "Deploy from a
-# branch", and this workflow keeps the committed docs/ up to date: it rebuilds
-# the four packages' MkDocs sites and commits the result back. Branch-serving
-# then publishes it. See README-CI.md.
+# The site is served by Pages "Deploy from a branch", and this workflow keeps the
+# committed docs/ up to date: it rebuilds the four packages' MkDocs sites and
+# commits the result back. Branch-serving then publishes it. See README-CI.md.
+#
+# WHY COMMIT-BACK, AND WHY IT NO LONGER HAS TO BE. This repository was PRIVATE,
+# and Pages-from-Actions deploy is unavailable to a private repo on this plan —
+# so committing the built site was the only way to publish it. It went public on
+# 2026-09-07, which makes `actions/deploy-pages` available and this whole
+# arrangement optional. Switching means changing the Pages source in repository
+# settings AND replacing the commit-back below with a deploy step, so it is a
+# deliberate change rather than a comment edit; until someone makes it, the
+# commit-back is still what publishes the site. It also costs 17 MB of built
+# output in git. (repo made public 2026-09-07)
 #
 # Trigger it after a package's docs change: click "Run workflow", or have the
 # package repo POST a repository_dispatch of type "docs-updated". A daily run
