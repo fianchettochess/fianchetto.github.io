@@ -26,10 +26,16 @@ SIBLINGS="${SIBLINGS:-$(cd "$HERE/.." && pwd)}"
 # it was a directory inside the application monorepo rather than a repository,
 # so it could never be checked out as a sibling and its documentation was not
 # served. The four-way split made it a package like the others.
+#
+# FianchettoKit is SUPPRESSED as of 2026-09-07 and is the one package here whose
+# repository is still private, so its docs describe a package a reader cannot
+# obtain. Restore it by uncommenting the line below AND the matching checkout
+# step in .github/workflows/rebuild-docs.yml — the two must move together, since
+# a listed package that is not checked out is a hard build failure by design.
 PACKAGES=(
   "ChessCore:chesscore"
   "BoardKit:boardkit"
-  "FianchettoKit:fianchettokit"
+# "FianchettoKit:fianchettokit"   # suppressed — see the note above
   "SwiftStockfish:swiftstockfish"
   "SwiftReckless:swiftreckless"
 )

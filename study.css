@@ -592,6 +592,40 @@ nav.site-nav {
   font-weight: 400;
   color: var(--study-text-sec);
 }
+/* ═══════════════════════════════════════════════════════
+   DOCS HUB (/docs/) — reuses the cover and engine-entry
+   vocabulary rather than carrying a second design system.
+═══════════════════════════════════════════════════════ */
+
+/* The cover on /docs/ has no board beside it, so the two-column grid would
+   leave 420px of empty forest. One column, and the text keeps a measure. */
+.study-cover-narrow .study-cover-inner {
+  grid-template-columns: 1fr;
+  padding-bottom: 3.5rem;
+}
+.study-cover-narrow .study-cover-left { max-width: 46rem; }
+.study-cover-narrow .study-cover-headline {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.1rem, 5vw, 3.6rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+/* Same 1px-gap rules as the platform cards, and for the same reason: the
+   package count changes (FianchettoKit is suppressed while its repository is
+   private), and per-card border corrections silently misdraw when it does. */
+.study-docs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 1px;
+  background: var(--study-rule);
+  border: 1px solid var(--study-rule);
+}
+.study-docs-grid .study-engine-entry {
+  border-right: none;
+  background: var(--study-parchment);
+}
+
 /* Upstream link on each engine entry. Sits on parchment, so it takes the dark
    green rather than the gold used on the forest sections. */
 .study-engine-link {

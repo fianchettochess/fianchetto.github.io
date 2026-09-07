@@ -3,11 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
   <meta name="theme-color" content="#0F2E1D" />
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-32.png" />
   <link rel="icon" type="image/png" sizes="64x64" href="/assets/icon-64.png" />
   <link rel="apple-touch-icon" href="/assets/icon-512.png" />
   <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/assets/fonts/fonts.css" />
+  <link rel="stylesheet" href="/study.css" />
   <title>Page not found — Fianchetto</title>
 </head>
 <body>
@@ -19,22 +22,52 @@
     <span>Fianchetto</span>
   </a>
   <div class="nav-links">
-    <a href="/#features">Features</a>
     <a href="/#engines">Engines</a>
+    <a href="/#features">Features</a>
     <a href="/#import">Import</a>
-    <a href="/privacy.html">Privacy</a>
+    <a href="/#privacy">Privacy</a>
+    <a href="/#platforms">Platforms</a>
+    <a href="/docs/">Docs</a>
     <a href="mailto:support@fianchettochess.app?subject=Fianchetto%20updates" class="btn btn-primary">Follow along</a>
   </div>
+  <details class="nav-menu">
+    <summary aria-label="Open navigation menu"><span></span><span></span><span></span></summary>
+    <div class="nav-menu-panel">
+      <a href="/#engines">Engines</a>
+      <a href="/#features">Features</a>
+      <a href="/#import">Import</a>
+      <a href="/#privacy">Privacy</a>
+      <a href="/#platforms">Platforms</a>
+      <a href="/docs/">Docs</a>
+      <a href="mailto:support@fianchettochess.app?subject=Fianchetto%20updates">Follow along</a>
+    </div>
+  </details>
 </nav>
 
-<main>
-  <section class="notfound">
-    <div class="glyph">♞</div>
-    <h1>404</h1>
-    <p>That square is empty.</p>
-    <a href="/" class="btn btn-primary btn-large">Back to the home page</a>
-  </section>
-</main>
+<!-- ─── Cover ────────────────────────────────────────────────────── -->
+<section class="study-cover study-cover-narrow" aria-label="Page not found">
+  <div class="study-cover-inner">
+    <div class="study-cover-left">
+      <div class="study-cover-eyebrow">
+        <span class="study-cover-badge">Error 404</span>
+        <span class="study-cover-badge-sep"></span>
+        <span class="study-cover-badge">Page not found</span>
+      </div>
+      <h1 class="study-cover-headline">
+        That square<br><em>is empty.</em>
+      </h1>
+      <p class="study-cover-byline">The page you asked for is not here.</p>
+      <p class="study-cover-intro">
+        It may have moved, or the link may be mistyped. The home page and the
+        package documentation are both a click away.
+      </p>
+      <div class="study-cover-ctas">
+        <a class="btn-parchment" href="/">Back to the home page</a>
+        <a class="btn-ghost" href="/docs/">Package documentation</a>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ─── Footer ────────────────────────────────────────────────────── -->
 <footer>
@@ -45,6 +78,7 @@
     </div>
     <div class="footer-links">
       <a href="/">Home</a>
+      <a href="/docs/">Docs</a>
       <a href="/privacy.html">Privacy Policy</a>
       <a href="mailto:support@fianchettochess.app">support@fianchettochess.app</a>
     </div>
@@ -55,10 +89,10 @@
       Fianchetto includes <a href="https://stockfishchess.org" rel="external">Stockfish</a>, the UCI chess engine by the Stockfish developers, derived from Glaurung 2.1 (GPL-3.0);
       <a href="https://github.com/CSSLab/maia3" rel="external">Maia&nbsp;3</a>, the human-like neural network chess engine by CSSLab, University of Toronto (AGPL-3.0, used with permission of the authors);
       and Reckless, the UCI chess engine by Arseniy Surkov (AGPL-3.0).
-      Cburnett piece graphics by Colin M.&nbsp;L. Burnett and Merida piece graphics by Armando Hernandez Marroquin (both GPL-2.0+), plus the opening book (CC0), come via <a href="https://lichess.org" rel="external">Lichess</a>, whose free APIs also power opening explorer, tablebase, and game import features. The board diagram on the home page uses Inkwell, an original piece set commissioned for Fianchetto — © 2026 Jared Brewer, licensed <a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="external license">CC BY-NC 4.0</a>.
+      Cburnett piece graphics by Colin M.&nbsp;L. Burnett and Merida piece graphics by Armando Hernandez Marroquin (both GPL-2.0+), plus the opening book (CC0), come via <a href="https://lichess.org" rel="external">Lichess</a>, whose free APIs also power opening explorer, tablebase, and game import features. Inkwell, Crownline, Scandi, and Minimal are original piece sets commissioned for Fianchetto — © 2026 Jared Brewer, licensed <a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="external license">CC BY-NC 4.0</a>; the board diagram on the home page uses Inkwell.
     </p>
     <p>
-      Square&nbsp;Off board support was developed by observing the board's publicly broadcast Bluetooth services with standard BLE tooling; no source code or assets from Square&nbsp;Off or InfiVention Technologies were used or derived. Square&nbsp;Off and Square&nbsp;Off Pro are trademarks of InfiVention Technologies Pvt.&nbsp;Ltd.; Fianchetto is not affiliated with, endorsed by, or sponsored by InfiVention Technologies.
+      Support for the Square&nbsp;Off Pro, Chessnut, ChessUp&nbsp;2, and Millennium eONE boards was developed by observing each board's publicly broadcast Bluetooth services with standard BLE tooling; no source code or assets from any of these manufacturers were used or derived. Square&nbsp;Off and Square&nbsp;Off Pro are trademarks of InfiVention Technologies Pvt.&nbsp;Ltd.; Chessnut and its board-model names are trademarks of Chessnut Technology Limited (Hong Kong); ChessUp and ChessUp&nbsp;2 are trademarks of Bryght&nbsp;Labs,&nbsp;Inc. (a Delaware corporation); Millennium and Millennium eONE are trademarks of MILLENNIUM&nbsp;2000&nbsp;GmbH. Fianchetto is not affiliated with, endorsed by, or sponsored by any of these manufacturers.
     </p>
   </div>
 </footer>
