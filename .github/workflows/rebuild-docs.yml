@@ -1,25 +1,30 @@
-name: Rebuild package docs (commit-back)
+name: Build and deploy the site
 
-# The site is served by Pages "Deploy from a branch", and this workflow keeps the
-# committed docs/ up to date: it rebuilds the four packages' MkDocs sites and
-# commits the result back. Branch-serving then publishes it. See README-CI.md.
+# THIS WORKFLOW IS WHAT PUBLISHES fianchettochess.app. It builds the four
+# packages' MkDocs sites into docs/ and uploads the whole repository root as the
+# Pages artifact, which actions/deploy-pages then serves. Pages is configured
+# with build_type "workflow"; there is no branch-serving and nothing is
+# committed back. See README-CI.md.
 #
-# WHY COMMIT-BACK, AND WHY IT NO LONGER HAS TO BE. This repository was PRIVATE,
-# and Pages-from-Actions deploy is unavailable to a private repo on this plan —
-# so committing the built site was the only way to publish it. It went public on
-# 2026-09-07, which makes `actions/deploy-pages` available and this whole
-# arrangement optional. Switching means changing the Pages source in repository
-# settings AND replacing the commit-back below with a deploy step, so it is a
-# deliberate change rather than a comment edit; until someone makes it, the
-# commit-back is still what publishes the site. It also costs 17 MB of built
-# output in git. (repo made public 2026-09-07)
+# The commit-back this file used to describe is gone. It existed only because
+# the repository was PRIVATE, and Pages-from-Actions is unavailable to a private
+# repo on this plan, so committing the built site was the only way to publish
+# it. The repo went public on 2026-09-07 and the deploy step replaced it — but
+# the name and this header went on describing the old arrangement, which is how
+# you end up reading "the commit-back is still what publishes the site" in the
+# file that deploys it.
 #
-# Trigger it after a package's docs change: click "Run workflow", or have the
-# package repo POST a repository_dispatch of type "docs-updated". A daily run
-# is a catch-all. (Not on push here — a source-only push doesn't change the
-# package docs, and the commit-back would be a no-op.)
+# PUSH IS A TRIGGER, and has to be. Without it, editing index.html and pushing
+# published nothing until the next 06:00 sweep: a day of site fixes sat on main
+# while the live site served the version before them. The old header argued push
+# was pointless because "a source-only push doesn't change the package docs" —
+# true of the docs, irrelevant to every other file on the site, which is most of
+# it. repository_dispatch stays for package repos announcing their own docs
+# changes, and the daily run stays as a catch-all for those.
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
   schedule:
     - cron: "0 6 * * *"
