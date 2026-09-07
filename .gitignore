@@ -10,4 +10,11 @@
 
 # Built output. Deployed by rebuild-docs.yml as a Pages artifact, never
 # committed — see the note in that workflow. (commit-back removed 2026-09-07)
-docs/
+#
+# ONLY THE GENERATED SUBDIRECTORIES. build-docs.sh writes docs/<package>/ for
+# each package and nothing else; docs/index.html is the hand-authored landing
+# page for the docs section and is SOURCE. Ignoring all of docs/ untracked it,
+# and since nothing regenerates it, /docs/ then 404'd while every
+# /docs/<package>/ underneath it served correctly.
+docs/*
+!docs/index.html
