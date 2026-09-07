@@ -1131,14 +1131,24 @@ section.study-colophon {
 }
 
 /* styles.css applies dark translucent backgrounds to
-   #features and #import — override with parchment. */
+   #features and #import — override with parchment.
+
+   #privacy AND #contact ARE DELIBERATELY NOT IN THIS LIST. They were, and it
+   made both sections invisible. styles.css has no rule for either id — only
+   #features and #import actually carry its `background: rgba(0,0,0,0.15)` —
+   so listing them here overrode nothing of styles.css's and instead beat our
+   OWN `.study-privacy` / `.study-colophon` forest backgrounds: `section#id`
+   is (0,1,1) against a bare class's (0,1,0), and it is declared later. Both
+   sections then rendered on the page's parchment while every rule inside them
+   still painted the light-on-forest text they were written for, so the
+   headline, the body copy, the "Questions? Write to us." list and the ghost
+   button were all present, selectable and unreadable. Only ever add an id
+   here to cancel a rule styles.css genuinely sets. */
 section#features,
 section#import,
 section#engines,
-section#privacy,
 section#platforms,
 section#opensource,
-section#contact,
 section#specs {
   background: transparent;
 }
