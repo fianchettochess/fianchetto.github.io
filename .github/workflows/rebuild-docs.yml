@@ -50,20 +50,21 @@ jobs:
         with:
           repository: fianchettochess/ChessCore
           path: _packages/ChessCore
-          token: ${{ secrets.DOCS_PACKAGES_TOKEN }}
       - name: Checkout BoardKit
         uses: actions/checkout@v4
         with:
           repository: fianchettochess/BoardKit
           path: _packages/BoardKit
-          token: ${{ secrets.DOCS_PACKAGES_TOKEN }}
       # FianchettoKit is SUPPRESSED as of 2026-09-07 — it is the one package
       # here whose repository is still private, so its docs described something
       # a reader could not obtain. Restore by uncommenting this step AND its
       # line in build-docs.sh; the two must move together, because a package
       # listed there but not checked out here fails the build deliberately.
-      # This is also the last consumer of DOCS_PACKAGES_TOKEN — every other
-      # package is public — so while it stays commented the secret is unused.
+      # It was also the last consumer of DOCS_PACKAGES_TOKEN. Every other
+      # package is public now — SwiftReckless as of 2026-09-07 — so the live
+      # checkouts below pass no token at all, and the secret has no remaining
+      # user in this workflow. Restoring FianchettoKit means restoring its
+      # token line too, since that repository is the private one.
       # - name: Checkout FianchettoKit
       #   uses: actions/checkout@v4
       #   with:
@@ -75,13 +76,11 @@ jobs:
         with:
           repository: fianchettochess/SwiftStockfish
           path: _packages/SwiftStockfish
-          token: ${{ secrets.DOCS_PACKAGES_TOKEN }}
       - name: Checkout SwiftReckless
         uses: actions/checkout@v4
         with:
           repository: fianchettochess/SwiftReckless
           path: _packages/SwiftReckless
-          token: ${{ secrets.DOCS_PACKAGES_TOKEN }}
 
       - name: Setup Python
         uses: actions/setup-python@v5
