@@ -7,3 +7,7 @@
 
 # macOS
 .DS_Store
+
+# Built output. Deployed by rebuild-docs.yml as a Pages artifact, never
+# committed — see the note in that workflow. (commit-back removed 2026-09-07)
+docs/

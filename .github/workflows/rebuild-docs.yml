@@ -27,7 +27,9 @@ on:
     types: [docs-updated]
 
 permissions:
-  contents: write            # to commit the rebuilt docs/ back to this repo
+  contents: read             # the built site is uploaded, never committed back
+  pages: write               # to deploy to GitHub Pages
+  id-token: write            # OIDC, required by actions/deploy-pages
 
 concurrency:
   group: docs-rebuild
@@ -36,6 +38,9 @@ concurrency:
 jobs:
   rebuild:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout site
         uses: actions/checkout@v4
@@ -86,14 +91,16 @@ jobs:
       - name: Rebuild aggregated docs
         run: SIBLINGS="$GITHUB_WORKSPACE/_packages" MKDOCS="$(command -v mkdocs)" ./build-docs.sh
 
-      - name: Commit the rebuilt docs (only if changed)
-        run: |
-          git config user.name  "docs-bot"
-          git config user.email "docs-bot@users.noreply.github.com"
-          git add docs/
-          if git diff --cached --quiet; then
-            echo "No docs changes — nothing to commit."
-          else
-            git commit -m "docs: rebuild package docs [automated]"
-            git push
-          fi
+      # DEPLOYED, NOT COMMITTED. Built output used to be committed back so that
+      # Pages "Deploy from a branch" could serve it — the only route available
+      # while this repository was private. It is public as of 2026-09-07, so
+      # Pages builds from Actions and the artifact goes straight to the deploy.
+      # (commit-back removed 2026-09-07)
+      - name: Upload the built site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
