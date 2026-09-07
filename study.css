@@ -1164,14 +1164,19 @@ section#specs {
   color: var(--study-text-sec);
 }
 
-/* Cover and colophon have their own light-on-dark colors */
+/* Cover, privacy and colophon sit on --study-forest, so they need light text.
+   This block used to say `color: inherit`, which did the opposite of what its
+   comment claimed: `inherit` does not preserve each rule's own light colour, it
+   DISCARDS it — the declaration comes later at equal specificity, so it beat
+   the explicit values above and pulled the dark body colour down instead. The
+   cover byline and intro, and the whole colophon including the "Questions?"
+   aside, rendered dark-green-on-dark-green: present, selectable, invisible.
+   State the colours instead of deferring to an ancestor. */
+.study-cover-byline { color: rgba(245,237,216,0.55); }
 .study-cover-intro,
-.study-cover-byline,
-.study-colophon-body,
-.study-privacy-body p,
-.study-privacy-aside-body {
-  color: inherit;
-}
+.study-privacy-body p { color: rgba(245,237,216,0.82); }
+.study-colophon-body { color: rgba(245,237,216,0.8); }
+.study-privacy-aside-body { color: rgba(245,237,216,0.6); }
 
 /* styles.css h1,h2,h3 { font-weight: 600; } — override for Playfair */
 .study-section-title,
