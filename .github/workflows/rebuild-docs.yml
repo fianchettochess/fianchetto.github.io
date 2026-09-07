@@ -96,22 +96,28 @@ jobs:
       # while this repository was private. It is public as of 2026-09-07, so
       # Pages builds from Actions and the artifact goes straight to the deploy.
       # (commit-back removed 2026-09-07)
-      # THE CUSTOM DOMAIN LIVES IN THE ARTIFACT NOW. Under "Deploy from a
-      # branch", Pages read the repository-root CNAME; under Actions it reads
-      # only what the uploaded artifact contains, so a root CNAME is invisible
-      # and the domain silently reverts to *.github.io. `fianchettochess.app`
-      # is the real address, so this copy is load-bearing, not tidiness.
-      # (commit-back removed 2026-09-07)
-      - name: Carry the custom domain into the artifact
+      # THE WHOLE SITE IS THE ARTIFACT, not just docs/.
+      #
+      # Branch-serving published the repository ROOT — index.html, privacy.html,
+      # 404.html, assets/, the stylesheets — with docs/ as one subdirectory of
+      # it. Uploading docs/ alone deploys the package documentation with no
+      # landing page, and the site 404s at `/` while every file it does contain
+      # is served correctly, so nothing fails loudly.
+      #
+      # Uploading `.` reproduces exactly what branch-serving published, and
+      # carries the root CNAME with it — under Actions, Pages reads the custom
+      # domain only from the artifact, so `fianchettochess.app` depends on that
+      # file being inside it. (commit-back removed 2026-09-07)
+      - name: Check the site root is present
         run: |
+          test -s index.html
           test -s CNAME
-          cp CNAME docs/CNAME
-          echo "artifact will serve: $(cat docs/CNAME)"
+          echo "deploying $(cat CNAME) with $(ls docs | wc -l | tr -d ' ') doc sets"
 
       - name: Upload the built site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs
+          path: .
 
       - name: Deploy to GitHub Pages
         id: deployment
