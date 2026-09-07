@@ -96,6 +96,18 @@ jobs:
       # while this repository was private. It is public as of 2026-09-07, so
       # Pages builds from Actions and the artifact goes straight to the deploy.
       # (commit-back removed 2026-09-07)
+      # THE CUSTOM DOMAIN LIVES IN THE ARTIFACT NOW. Under "Deploy from a
+      # branch", Pages read the repository-root CNAME; under Actions it reads
+      # only what the uploaded artifact contains, so a root CNAME is invisible
+      # and the domain silently reverts to *.github.io. `fianchettochess.app`
+      # is the real address, so this copy is load-bearing, not tidiness.
+      # (commit-back removed 2026-09-07)
+      - name: Carry the custom domain into the artifact
+        run: |
+          test -s CNAME
+          cp CNAME docs/CNAME
+          echo "artifact will serve: $(cat docs/CNAME)"
+
       - name: Upload the built site
         uses: actions/upload-pages-artifact@v3
         with:
